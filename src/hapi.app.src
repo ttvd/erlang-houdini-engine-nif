@@ -1,0 +1,10 @@
+{application, hapi,
+    [
+        {description, "Erlang NIF bindings for Houdini Engine"},
+        {vsn, "1.0"},
+        {modules, [hapi]},
+        {registered, []},
+        {applications, [kernel, stdlib]},
+        {env, []}
+    ]
+}.

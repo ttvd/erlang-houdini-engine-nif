@@ -63,9 +63,9 @@ task :help do
 end
 
 #
-desc "Generate hapi.erl from template"
-task :generate_hapi, [:hapi_path] do |t, args|
-    hapi_path = args.values_at(:hapi_path)
+desc "Generate hapi.erl from template, please provide path to HAPI.h"
+task :generate_hapi, [:hapi_header_path] do |t, args|
+    hapi_path = args.values_at(:hapi_header_path)
 
     if not hapi_path.first.nil?
         hapi_path = hapi_path.first

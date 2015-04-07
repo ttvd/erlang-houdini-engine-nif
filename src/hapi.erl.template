@@ -1,0 +1,32 @@
+%%% @author Mykola Konyk  <mykola@konyk.org>
+%%%
+%%% @copyright 2015
+
+-module(hapi).
+-version(1.9).
+
+-on_load(init/0).
+-define(nif_stub, nif_stub_error(?LINE)).
+
+-export([
+%{HAPI_EXPORT_FUNCTIONS}%
+    ]).
+
+%
+nif_stub_error(Line) ->
+    erlang:nif_error({nif_not_loaded, module, ?MODULE, line, Line}).
+
+%
+-spec init() -> ok | {error, any()}.
+init() ->
+    PrivDir = case code:priv_dir(?MODULE) of
+        {error, bad_name} ->
+            EbinDir = filename:dirname(code:which(?MODULE)),
+            AppPath = filename:dirname(EbinDir),
+            filename:join(AppPath, "priv");
+        Path ->
+            Path
+        end,
+    erlang:load_nif(filename:join(PrivDir, hapi_nif), 0).
+
+%{HAPI_IMPL_FUNCTIONS}%

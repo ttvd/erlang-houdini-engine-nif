@@ -1,4 +1,5 @@
 #include "erl_nif.h"
+//#include "HAPI.h"
 
 int hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info);
 void hapi_private_cleanup(ErlNifEnv* env, void* obj);

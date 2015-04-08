@@ -1,2 +1,7 @@
 *.beam
+*.o
+*.d
 
+ebin
+priv
+.rebar

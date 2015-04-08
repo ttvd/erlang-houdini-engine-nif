@@ -1,21 +1,17 @@
 #include "erl_nif.h"
 
-//int hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info);
+int hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info);
 void hapi_private_cleanup(ErlNifEnv* env, void* obj);
 
 static ErlNifFunc nif_funcs[] =
 {
-    //{"hash32_impl", 2, nif_hash32},
-    //{"hash32_init_impl", 1, nif_hash32_init},
-    //{"hash32_update_impl", 2, nif_hash32_update},
-    //{"hash32_digest_impl", 1, nif_hash32_digest},
-    //{"hash32_final_impl", 1, nif_hash32_final}
+    //{"callname1", 2, func1},
+    //{"callname2", 1, func2}
 };
 
 static ERL_NIF_TERM g_atom_ok;
 static ErlNifResourceType* hapi_handle;
 
-static
 int
 hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {

@@ -10,7 +10,7 @@ def create_camelcase(string)
     string.split("_").each { |s| s.capitalize! }.join("")
 end
 
-# Helper function.
+# Helper function to create hapi.erl from template.
 def fill_template(hapi_header)
 
     # Read template file.
@@ -52,6 +52,7 @@ def fill_template(hapi_header)
     File.open("./src/hapi.erl", 'w') { |file| file.write(template_file) }
 end
 
+
 # Set default task.
 task :default => [:help]
 
@@ -62,8 +63,8 @@ task :help do
     puts %x{rake --tasks}
 end
 
-#
-desc "Generate hapi.erl from template, please provide path to HAPI.h"
+# This will generate hapi.erl
+desc "Generate hapi.erl from HAPI.h"
 task :generate_hapi, [:hapi_header_path] do |t, args|
     hapi_path = args.values_at(:hapi_header_path)
 
@@ -81,5 +82,28 @@ task :generate_hapi, [:hapi_header_path] do |t, args|
                 puts "Could not locate HAPI.h"
             end
         end
+    else
+        puts "Please provide location of HAPI.h as parameter."
     end
+end
+
+# This will clean all binary files.
+desc "Clean"
+task :clean do
+
+    sh 'rebar clean'
+end
+
+# This will compile erlang related code.
+desc "Compile"
+task :compile do
+
+    sh 'rebar compile'
+end
+
+# This will pull all the dependencies required by project.
+desc "Download project dependencies"
+task :deps do
+
+    sh 'rebar get-deps'
 end

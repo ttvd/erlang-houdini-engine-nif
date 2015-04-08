@@ -1,6 +1,7 @@
 %%% @author Mykola Konyk  <mykola@konyk.org>
 %%%
 %%% @copyright 2015
+%%% This file has been auto-generated.
 
 -module(hapi).
 -version(1.9).

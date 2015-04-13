@@ -154,6 +154,10 @@ hapi_private_process_result(ErlNifEnv* env, HAPI_Result result)
 }
 
 
+// Helper function to retrieve cook option values from a record.
+
+
+
 ERL_NIF_TERM
 hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
@@ -197,7 +201,7 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         }
     }
 
-
+    //if(!enif_get_tuple(env, argv[2], &arity, &tuple)
 
 
     /*

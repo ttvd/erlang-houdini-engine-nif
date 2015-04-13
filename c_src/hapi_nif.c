@@ -8,6 +8,9 @@
 int hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info);
 void hapi_private_cleanup(ErlNifEnv* env, void* obj);
 
+ERL_NIF_TERM hapi_private_make_atom(ErlNifEnv* env, const char* atom_name);
+ERL_NIF_TERM hapi_private_get_boolean(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* value);
+
 ERL_NIF_TERM hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
@@ -25,7 +28,6 @@ static ERL_NIF_TERM g_atom_ok;
 static ErlNifResourceType* hapi_handle;
 
 
-static
 ERL_NIF_TERM
 hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
 {
@@ -40,7 +42,6 @@ hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
 }
 
 
-static
 ERL_NIF_TERM
 hapi_private_get_boolean(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* value)
 {
@@ -319,6 +320,7 @@ label_cleanup:
 
     return hapi_private_process_result(env, result);
 }
+
 
 ERL_NIF_TERM
 hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])

@@ -9,6 +9,10 @@
 -on_load(init/0).
 -define(nif_stub, nif_stub_error(?LINE)).
 
+% Imports are generated from HAPI_Common.h
+-import(hapi_result, [hapi_result_to_int/1, int_to_hapi_result/1]).
+
+% Exports are generated from HAPI.h
 -export([
 %{HAPI_EXPORT_FUNCTIONS}%
     ]).

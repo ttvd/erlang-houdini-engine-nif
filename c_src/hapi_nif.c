@@ -1,6 +1,9 @@
 #include "erl_nif.h"
 #include "HAPI.h"
 
+#include <assert.h>
+
+
 int hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info);
 void hapi_private_cleanup(ErlNifEnv* env, void* obj);
 
@@ -35,6 +38,7 @@ make_atom(ErlNifEnv* env, const char* atom_name)
     return enif_make_atom(env, atom_name);
 }
 
+
 int
 hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {
@@ -55,15 +59,105 @@ hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 ERL_NIF_INIT(hapi, nif_funcs, &hapi_private_init, NULL, NULL, NULL)
 
 
+// Helper function to translate HAPI_Result into Erlang atoms.
+static
+ERL_NIF_TERM
+hapi_private_process_result(ErlNifEnv* env, HAPI_Result result)
+{
+    switch(result)
+    {
+        case HAPI_RESULT_SUCCESS:
+        {
+            return make_atom(env, "hapi_result_success");
+        }
+
+        case HAPI_RESULT_FAILURE:
+        {
+            return make_atom(env, "hapi_result_failure");
+        }
+
+        case HAPI_RESULT_ALREADY_INITIALIZED:
+        {
+            return make_atom(env, "hapi_result_already_initialized");
+        }
+
+        case HAPI_RESULT_NOT_INITIALIZED:
+        {
+            return make_atom(env, "hapi_result_not_initialized");
+        }
+
+        case HAPI_RESULT_CANT_LOADFILE:
+        {
+            return make_atom(env, "hapi_result_cant_loadfile");
+        }
+
+        case HAPI_RESULT_PARM_SET_FAILED:
+        {
+            return make_atom(env, "hapi_result_parm_set_failed");
+        }
+
+        case HAPI_RESULT_INVALID_ARGUMENT:
+        {
+            return make_atom(env, "hapi_result_invalid_argument");
+        }
+
+        case HAPI_RESULT_CANT_LOAD_GEO:
+        {
+            return make_atom(env, "hapi_result_cant_load_geo");
+        }
+
+        case HAPI_RESULT_CANT_GENERATE_PRESET:
+        {
+            return make_atom(env, "hapi_result_cant_generate_preset");
+        }
+
+        case HAPI_RESULT_CANT_LOAD_PRESET:
+        {
+            return make_atom(env, "hapi_result_cant_load_preset");
+        }
+
+        case HAPI_RESULT_ASSET_DEF_ALREADY_LOADED:
+        {
+            return make_atom(env, "hapi_result_asset_def_already_loaded");
+        }
+
+        case HAPI_RESULT_NO_LICENSE_FOUND:
+        {
+            return make_atom(env, "hapi_result_no_license_found");
+        }
+
+        case HAPI_RESULT_DISALLOWED_NC_LICENSE_FOUND:
+        {
+            return make_atom(env, "hapi_result_disallowed_nc_license_found");
+        }
+
+        case HAPI_RESULT_DISALLOWED_NC_ASSET_WITH_C_LICENSE:
+        {
+            return make_atom(env, "hapi_result_disallowed_nc_asset_with_c_license");
+        }
+
+        case HAPI_RESULT_DISALLOWED_NC_ASSET_WITH_LC_LICENSE:
+        {
+            return make_atom(env, "hapi_result_disallowed_nc_asset_with_lc_license");
+        }
+
+        case HAPI_RESULT_DISALLOWED_LC_ASSET_WITH_C_LICENSE:
+        {
+            return make_atom(env, "hapi_result_disallowed_lc_asset_with_c_license");
+        }
+
+        default:
+        {
+            assert(0);
+        }
+    }
+}
+
+
 ERL_NIF_TERM
 hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    if(HAPI_RESULT_SUCCESS == HAPI_IsInitialized())
-    {
-        return make_atom(env, "hapi_result_success");
-    }
-
-    return make_atom(env, "hapi_result_failure");
+    return hapi_private_process_result(env, HAPI_IsInitialized());
 }
 
 
@@ -77,5 +171,5 @@ hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return g_atom_ok;
+    return hapi_private_process_result(env, HAPI_Cleanup());
 }

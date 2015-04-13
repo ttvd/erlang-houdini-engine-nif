@@ -220,7 +220,7 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     int32_t cook_options_split_geos_by_group = 0;
     int32_t cook_options_max_vertices_per_primitive = 3;
     int32_t cook_options_refine_curve_to_linear = 0;
-    int32_t cook_options_cureve_refine_lod = 0;
+    double cook_options_curve_refine_lod = 0.0;
     int32_t cook_options_clear_errors_and_warnings = 0;
     int32_t cook_options_cook_template_geos = 0;
 
@@ -261,7 +261,11 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             enif_compare(tuple_cook_options[0], enif_make_atom(env, "hapi_cook_options")) ||
             !enif_is_atom(env, tuple_cook_options[1]) ||
             !hapi_private_get_boolean(env, tuple_cook_options[1], &cook_options_split_geos_by_group) ||
-            !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive))
+            !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive) ||
+            !hapi_private_get_boolean(env, tuple_cook_options[3], &cook_options_refine_curve_to_linear) ||
+            !enif_get_double(env, tuple_cook_options[4], &cook_options_curve_refine_lod) ||
+            !hapi_private_get_boolean(env, tuple_cook_options[5], &cook_options_clear_errors_and_warnings) ||
+            !hapi_private_get_boolean(env, tuple_cook_options[6], &cook_options_cook_template_geos))
         {
             nif_error = 1;
             goto label_cleanup;

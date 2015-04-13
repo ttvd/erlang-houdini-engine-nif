@@ -1,6 +1,7 @@
 %%% @author Mykola Konyk  <mykola@konyk.org>
 %%%
 %%% @copyright 2015
+%%% This file has been auto-generated.
 
 -module(hapi).
 -version(1.9).
@@ -52,12 +53,19 @@
     hapi_get_node_info/2,
     hapi_get_global_nodes/1,
     hapi_get_parameters/4,
+    hapi_get_parm_info/3,
     hapi_get_parm_id_from_name/3,
+    hapi_get_parm_info_from_name/3,
+    hapi_get_parm_int_value/4,
     hapi_get_parm_int_values/4,
+    hapi_get_parm_float_value/4,
     hapi_get_parm_float_values/4,
+    hapi_get_parm_string_value/5,
     hapi_get_parm_string_values/5,
     hapi_get_parm_choice_lists/4,
+    hapi_set_parm_int_value/4,
     hapi_set_parm_int_values/4,
+    hapi_set_parm_float_value/4,
     hapi_set_parm_float_values/4,
     hapi_set_parm_string_value/4,
     hapi_insert_multiparm_instance/3,
@@ -327,7 +335,19 @@ hapi_get_parameters(_NodeId, _ParmInfos, _Start, _Length) ->
     ?nif_stub.
 
 %
-hapi_get_parm_id_from_name(_NodeId, _Name, _ParmId) ->
+hapi_get_parm_info(_NodeId, _ParmId, _ParmInfo) ->
+    ?nif_stub.
+
+%
+hapi_get_parm_id_from_name(_NodeId, _ParmName, _ParmId) ->
+    ?nif_stub.
+
+%
+hapi_get_parm_info_from_name(_NodeId, _ParmName, _ParmInfo) ->
+    ?nif_stub.
+
+%
+hapi_get_parm_int_value(_NodeId, _ParmName, _Index, _Value) ->
     ?nif_stub.
 
 %
@@ -335,7 +355,15 @@ hapi_get_parm_int_values(_NodeId, _Values, _Start, _Length) ->
     ?nif_stub.
 
 %
+hapi_get_parm_float_value(_NodeId, _ParmName, _Index, _Value) ->
+    ?nif_stub.
+
+%
 hapi_get_parm_float_values(_NodeId, _Values, _Start, _Length) ->
+    ?nif_stub.
+
+%
+hapi_get_parm_string_value(_NodeId, _ParmName, _Index, _Evaluate, _Value) ->
     ?nif_stub.
 
 %
@@ -347,7 +375,15 @@ hapi_get_parm_choice_lists(_NodeId, _ParmChoices, _Start, _Length) ->
     ?nif_stub.
 
 %
+hapi_set_parm_int_value(_NodeId, _ParmName, _Index, _Value) ->
+    ?nif_stub.
+
+%
 hapi_set_parm_int_values(_NodeId, _Values, _Start, _Length) ->
+    ?nif_stub.
+
+%
+hapi_set_parm_float_value(_NodeId, _ParmName, _Index, _Value) ->
     ?nif_stub.
 
 %

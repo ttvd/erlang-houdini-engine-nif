@@ -2,6 +2,7 @@
 #include "HAPI.h"
 
 #include <assert.h>
+#include <string.h>
 
 
 int hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info);
@@ -36,6 +37,45 @@ make_atom(ErlNifEnv* env, const char* atom_name)
     }
 
     return enif_make_atom(env, atom_name);
+}
+
+
+static
+ERL_NIF_TERM
+hapi_private_get_boolean(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* value)
+{
+    int32_t nif_error = 0;
+
+    uint32_t atom_len = 0;
+    char* atom_value = NULL;
+
+    if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+    {
+        nif_error = 1;
+        goto label_cleanup;
+    }
+
+    if(enif_get_string(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1) < 1)
+    {
+        nif_error = 1;
+        goto label_cleanup;
+    }
+
+    *value = (!strcmp(atom_value, "true"));
+
+label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
+
+    if(nif_error)
+    {
+        return enif_make_badarg(env);
+    }
+
+    return g_atom_ok;
 }
 
 
@@ -169,16 +209,26 @@ static
 ERL_NIF_TERM
 hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
+    int32_t nif_error = 0;
+
     uint32_t otl_search_path_length = 0;
     uint32_t dso_search_path_length = 0;
 
     char* otl_search_path = NULL;
     char* dso_search_path = NULL;
 
+    int32_t cook_options_split_geos_by_group = 0;
+    int32_t cook_options_max_vertices_per_primitive = 3;
+    int32_t cook_options_refine_curve_to_linear = 0;
+    int32_t cook_options_cureve_refine_lod = 0;
+    int32_t cook_options_clear_errors_and_warnings = 0;
+    int32_t cook_options_cook_template_geos = 0;
+
     if(!enif_get_list_length(env, argv[0], &otl_search_path_length) ||
         !enif_get_list_length(env, argv[1], &dso_search_path_length))
     {
-        return enif_make_badarg(env);
+        nif_error = 1;
+        goto label_cleanup;
     }
 
     if(otl_search_path_length > 0)
@@ -187,6 +237,7 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
         if(enif_get_string(env, argv[0], otl_search_path, otl_search_path_length + 1, ERL_NIF_LATIN1) < 1)
         {
+            nif_error = 1;
             goto label_cleanup;
         }
     }
@@ -197,12 +248,33 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
         if(enif_get_string(env, argv[1], dso_search_path, dso_search_path_length + 1, ERL_NIF_LATIN1) < 1)
         {
+            nif_error = 1;
             goto label_cleanup;
         }
     }
 
-    //if(!enif_get_tuple(env, argv[2], &arity, &tuple)
+    {
+        int32_t tuple_size = 0;
+        const ERL_NIF_TERM* tuple_cook_options = NULL;
 
+        if(!enif_get_tuple(env, argv[2], &tuple_size, &tuple_cook_options) || (tuple_size != 7) ||
+            enif_compare(tuple_cook_options[0], enif_make_atom(env, "hapi_cook_options")) ||
+            !enif_is_atom(env, tuple_cook_options[1]) ||
+            !hapi_private_get_boolean(env, tuple_cook_options[1], &cook_options_split_geos_by_group) ||
+            !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive))
+        {
+            nif_error = 1;
+            goto label_cleanup;
+        }
+    }
+
+    /*
+
+    {
+        split_geos_by_group, max_vertices_per_primitive, refine_curve_to_linear, cureve_refine_lod,
+        clear_errors_and_warnings, cook_template_geos
+    }
+    */
 
     /*
     const char * otl_search_path,
@@ -222,6 +294,11 @@ label_cleanup:
     if(dso_search_path)
     {
         free(dso_search_path);
+    }
+
+    if(nif_error)
+    {
+        return enif_make_badarg(env);
     }
 
     return g_atom_ok;

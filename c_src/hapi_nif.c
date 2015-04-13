@@ -224,6 +224,9 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     int32_t cook_options_clear_errors_and_warnings = 0;
     int32_t cook_options_cook_template_geos = 0;
 
+    int32_t use_cooking_thread = 0;
+    int32_t cooking_thread_stack_size = 0;
+
     if(!enif_get_list_length(env, argv[0], &otl_search_path_length) ||
         !enif_get_list_length(env, argv[1], &dso_search_path_length))
     {
@@ -272,13 +275,19 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         }
     }
 
-    /*
-    const char * otl_search_path,
-    const char * dso_search_path,
-    const HAPI_CookOptions * cook_options,
-    HAPI_Bool use_cooking_thread,
-    int cooking_thread_stack_size
-    */
+    if(!hapi_private_get_boolean(env, argv[3], &use_cooking_thread))
+    {
+        nif_error = 1;
+        goto label_cleanup;
+    }
+
+    if(!enif_get_int(env, argv[4], &cooking_thread_stack_size))
+    {
+        nif_error = 1;
+        goto label_cleanup;
+    }
+
+    
 
 label_cleanup:
 

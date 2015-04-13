@@ -227,6 +227,8 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     int32_t use_cooking_thread = 0;
     int32_t cooking_thread_stack_size = 0;
 
+    HAPI_Result result = HAPI_RESULT_SUCCESS;
+
     if(!enif_get_list_length(env, argv[0], &otl_search_path_length) ||
         !enif_get_list_length(env, argv[1], &dso_search_path_length))
     {
@@ -287,7 +289,20 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
+    HAPI_CookOptions cook_options;
+
+    {
+        HAPI_CookOptions_Init(&cook_options);
+        
+        cook_options.splitGeosByGroup = cook_options_split_geos_by_group;
+        cook_options.maxVerticesPerPrimitive = cook_options_max_vertices_per_primitive;
+        cook_options.refineCurveToLinear = cook_options_refine_curve_to_linear;
+        cook_options.curveRefineLOD = cook_options_curve_refine_lod;
+        cook_options.clearErrorsAndWarnings = cook_options_clear_errors_and_warnings;
+        cook_options.cookTemplatedGeos = cook_options_cook_template_geos;
+    }
+
+    result = HAPI_Initialize(otl_search_path, dso_search_path, &cook_options, use_cooking_thread, cooking_thread_stack_size);
 
 label_cleanup:
 
@@ -306,7 +321,7 @@ label_cleanup:
         return enif_make_badarg(env);
     }
 
-    return g_atom_ok;
+    return hapi_private_process_result(env, result);
 }
 
 ERL_NIF_TERM

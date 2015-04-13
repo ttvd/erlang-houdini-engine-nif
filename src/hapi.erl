@@ -9,6 +9,9 @@
 -on_load(init/0).
 -define(nif_stub, nif_stub_error(?LINE)).
 
+% Includes generated from HAPI_Common.h
+-include("hapi_cook_options.hrl").
+
 % Imports are generated from HAPI_Common.h
 -import(hapi_result, [hapi_result_to_int/1, int_to_hapi_result/1]).
 

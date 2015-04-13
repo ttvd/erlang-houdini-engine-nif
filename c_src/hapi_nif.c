@@ -37,7 +37,8 @@ make_atom(ErlNifEnv* env, const char* atom_name)
 int
 hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
 {
-    g_atom_ok = enif_make_atom(env, "ok");
+    g_atom_ok = make_atom(env, "ok");
+
     hapi_handle = enif_open_resource_type(env, "hapi", "hapi_handle", &hapi_private_cleanup,
         ERL_NIF_RT_CREATE | ERL_NIF_RT_TAKEOVER, NULL);
 
@@ -49,25 +50,26 @@ hapi_private_init(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
     return 0;
 }
 
+
 ERL_NIF_INIT(hapi, nif_funcs, &hapi_private_init, NULL, NULL, NULL)
 
 
 ERL_NIF_TERM
 hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return make_atom(env, "ok");
+    return g_atom_ok;
 }
 
 
 ERL_NIF_TERM
 hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return make_atom(env, "ok");
+    return g_atom_ok;
 }
 
 
 ERL_NIF_TERM
 hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return make_atom(env, "ok");
+    return g_atom_ok;
 }

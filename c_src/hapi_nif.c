@@ -161,10 +161,72 @@ hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 }
 
 
+static
+ERL_NIF_TERM
+hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    uint32_t otl_search_path_length = 0;
+    uint32_t dso_search_path_length = 0;
+
+    char* otl_search_path = NULL;
+    char* dso_search_path = NULL;
+
+    if(!enif_get_list_length(env, argv[0], &otl_search_path_length) ||
+        !enif_get_list_length(env, argv[1], &dso_search_path_length))
+    {
+        return enif_make_badarg(env);
+    }
+
+    if(otl_search_path_length > 0)
+    {
+        otl_search_path = malloc((otl_search_path_length + 1) * sizeof(char));
+
+        if(enif_get_string(env, argv[0], otl_search_path, otl_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+        {
+            goto label_cleanup;
+        }
+    }
+
+    if(dso_search_path_length > 0)
+    {
+        dso_search_path = malloc((dso_search_path_length + 1) * sizeof(char));
+
+        if(enif_get_string(env, argv[1], dso_search_path, dso_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+        {
+            goto label_cleanup;
+        }
+    }
+
+
+
+
+    /*
+    const char * otl_search_path,
+    const char * dso_search_path,
+    const HAPI_CookOptions * cook_options,
+    HAPI_Bool use_cooking_thread,
+    int cooking_thread_stack_size
+    */
+
+label_cleanup:
+
+    if(otl_search_path)
+    {
+        free(otl_search_path);
+    }
+
+    if(dso_search_path)
+    {
+        free(dso_search_path);
+    }
+
+    return g_atom_ok;
+}
+
 ERL_NIF_TERM
 hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return g_atom_ok;
+    return enif_schedule_nif(env, "hapi_initialize_impl_helper", 0, hapi_initialize_impl_helper, argc, argv);
 }
 
 

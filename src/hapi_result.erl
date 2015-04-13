@@ -1,3 +1,8 @@
+%%% @author Mykola Konyk  <mykola@konyk.org>
+%%%
+%%% @copyright 2015
+%%% HAPI_Result enum.
+
 -module(hapi_result).
 -version(1.9).
 

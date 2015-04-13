@@ -194,10 +194,6 @@ hapi_private_process_result(ErlNifEnv* env, HAPI_Result result)
 }
 
 
-// Helper function to retrieve cook option values from a record.
-
-
-
 ERL_NIF_TERM
 hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
@@ -293,7 +289,7 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     {
         HAPI_CookOptions_Init(&cook_options);
-        
+
         cook_options.splitGeosByGroup = cook_options_split_geos_by_group;
         cook_options.maxVerticesPerPrimitive = cook_options_max_vertices_per_primitive;
         cook_options.refineCurveToLinear = cook_options_refine_curve_to_linear;

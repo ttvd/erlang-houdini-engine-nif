@@ -21,7 +21,8 @@ static ERL_NIF_TERM g_atom_ok;
 static ErlNifResourceType* hapi_handle;
 
 
-static ERL_NIF_TERM
+static
+ERL_NIF_TERM
 make_atom(ErlNifEnv* env, const char* atom_name)
 {
     ERL_NIF_TERM atom;
@@ -57,7 +58,12 @@ ERL_NIF_INIT(hapi, nif_funcs, &hapi_private_init, NULL, NULL, NULL)
 ERL_NIF_TERM
 hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return g_atom_ok;
+    if(HAPI_RESULT_SUCCESS == HAPI_IsInitialized())
+    {
+        return make_atom(env, "hapi_result_success");
+    }
+
+    return make_atom(env, "hapi_result_failure");
 }
 
 

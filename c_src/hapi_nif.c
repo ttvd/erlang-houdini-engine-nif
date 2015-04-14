@@ -18,9 +18,9 @@ ERL_NIF_TERM hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 
 static ErlNifFunc nif_funcs[] =
 {
-    {"hapi_is_initialized", 0, hapi_is_initialized_impl},
-    {"hapi_initialize", 5, hapi_initialize_impl},
-    {"hapi_cleanup", 0, hapi_cleanup_impl}
+    {"is_initialized", 0, hapi_is_initialized_impl},
+    {"initialize", 5, hapi_initialize_impl},
+    {"cleanup", 0, hapi_cleanup_impl}
 };
 
 

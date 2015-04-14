@@ -23,9 +23,6 @@ static ErlNifFunc nif_funcs[] =
 };
 
 
-static ERL_NIF_TERM g_atom_ok;
-
-
 ERL_NIF_TERM
 hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
 {
@@ -199,14 +196,14 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     bool otl_search_path_nil = false;
     bool dso_search_path_nil = false;
 
-    bool cook_options_split_geos_by_group = 0;
-    int32_t cook_options_max_vertices_per_primitive = 3;
-    bool cook_options_refine_curve_to_linear = 0;
-    double cook_options_curve_refine_lod = 0.0;
-    bool cook_options_clear_errors_and_warnings = 0;
-    bool cook_options_cook_template_geos = 0;
+    bool cook_options_split_geos_by_group = true;
+    int32_t cook_options_max_vertices_per_primitive = -1;
+    bool cook_options_refine_curve_to_linear = false;
+    double cook_options_curve_refine_lod = 8.0;
+    bool cook_options_clear_errors_and_warnings = false;
+    bool cook_options_cook_template_geos = false;
 
-    bool use_cooking_thread = 0;
+    bool use_cooking_thread = false;
     int32_t cooking_thread_stack_size = 0;
 
     HAPI_Result result = HAPI_RESULT_SUCCESS;
@@ -305,24 +302,24 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     {
         int32_t tuple_size = 0;
         const ERL_NIF_TERM* tuple_cook_options = NULL;
-    }
+        bool cook_options_record = false;
 
-    /*
-    {
-        int32_t tuple_size = 0;
-        const ERL_NIF_TERM* tuple_cook_options = NULL;
-
-        if(!enif_get_tuple(env, argv[2], &tuple_size, &tuple_cook_options) || (tuple_size != 7) ||
-            enif_compare(tuple_cook_options[0], enif_make_atom(env, "hapi_cook_options")) ||
+        if(!enif_get_tuple(env, argv[2], &tuple_size, &tuple_cook_options) ||
+            (tuple_size != 7) ||
+            !hapi_private_check_atom_value(env, tuple_cook_options[0], "hapi_cook_options", &cook_options_record) ||
+            !cook_options_record ||
             !enif_is_atom(env, tuple_cook_options[1]) ||
-            !hapi_private_get_boolean(env, tuple_cook_options[1], &cook_options_split_geos_by_group) ||
+            !hapi_private_check_atom_value(env, tuple_cook_options[1], "true", &cook_options_split_geos_by_group) ||
             !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive) ||
-            !hapi_private_get_boolean(env, tuple_cook_options[3], &cook_options_refine_curve_to_linear) ||
+            !enif_is_atom(env, tuple_cook_options[3]) ||
+            !hapi_private_check_atom_value(env, tuple_cook_options[1], "true", &cook_options_refine_curve_to_linear) ||
             !enif_get_double(env, tuple_cook_options[4], &cook_options_curve_refine_lod) ||
-            !hapi_private_get_boolean(env, tuple_cook_options[5], &cook_options_clear_errors_and_warnings) ||
-            !hapi_private_get_boolean(env, tuple_cook_options[6], &cook_options_cook_template_geos))
+            !enif_is_atom(env, tuple_cook_options[5]) ||
+            !hapi_private_check_atom_value(env, tuple_cook_options[5], "true", &cook_options_clear_errors_and_warnings) ||
+            !enif_is_atom(env, tuple_cook_options[6]) ||
+            !hapi_private_check_atom_value(env, tuple_cook_options[5], "true", &cook_options_cook_template_geos))
         {
-            nif_error = 1;
+            nif_success = false;
             goto label_cleanup;
         }
 
@@ -334,7 +331,6 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         cook_options.clearErrorsAndWarnings = cook_options_clear_errors_and_warnings;
         cook_options.cookTemplatedGeos = cook_options_cook_template_geos;
     }
-    */
 
     // Process cooking thread parameter, it must be a boolean.
     if(enif_is_atom(env, argv[3]))

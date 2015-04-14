@@ -320,12 +320,12 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             !hapi_private_check_atom_value(env, tuple_cook_options[1], "true", &cook_options_split_geos_by_group) ||
             !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive) ||
             !enif_is_atom(env, tuple_cook_options[3]) ||
-            !hapi_private_check_atom_value(env, tuple_cook_options[1], "true", &cook_options_refine_curve_to_linear) ||
+            !hapi_private_check_atom_value(env, tuple_cook_options[3], "true", &cook_options_refine_curve_to_linear) ||
             !enif_get_double(env, tuple_cook_options[4], &cook_options_curve_refine_lod) ||
             !enif_is_atom(env, tuple_cook_options[5]) ||
             !hapi_private_check_atom_value(env, tuple_cook_options[5], "true", &cook_options_clear_errors_and_warnings) ||
             !enif_is_atom(env, tuple_cook_options[6]) ||
-            !hapi_private_check_atom_value(env, tuple_cook_options[5], "true", &cook_options_cook_template_geos))
+            !hapi_private_check_atom_value(env, tuple_cook_options[6], "true", &cook_options_cook_template_geos))
         {
             nif_success = false;
             goto label_cleanup;

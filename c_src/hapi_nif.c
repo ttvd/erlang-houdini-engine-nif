@@ -233,12 +233,16 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             goto label_cleanup;
         }
 
-        otl_search_path = malloc(otl_search_path_length + 1);
-
-        if(enif_get_string(env, argv[0], otl_search_path, otl_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+        if(otl_search_path_length > 0)
         {
-            nif_success = false;
-            goto label_cleanup;
+            otl_search_path = malloc(otl_search_path_length + 1);
+            memset(otl_search_path, 0, otl_search_path_length + 1);
+
+            if(enif_get_string(env, argv[0], otl_search_path, otl_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
         }
     }
 
@@ -267,12 +271,16 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             goto label_cleanup;
         }
 
-        dso_search_path = malloc(dso_search_path_length + 1);
-
-        if(enif_get_string(env, argv[1], dso_search_path, dso_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+        if(dso_search_path_length > 0)
         {
-            nif_success = false;
-            goto label_cleanup;
+            dso_search_path = malloc(dso_search_path_length + 1);
+            memset(dso_search_path, 0, dso_search_path_length + 1);
+
+            if(enif_get_string(env, argv[1], dso_search_path, dso_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
         }
     }
 
@@ -335,7 +343,7 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     // Process cooking thread parameter, it must be a boolean.
     if(enif_is_atom(env, argv[3]))
     {
-        if(!hapi_private_check_atom_value(env, argv[1], "true", &use_cooking_thread))
+        if(!hapi_private_check_atom_value(env, argv[3], "true", &use_cooking_thread))
         {
             nif_success = false;
             goto label_cleanup;

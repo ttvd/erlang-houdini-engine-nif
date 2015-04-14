@@ -3,10 +3,12 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 
 ERL_NIF_TERM hapi_private_make_atom(ErlNifEnv* env, const char* atom_name);
-ERL_NIF_TERM hapi_private_get_boolean(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* value);
+bool hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);
 
 ERL_NIF_TERM hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
@@ -38,27 +40,28 @@ hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
 }
 
 
-ERL_NIF_TERM
-hapi_private_get_boolean(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* value)
+bool
+hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status)
 {
-    int32_t nif_error = 0;
+    bool nif_success = true;
 
     uint32_t atom_len = 0;
     char* atom_value = NULL;
 
     if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
     {
-        nif_error = 1;
+        nif_success = false;
         goto label_cleanup;
     }
 
-    if(enif_get_string(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1) < 1)
+    atom_value = malloc(atom_len + 1);
+    memset(atom_value, 0, atom_len + 1);
+
+    if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
     {
-        nif_error = 1;
+        nif_success = false;
         goto label_cleanup;
     }
-
-    *value = (!strcmp(atom_value, "true"));
 
 label_cleanup:
 
@@ -67,12 +70,12 @@ label_cleanup:
         free(atom_value);
     }
 
-    if(nif_error)
+    if(nif_success)
     {
-        return enif_make_badarg(env);
+        *status = (bool)(!strcmp(atom_value, value));
     }
 
-    return g_atom_ok;
+    return nif_success;
 }
 
 
@@ -185,55 +188,126 @@ static
 ERL_NIF_TERM
 hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    int32_t nif_error = 0;
+    bool nif_success = true;
 
-    uint32_t otl_search_path_length = 0u;
-    uint32_t dso_search_path_length = 0u;
+    uint32_t otl_search_path_length = 0;
+    uint32_t dso_search_path_length = 0;
 
     char* otl_search_path = NULL;
     char* dso_search_path = NULL;
 
-    int32_t cook_options_split_geos_by_group = 0;
-    int32_t cook_options_max_vertices_per_primitive = 3;
-    int32_t cook_options_refine_curve_to_linear = 0;
-    double cook_options_curve_refine_lod = 0.0;
-    int32_t cook_options_clear_errors_and_warnings = 0;
-    int32_t cook_options_cook_template_geos = 0;
+    bool otl_search_path_nil = false;
+    bool dso_search_path_nil = false;
 
-    int32_t use_cooking_thread = 0;
+    bool cook_options_split_geos_by_group = 0;
+    int32_t cook_options_max_vertices_per_primitive = 3;
+    bool cook_options_refine_curve_to_linear = 0;
+    double cook_options_curve_refine_lod = 0.0;
+    bool cook_options_clear_errors_and_warnings = 0;
+    bool cook_options_cook_template_geos = 0;
+
+    bool use_cooking_thread = 0;
     int32_t cooking_thread_stack_size = 0;
 
     HAPI_Result result = HAPI_RESULT_SUCCESS;
 
-    if(!enif_get_list_length(env, argv[0], &otl_search_path_length) ||
-        !enif_get_list_length(env, argv[1], &dso_search_path_length))
+    // Process otl search path; we require either string or nil atom.
+    if(enif_is_atom(env, argv[0]))
     {
-        nif_error = 1;
-        goto label_cleanup;
-    }
-
-    if(otl_search_path_length > 0u)
-    {
-        otl_search_path = malloc((otl_search_path_length + 1u) * sizeof(char));
-
-        if(enif_get_string(env, argv[0], otl_search_path, otl_search_path_length + 1u, ERL_NIF_LATIN1) < 1)
+        if(hapi_private_check_atom_value(env, argv[0], "nil", &otl_search_path_nil))
         {
-            nif_error = 1;
+            if(!otl_search_path_nil)
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
+        }
+        else
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+    }
+    else
+    {
+        if(!enif_get_list_length(env, argv[0], &otl_search_path_length))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+
+        otl_search_path = malloc(otl_search_path_length + 1);
+
+        if(enif_get_string(env, argv[0], otl_search_path, otl_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+        {
+            nif_success = false;
             goto label_cleanup;
         }
     }
 
-    if(dso_search_path_length > 0u)
+    // Process dso search path; we require either string or nil atom.
+    if(enif_is_atom(env, argv[1]))
     {
-        dso_search_path = malloc((dso_search_path_length + 1u) * sizeof(char));
-
-        if(enif_get_string(env, argv[1], dso_search_path, dso_search_path_length + 1u, ERL_NIF_LATIN1) < 1)
+        if(hapi_private_check_atom_value(env, argv[1], "nil", &dso_search_path_nil))
         {
-            nif_error = 1;
+            if(!dso_search_path_nil)
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
+        }
+        else
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+    }
+    else
+    {
+        if(!enif_get_list_length(env, argv[1], &dso_search_path_length))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+
+        dso_search_path = malloc(dso_search_path_length + 1);
+
+        if(enif_get_string(env, argv[1], dso_search_path, dso_search_path_length + 1, ERL_NIF_LATIN1) < 1)
+        {
+            nif_success = false;
             goto label_cleanup;
         }
     }
 
+    // Create cook options.
+    HAPI_CookOptions cook_options;
+    HAPI_CookOptions_Init(&cook_options);
+
+    // Process cook options, if nil, we use default.
+    if(enif_is_atom(env, argv[2]))
+    {
+        bool nil_cook_options = false;
+        if(hapi_private_check_atom_value(env, argv[2], "nil", &nil_cook_options))
+        {
+            if(!nil_cook_options)
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
+        }
+        else
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+    }
+    else
+    {
+        int32_t tuple_size = 0;
+        const ERL_NIF_TERM* tuple_cook_options = NULL;
+    }
+
+    /*
     {
         int32_t tuple_size = 0;
         const ERL_NIF_TERM* tuple_cook_options = NULL;
@@ -251,25 +325,8 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             nif_error = 1;
             goto label_cleanup;
         }
-    }
 
-    if(!hapi_private_get_boolean(env, argv[3], &use_cooking_thread))
-    {
-        nif_error = 1;
-        goto label_cleanup;
-    }
-
-    if(!enif_get_int(env, argv[4], &cooking_thread_stack_size))
-    {
-        nif_error = 1;
-        goto label_cleanup;
-    }
-
-    HAPI_CookOptions cook_options;
-
-    {
-        HAPI_CookOptions_Init(&cook_options);
-
+        // Set cook options.
         cook_options.splitGeosByGroup = cook_options_split_geos_by_group;
         cook_options.maxVerticesPerPrimitive = cook_options_max_vertices_per_primitive;
         cook_options.refineCurveToLinear = cook_options_refine_curve_to_linear;
@@ -277,7 +334,31 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         cook_options.clearErrorsAndWarnings = cook_options_clear_errors_and_warnings;
         cook_options.cookTemplatedGeos = cook_options_cook_template_geos;
     }
+    */
 
+    // Process cooking thread parameter, it must be a boolean.
+    if(enif_is_atom(env, argv[3]))
+    {
+        if(!hapi_private_check_atom_value(env, argv[1], "true", &use_cooking_thread))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+    }
+    else
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
+
+    // Process stack size parameter.
+    if(!enif_get_int(env, argv[4], &cooking_thread_stack_size))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
+
+    // Execute HAPI Initialize.
     result = HAPI_Initialize(otl_search_path, dso_search_path, &cook_options, use_cooking_thread, cooking_thread_stack_size);
 
 label_cleanup:
@@ -292,7 +373,7 @@ label_cleanup:
         free(dso_search_path);
     }
 
-    if(nif_error)
+    if(!nif_success)
     {
         return enif_make_badarg(env);
     }

@@ -1,7 +1,7 @@
 %%% @author Mykola Konyk  <mykola@konyk.org>
 %%%
 %%% @copyright 2015
-%%% HAPI_Result enum.
+%%% HAPI_EnvIntType enum.
 
 -module(hapi_env_int_type).
 -version(1.9).

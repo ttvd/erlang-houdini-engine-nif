@@ -116,3 +116,10 @@ task :deps do
 
     sh 'rebar get-deps'
 end
+
+# Run testing.
+desc "Run unit tests"
+task :test do
+
+    sh 'rebar compile eunit'
+end

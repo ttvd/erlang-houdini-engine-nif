@@ -24,4 +24,13 @@ hapi_result_success
 
 6> hapi:is_initialized().
 hapi_result_not_initialized
+
+7> hapi:initialize("", "", {hapi_cook_options, false, 3, false, 8.0, false, false}, false, -1).
+hapi_result_success
+
+8> hapi:is_initialized().
+hapi_result_success
+
+9> hapi:cleanup().
+hapi_result_success
 ```

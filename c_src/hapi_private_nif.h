@@ -13,4 +13,5 @@ ERL_NIF_TERM hapi_private_make_atom(ErlNifEnv* env, const char* atom_name);
 // Return true or false by pointer if given atom has a specified value.
 bool hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);
 
+
 #endif //!defined(HAPI_PRIVATE_NIF_H)

@@ -1,4 +1,5 @@
 #include "hapi_private_nif.h"
+#include "hapi_enums_nif.h"
 
 #include <assert.h>
 #include <string.h>
@@ -7,9 +8,6 @@
 
 ERL_NIF_TERM hapi_private_make_atom(ErlNifEnv* env, const char* atom_name);
 bool hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);
-
-extern bool hapi_enum_state_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_State* state);
-extern ERL_NIF_TERM hapi_enum_state_c_to_erl(ErlNifEnv* env, HAPI_State state);
 
 ERL_NIF_TERM hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);

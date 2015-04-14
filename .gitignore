@@ -5,3 +5,5 @@
 ebin
 priv
 .rebar
+.eunit
+

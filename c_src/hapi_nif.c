@@ -13,7 +13,7 @@ bool hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, cons
 ERL_NIF_TERM hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_get_inv_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+ERL_NIF_TERM hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
 
@@ -22,7 +22,7 @@ static ErlNifFunc nif_funcs[] =
     {"is_initialized", 0, hapi_is_initialized_impl},
     {"initialize", 5, hapi_initialize_impl},
     {"cleanup", 0, hapi_cleanup_impl},
-    {"get_inv_int", 1, hapi_get_inv_int_impl},
+    {"get_env_int", 1, hapi_get_env_int_impl},
     {"get_status", 1, hapi_get_status_impl}
 };
 
@@ -405,7 +405,7 @@ hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
 
 ERL_NIF_TERM
-hapi_get_inv_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_private_process_result(env, HAPI_RESULT_SUCCESS);
 }

@@ -20,8 +20,8 @@
     is_initialized/0,
     initialize/5,
     cleanup/0,
-    get_env_int/2,
-    get_status/2,
+    get_env_int/1,
+    get_status/1,
     get_status_string_buf_length/3,
     get_status_string/2,
     get_cooking_total_count/1,
@@ -182,11 +182,11 @@ cleanup() ->
     ?nif_stub.
 
 %
-get_env_int(_IntType, _Value) ->
+get_env_int(_IntType) ->
     ?nif_stub.
 
 %
-get_status(_StatusType, _Status) ->
+get_status(_StatusType) ->
     ?nif_stub.
 
 %

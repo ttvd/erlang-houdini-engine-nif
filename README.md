@@ -5,7 +5,6 @@ Erlang NIF bindings for Houdini Engine - Work in progress.
 Use rake (run rake without arguments to see available tasks).
 
 # Running.  
-code:add_path("ebin").
 
 ```
 1> code:add_path("ebin").

@@ -29,7 +29,7 @@ def fill_template(hapi_header)
     hapi_entries = hapi_file.scan(/HAPI_DECL\s+HAPI_([^(]*)\(([^)]*)\);/i)
     hapi_entries.each do |entry|
 
-        hapi_entry_name = "hapi_#{create_underscore entry[0]}"
+        hapi_entry_name = "#{create_underscore entry[0]}"
         hapi_entry_param_string = entry[1].gsub(/(\S)[^\S\n]*\n[^\S\n]*(\S)/, '\1 \2').gsub("*", "").strip
 
         hapi_entry_params = hapi_entry_param_string.split(",")
@@ -99,6 +99,15 @@ desc "Compile"
 task :compile do
 
     sh 'rebar compile'
+end
+
+# Run otool on a resulting library. Darwin only.
+if RUBY_PLATFORM =~ /^.*darwin.*$/
+    desc "Otool"
+    task :otool do
+
+        sh 'otool -l priv/hapi_nif.so | grep -A 3 RPATH'
+    end
 end
 
 # This will pull all the dependencies required by project.

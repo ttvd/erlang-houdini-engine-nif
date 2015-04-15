@@ -31,6 +31,15 @@ hapi_result_success
 8> hapi:is_initialized().
 hapi_result_success
 
-9> hapi:cleanup().
+9> hapi:get_env_int(hapi_envint_version_houdini_major).
+{hapi_result_success,14}
+
+10> hapi:get_env_int(hapi_envint_version_houdini_minor).
+{hapi_result_success,5}
+
+11> hapi:get_env_int(hapi_envint_version_houdini_build).
+{hapi_result_success,80}
+
+12> hapi:cleanup().
 hapi_result_success
 ```

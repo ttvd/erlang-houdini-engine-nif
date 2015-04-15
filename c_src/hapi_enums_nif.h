@@ -24,4 +24,9 @@ bool hapi_enum_statustype_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
 ERL_NIF_TERM hapi_enum_statustype_c_to_erl(ErlNifEnv* env, HAPI_StatusType status_type);
 
 
+//! HAPI_EnvIntType conversions.
+bool hapi_enum_envinttype_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_EnvIntType* envint_type);
+ERL_NIF_TERM hapi_enum_envinttype_c_to_erl(ErlNifEnv* env, HAPI_EnvIntType envint_type);
+
+
 #endif //!defined(HAPI_ENUMS_NIF_H)

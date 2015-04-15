@@ -263,6 +263,7 @@ hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
+
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 

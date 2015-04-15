@@ -1,8 +1,6 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
-#include <string.h>
-
 
 bool
 hapi_enum_result_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* result)
@@ -92,7 +90,6 @@ hapi_enum_result_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* 
         else
         {
             nif_success = false;
-            goto label_cleanup;
         }
     }
     else

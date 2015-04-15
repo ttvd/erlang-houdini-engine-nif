@@ -263,7 +263,6 @@ hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -272,5 +271,15 @@ hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_StatusType status_type;
+
+    if(hapi_enum_statustype_erl_to_c(env, argv[0], &status_type))
+    {
+        int32_t status_value = 0;
+        HAPI_Result result = HAPI_GetStatus(status_type, &status_value);
+
+        return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, status_value));
+    }
+
+    return enif_make_badarg(env);
 }

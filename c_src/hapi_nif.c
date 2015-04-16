@@ -265,7 +265,7 @@ hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     HAPI_EnvIntType envint_type;
 
-    if(hapi_enum_envinttype_erl_to_c(env, argv[0], &envint_type))
+    if(hapi_enum_env_int_type_erl_to_c(env, argv[0], &envint_type))
     {
         int32_t envint_value = 0;
         HAPI_Result result = HAPI_GetEnvInt(envint_type, &envint_value);
@@ -283,7 +283,7 @@ hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     HAPI_StatusType status_type;
 
-    if(hapi_enum_statustype_erl_to_c(env, argv[0], &status_type))
+    if(hapi_enum_status_type_erl_to_c(env, argv[0], &status_type))
     {
         int32_t status_value = 0;
         HAPI_Result result = HAPI_GetStatus(status_type, &status_value);

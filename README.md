@@ -13,9 +13,9 @@ gem install xxhash
 Use rake (run rake without arguments to see available tasks).
 
 ```
-$ rake generate
-$ rake deps
-$ rake compile
+$ rake erlang:generate
+$ rake erlang:deps
+$ rake erlang:compile
 ```
 
 # Running.  

@@ -31,8 +31,8 @@ def generate_enum_erl_to_c_body(enum_name, enum_value_tuples)
     enum_value_tuples.each_with_index do |value_tuple, index|
 
         if_entry = "if(!strcmp(atom_value, \""
-        if_entry << "hapi_#{value_tuple[0].downcase}\"))\n"
-        if_entry << "        {\n            *#{enum_name} = HAPI_#{value_tuple[0]};\n"
+        if_entry << "hapi_#{value_tuple[0].downcase}\"))#{$/}"
+        if_entry << "        {#{$/}            *#{enum_name} = HAPI_#{value_tuple[0]};#{$/}"
         if_entry << "        }"
 
         if index != 0
@@ -42,7 +42,7 @@ def generate_enum_erl_to_c_body(enum_name, enum_value_tuples)
         erl_to_c_buffer << if_entry
     end
 
-    erl_to_c_buffer.join "\n        "
+    erl_to_c_buffer.join "#{$/}        "
 end
 
 # Helper function to generate C to Erlang mapping for a given enum.
@@ -65,16 +65,15 @@ def generate_enum_c_to_erl_body(enum_value_tuples)
             end
         end
 
-        case_entry << "/*\n        " if not valid_entry
-        case_entry << "case HAPI_#{value_tuple[0]}:\n        {\n            return hapi_private_make_atom(env, \"hapi_#{value_tuple[0].downcase}\");\n        }"
-        case_entry << "\n"
-        case_entry << "        */\n" if not valid_entry
-
+        case_entry << "/*#{$/}        " if not valid_entry
+        case_entry << "case HAPI_#{value_tuple[0]}:#{$/}        {#{$/}            return hapi_private_make_atom(env, \"hapi_#{value_tuple[0].downcase}\");#{$/}        }"
+        case_entry << "#{$/}"
+        case_entry << "        */#{$/}" if not valid_entry
 
         c_to_erl_buffer << case_entry
     end
 
-    c_to_erl_buffer.join "\n        "
+    c_to_erl_buffer.join "#{$/}        "
 end
 
 # Helper function to generate enum nif files.
@@ -177,8 +176,8 @@ def generate_nif_enums(hapi_common_header)
     # Write function signatures to header file.
     enum_conversion_functions.each_with_index do |conversion_functions, index|
 
-        signature_block = "// From #{enum_source_filenames[index]}\n"
-        signature_block << "#{conversion_functions[0]};\n"
+        signature_block = "// From #{enum_source_filenames[index]}#{$/}"
+        signature_block << "#{conversion_functions[0]};#{$/}"
         signature_block << "#{conversion_functions[1]};"
 
         enum_function_signatures << signature_block
@@ -186,7 +185,7 @@ def generate_nif_enums(hapi_common_header)
 
     File.open("./c_src/hapi_enums_nif.h", 'w') do |file|
 
-        template_enums_nif_file.gsub!("%{HAPI_ENUM_CONVERSION_FUNCTIONS}%", enum_function_signatures.join("\n\n"))
+        template_enums_nif_file.gsub!("%{HAPI_ENUM_CONVERSION_FUNCTIONS}%", enum_function_signatures.join("#{$/}#{$/}"))
         file.write(template_enums_nif_file)
     end
 end
@@ -229,29 +228,94 @@ def fill_template(hapi_header)
     # Create buffer for functions.
     buffer_functions = []
 
+    # Create buffer for function specs.
+    buffer_function_specs = []
+
+    # Ignored parameters.
+    buffer_ignored_params = []
+
     # Extract all hapi entries.
     hapi_entries = hapi_file.scan /HAPI_DECL\s+HAPI_([^(]*)\(([^)]*)\);/i
 
     hapi_entries.each do |entry|
 
         hapi_entry_name = "#{create_underscore entry[0]}"
-        hapi_entry_param_string = entry[1].gsub(/(\S)[^\S\n]*\n[^\S\n]*(\S)/, '\1 \2').gsub("*", "").strip
-
+        hapi_entry_param_string = entry[1].gsub(/(\S)[^\S\n]*\n[^\S\n]*(\S)/, '\1 \2').strip
         hapi_entry_params = hapi_entry_param_string.split(",")
-        hapi_entry_params.map! { |parm| "_#{create_camelcase(parm.split(" ").last)}" }
+
+        # Store processed parameters.
+        processed_params = []
+
+        # Ignored parameters.
+        ignored_parameters = []
+
+        # We need to skip output parameters.
+        hapi_entry_params.each do |parm|
+
+            processed_param = parm.strip
+            processed_param_name = "_#{create_camelcase(processed_param.split(' ').last)}"
+
+            if not processed_param.start_with? "const" and processed_param.strip.include? " * "
+
+                ignored_parameters << processed_param_name.gsub("_*", "_")
+                next
+            else
+
+                processed_params << processed_param_name.gsub("_*", "_")
+            end
+        end
+
+        # Store ignored parameters.
+        buffer_ignored_params << ignored_parameters
 
         # Add function name and arity to export table.
-        buffer_exports << "    #{hapi_entry_name}/#{hapi_entry_params.length}"
+        buffer_exports << "    #{hapi_entry_name}/#{processed_params.length}"
+
+        # Create function spec entry.
+        buffer_function_spec = "-spec "
+        buffer_function_spec << "#{hapi_entry_name}("
+        buffer_function_spec << ") -> "
+        buffer_function_spec << "hapi_result()."
+
+        buffer_function_specs << buffer_function_spec
 
         # Create function entry.
-        buffer_functions << "#{hapi_entry_name}(#{hapi_entry_params.join(", ")})"
+        buffer_functions << "#{hapi_entry_name}(#{processed_params.join(", ")})"
     end
 
     # Replace export template entry.
     template_file.gsub!("%{HAPI_EXPORT_FUNCTIONS}%", buffer_exports.join(",#{$/}"))
 
     # Replace function template entry.
-    template_file.gsub!("%{HAPI_IMPL_FUNCTIONS}%", buffer_functions.map {|t| "%#{$/}#{t} ->#{$/}    ?nif_stub."}.join("#{$/}#{$/}"))
+    text_block_functions = []
+
+    buffer_functions.each_with_index do |entry, index|
+
+        block_entry = "%#{$/}"
+
+        # Get ignored parameters for this entry.
+        ignored_parameters = buffer_ignored_params[index]
+
+        # Get spec for this function.
+        result = "hapi_result()"
+
+        if ignored_parameters.length > 0
+
+            block_entry << "%-spec #{entry} -> {#{result}, #{ignored_parameters.join(', ')}}."
+        else
+
+            block_entry << "%-spec #{entry} -> #{result}."
+        end
+        # block_entry << buffer_function_specs[index]
+
+        # Add function entry to block.
+        block_entry << "#{$/}#{entry} ->#{$/}    ?nif_stub."
+
+        text_block_functions << block_entry
+        #buffer_functions.map {|t| "%#{$/}#{t} ->#{$/}    ?nif_stub."}.join("#{$/}#{$/}"))
+    end
+
+    template_file.gsub!("%{HAPI_IMPL_FUNCTIONS}%", text_block_functions.join("#{$/}#{$/}"))
 
     # Write out the file.
     File.open("./src/hapi.erl", 'w') { |file| file.write(template_file) }

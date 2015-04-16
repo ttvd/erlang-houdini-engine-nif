@@ -1,4 +1,6 @@
 require 'rake'
+require 'rubygems'
+require 'xxhash'
 
 # Helper function to produce underscore version of a string.
 def create_underscore(string)
@@ -30,16 +32,26 @@ def generate_enum_erl_to_c_body(enum_name, enum_value_tuples)
 
     enum_value_tuples.each_with_index do |value_tuple, index|
 
-        if_entry = "if(!strcmp(atom_value, \""
-        if_entry << "hapi_#{value_tuple[0].downcase}\"))#{$/}"
-        if_entry << "        {#{$/}            *#{enum_name} = HAPI_#{value_tuple[0]};#{$/}"
-        if_entry << "        }"
+        #if_entry = "if(!strcmp(atom_value, \""
+        #if_entry << "hapi_#{value_tuple[0].downcase}\"))#{$/}"
+        #if_entry << "        {#{$/}            *#{enum_name} = HAPI_#{value_tuple[0]};#{$/}"
+        #if_entry << "        }"
 
-        if index != 0
-            if_entry = "else #{if_entry}"
-        end
+        #if index != 0
+        #    if_entry = "else #{if_entry}"
+        #end
 
-        erl_to_c_buffer << if_entry
+        name_entry = "hapi_#{value_tuple[0].downcase}"
+        name_hash = XXhash.xxh32(name_entry, 0)
+
+        entry = ""
+        entry << "    // \"#{name_entry}\"#{$/}"
+        entry << "            case #{name_hash}:#{$/}"
+        entry << "            {#{$/}"
+        entry << "                *#{enum_name} = HAPI_#{value_tuple[0]};#{$/}"
+        entry << "            }#{$/}"
+
+        erl_to_c_buffer << entry
     end
 
     erl_to_c_buffer.join "#{$/}        "
@@ -363,19 +375,13 @@ end
 desc "Locate HAPI_Common.h and generate hapi.erl from it"
 task :generate_erl do
 
-    xxhash_gem_check = %x{gem list -i xxhash}
-    if xxhash_gem_check
+    if RUBY_PLATFORM =~ /^.*darwin.*$/
 
-        if RUBY_PLATFORM =~ /^.*darwin.*$/
+        hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
 
-            hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
-
-            if File.exists? hapi_common_header
-                Rake::Task["generate_erl_from"].invoke hapi_common_header
-            end
+        if File.exists? hapi_common_header
+            Rake::Task["generate_erl_from"].invoke hapi_common_header
         end
-    else
-        puts "Please install xxhash Ruby gem."
     end
 end
 

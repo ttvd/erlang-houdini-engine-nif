@@ -12,6 +12,7 @@ ERL_NIF_TERM hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 ERL_NIF_TERM hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+ERL_NIF_TERM hapi_get_status_string_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
 
 // Function mapping table.
@@ -21,7 +22,8 @@ static ErlNifFunc nif_funcs[] =
     {"initialize", 5, hapi_initialize_impl},
     {"cleanup", 0, hapi_cleanup_impl},
     {"get_env_int", 1, hapi_get_env_int_impl},
-    {"get_status", 1, hapi_get_status_impl}
+    {"get_status", 1, hapi_get_status_impl},
+    {"get_status_string_buf_length", 2, hapi_get_status_string_buf_length_impl}
 };
 
 
@@ -289,6 +291,26 @@ hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         HAPI_Result result = HAPI_GetStatus(status_type, &status_value);
 
         return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, status_value));
+    }
+
+    return enif_make_badarg(env);
+}
+
+
+// HAPI_GetStatusStringBufLength equivalent.
+ERL_NIF_TERM
+hapi_get_status_string_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    HAPI_StatusType status_type;
+    HAPI_StatusVerbosity status_verbosity;
+
+    if(hapi_enum_status_type_erl_to_c(env, argv[0], &status_type) &&
+        hapi_enum_status_verbosity_erl_to_c(env, argv[1], &status_verbosity))
+    {
+        int32_t buffer_size = 0;
+        HAPI_Result result = HAPI_GetStatusStringBufLength(status_type, status_verbosity, &buffer_size);
+
+        return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, buffer_size));
     }
 
     return enif_make_badarg(env);

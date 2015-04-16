@@ -1,0 +1,14 @@
+#pragma once
+
+#if !defined(HAPI_ENUMS_NIF_H)
+#define HAPI_ENUMS_NIF_H
+
+#include "erl_nif.h"
+#include "HAPI.h"
+
+#include <string.h>
+
+%{HAPI_ENUM_CONVERSION_FUNCTIONS}%
+
+
+#endif //!defined(HAPI_ENUMS_NIF_H)

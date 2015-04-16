@@ -394,7 +394,15 @@ task :clean do
     # Remove generated enum nif source files.
     Dir.glob('./c_src/hapi_enum*.c').select do |file|
         if File.exists? file
-            File.delete file
+            FileUtils.rm file
+        end
+    end
+
+    # Remove folders.
+    byproducts = ['./ebin', './priv']
+    byproducts.each do |byproduct|
+        if File.exists? byproduct
+            FileUtils.rm_rf byproduct
         end
     end
 end
@@ -403,7 +411,13 @@ end
 desc "Compile"
 task :compile do
 
-    sh 'rebar compile'
+    if not File.exists? './deps/xxhash'
+
+        puts "Missing xxhash dependency, please run 'rake deps' first."
+    else
+
+        sh 'rebar compile'
+    end
 end
 
 # Run otool on a resulting library. Darwin only.

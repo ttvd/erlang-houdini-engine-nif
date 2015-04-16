@@ -6,4 +6,4 @@ ebin
 priv
 .rebar
 .eunit
-
+deps

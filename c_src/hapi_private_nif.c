@@ -19,6 +19,17 @@ hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
 }
 
 
+
+ERL_NIF_TERM
+hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name)
+{
+    ERL_NIF_TERM atom = hapi_private_make_atom(env, atom_name);
+    int32_t atom_hash = XXH32(atom_name, strlen(atom_name), 0);
+
+    return enif_make_tuple(env, 2, atom, enif_make_int(env, atom_hash));
+}
+
+
 bool
 hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status)
 {

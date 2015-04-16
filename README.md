@@ -1,6 +1,14 @@
 Erlang NIF bindings for Houdini Engine - Work in progress.
 ===============  
 
+# Before Building.  
+
+Rakefile needs xxhash Ruby gem.
+
+```
+gem install xxhash
+```
+
 # Building.
 Use rake (run rake without arguments to see available tasks).
 

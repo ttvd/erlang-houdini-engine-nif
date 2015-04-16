@@ -16,6 +16,11 @@ ERL_NIF_TERM hapi_get_status_string_buf_length_impl(ErlNifEnv* env, int argc, co
 ERL_NIF_TERM hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_get_cooking_total_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_get_cooking_current_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+ERL_NIF_TERM hapi_convert_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+ERL_NIF_TERM hapi_convert_matrix_to_quat_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+ERL_NIF_TERM hapi_convert_matrix_to_euler_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+ERL_NIF_TERM hapi_convert_transform_quat_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+ERL_NIF_TERM hapi_convert_transform_euler_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
 
 // Function mapping table.
@@ -29,7 +34,12 @@ static ErlNifFunc nif_funcs[] =
     {"get_status_string_buf_length", 2, hapi_get_status_string_buf_length_impl},
     {"get_status_string", 1, hapi_get_status_string_impl},
     {"get_cooking_total_count", 0, hapi_get_cooking_total_count_impl},
-    {"get_cooking_current_count", 0, hapi_get_cooking_current_count_impl}
+    {"get_cooking_current_count", 0, hapi_get_cooking_current_count_impl},
+    {"convert_transform", 2, hapi_convert_transform_impl},
+    {"convert_matrix_to_quat", 1, hapi_convert_matrix_to_quat_impl},
+    {"convert_matrix_to_euler", 2, hapi_convert_matrix_to_euler_impl},
+    {"convert_transform_quat_to_matrix", 1, hapi_convert_transform_quat_to_matrix_impl},
+    {"convert_transform_euler_to_matrix", 1, hapi_convert_transform_euler_to_matrix_impl}
 };
 
 
@@ -383,4 +393,47 @@ hapi_get_cooking_current_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, cooking_current_count));
 
+}
+
+
+// HAPI_ConvertTransform equivalent.
+ERL_NIF_TERM
+hapi_convert_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_ConvertMatrixToQuat equivalent.
+ERL_NIF_TERM
+hapi_convert_matrix_to_quat_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+
+// HAPI_ConvertMatrixToEuler equivalent.
+ERL_NIF_TERM
+hapi_convert_matrix_to_euler_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+
+// HAPI_ConvertTransformQuatToMatrix equivalent.
+ERL_NIF_TERM
+hapi_convert_transform_quat_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_ConvertTransformEulerToMatrix equivalent.
+ERL_NIF_TERM
+hapi_convert_transform_euler_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }

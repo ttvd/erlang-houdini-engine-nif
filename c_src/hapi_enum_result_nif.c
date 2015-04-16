@@ -2,8 +2,7 @@
 #include "hapi_private_nif.h"
 
 
-bool
-hapi_enum_result_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* result)
+bool hapi_enum_result_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* result)
 {
     bool nif_success = true;
 
@@ -31,13 +30,17 @@ hapi_enum_result_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* 
         {
             *result = HAPI_RESULT_SUCCESS;
         }
-        else if(!strcmp(atom_value, "hapi_result_not_initialized"))
+        else if(!strcmp(atom_value, "hapi_result_failure"))
         {
-            *result = HAPI_RESULT_NOT_INITIALIZED;
+            *result = HAPI_RESULT_FAILURE;
         }
         else if(!strcmp(atom_value, "hapi_result_already_initialized"))
         {
             *result = HAPI_RESULT_ALREADY_INITIALIZED;
+        }
+        else if(!strcmp(atom_value, "hapi_result_not_initialized"))
+        {
+            *result = HAPI_RESULT_NOT_INITIALIZED;
         }
         else if(!strcmp(atom_value, "hapi_result_cant_loadfile"))
         {
@@ -108,8 +111,7 @@ label_cleanup:
 }
 
 
-ERL_NIF_TERM
-hapi_enum_result_c_to_erl(ErlNifEnv* env, HAPI_Result result)
+ERL_NIF_TERM hapi_enum_result_c_to_erl(ErlNifEnv* env, HAPI_Result result)
 {
     switch(result)
     {

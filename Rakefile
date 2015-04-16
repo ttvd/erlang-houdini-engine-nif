@@ -1,6 +1,14 @@
 require 'rake'
 require 'rubygems'
-require 'xxhash'
+
+begin
+
+    require 'xxhash'
+rescue LoadError
+
+    puts "Please install xxhash Ruby gem."
+    exit
+end
 
 # Helper function to produce underscore version of a string.
 def create_underscore(string)

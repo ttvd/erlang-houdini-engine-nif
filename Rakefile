@@ -95,8 +95,6 @@ def generate_nif_enums(hapi_common_header)
         enum_name = enum_entry[0]
         enum_body = enum_entry[1]
 
-        #puts enum_name
-
         # Get lowercase underscore'd version of enum name.
         enum_name_underscore = create_underscore(enum_name)
 

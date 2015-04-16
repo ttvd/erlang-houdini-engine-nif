@@ -318,7 +318,10 @@ def fill_template(hapi_header)
     template_file.gsub!("%{HAPI_IMPL_FUNCTIONS}%", text_block_functions.join("#{$/}#{$/}"))
 
     # Write out the file.
-    File.open("./src/hapi.erl", 'w') { |file| file.write(template_file) }
+    File.open("./src/hapi.erl", 'w') do |file|
+
+        file.write(template_file)
+    end
 end
 
 
@@ -463,6 +466,7 @@ end
 
 # Run otool on a resulting library. Darwin only.
 if RUBY_PLATFORM =~ /^.*darwin.*$/
+
     desc "Otool"
     task :otool do
 

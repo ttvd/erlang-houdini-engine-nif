@@ -373,7 +373,7 @@ namespace :erlang do
             hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
 
             if File.exists? hapi_common_header
-                Rake::Task["generate_erl_from"].invoke hapi_common_header
+                Rake::Task["erlang:generate_erl_from"].invoke hapi_common_header
             end
         end
     end
@@ -411,17 +411,15 @@ namespace :erlang do
             hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI_Common.h"
 
             if File.exists? hapi_common_header
-                Rake::Task["generate_enums_from"].invoke hapi_common_header
+                Rake::Task["erlang:generate_enums_from"].invoke hapi_common_header
             end
         end
     end
 
     # This will generate all necessary files.
     desc "Generate all necessary stubs."
-    task :generate do
+    task :generate => ["erlang:generate_enums", "erlang:generate_erl"] do
 
-        Rake::Task["generate_enums"].invoke
-        Rake::Task["generate_erl"].invoke
     end
 
     # This will clean all binary files.

@@ -334,7 +334,7 @@ end
 
 # This will generate hapi.erl
 desc "Generate hapi.erl from HAPI.h"
-task :generate_hapi, [:hapi_header_path] do |t, args|
+task :generate_erl_from, [:hapi_header_path] do |t, args|
     hapi_path = args.values_at(:hapi_header_path)
 
     if not hapi_path.first.nil?
@@ -356,9 +356,23 @@ task :generate_hapi, [:hapi_header_path] do |t, args|
     end
 end
 
+# This will attempt to detect where HAPI.h is and run generation.
+desc "Locate HAPI_Common.h and generate hapi.erl from it"
+task :generate_erl do
+
+    if RUBY_PLATFORM =~ /^.*darwin.*$/
+
+        hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
+
+        if File.exists? hapi_common_header
+            Rake::Task["generate_erl_from"].invoke hapi_common_header
+        end
+    end
+end
+
 # This will generate hapi enum stubs.
 desc "Generate hapi enum stubs from HAPI_Common.h"
-task :generate_enums, [:hapi_common_header_path] do |t, args|
+task :generate_enums_from, [:hapi_common_header_path] do |t, args|
     hapi_path = args.values_at(:hapi_common_header_path)
 
     if not hapi_path.first.nil?
@@ -380,6 +394,28 @@ task :generate_enums, [:hapi_common_header_path] do |t, args|
     end
 end
 
+# This will attempt to detect where HAPI_Common.h is and run generation.
+desc "Locate HAPI_Common.h and generate hapi enum stubs from it"
+task :generate_enums do
+
+    if RUBY_PLATFORM =~ /^.*darwin.*$/
+
+        hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI_Common.h"
+
+        if File.exists? hapi_common_header
+            Rake::Task["generate_enums_from"].invoke hapi_common_header
+        end
+    end
+end
+
+# This will generate all necessary files.
+desc "Generate all necessary stubs."
+task :generate do
+
+    Rake::Task["generate_enums"].invoke
+    Rake::Task["generate_erl"].invoke
+end
+
 # This will clean all binary files.
 desc "Clean"
 task :clean do
@@ -389,6 +425,11 @@ task :clean do
     # Remove generated enums nif header file.
     if File.exists? './c_src/hapi_enums_nif.h'
         File.delete './c_src/hapi_enums_nif.h'
+    end
+
+    # Remove generated erl file.
+    if File.exists? './src/hapi.erl'
+        File.delete './src/hapi.erl'
     end
 
     # Remove generated enum nif source files.

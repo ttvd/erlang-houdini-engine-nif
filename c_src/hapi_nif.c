@@ -14,7 +14,7 @@ ERL_NIF_TERM hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 ERL_NIF_TERM hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_get_status_string_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-
+ERL_NIF_TERM hapi_get_cooking_total_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 
 // Function mapping table.
 static ErlNifFunc nif_funcs[] =
@@ -25,7 +25,8 @@ static ErlNifFunc nif_funcs[] =
     {"get_env_int", 1, hapi_get_env_int_impl},
     {"get_status", 1, hapi_get_status_impl},
     {"get_status_string_buf_length", 2, hapi_get_status_string_buf_length_impl},
-    {"get_status_string", 1, hapi_get_status_string_impl}
+    {"get_status_string", 1, hapi_get_status_string_impl},
+    {"get_cooking_total_count", 0, hapi_get_cooking_total_count_impl}
 };
 
 
@@ -354,4 +355,16 @@ hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     }
 
     return enif_make_badarg(env);
+}
+
+
+// HAPI_GetCookingTotalCount equivalent.
+ERL_NIF_TERM
+hapi_get_cooking_total_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    int32_t cooking_count = 0;
+
+    HAPI_Result result = HAPI_GetCookingTotalCount(&cooking_count);
+
+    return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, cooking_count));
 }

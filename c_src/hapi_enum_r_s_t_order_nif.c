@@ -6,66 +6,64 @@ bool hapi_enum_r_s_t_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
 {
     bool nif_success = true;
 
-    uint32_t atom_len = 0;
-    char* atom_value = NULL;
+    uint32_t atom_hash = 0;
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* hash_tuple = NULL;
 
-    if(enif_is_atom(env, term))
+    if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
-        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
         {
             nif_success = false;
             goto label_cleanup;
         }
 
-        atom_value = malloc(atom_len + 1);
-        memset(atom_value, 0, atom_len + 1);
+        switch(atom_hash)
+        {
+            // "hapi_trs"
+            case 2754525809:
+            {
+                *r_s_t_order = HAPI_TRS;
+            }
 
-        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
-        {
-            nif_success = false;
-            goto label_cleanup;
-        }
+            // "hapi_tsr"
+            case 1637507022:
+            {
+                *r_s_t_order = HAPI_TSR;
+            }
 
-        if(!strcmp(atom_value, "hapi_trs"))
-        {
-            *r_s_t_order = HAPI_TRS;
+            // "hapi_rts"
+            case 813138616:
+            {
+                *r_s_t_order = HAPI_RTS;
+            }
+
+            // "hapi_rst"
+            case 3620151878:
+            {
+                *r_s_t_order = HAPI_RST;
+            }
+
+            // "hapi_str"
+            case 531899175:
+            {
+                *r_s_t_order = HAPI_STR;
+            }
+
+            // "hapi_srt"
+            case 169178964:
+            {
+                *r_s_t_order = HAPI_SRT;
+            }
+
+            default:
+            {
+                break;
+            }
         }
-        else if(!strcmp(atom_value, "hapi_tsr"))
-        {
-            *r_s_t_order = HAPI_TSR;
-        }
-        else if(!strcmp(atom_value, "hapi_rts"))
-        {
-            *r_s_t_order = HAPI_RTS;
-        }
-        else if(!strcmp(atom_value, "hapi_rst"))
-        {
-            *r_s_t_order = HAPI_RST;
-        }
-        else if(!strcmp(atom_value, "hapi_str"))
-        {
-            *r_s_t_order = HAPI_STR;
-        }
-        else if(!strcmp(atom_value, "hapi_srt"))
-        {
-            *r_s_t_order = HAPI_SRT;
-        }
-        else
-        {
-            nif_success = false;
-        }
-    }
-    else
-    {
-        nif_success = false;
     }
 
 label_cleanup:
-
-    if(atom_value)
-    {
-        free(atom_value);
-    }
 
     return nif_success;
 }
@@ -77,32 +75,32 @@ ERL_NIF_TERM hapi_enum_r_s_t_order_c_to_erl(ErlNifEnv* env, HAPI_RSTOrder r_s_t_
     {
         case HAPI_TRS:
         {
-            return hapi_private_make_atom(env, "hapi_trs");
+            return hapi_private_make_hash_tuple(env, "hapi_trs");
         }
 
         case HAPI_TSR:
         {
-            return hapi_private_make_atom(env, "hapi_tsr");
+            return hapi_private_make_hash_tuple(env, "hapi_tsr");
         }
 
         case HAPI_RTS:
         {
-            return hapi_private_make_atom(env, "hapi_rts");
+            return hapi_private_make_hash_tuple(env, "hapi_rts");
         }
 
         case HAPI_RST:
         {
-            return hapi_private_make_atom(env, "hapi_rst");
+            return hapi_private_make_hash_tuple(env, "hapi_rst");
         }
 
         case HAPI_STR:
         {
-            return hapi_private_make_atom(env, "hapi_str");
+            return hapi_private_make_hash_tuple(env, "hapi_str");
         }
 
         case HAPI_SRT:
         {
-            return hapi_private_make_atom(env, "hapi_srt");
+            return hapi_private_make_hash_tuple(env, "hapi_srt");
         }
 
         default:

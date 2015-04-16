@@ -6,62 +6,58 @@ bool hapi_enum_asset_sub_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, 
 {
     bool nif_success = true;
 
-    uint32_t atom_len = 0;
-    char* atom_value = NULL;
+    uint32_t atom_hash = 0;
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* hash_tuple = NULL;
 
-    if(enif_is_atom(env, term))
+    if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
-        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
         {
             nif_success = false;
             goto label_cleanup;
         }
 
-        atom_value = malloc(atom_len + 1);
-        memset(atom_value, 0, atom_len + 1);
+        switch(atom_hash)
+        {
+            // "hapi_assetsubtype_invalid"
+            case 4274947295:
+            {
+                *asset_sub_type = HAPI_ASSETSUBTYPE_INVALID;
+            }
 
-        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
-        {
-            nif_success = false;
-            goto label_cleanup;
-        }
+            // "hapi_assetsubtype_default"
+            case 3111968334:
+            {
+                *asset_sub_type = HAPI_ASSETSUBTYPE_DEFAULT;
+            }
 
-        if(!strcmp(atom_value, "hapi_assetsubtype_invalid"))
-        {
-            *asset_sub_type = HAPI_ASSETSUBTYPE_INVALID;
+            // "hapi_assetsubtype_curve"
+            case 920954547:
+            {
+                *asset_sub_type = HAPI_ASSETSUBTYPE_CURVE;
+            }
+
+            // "hapi_assetsubtype_input"
+            case 3978905612:
+            {
+                *asset_sub_type = HAPI_ASSETSUBTYPE_INPUT;
+            }
+
+            // "hapi_assetsubtype_max"
+            case 1492763276:
+            {
+                *asset_sub_type = HAPI_ASSETSUBTYPE_MAX;
+            }
+
+            default:
+            {
+                break;
+            }
         }
-        else if(!strcmp(atom_value, "hapi_assetsubtype_default"))
-        {
-            *asset_sub_type = HAPI_ASSETSUBTYPE_DEFAULT;
-        }
-        else if(!strcmp(atom_value, "hapi_assetsubtype_curve"))
-        {
-            *asset_sub_type = HAPI_ASSETSUBTYPE_CURVE;
-        }
-        else if(!strcmp(atom_value, "hapi_assetsubtype_input"))
-        {
-            *asset_sub_type = HAPI_ASSETSUBTYPE_INPUT;
-        }
-        else if(!strcmp(atom_value, "hapi_assetsubtype_max"))
-        {
-            *asset_sub_type = HAPI_ASSETSUBTYPE_MAX;
-        }
-        else
-        {
-            nif_success = false;
-        }
-    }
-    else
-    {
-        nif_success = false;
     }
 
 label_cleanup:
-
-    if(atom_value)
-    {
-        free(atom_value);
-    }
 
     return nif_success;
 }
@@ -74,28 +70,28 @@ ERL_NIF_TERM hapi_enum_asset_sub_type_c_to_erl(ErlNifEnv* env, HAPI_AssetSubType
         /*
         case HAPI_ASSETSUBTYPE_INVALID:
         {
-            return hapi_private_make_atom(env, "hapi_assetsubtype_invalid");
+            return hapi_private_make_hash_tuple(env, "hapi_assetsubtype_invalid");
         }
         */
 
         case HAPI_ASSETSUBTYPE_DEFAULT:
         {
-            return hapi_private_make_atom(env, "hapi_assetsubtype_default");
+            return hapi_private_make_hash_tuple(env, "hapi_assetsubtype_default");
         }
 
         case HAPI_ASSETSUBTYPE_CURVE:
         {
-            return hapi_private_make_atom(env, "hapi_assetsubtype_curve");
+            return hapi_private_make_hash_tuple(env, "hapi_assetsubtype_curve");
         }
 
         case HAPI_ASSETSUBTYPE_INPUT:
         {
-            return hapi_private_make_atom(env, "hapi_assetsubtype_input");
+            return hapi_private_make_hash_tuple(env, "hapi_assetsubtype_input");
         }
 
         case HAPI_ASSETSUBTYPE_MAX:
         {
-            return hapi_private_make_atom(env, "hapi_assetsubtype_max");
+            return hapi_private_make_hash_tuple(env, "hapi_assetsubtype_max");
         }
 
         default:

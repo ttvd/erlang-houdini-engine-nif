@@ -6,62 +6,58 @@ bool hapi_enum_storage_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HA
 {
     bool nif_success = true;
 
-    uint32_t atom_len = 0;
-    char* atom_value = NULL;
+    uint32_t atom_hash = 0;
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* hash_tuple = NULL;
 
-    if(enif_is_atom(env, term))
+    if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
-        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
         {
             nif_success = false;
             goto label_cleanup;
         }
 
-        atom_value = malloc(atom_len + 1);
-        memset(atom_value, 0, atom_len + 1);
+        switch(atom_hash)
+        {
+            // "hapi_storagetype_invalid"
+            case 2592088464:
+            {
+                *storage_type = HAPI_STORAGETYPE_INVALID;
+            }
 
-        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
-        {
-            nif_success = false;
-            goto label_cleanup;
-        }
+            // "hapi_storagetype_int"
+            case 2403500183:
+            {
+                *storage_type = HAPI_STORAGETYPE_INT;
+            }
 
-        if(!strcmp(atom_value, "hapi_storagetype_invalid"))
-        {
-            *storage_type = HAPI_STORAGETYPE_INVALID;
+            // "hapi_storagetype_float"
+            case 604801786:
+            {
+                *storage_type = HAPI_STORAGETYPE_FLOAT;
+            }
+
+            // "hapi_storagetype_string"
+            case 3554866194:
+            {
+                *storage_type = HAPI_STORAGETYPE_STRING;
+            }
+
+            // "hapi_storagetype_max"
+            case 1435904941:
+            {
+                *storage_type = HAPI_STORAGETYPE_MAX;
+            }
+
+            default:
+            {
+                break;
+            }
         }
-        else if(!strcmp(atom_value, "hapi_storagetype_int"))
-        {
-            *storage_type = HAPI_STORAGETYPE_INT;
-        }
-        else if(!strcmp(atom_value, "hapi_storagetype_float"))
-        {
-            *storage_type = HAPI_STORAGETYPE_FLOAT;
-        }
-        else if(!strcmp(atom_value, "hapi_storagetype_string"))
-        {
-            *storage_type = HAPI_STORAGETYPE_STRING;
-        }
-        else if(!strcmp(atom_value, "hapi_storagetype_max"))
-        {
-            *storage_type = HAPI_STORAGETYPE_MAX;
-        }
-        else
-        {
-            nif_success = false;
-        }
-    }
-    else
-    {
-        nif_success = false;
     }
 
 label_cleanup:
-
-    if(atom_value)
-    {
-        free(atom_value);
-    }
 
     return nif_success;
 }
@@ -74,28 +70,28 @@ ERL_NIF_TERM hapi_enum_storage_type_c_to_erl(ErlNifEnv* env, HAPI_StorageType st
         /*
         case HAPI_STORAGETYPE_INVALID:
         {
-            return hapi_private_make_atom(env, "hapi_storagetype_invalid");
+            return hapi_private_make_hash_tuple(env, "hapi_storagetype_invalid");
         }
         */
 
         case HAPI_STORAGETYPE_INT:
         {
-            return hapi_private_make_atom(env, "hapi_storagetype_int");
+            return hapi_private_make_hash_tuple(env, "hapi_storagetype_int");
         }
 
         case HAPI_STORAGETYPE_FLOAT:
         {
-            return hapi_private_make_atom(env, "hapi_storagetype_float");
+            return hapi_private_make_hash_tuple(env, "hapi_storagetype_float");
         }
 
         case HAPI_STORAGETYPE_STRING:
         {
-            return hapi_private_make_atom(env, "hapi_storagetype_string");
+            return hapi_private_make_hash_tuple(env, "hapi_storagetype_string");
         }
 
         case HAPI_STORAGETYPE_MAX:
         {
-            return hapi_private_make_atom(env, "hapi_storagetype_max");
+            return hapi_private_make_hash_tuple(env, "hapi_storagetype_max");
         }
 
         default:

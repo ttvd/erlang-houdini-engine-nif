@@ -6,170 +6,220 @@ bool hapi_enum_parm_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 {
     bool nif_success = true;
 
-    uint32_t atom_len = 0;
-    char* atom_value = NULL;
+    uint32_t atom_hash = 0;
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* hash_tuple = NULL;
 
-    if(enif_is_atom(env, term))
+    if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
-        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
         {
             nif_success = false;
             goto label_cleanup;
         }
 
-        atom_value = malloc(atom_len + 1);
-        memset(atom_value, 0, atom_len + 1);
+        switch(atom_hash)
+        {
+            // "hapi_parmtype_int"
+            case 2938205493:
+            {
+                *parm_type = HAPI_PARMTYPE_INT;
+            }
 
-        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
-        {
-            nif_success = false;
-            goto label_cleanup;
-        }
+            // "hapi_parmtype_multiparmlist"
+            case 94525824:
+            {
+                *parm_type = HAPI_PARMTYPE_MULTIPARMLIST;
+            }
 
-        if(!strcmp(atom_value, "hapi_parmtype_int"))
-        {
-            *parm_type = HAPI_PARMTYPE_INT;
+            // "hapi_parmtype_toggle"
+            case 3487126731:
+            {
+                *parm_type = HAPI_PARMTYPE_TOGGLE;
+            }
+
+            // "hapi_parmtype_button"
+            case 3222095719:
+            {
+                *parm_type = HAPI_PARMTYPE_BUTTON;
+            }
+
+            // "hapi_parmtype_float"
+            case 3403782401:
+            {
+                *parm_type = HAPI_PARMTYPE_FLOAT;
+            }
+
+            // "hapi_parmtype_color"
+            case 3651575535:
+            {
+                *parm_type = HAPI_PARMTYPE_COLOR;
+            }
+
+            // "hapi_parmtype_string"
+            case 3029524656:
+            {
+                *parm_type = HAPI_PARMTYPE_STRING;
+            }
+
+            // "hapi_parmtype_path_file"
+            case 3946815810:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_FILE;
+            }
+
+            // "hapi_parmtype_path_file_geo"
+            case 2237470241:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_FILE_GEO;
+            }
+
+            // "hapi_parmtype_path_file_image"
+            case 3582069620:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_FILE_IMAGE;
+            }
+
+            // "hapi_parmtype_path_node"
+            case 1563877995:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_NODE;
+            }
+
+            // "hapi_parmtype_folderlist"
+            case 465413589:
+            {
+                *parm_type = HAPI_PARMTYPE_FOLDERLIST;
+            }
+
+            // "hapi_parmtype_folder"
+            case 1692078012:
+            {
+                *parm_type = HAPI_PARMTYPE_FOLDER;
+            }
+
+            // "hapi_parmtype_label"
+            case 4255272841:
+            {
+                *parm_type = HAPI_PARMTYPE_LABEL;
+            }
+
+            // "hapi_parmtype_separator"
+            case 2360826373:
+            {
+                *parm_type = HAPI_PARMTYPE_SEPARATOR;
+            }
+
+            // "hapi_parmtype_max"
+            case 220098758:
+            {
+                *parm_type = HAPI_PARMTYPE_MAX;
+            }
+
+            // "hapi_parmtype_int_start"
+            case 2793337556:
+            {
+                *parm_type = HAPI_PARMTYPE_INT_START;
+            }
+
+            // "hapi_parmtype_int_end"
+            case 2924084007:
+            {
+                *parm_type = HAPI_PARMTYPE_INT_END;
+            }
+
+            // "hapi_parmtype_float_start"
+            case 3597937322:
+            {
+                *parm_type = HAPI_PARMTYPE_FLOAT_START;
+            }
+
+            // "hapi_parmtype_float_end"
+            case 2584819633:
+            {
+                *parm_type = HAPI_PARMTYPE_FLOAT_END;
+            }
+
+            // "hapi_parmtype_string_start"
+            case 2299523298:
+            {
+                *parm_type = HAPI_PARMTYPE_STRING_START;
+            }
+
+            // "hapi_parmtype_string_end"
+            case 883769106:
+            {
+                *parm_type = HAPI_PARMTYPE_STRING_END;
+            }
+
+            // "hapi_parmtype_path_start"
+            case 1937567703:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_START;
+            }
+
+            // "hapi_parmtype_path_end"
+            case 233945276:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_END;
+            }
+
+            // "hapi_parmtype_path_file_start"
+            case 2795114217:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_FILE_START;
+            }
+
+            // "hapi_parmtype_path_file_end"
+            case 4055995372:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_FILE_END;
+            }
+
+            // "hapi_parmtype_path_node_start"
+            case 3219598411:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_NODE_START;
+            }
+
+            // "hapi_parmtype_path_node_end"
+            case 381338848:
+            {
+                *parm_type = HAPI_PARMTYPE_PATH_NODE_END;
+            }
+
+            // "hapi_parmtype_container_start"
+            case 1309661876:
+            {
+                *parm_type = HAPI_PARMTYPE_CONTAINER_START;
+            }
+
+            // "hapi_parmtype_container_end"
+            case 2873311351:
+            {
+                *parm_type = HAPI_PARMTYPE_CONTAINER_END;
+            }
+
+            // "hapi_parmtype_nonvalue_start"
+            case 1808937396:
+            {
+                *parm_type = HAPI_PARMTYPE_NONVALUE_START;
+            }
+
+            // "hapi_parmtype_nonvalue_end"
+            case 920931063:
+            {
+                *parm_type = HAPI_PARMTYPE_NONVALUE_END;
+            }
+
+            default:
+            {
+                break;
+            }
         }
-        else if(!strcmp(atom_value, "hapi_parmtype_multiparmlist"))
-        {
-            *parm_type = HAPI_PARMTYPE_MULTIPARMLIST;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_toggle"))
-        {
-            *parm_type = HAPI_PARMTYPE_TOGGLE;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_button"))
-        {
-            *parm_type = HAPI_PARMTYPE_BUTTON;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_float"))
-        {
-            *parm_type = HAPI_PARMTYPE_FLOAT;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_color"))
-        {
-            *parm_type = HAPI_PARMTYPE_COLOR;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_string"))
-        {
-            *parm_type = HAPI_PARMTYPE_STRING;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_file"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_FILE;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_file_geo"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_FILE_GEO;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_file_image"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_FILE_IMAGE;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_node"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_NODE;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_folderlist"))
-        {
-            *parm_type = HAPI_PARMTYPE_FOLDERLIST;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_folder"))
-        {
-            *parm_type = HAPI_PARMTYPE_FOLDER;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_label"))
-        {
-            *parm_type = HAPI_PARMTYPE_LABEL;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_separator"))
-        {
-            *parm_type = HAPI_PARMTYPE_SEPARATOR;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_max"))
-        {
-            *parm_type = HAPI_PARMTYPE_MAX;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_int_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_INT_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_int_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_INT_END;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_float_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_FLOAT_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_float_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_FLOAT_END;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_string_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_STRING_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_string_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_STRING_END;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_END;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_file_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_FILE_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_file_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_FILE_END;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_node_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_NODE_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_path_node_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_PATH_NODE_END;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_container_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_CONTAINER_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_container_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_CONTAINER_END;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_nonvalue_start"))
-        {
-            *parm_type = HAPI_PARMTYPE_NONVALUE_START;
-        }
-        else if(!strcmp(atom_value, "hapi_parmtype_nonvalue_end"))
-        {
-            *parm_type = HAPI_PARMTYPE_NONVALUE_END;
-        }
-        else
-        {
-            nif_success = false;
-        }
-    }
-    else
-    {
-        nif_success = false;
     }
 
 label_cleanup:
-
-    if(atom_value)
-    {
-        free(atom_value);
-    }
 
     return nif_success;
 }
@@ -181,193 +231,193 @@ ERL_NIF_TERM hapi_enum_parm_type_c_to_erl(ErlNifEnv* env, HAPI_ParmType parm_typ
     {
         case HAPI_PARMTYPE_INT:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_int");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_int");
         }
 
         case HAPI_PARMTYPE_MULTIPARMLIST:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_multiparmlist");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_multiparmlist");
         }
 
         case HAPI_PARMTYPE_TOGGLE:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_toggle");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_toggle");
         }
 
         case HAPI_PARMTYPE_BUTTON:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_button");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_button");
         }
 
         case HAPI_PARMTYPE_FLOAT:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_float");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_float");
         }
 
         case HAPI_PARMTYPE_COLOR:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_color");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_color");
         }
 
         case HAPI_PARMTYPE_STRING:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_string");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_string");
         }
 
         case HAPI_PARMTYPE_PATH_FILE:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_file");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_file");
         }
 
         case HAPI_PARMTYPE_PATH_FILE_GEO:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_file_geo");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_file_geo");
         }
 
         case HAPI_PARMTYPE_PATH_FILE_IMAGE:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_file_image");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_file_image");
         }
 
         case HAPI_PARMTYPE_PATH_NODE:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_node");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_node");
         }
 
         case HAPI_PARMTYPE_FOLDERLIST:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_folderlist");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_folderlist");
         }
 
         case HAPI_PARMTYPE_FOLDER:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_folder");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_folder");
         }
 
         case HAPI_PARMTYPE_LABEL:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_label");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_label");
         }
 
         case HAPI_PARMTYPE_SEPARATOR:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_separator");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_separator");
         }
 
         case HAPI_PARMTYPE_MAX:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_max");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_max");
         }
 
         /*
         case HAPI_PARMTYPE_INT_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_int_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_int_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_INT_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_int_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_int_end");
         }
         */
 
         /*
         case HAPI_PARMTYPE_FLOAT_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_float_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_float_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_FLOAT_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_float_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_float_end");
         }
         */
 
         /*
         case HAPI_PARMTYPE_STRING_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_string_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_string_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_STRING_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_string_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_string_end");
         }
         */
 
         /*
         case HAPI_PARMTYPE_PATH_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_PATH_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_end");
         }
         */
 
         /*
         case HAPI_PARMTYPE_PATH_FILE_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_file_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_file_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_PATH_FILE_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_file_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_file_end");
         }
         */
 
         /*
         case HAPI_PARMTYPE_PATH_NODE_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_node_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_node_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_PATH_NODE_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_path_node_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_path_node_end");
         }
         */
 
         /*
         case HAPI_PARMTYPE_CONTAINER_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_container_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_container_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_CONTAINER_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_container_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_container_end");
         }
         */
 
         /*
         case HAPI_PARMTYPE_NONVALUE_START:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_nonvalue_start");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_nonvalue_start");
         }
         */
 
         /*
         case HAPI_PARMTYPE_NONVALUE_END:
         {
-            return hapi_private_make_atom(env, "hapi_parmtype_nonvalue_end");
+            return hapi_private_make_hash_tuple(env, "hapi_parmtype_nonvalue_end");
         }
         */
 

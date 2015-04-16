@@ -6,82 +6,88 @@ bool hapi_enum_image_packing_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, H
 {
     bool nif_success = true;
 
-    uint32_t atom_len = 0;
-    char* atom_value = NULL;
+    uint32_t atom_hash = 0;
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* hash_tuple = NULL;
 
-    if(enif_is_atom(env, term))
+    if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
-        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
         {
             nif_success = false;
             goto label_cleanup;
         }
 
-        atom_value = malloc(atom_len + 1);
-        memset(atom_value, 0, atom_len + 1);
+        switch(atom_hash)
+        {
+            // "hapi_image_packing_unknown"
+            case 1026533579:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_UNKNOWN;
+            }
 
-        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
-        {
-            nif_success = false;
-            goto label_cleanup;
-        }
+            // "hapi_image_packing_single"
+            case 4027772177:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_SINGLE;
+            }
 
-        if(!strcmp(atom_value, "hapi_image_packing_unknown"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_UNKNOWN;
+            // "hapi_image_packing_dual"
+            case 3618580164:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_DUAL;
+            }
+
+            // "hapi_image_packing_rgb"
+            case 1954788252:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_RGB;
+            }
+
+            // "hapi_image_packing_bgr"
+            case 3355295031:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_BGR;
+            }
+
+            // "hapi_image_packing_rgba"
+            case 211676614:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_RGBA;
+            }
+
+            // "hapi_image_packing_abgr"
+            case 4154788832:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_ABGR;
+            }
+
+            // "hapi_image_packing_max"
+            case 2046891834:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_MAX;
+            }
+
+            // "hapi_image_packing_default3"
+            case 3652598404:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_DEFAULT3;
+            }
+
+            // "hapi_image_packing_default4"
+            case 1347420588:
+            {
+                *image_packing = HAPI_IMAGE_PACKING_DEFAULT4;
+            }
+
+            default:
+            {
+                break;
+            }
         }
-        else if(!strcmp(atom_value, "hapi_image_packing_single"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_SINGLE;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_dual"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_DUAL;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_rgb"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_RGB;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_bgr"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_BGR;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_rgba"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_RGBA;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_abgr"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_ABGR;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_max"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_MAX;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_default3"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_DEFAULT3;
-        }
-        else if(!strcmp(atom_value, "hapi_image_packing_default4"))
-        {
-            *image_packing = HAPI_IMAGE_PACKING_DEFAULT4;
-        }
-        else
-        {
-            nif_success = false;
-        }
-    }
-    else
-    {
-        nif_success = false;
     }
 
 label_cleanup:
-
-    if(atom_value)
-    {
-        free(atom_value);
-    }
 
     return nif_success;
 }
@@ -94,56 +100,56 @@ ERL_NIF_TERM hapi_enum_image_packing_c_to_erl(ErlNifEnv* env, HAPI_ImagePacking 
         /*
         case HAPI_IMAGE_PACKING_UNKNOWN:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_unknown");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_unknown");
         }
         */
 
         case HAPI_IMAGE_PACKING_SINGLE:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_single");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_single");
         }
 
         case HAPI_IMAGE_PACKING_DUAL:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_dual");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_dual");
         }
 
         case HAPI_IMAGE_PACKING_RGB:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_rgb");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_rgb");
         }
 
         case HAPI_IMAGE_PACKING_BGR:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_bgr");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_bgr");
         }
 
         case HAPI_IMAGE_PACKING_RGBA:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_rgba");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_rgba");
         }
 
         case HAPI_IMAGE_PACKING_ABGR:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_abgr");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_abgr");
         }
 
         case HAPI_IMAGE_PACKING_MAX:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_max");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_max");
         }
 
         /*
         case HAPI_IMAGE_PACKING_DEFAULT3:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_default3");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_default3");
         }
         */
 
         /*
         case HAPI_IMAGE_PACKING_DEFAULT4:
         {
-            return hapi_private_make_atom(env, "hapi_image_packing_default4");
+            return hapi_private_make_hash_tuple(env, "hapi_image_packing_default4");
         }
         */
 

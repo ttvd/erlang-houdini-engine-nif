@@ -6,58 +6,52 @@ bool hapi_enum_ramp_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 {
     bool nif_success = true;
 
-    uint32_t atom_len = 0;
-    char* atom_value = NULL;
+    uint32_t atom_hash = 0;
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* hash_tuple = NULL;
 
-    if(enif_is_atom(env, term))
+    if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
-        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
         {
             nif_success = false;
             goto label_cleanup;
         }
 
-        atom_value = malloc(atom_len + 1);
-        memset(atom_value, 0, atom_len + 1);
+        switch(atom_hash)
+        {
+            // "hapi_ramptype_invalid"
+            case 1007057020:
+            {
+                *ramp_type = HAPI_RAMPTYPE_INVALID;
+            }
 
-        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
-        {
-            nif_success = false;
-            goto label_cleanup;
-        }
+            // "hapi_ramptype_float"
+            case 1236730525:
+            {
+                *ramp_type = HAPI_RAMPTYPE_FLOAT;
+            }
 
-        if(!strcmp(atom_value, "hapi_ramptype_invalid"))
-        {
-            *ramp_type = HAPI_RAMPTYPE_INVALID;
+            // "hapi_ramptype_color"
+            case 784329284:
+            {
+                *ramp_type = HAPI_RAMPTYPE_COLOR;
+            }
+
+            // "hapi_ramptype_max"
+            case 1883049949:
+            {
+                *ramp_type = HAPI_RAMPTYPE_MAX;
+            }
+
+            default:
+            {
+                break;
+            }
         }
-        else if(!strcmp(atom_value, "hapi_ramptype_float"))
-        {
-            *ramp_type = HAPI_RAMPTYPE_FLOAT;
-        }
-        else if(!strcmp(atom_value, "hapi_ramptype_color"))
-        {
-            *ramp_type = HAPI_RAMPTYPE_COLOR;
-        }
-        else if(!strcmp(atom_value, "hapi_ramptype_max"))
-        {
-            *ramp_type = HAPI_RAMPTYPE_MAX;
-        }
-        else
-        {
-            nif_success = false;
-        }
-    }
-    else
-    {
-        nif_success = false;
     }
 
 label_cleanup:
-
-    if(atom_value)
-    {
-        free(atom_value);
-    }
 
     return nif_success;
 }
@@ -70,23 +64,23 @@ ERL_NIF_TERM hapi_enum_ramp_type_c_to_erl(ErlNifEnv* env, HAPI_RampType ramp_typ
         /*
         case HAPI_RAMPTYPE_INVALID:
         {
-            return hapi_private_make_atom(env, "hapi_ramptype_invalid");
+            return hapi_private_make_hash_tuple(env, "hapi_ramptype_invalid");
         }
         */
 
         case HAPI_RAMPTYPE_FLOAT:
         {
-            return hapi_private_make_atom(env, "hapi_ramptype_float");
+            return hapi_private_make_hash_tuple(env, "hapi_ramptype_float");
         }
 
         case HAPI_RAMPTYPE_COLOR:
         {
-            return hapi_private_make_atom(env, "hapi_ramptype_color");
+            return hapi_private_make_hash_tuple(env, "hapi_ramptype_color");
         }
 
         case HAPI_RAMPTYPE_MAX:
         {
-            return hapi_private_make_atom(env, "hapi_ramptype_max");
+            return hapi_private_make_hash_tuple(env, "hapi_ramptype_max");
         }
 
         default:

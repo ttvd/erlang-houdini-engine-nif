@@ -2,10 +2,8 @@ require 'rake'
 require 'rubygems'
 
 begin
-
     require 'xxhash'
 rescue LoadError
-
     puts "Please install xxhash Ruby gem."
     exit
 end
@@ -39,15 +37,6 @@ def generate_enum_erl_to_c_body(enum_name, enum_value_tuples)
     erl_to_c_buffer = []
 
     enum_value_tuples.each_with_index do |value_tuple, index|
-
-        #if_entry = "if(!strcmp(atom_value, \""
-        #if_entry << "hapi_#{value_tuple[0].downcase}\"))#{$/}"
-        #if_entry << "        {#{$/}            *#{enum_name} = HAPI_#{value_tuple[0]};#{$/}"
-        #if_entry << "        }"
-
-        #if index != 0
-        #    if_entry = "else #{if_entry}"
-        #end
 
         name_entry = "hapi_#{value_tuple[0].downcase}"
         name_hash = XXhash.xxh32(name_entry, 0)
@@ -234,7 +223,7 @@ def scan_enums(hapi_common_header)
 end
 
 # Helper function to create hapi.erl from template.
-def fill_template(hapi_header)
+def fill_hapi_erl_template(hapi_header)
 
     # Read template file.
     template_file = File.read "./src/hapi.erl.template"
@@ -276,11 +265,9 @@ def fill_template(hapi_header)
             processed_param_name = "_#{create_camelcase(processed_param.split(' ').last)}"
 
             if not processed_param.start_with? "const" and processed_param.strip.include? " * "
-
                 ignored_parameters << processed_param_name.gsub("_*", "_")
                 next
             else
-
                 processed_params << processed_param_name.gsub("_*", "_")
             end
         end
@@ -320,19 +307,15 @@ def fill_template(hapi_header)
         result = "hapi_result()"
 
         if ignored_parameters.length > 0
-
             block_entry << "%-spec #{entry} -> {#{result}, #{ignored_parameters.join(', ')}}."
         else
-
             block_entry << "%-spec #{entry} -> #{result}."
         end
-        # block_entry << buffer_function_specs[index]
 
         # Add function entry to block.
         block_entry << "#{$/}#{entry} ->#{$/}    ?nif_stub."
 
         text_block_functions << block_entry
-        #buffer_functions.map {|t| "%#{$/}#{t} ->#{$/}    ?nif_stub."}.join("#{$/}#{$/}"))
     end
 
     template_file.gsub!("%{HAPI_IMPL_FUNCTIONS}%", text_block_functions.join("#{$/}#{$/}"))
@@ -355,155 +338,158 @@ task :help do
     puts %x{rake --tasks}
 end
 
-# This will generate hapi.erl
-desc "Generate hapi.erl from HAPI.h"
-task :generate_erl_from, [:hapi_header_path] do |t, args|
-    hapi_path = args.values_at(:hapi_header_path)
+namespace :erlang do
 
-    if not hapi_path.first.nil?
-        hapi_path = hapi_path.first
+    # This will generate hapi.erl
+    desc "Generate hapi.erl from HAPI.h"
+    task :generate_erl_from, [:hapi_header_path] do |t, args|
+        hapi_path = args.values_at(:hapi_header_path)
 
-        if File.file? hapi_path
-            fill_template hapi_path
-        else
-            hapi_path = "#{hapi_path}/HAPI.h"
+        if not hapi_path.first.nil?
+            hapi_path = hapi_path.first
 
             if File.file? hapi_path
-                fill_template hapi_path
+                fill_hapi_erl_template hapi_path
             else
-                puts "Could not locate HAPI.h"
+                hapi_path = "#{hapi_path}/HAPI.h"
+
+                if File.file? hapi_path
+                    fill_hapi_erl_template hapi_path
+                else
+                    puts "Could not locate HAPI.h"
+                end
+            end
+        else
+            puts "Please provide location of HAPI.h as parameter."
+        end
+    end
+
+    # This will attempt to detect where HAPI.h is and run generation.
+    desc "Locate HAPI_Common.h and generate hapi.erl from it"
+    task :generate_erl do
+
+        if RUBY_PLATFORM =~ /^.*darwin.*$/
+
+            hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
+
+            if File.exists? hapi_common_header
+                Rake::Task["generate_erl_from"].invoke hapi_common_header
             end
         end
-    else
-        puts "Please provide location of HAPI.h as parameter."
     end
-end
 
-# This will attempt to detect where HAPI.h is and run generation.
-desc "Locate HAPI_Common.h and generate hapi.erl from it"
-task :generate_erl do
+    # This will generate hapi enum stubs.
+    desc "Generate hapi enum stubs from HAPI_Common.h"
+    task :generate_enums_from, [:hapi_common_header_path] do |t, args|
+        hapi_path = args.values_at(:hapi_common_header_path)
 
-    if RUBY_PLATFORM =~ /^.*darwin.*$/
-
-        hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
-
-        if File.exists? hapi_common_header
-            Rake::Task["generate_erl_from"].invoke hapi_common_header
-        end
-    end
-end
-
-# This will generate hapi enum stubs.
-desc "Generate hapi enum stubs from HAPI_Common.h"
-task :generate_enums_from, [:hapi_common_header_path] do |t, args|
-    hapi_path = args.values_at(:hapi_common_header_path)
-
-    if not hapi_path.first.nil?
-        hapi_path = hapi_path.first
-
-        if File.file? hapi_path
-            generate_nif_enums hapi_path
-        else
-            hapi_path = "#{hapi_path}/HAPI_Common.h"
+        if not hapi_path.first.nil?
+            hapi_path = hapi_path.first
 
             if File.file? hapi_path
                 generate_nif_enums hapi_path
             else
-                puts "Could not locate HAPI_Common.h"
+                hapi_path = "#{hapi_path}/HAPI_Common.h"
+
+                if File.file? hapi_path
+                    generate_nif_enums hapi_path
+                else
+                    puts "Could not locate HAPI_Common.h"
+                end
+            end
+        else
+            puts "Please provide location of HAPI_Common.h as parameter."
+        end
+    end
+
+    # This will attempt to detect where HAPI_Common.h is and run generation.
+    desc "Locate HAPI_Common.h and generate hapi enum stubs from it"
+    task :generate_enums do
+
+        if RUBY_PLATFORM =~ /^.*darwin.*$/
+
+            hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI_Common.h"
+
+            if File.exists? hapi_common_header
+                Rake::Task["generate_enums_from"].invoke hapi_common_header
             end
         end
-    else
-        puts "Please provide location of HAPI_Common.h as parameter."
     end
-end
 
-# This will attempt to detect where HAPI_Common.h is and run generation.
-desc "Locate HAPI_Common.h and generate hapi enum stubs from it"
-task :generate_enums do
+    # This will generate all necessary files.
+    desc "Generate all necessary stubs."
+    task :generate do
 
+        Rake::Task["generate_enums"].invoke
+        Rake::Task["generate_erl"].invoke
+    end
+
+    # This will clean all binary files.
+    desc "Clean"
+    task :clean do
+
+        sh 'rebar clean'
+
+        # Remove generated enums nif header file.
+        if File.exists? './c_src/hapi_enums_nif.h'
+            File.delete './c_src/hapi_enums_nif.h'
+        end
+
+        # Remove generated erl file.
+        if File.exists? './src/hapi.erl'
+            File.delete './src/hapi.erl'
+        end
+
+        # Remove generated enum nif source files.
+        Dir.glob('./c_src/hapi_enum*.c').select do |file|
+            if File.exists? file
+                FileUtils.rm file
+            end
+        end
+
+        # Remove folders.
+        byproducts = ['./ebin', './priv']
+        byproducts.each do |byproduct|
+            if File.exists? byproduct
+                FileUtils.rm_rf byproduct
+            end
+        end
+    end
+
+    # This will compile erlang related code.
+    desc "Compile"
+    task :compile do
+
+        if not File.exists? './deps/xxhash'
+
+            puts "Missing xxhash dependency, please run 'rake deps' first."
+        else
+
+            sh 'rebar compile'
+        end
+    end
+
+    # Run otool on a resulting library. Darwin only.
     if RUBY_PLATFORM =~ /^.*darwin.*$/
 
-        hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI_Common.h"
+        desc "Otool"
+        task :otool do
 
-        if File.exists? hapi_common_header
-            Rake::Task["generate_enums_from"].invoke hapi_common_header
-        end
-    end
-end
-
-# This will generate all necessary files.
-desc "Generate all necessary stubs."
-task :generate do
-
-    Rake::Task["generate_enums"].invoke
-    Rake::Task["generate_erl"].invoke
-end
-
-# This will clean all binary files.
-desc "Clean"
-task :clean do
-
-    sh 'rebar clean'
-
-    # Remove generated enums nif header file.
-    if File.exists? './c_src/hapi_enums_nif.h'
-        File.delete './c_src/hapi_enums_nif.h'
-    end
-
-    # Remove generated erl file.
-    if File.exists? './src/hapi.erl'
-        File.delete './src/hapi.erl'
-    end
-
-    # Remove generated enum nif source files.
-    Dir.glob('./c_src/hapi_enum*.c').select do |file|
-        if File.exists? file
-            FileUtils.rm file
+            sh 'otool -l priv/hapi_nif.so | grep -A 3 RPATH'
         end
     end
 
-    # Remove folders.
-    byproducts = ['./ebin', './priv']
-    byproducts.each do |byproduct|
-        if File.exists? byproduct
-            FileUtils.rm_rf byproduct
-        end
+    # This will pull all the dependencies required by project.
+    desc "Download project dependencies"
+    task :deps do
+
+        sh 'rebar get-deps'
     end
-end
 
-# This will compile erlang related code.
-desc "Compile"
-task :compile do
+    # Run testing.
+    desc "Run unit tests"
+    task :test do
 
-    if not File.exists? './deps/xxhash'
-
-        puts "Missing xxhash dependency, please run 'rake deps' first."
-    else
-
-        sh 'rebar compile'
+        sh 'rebar compile eunit'
     end
-end
-
-# Run otool on a resulting library. Darwin only.
-if RUBY_PLATFORM =~ /^.*darwin.*$/
-
-    desc "Otool"
-    task :otool do
-
-        sh 'otool -l priv/hapi_nif.so | grep -A 3 RPATH'
-    end
-end
-
-# This will pull all the dependencies required by project.
-desc "Download project dependencies"
-task :deps do
-
-    sh 'rebar get-deps'
-end
-
-# Run testing.
-desc "Run unit tests"
-task :test do
-
-    sh 'rebar compile eunit'
 end

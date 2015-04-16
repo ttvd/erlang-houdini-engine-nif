@@ -5,8 +5,8 @@ Erlang NIF bindings for Houdini Engine - Work in progress.
 Use rake (run rake without arguments to see available tasks).
 
 ```
-$ rake generate_hapi[/mypath/HAPI.h]
-$ rake generate_enums[/mypath/HAPI_Common.h]
+$ rake generate
+$ rake deps
 $ rake compile
 ```
 

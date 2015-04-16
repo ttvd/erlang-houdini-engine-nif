@@ -66,7 +66,7 @@ def generate_enum_c_to_erl_body(enum_value_tuples)
         end
 
         case_entry << "/*#{$/}        " if not valid_entry
-        case_entry << "case HAPI_#{value_tuple[0]}:#{$/}        {#{$/}            return hapi_private_make_atom(env, \"hapi_#{value_tuple[0].downcase}\");#{$/}        }"
+        case_entry << "case HAPI_#{value_tuple[0]}:#{$/}        {#{$/}            return hapi_private_make_hash_tuple(env, \"hapi_#{value_tuple[0].downcase}\");#{$/}        }"
         case_entry << "#{$/}"
         case_entry << "        */#{$/}" if not valid_entry
 
@@ -363,13 +363,19 @@ end
 desc "Locate HAPI_Common.h and generate hapi.erl from it"
 task :generate_erl do
 
-    if RUBY_PLATFORM =~ /^.*darwin.*$/
+    xxhash_gem_check = %x{gem list -i xxhash}
+    if xxhash_gem_check
 
-        hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
+        if RUBY_PLATFORM =~ /^.*darwin.*$/
 
-        if File.exists? hapi_common_header
-            Rake::Task["generate_erl_from"].invoke hapi_common_header
+            hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
+
+            if File.exists? hapi_common_header
+                Rake::Task["generate_erl_from"].invoke hapi_common_header
+            end
         end
+    else
+        puts "Please install xxhash Ruby gem."
     end
 end
 

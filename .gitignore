@@ -7,3 +7,5 @@ priv
 .rebar
 .eunit
 deps
+
+.DS_Store

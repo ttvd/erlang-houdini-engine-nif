@@ -564,7 +564,7 @@ hapi_get_input_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
 // HAPI_LoadHIPFile equivalent.
 ERL_NIF_TERM
-hapi_load_h_i_p_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_load_hip_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
@@ -588,7 +588,7 @@ hapi_get_new_asset_ids_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
 // HAPI_SaveHIPFile equivalent.
 ERL_NIF_TERM
-hapi_save_h_i_p_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_save_hip_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);

@@ -53,10 +53,10 @@
     get_asset_transform/3,
     set_asset_transform/1,
     get_input_name/3,
-    load_h_i_p_file/2,
+    load_hip_file/2,
     check_for_new_assets/0,
     get_new_asset_ids/0,
-    save_h_i_p_file/1,
+    save_hip_file/1,
     get_node_info/1,
     get_global_nodes/0,
     get_parameters/3,
@@ -350,8 +350,8 @@ get_input_name(_AssetId, _InputIdx, _InputType) ->
     ?nif_stub.
 
 %
-%-spec load_h_i_p_file(_FileName, _CookOnLoad) -> hapi_result().
-load_h_i_p_file(_FileName, _CookOnLoad) ->
+%-spec load_hip_file(_FileName, _CookOnLoad) -> hapi_result().
+load_hip_file(_FileName, _CookOnLoad) ->
     ?nif_stub.
 
 %
@@ -365,8 +365,8 @@ get_new_asset_ids() ->
     ?nif_stub.
 
 %
-%-spec save_h_i_p_file(_FilePath) -> hapi_result().
-save_h_i_p_file(_FilePath) ->
+%-spec save_hip_file(_FilePath) -> hapi_result().
+save_hip_file(_FilePath) ->
     ?nif_stub.
 
 %

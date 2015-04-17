@@ -2,7 +2,7 @@
 #include "hapi_private_nif.h"
 
 
-bool hapi_enum_x_y_z_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* x_y_z_order)
+bool hapi_enum_xyz_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* xyz_order)
 {
     bool nif_success = true;
 
@@ -23,37 +23,37 @@ bool hapi_enum_x_y_z_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
             // "hapi_xyz"
             case 2568995979:
             {
-                *x_y_z_order = HAPI_XYZ;
+                *xyz_order = HAPI_XYZ;
             }
 
             // "hapi_xzy"
             case 3456057817:
             {
-                *x_y_z_order = HAPI_XZY;
+                *xyz_order = HAPI_XZY;
             }
 
             // "hapi_yxz"
             case 535519317:
             {
-                *x_y_z_order = HAPI_YXZ;
+                *xyz_order = HAPI_YXZ;
             }
 
             // "hapi_yzx"
             case 2498703819:
             {
-                *x_y_z_order = HAPI_YZX;
+                *xyz_order = HAPI_YZX;
             }
 
             // "hapi_zxy"
             case 4080643183:
             {
-                *x_y_z_order = HAPI_ZXY;
+                *xyz_order = HAPI_ZXY;
             }
 
             // "hapi_zyx"
             case 2804301731:
             {
-                *x_y_z_order = HAPI_ZYX;
+                *xyz_order = HAPI_ZYX;
             }
 
             default:
@@ -69,9 +69,9 @@ label_cleanup:
 }
 
 
-ERL_NIF_TERM hapi_enum_x_y_z_order_c_to_erl(ErlNifEnv* env, HAPI_XYZOrder x_y_z_order)
+ERL_NIF_TERM hapi_enum_xyz_order_c_to_erl(ErlNifEnv* env, HAPI_XYZOrder xyz_order)
 {
-    switch(x_y_z_order)
+    switch(xyz_order)
     {
         case HAPI_XYZ:
         {

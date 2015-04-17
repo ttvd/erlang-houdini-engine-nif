@@ -42,10 +42,10 @@ extern ERL_NIF_TERM hapi_interrupt_impl(ErlNifEnv* env, int argc, const ERL_NIF_
 extern ERL_NIF_TERM hapi_get_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 extern ERL_NIF_TERM hapi_set_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 extern ERL_NIF_TERM hapi_get_input_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-extern ERL_NIF_TERM hapi_load_h_i_p_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+extern ERL_NIF_TERM hapi_load_hip_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 extern ERL_NIF_TERM hapi_check_for_new_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 extern ERL_NIF_TERM hapi_get_new_asset_ids_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-extern ERL_NIF_TERM hapi_save_h_i_p_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
+extern ERL_NIF_TERM hapi_save_hip_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 extern ERL_NIF_TERM hapi_get_node_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 extern ERL_NIF_TERM hapi_get_global_nodes_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 extern ERL_NIF_TERM hapi_get_parameters_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);

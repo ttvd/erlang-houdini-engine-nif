@@ -2,7 +2,7 @@
 #include "hapi_private_nif.h"
 
 
-bool hapi_enum_r_s_t_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* r_s_t_order)
+bool hapi_enum_rst_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* rst_order)
 {
     bool nif_success = true;
 
@@ -23,37 +23,37 @@ bool hapi_enum_r_s_t_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
             // "hapi_trs"
             case 2754525809:
             {
-                *r_s_t_order = HAPI_TRS;
+                *rst_order = HAPI_TRS;
             }
 
             // "hapi_tsr"
             case 1637507022:
             {
-                *r_s_t_order = HAPI_TSR;
+                *rst_order = HAPI_TSR;
             }
 
             // "hapi_rts"
             case 813138616:
             {
-                *r_s_t_order = HAPI_RTS;
+                *rst_order = HAPI_RTS;
             }
 
             // "hapi_rst"
             case 3620151878:
             {
-                *r_s_t_order = HAPI_RST;
+                *rst_order = HAPI_RST;
             }
 
             // "hapi_str"
             case 531899175:
             {
-                *r_s_t_order = HAPI_STR;
+                *rst_order = HAPI_STR;
             }
 
             // "hapi_srt"
             case 169178964:
             {
-                *r_s_t_order = HAPI_SRT;
+                *rst_order = HAPI_SRT;
             }
 
             default:
@@ -69,9 +69,9 @@ label_cleanup:
 }
 
 
-ERL_NIF_TERM hapi_enum_r_s_t_order_c_to_erl(ErlNifEnv* env, HAPI_RSTOrder r_s_t_order)
+ERL_NIF_TERM hapi_enum_rst_order_c_to_erl(ErlNifEnv* env, HAPI_RSTOrder rst_order)
 {
-    switch(r_s_t_order)
+    switch(rst_order)
     {
         case HAPI_TRS:
         {

@@ -84,13 +84,13 @@ ERL_NIF_TERM hapi_enum_curve_orders_c_to_erl(ErlNifEnv* env, HAPI_CurveOrders cu
 bool hapi_enum_transform_component_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* transform_component);
 ERL_NIF_TERM hapi_enum_transform_component_c_to_erl(ErlNifEnv* env, HAPI_TransformComponent transform_component);
 
-// From hapi_enum_r_s_t_order_nif.c
-bool hapi_enum_r_s_t_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* r_s_t_order);
-ERL_NIF_TERM hapi_enum_r_s_t_order_c_to_erl(ErlNifEnv* env, HAPI_RSTOrder r_s_t_order);
+// From hapi_enum_rst_order_nif.c
+bool hapi_enum_rst_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* rst_order);
+ERL_NIF_TERM hapi_enum_rst_order_c_to_erl(ErlNifEnv* env, HAPI_RSTOrder rst_order);
 
-// From hapi_enum_x_y_z_order_nif.c
-bool hapi_enum_x_y_z_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* x_y_z_order);
-ERL_NIF_TERM hapi_enum_x_y_z_order_c_to_erl(ErlNifEnv* env, HAPI_XYZOrder x_y_z_order);
+// From hapi_enum_xyz_order_nif.c
+bool hapi_enum_xyz_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* xyz_order);
+ERL_NIF_TERM hapi_enum_xyz_order_c_to_erl(ErlNifEnv* env, HAPI_XYZOrder xyz_order);
 
 // From hapi_enum_shader_type_nif.c
 bool hapi_enum_shader_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ShaderType* shader_type);

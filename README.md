@@ -25,35 +25,35 @@ $ rake erlang:compile
 true
 
 2> hapi:is_initialized().
-hapi_result_not_initialized
+{hapi_result_not_initialized,2669115710}
 
 3> hapi:initialize(nil, nil, nil, false, -1).
-hapi_result_success
+{hapi_result_success,3713831785}
 
 4> hapi:is_initialized().
-hapi_result_success
+{hapi_result_success,3713831785}
 
 5> hapi:cleanup().
-hapi_result_success
+{hapi_result_success,3713831785}
 
 6> hapi:is_initialized().
-hapi_result_not_initialized
+{hapi_result_not_initialized,2669115710}
 
 7> hapi:initialize("", "", {hapi_cook_options, false, 3, false, 8.0, false, false}, false, -1).
-hapi_result_success
+{hapi_result_success,3713831785}
 
 8> hapi:is_initialized().
-hapi_result_success
+{hapi_result_success,3713831785}
 
 9> hapi:get_env_int(hapi_envint_version_houdini_major).
-{hapi_result_success,14}
+{{hapi_result_success,3713831785},14}
 
 10> hapi:get_env_int(hapi_envint_version_houdini_minor).
-{hapi_result_success,5}
+{{hapi_result_success,3713831785},14}
 
 11> hapi:get_env_int(hapi_envint_version_houdini_build).
-{hapi_result_success,80}
+{{hapi_result_success,3713831785},14}
 
 12> hapi:cleanup().
-hapi_result_success
+{hapi_result_success,3713831785}
 ```

@@ -222,6 +222,31 @@ def scan_enums(hapi_common_header)
     scanned_enums
 end
 
+# Helper function to generate hapi_functions_nif_stubs.c.generated
+def generate_hapi_functions_nif_stubs_c_generated(buffer_function_names_original, buffer_function_names)
+
+    # Buffer to hold generated stubs.
+    generated_stubs = []
+
+    buffer_function_names_original.each_with_index do |entry, index|
+
+        stub_entry = ""
+        stub_entry << "// HAPI_#{entry} equivalent.#{$/}"
+        stub_entry << "ERL_NIF_TERM#{$/}"
+        stub_entry << "hapi_#{buffer_function_names[index]}_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])#{$/}"
+        stub_entry << "{#{$/}"
+        stub_entry << "    // Needs implementation.#{$/}"
+        stub_entry << "    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);#{$/}"
+        stub_entry << "}#{$/}"
+
+        generated_stubs << stub_entry
+    end
+
+    File.open("./c_src/hapi_functions_nif_stubs.c.generated", 'w') do |file|
+        file.write(generated_stubs.join("#{$/}"))
+    end
+end
+
 # Helper function to generate hapi_functions_nif.h
 def generate_hapi_functions_nif_h(function_names, buffer_arities)
 
@@ -320,6 +345,7 @@ def generate_hapi_erl_and_functions(hapi_header)
 
     # Create buffer to hold function names.
     buffer_function_names = []
+    buffer_function_names_original = []
 
     # Create buffer to hold arities.
     buffer_arities = []
@@ -334,6 +360,7 @@ def generate_hapi_erl_and_functions(hapi_header)
         hapi_entry_params = hapi_entry_param_string.split(",")
 
         # Store function names.
+        buffer_function_names_original << entry[0]
         buffer_function_names << hapi_entry_name
 
         # Store processed parameters.
@@ -382,6 +409,9 @@ def generate_hapi_erl_and_functions(hapi_header)
 
     # Generate hapi_functions_nif.h
     generate_hapi_functions_nif_h(buffer_function_names, buffer_arities)
+
+    # Generate hapi nif function c stubs for easier copying.
+    generate_hapi_functions_nif_stubs_c_generated(buffer_function_names_original, buffer_function_names)
 end
 
 
@@ -501,7 +531,7 @@ namespace :erlang do
 
         begin
             sh 'erl -pa ebin'
-        rescue Exception => e 
+        rescue Exception => e
         end
     end
 

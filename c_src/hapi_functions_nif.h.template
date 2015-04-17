@@ -1,0 +1,11 @@
+#pragma once
+
+#if !defined(HAPI_FUNCTIONS_NIF_H)
+#define HAPI_FUNCTIONS_NIF_H
+
+#include "erl_nif.h"
+
+// Implemented HAPI functions.
+%{HAPI_FUNCTION_PROTOTYPES}%
+
+#endif //!defined(HAPI_FUNCTIONS_NIF_H)

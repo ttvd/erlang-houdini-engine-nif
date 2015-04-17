@@ -17,7 +17,7 @@ nif_funcs[] =
     {"convert_matrix_to_quat", 1, hapi_convert_matrix_to_quat_impl},
     {"convert_matrix_to_euler", 2, hapi_convert_matrix_to_euler_impl},
     {"convert_transform_quat_to_matrix", 1, hapi_convert_transform_quat_to_matrix_impl},
-    {"convert_transform_euler_to_matrix", 1, hapi_convert_transform_euler_to_matrix_impl},
+    {"convert_transform_euler_to_matrix", 1, hapi_convert_transform_euler_to_matrix_impl}/*,
     {"python_thread_interpreter_lock", 1, hapi_python_thread_interpreter_lock_impl},
     {"get_string_buf_length", 1, hapi_get_string_buf_length_impl},
     {"get_string", 2, hapi_get_string_impl},
@@ -136,7 +136,7 @@ nif_funcs[] =
     {"load_geo_from_file", 4, hapi_load_geo_from_file_impl},
     {"get_geo_size", 4, hapi_get_geo_size_impl},
     {"save_geo_to_memory", 4, hapi_save_geo_to_memory_impl},
-    {"load_geo_from_memory", 5, hapi_load_geo_from_memory_impl}
+    {"load_geo_from_memory", 5, hapi_load_geo_from_memory_impl}*/
 };
 
 

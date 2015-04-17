@@ -248,7 +248,7 @@ hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         int32_t envint_value = 0;
         HAPI_Result result = HAPI_GetEnvInt(envint_type, &envint_value);
 
-        return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, envint_value));
+        return hapi_private_make_result_tuple_int(env, result, envint_value);
     }
 
     return enif_make_badarg(env);
@@ -266,7 +266,7 @@ hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         int32_t status_value = 0;
         HAPI_Result result = HAPI_GetStatus(status_type, &status_value);
 
-        return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, status_value));
+        return hapi_private_make_result_tuple_int(env, result, status_value);
     }
 
     return enif_make_badarg(env);
@@ -286,7 +286,7 @@ hapi_get_status_string_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_T
         int32_t buffer_size = 0;
         HAPI_Result result = HAPI_GetStatusStringBufLength(status_type, status_verbosity, &buffer_size);
 
-        return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, buffer_size));
+        return hapi_private_make_result_tuple_int(env, result, buffer_size);
     }
 
     return enif_make_badarg(env);
@@ -325,6 +325,10 @@ hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             free(buffer);
             return result_atom;
         }
+        else
+        {
+            return hapi_enum_result_c_to_erl(env, result);
+        }
     }
 
     return enif_make_badarg(env);
@@ -334,9 +338,12 @@ hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_cooking_total_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    int32_t total_count = 0;
+    HAPI_Result result = HAPI_GetCookingTotalCount(&total_count);
+
+    return hapi_private_make_result_tuple_int(env, result, total_count);
 }
+
 
 // HAPI_GetCookingCurrentCount equivalent.
 ERL_NIF_TERM

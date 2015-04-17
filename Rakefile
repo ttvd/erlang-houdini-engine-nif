@@ -495,6 +495,16 @@ namespace :erlang do
         end
     end
 
+    # This will execute erlang shell with paths already set.
+    desc "Run Erlang Shell with paths"
+    task :runsh do
+
+        begin
+            sh 'erl -pa ebin'
+        rescue Exception => e 
+        end
+    end
+
     # Run otool on a resulting library. Darwin only.
     if RUBY_PLATFORM =~ /^.*darwin.*$/
 

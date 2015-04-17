@@ -10,7 +10,13 @@ end
 
 # Helper function to produce underscore version of a string.
 def create_underscore(string)
-    string.scan(/[A-Z][a-z]*/).join("_").downcase
+    if string.match(/\A[A-Z]+\z/)
+        string.downcase
+    else
+        result = string.gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+        result = result.gsub(/([a-z])([A-Z])/, '\1_\2')
+        result.downcase
+    end
 end
 
 # Helper function to produce camelcase version of underscore string.

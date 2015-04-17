@@ -1,50 +1,10 @@
 #include "hapi_private_nif.h"
 #include "hapi_enums_nif.h"
+#include "hapi_functions_nif.h"
 
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
-
-
-// Implemented HAPI functions.
-ERL_NIF_TERM hapi_is_initialized_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_initialize_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_cleanup_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_get_env_int_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_get_status_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_get_status_string_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_get_cooking_total_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_get_cooking_current_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_convert_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_convert_matrix_to_quat_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_convert_matrix_to_euler_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_convert_transform_quat_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-ERL_NIF_TERM hapi_convert_transform_euler_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
-
-
-// Function mapping table.
-static ErlNifFunc nif_funcs[] =
-{
-    {"is_initialized", 0, hapi_is_initialized_impl},
-    {"initialize", 5, hapi_initialize_impl},
-    {"cleanup", 0, hapi_cleanup_impl},
-    {"get_env_int", 1, hapi_get_env_int_impl},
-    {"get_status", 1, hapi_get_status_impl},
-    {"get_status_string_buf_length", 2, hapi_get_status_string_buf_length_impl},
-    {"get_status_string", 1, hapi_get_status_string_impl},
-    {"get_cooking_total_count", 0, hapi_get_cooking_total_count_impl},
-    {"get_cooking_current_count", 0, hapi_get_cooking_current_count_impl},
-    {"convert_transform", 2, hapi_convert_transform_impl},
-    {"convert_matrix_to_quat", 1, hapi_convert_matrix_to_quat_impl},
-    {"convert_matrix_to_euler", 2, hapi_convert_matrix_to_euler_impl},
-    {"convert_transform_quat_to_matrix", 1, hapi_convert_transform_quat_to_matrix_impl},
-    {"convert_transform_euler_to_matrix", 1, hapi_convert_transform_euler_to_matrix_impl}
-};
-
-
-// Initialize our module.
-ERL_NIF_INIT(hapi, nif_funcs, NULL, NULL, NULL, NULL)
 
 
 // HAPI_IsInitialized equivalent.

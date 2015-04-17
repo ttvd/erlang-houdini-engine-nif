@@ -222,73 +222,46 @@ def scan_enums(hapi_common_header)
     scanned_enums
 end
 
-# Helper function to create hapi.erl from template.
-def fill_hapi_erl_template(hapi_header)
+# Helper function to generate hapi_functions_nif.h
+def generate_hapi_functions_nif_h(function_names, buffer_arities)
+
+    # Read template header and source file.
+    template_file_header = File.read "./c_src/hapi_functions_nif.h.template"
+    template_file_source = File.read "./c_src/hapi_functions_nif.c.template"
+
+    # Buffer to store prototypes.
+    function_prototypes = []
+
+    # Buffer to store mappings.
+    function_mappings = []
+
+    function_names.each_with_index do |function_name, index|
+
+        function_prototypes << "extern ERL_NIF_TERM hapi_#{function_name}_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);"
+        function_mappings << "    {\"#{function_name}\", #{buffer_arities[index]}, hapi_#{function_name}_impl}"
+    end
+
+    # Replace prototypes entry.
+    template_file_header.gsub!("%{HAPI_FUNCTION_PROTOTYPES}%", function_prototypes.join("#{$/}"))
+
+    # Replace mappings entry.
+    template_file_source.gsub!("%{HAPI_FUNCTION_MAPPING}%", function_mappings.join(",#{$/}"))
+
+    # Write out the files.
+    File.open("./c_src/hapi_functions_nif.h", 'w') do |file|
+        file.write(template_file_header)
+    end
+
+    File.open("./c_src/hapi_functions_nif.c", 'w') do |file|
+        file.write(template_file_source)
+    end
+end
+
+# Helper function to generate hapi.erl
+def generate_hapi_erl(buffer_exports, buffer_functions, buffer_ignored_params)
 
     # Read template file.
     template_file = File.read "./src/hapi.erl.template"
-
-    # Read hapi header.
-    hapi_file = File.read hapi_header
-
-    # Create buffer for exports.
-    buffer_exports = []
-
-    # Create buffer for functions.
-    buffer_functions = []
-
-    # Create buffer for function specs.
-    buffer_function_specs = []
-
-    # Ignored parameters.
-    buffer_ignored_params = []
-
-    # Extract all hapi entries.
-    hapi_entries = hapi_file.scan /HAPI_DECL\s+HAPI_([^(]*)\(([^)]*)\);/i
-
-    hapi_entries.each do |entry|
-
-        hapi_entry_name = "#{create_underscore entry[0]}"
-        hapi_entry_param_string = entry[1].gsub(/(\S)[^\S\n]*\n[^\S\n]*(\S)/, '\1 \2').strip
-        hapi_entry_params = hapi_entry_param_string.split(",")
-
-        # Store processed parameters.
-        processed_params = []
-
-        # Ignored parameters.
-        ignored_parameters = []
-
-        # We need to skip output parameters.
-        hapi_entry_params.each do |parm|
-
-            processed_param = parm.strip
-            processed_param_name = "_#{create_camelcase(processed_param.split(' ').last)}"
-
-            if not processed_param.start_with? "const" and processed_param.strip.include? " * "
-                ignored_parameters << processed_param_name.gsub("_*", "_")
-                next
-            else
-                processed_params << processed_param_name.gsub("_*", "_")
-            end
-        end
-
-        # Store ignored parameters.
-        buffer_ignored_params << ignored_parameters
-
-        # Add function name and arity to export table.
-        buffer_exports << "    #{hapi_entry_name}/#{processed_params.length}"
-
-        # Create function spec entry.
-        buffer_function_spec = "-spec "
-        buffer_function_spec << "#{hapi_entry_name}("
-        buffer_function_spec << ") -> "
-        buffer_function_spec << "hapi_result()."
-
-        buffer_function_specs << buffer_function_spec
-
-        # Create function entry.
-        buffer_functions << "#{hapi_entry_name}(#{processed_params.join(", ")})"
-    end
 
     # Replace export template entry.
     template_file.gsub!("%{HAPI_EXPORT_FUNCTIONS}%", buffer_exports.join(",#{$/}"))
@@ -327,6 +300,90 @@ def fill_hapi_erl_template(hapi_header)
     end
 end
 
+# Helper function to create hapi.erl and other resources from template.
+def generate_hapi_erl_and_functions(hapi_header)
+
+    # Read hapi header.
+    hapi_file = File.read hapi_header
+
+    # Create buffer for exports.
+    buffer_exports = []
+
+    # Create buffer for functions.
+    buffer_functions = []
+
+    # Create buffer for function specs.
+    buffer_function_specs = []
+
+    # Ignored parameters.
+    buffer_ignored_params = []
+
+    # Create buffer to hold function names.
+    buffer_function_names = []
+
+    # Create buffer to hold arities.
+    buffer_arities = []
+
+    # Extract all hapi entries.
+    hapi_entries = hapi_file.scan /HAPI_DECL\s+HAPI_([^(]*)\(([^)]*)\);/i
+
+    hapi_entries.each do |entry|
+
+        hapi_entry_name = "#{create_underscore entry[0]}"
+        hapi_entry_param_string = entry[1].gsub(/(\S)[^\S\n]*\n[^\S\n]*(\S)/, '\1 \2').strip
+        hapi_entry_params = hapi_entry_param_string.split(",")
+
+        # Store function names.
+        buffer_function_names << hapi_entry_name
+
+        # Store processed parameters.
+        processed_params = []
+
+        # Ignored parameters.
+        ignored_parameters = []
+
+        # We need to skip output parameters.
+        hapi_entry_params.each do |parm|
+
+            processed_param = parm.strip
+            processed_param_name = "_#{create_camelcase(processed_param.split(' ').last)}"
+
+            if not processed_param.start_with? "const" and processed_param.strip.include? " * "
+                ignored_parameters << processed_param_name.gsub("_*", "_")
+                next
+            else
+                processed_params << processed_param_name.gsub("_*", "_")
+            end
+        end
+
+        # Store arity.
+        buffer_arities << processed_params.length
+
+        # Store ignored parameters.
+        buffer_ignored_params << ignored_parameters
+
+        # Add function name and arity to export table.
+        buffer_exports << "    #{hapi_entry_name}/#{processed_params.length}"
+
+        # Create function spec entry.
+        buffer_function_spec = "-spec "
+        buffer_function_spec << "#{hapi_entry_name}("
+        buffer_function_spec << ") -> "
+        buffer_function_spec << "hapi_result()."
+
+        buffer_function_specs << buffer_function_spec
+
+        # Create function entry.
+        buffer_functions << "#{hapi_entry_name}(#{processed_params.join(", ")})"
+    end
+
+    # Generate hapi.erl
+    generate_hapi_erl(buffer_exports, buffer_functions, buffer_ignored_params)
+
+    # Generate hapi_functions_nif.h
+    generate_hapi_functions_nif_h(buffer_function_names, buffer_arities)
+end
+
 
 # Set default task.
 task :default => [:help]
@@ -348,16 +405,14 @@ namespace :erlang do
         if not hapi_path.first.nil?
             hapi_path = hapi_path.first
 
-            if File.file? hapi_path
-                fill_hapi_erl_template hapi_path
-            else
+            if not File.file? hapi_path
                 hapi_path = "#{hapi_path}/HAPI.h"
+            end
 
-                if File.file? hapi_path
-                    fill_hapi_erl_template hapi_path
-                else
-                    puts "Could not locate HAPI.h"
-                end
+            if File.file? hapi_path
+                generate_hapi_erl_and_functions hapi_path
+            else
+                puts "Could not locate HAPI.h"
             end
         else
             puts "Please provide location of HAPI.h as parameter."
@@ -427,31 +482,6 @@ namespace :erlang do
     task :clean do
 
         sh 'rebar clean'
-
-        # Remove generated enums nif header file.
-        if File.exists? './c_src/hapi_enums_nif.h'
-            File.delete './c_src/hapi_enums_nif.h'
-        end
-
-        # Remove generated erl file.
-        if File.exists? './src/hapi.erl'
-            File.delete './src/hapi.erl'
-        end
-
-        # Remove generated enum nif source files.
-        Dir.glob('./c_src/hapi_enum*.c').select do |file|
-            if File.exists? file
-                FileUtils.rm file
-            end
-        end
-
-        # Remove folders.
-        byproducts = ['./ebin', './priv']
-        byproducts.each do |byproduct|
-            if File.exists? byproduct
-                FileUtils.rm_rf byproduct
-            end
-        end
     end
 
     # This will compile erlang related code.
@@ -459,10 +489,8 @@ namespace :erlang do
     task :compile do
 
         if not File.exists? './deps/xxhash'
-
             puts "Missing xxhash dependency, please run 'rake deps' first."
         else
-
             sh 'rebar compile'
         end
     end

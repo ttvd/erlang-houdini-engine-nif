@@ -1,0 +1,11 @@
+#include "hapi_functions_nif.h"
+
+// Function mapping table.
+ErlNifFunc
+nif_funcs[] =
+{
+%{HAPI_FUNCTION_MAPPING}%
+};
+
+
+ERL_NIF_INIT(hapi, nif_funcs, NULL, NULL, NULL, NULL)

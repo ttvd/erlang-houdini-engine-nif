@@ -330,31 +330,21 @@ hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     return enif_make_badarg(env);
 }
 
-
 // HAPI_GetCookingTotalCount equivalent.
 ERL_NIF_TERM
 hapi_get_cooking_total_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    int32_t cooking_total_count = 0;
-
-    HAPI_Result result = HAPI_GetCookingTotalCount(&cooking_total_count);
-
-    return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, cooking_total_count));
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
-
 
 // HAPI_GetCookingCurrentCount equivalent.
 ERL_NIF_TERM
 hapi_get_cooking_current_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    int32_t cooking_current_count = 0;
-
-    HAPI_Result result = HAPI_GetCookingCurrentCount(&cooking_current_count);
-
-    return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, cooking_current_count));
-
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
-
 
 // HAPI_ConvertTransform equivalent.
 ERL_NIF_TERM
@@ -372,7 +362,6 @@ hapi_convert_matrix_to_quat_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
-
 // HAPI_ConvertMatrixToEuler equivalent.
 ERL_NIF_TERM
 hapi_convert_matrix_to_euler_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
@@ -380,7 +369,6 @@ hapi_convert_matrix_to_euler_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     // Needs implementation.
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
-
 
 // HAPI_ConvertTransformQuatToMatrix equivalent.
 ERL_NIF_TERM
@@ -393,6 +381,958 @@ hapi_convert_transform_quat_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_N
 // HAPI_ConvertTransformEulerToMatrix equivalent.
 ERL_NIF_TERM
 hapi_convert_transform_euler_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_PythonThreadInterpreterLock equivalent.
+ERL_NIF_TERM
+hapi_python_thread_interpreter_lock_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetStringBufLength equivalent.
+ERL_NIF_TERM
+hapi_get_string_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetString equivalent.
+ERL_NIF_TERM
+hapi_get_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetTime equivalent.
+ERL_NIF_TERM
+hapi_get_time_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetTime equivalent.
+ERL_NIF_TERM
+hapi_set_time_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetTimelineOptions equivalent.
+ERL_NIF_TERM
+hapi_get_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetTimelineOptions equivalent.
+ERL_NIF_TERM
+hapi_set_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_IsAssetValid equivalent.
+ERL_NIF_TERM
+hapi_is_asset_valid_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_LoadAssetLibraryFromFile equivalent.
+ERL_NIF_TERM
+hapi_load_asset_library_from_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_LoadAssetLibraryFromMemory equivalent.
+ERL_NIF_TERM
+hapi_load_asset_library_from_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAvailableAssetCount equivalent.
+ERL_NIF_TERM
+hapi_get_available_asset_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAvailableAssets equivalent.
+ERL_NIF_TERM
+hapi_get_available_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_InstantiateAsset equivalent.
+ERL_NIF_TERM
+hapi_instantiate_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_CreateCurve equivalent.
+ERL_NIF_TERM
+hapi_create_curve_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_CreateInputAsset equivalent.
+ERL_NIF_TERM
+hapi_create_input_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_DestroyAsset equivalent.
+ERL_NIF_TERM
+hapi_destroy_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAssetInfo equivalent.
+ERL_NIF_TERM
+hapi_get_asset_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_CookAsset equivalent.
+ERL_NIF_TERM
+hapi_cook_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_Interrupt equivalent.
+ERL_NIF_TERM
+hapi_interrupt_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAssetTransform equivalent.
+ERL_NIF_TERM
+hapi_get_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetAssetTransform equivalent.
+ERL_NIF_TERM
+hapi_set_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetInputName equivalent.
+ERL_NIF_TERM
+hapi_get_input_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_LoadHIPFile equivalent.
+ERL_NIF_TERM
+hapi_load_h_i_p_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_CheckForNewAssets equivalent.
+ERL_NIF_TERM
+hapi_check_for_new_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetNewAssetIds equivalent.
+ERL_NIF_TERM
+hapi_get_new_asset_ids_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SaveHIPFile equivalent.
+ERL_NIF_TERM
+hapi_save_h_i_p_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetNodeInfo equivalent.
+ERL_NIF_TERM
+hapi_get_node_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetGlobalNodes equivalent.
+ERL_NIF_TERM
+hapi_get_global_nodes_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParameters equivalent.
+ERL_NIF_TERM
+hapi_get_parameters_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmInfo equivalent.
+ERL_NIF_TERM
+hapi_get_parm_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmIdFromName equivalent.
+ERL_NIF_TERM
+hapi_get_parm_id_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmInfoFromName equivalent.
+ERL_NIF_TERM
+hapi_get_parm_info_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmIntValue equivalent.
+ERL_NIF_TERM
+hapi_get_parm_int_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmIntValues equivalent.
+ERL_NIF_TERM
+hapi_get_parm_int_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmFloatValue equivalent.
+ERL_NIF_TERM
+hapi_get_parm_float_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmFloatValues equivalent.
+ERL_NIF_TERM
+hapi_get_parm_float_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmStringValue equivalent.
+ERL_NIF_TERM
+hapi_get_parm_string_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmStringValues equivalent.
+ERL_NIF_TERM
+hapi_get_parm_string_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetParmChoiceLists equivalent.
+ERL_NIF_TERM
+hapi_get_parm_choice_lists_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetParmIntValue equivalent.
+ERL_NIF_TERM
+hapi_set_parm_int_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetParmIntValues equivalent.
+ERL_NIF_TERM
+hapi_set_parm_int_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetParmFloatValue equivalent.
+ERL_NIF_TERM
+hapi_set_parm_float_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetParmFloatValues equivalent.
+ERL_NIF_TERM
+hapi_set_parm_float_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetParmStringValue equivalent.
+ERL_NIF_TERM
+hapi_set_parm_string_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_InsertMultiparmInstance equivalent.
+ERL_NIF_TERM
+hapi_insert_multiparm_instance_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_RemoveMultiparmInstance equivalent.
+ERL_NIF_TERM
+hapi_remove_multiparm_instance_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetHandleInfo equivalent.
+ERL_NIF_TERM
+hapi_get_handle_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetHandleBindingInfo equivalent.
+ERL_NIF_TERM
+hapi_get_handle_binding_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetPresetBufLength equivalent.
+ERL_NIF_TERM
+hapi_get_preset_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetPreset equivalent.
+ERL_NIF_TERM
+hapi_get_preset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetPreset equivalent.
+ERL_NIF_TERM
+hapi_set_preset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetObjects equivalent.
+ERL_NIF_TERM
+hapi_get_objects_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetObjectTransforms equivalent.
+ERL_NIF_TERM
+hapi_get_object_transforms_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetInstanceTransforms equivalent.
+ERL_NIF_TERM
+hapi_get_instance_transforms_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetObjectTransform equivalent.
+ERL_NIF_TERM
+hapi_set_object_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetGeoInfo equivalent.
+ERL_NIF_TERM
+hapi_get_geo_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetPartInfo equivalent.
+ERL_NIF_TERM
+hapi_get_part_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetFaceCounts equivalent.
+ERL_NIF_TERM
+hapi_get_face_counts_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetVertexList equivalent.
+ERL_NIF_TERM
+hapi_get_vertex_list_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAttributeInfo equivalent.
+ERL_NIF_TERM
+hapi_get_attribute_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAttributeNames equivalent.
+ERL_NIF_TERM
+hapi_get_attribute_names_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAttributeIntData equivalent.
+ERL_NIF_TERM
+hapi_get_attribute_int_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAttributeFloatData equivalent.
+ERL_NIF_TERM
+hapi_get_attribute_float_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetAttributeStringData equivalent.
+ERL_NIF_TERM
+hapi_get_attribute_string_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetGroupNames equivalent.
+ERL_NIF_TERM
+hapi_get_group_names_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetGroupMembership equivalent.
+ERL_NIF_TERM
+hapi_get_group_membership_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetGeoInfo equivalent.
+ERL_NIF_TERM
+hapi_set_geo_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetPartInfo equivalent.
+ERL_NIF_TERM
+hapi_set_part_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetFaceCounts equivalent.
+ERL_NIF_TERM
+hapi_set_face_counts_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetVertexList equivalent.
+ERL_NIF_TERM
+hapi_set_vertex_list_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_AddAttribute equivalent.
+ERL_NIF_TERM
+hapi_add_attribute_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetAttributeIntData equivalent.
+ERL_NIF_TERM
+hapi_set_attribute_int_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetAttributeFloatData equivalent.
+ERL_NIF_TERM
+hapi_set_attribute_float_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetAttributeStringData equivalent.
+ERL_NIF_TERM
+hapi_set_attribute_string_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_AddGroup equivalent.
+ERL_NIF_TERM
+hapi_add_group_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetGroupMembership equivalent.
+ERL_NIF_TERM
+hapi_set_group_membership_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_CommitGeo equivalent.
+ERL_NIF_TERM
+hapi_commit_geo_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_RevertGeo equivalent.
+ERL_NIF_TERM
+hapi_revert_geo_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_ConnectAssetTransform equivalent.
+ERL_NIF_TERM
+hapi_connect_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_DisconnectAssetTransform equivalent.
+ERL_NIF_TERM
+hapi_disconnect_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_ConnectAssetGeometry equivalent.
+ERL_NIF_TERM
+hapi_connect_asset_geometry_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_DisconnectAssetGeometry equivalent.
+ERL_NIF_TERM
+hapi_disconnect_asset_geometry_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetMaterialIdsOnFaces equivalent.
+ERL_NIF_TERM
+hapi_get_material_ids_on_faces_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetMaterialInfo equivalent.
+ERL_NIF_TERM
+hapi_get_material_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_RenderMaterialToImage equivalent.
+ERL_NIF_TERM
+hapi_render_material_to_image_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_RenderTextureToImage equivalent.
+ERL_NIF_TERM
+hapi_render_texture_to_image_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetSupportedImageFileFormatCount equivalent.
+ERL_NIF_TERM
+hapi_get_supported_image_file_format_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetSupportedImageFileFormats equivalent.
+ERL_NIF_TERM
+hapi_get_supported_image_file_formats_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetImageInfo equivalent.
+ERL_NIF_TERM
+hapi_get_image_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetImageInfo equivalent.
+ERL_NIF_TERM
+hapi_set_image_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetImagePlaneCount equivalent.
+ERL_NIF_TERM
+hapi_get_image_plane_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetImagePlanes equivalent.
+ERL_NIF_TERM
+hapi_get_image_planes_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_ExtractImageToFile equivalent.
+ERL_NIF_TERM
+hapi_extract_image_to_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_ExtractImageToMemory equivalent.
+ERL_NIF_TERM
+hapi_extract_image_to_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetImageMemoryBuffer equivalent.
+ERL_NIF_TERM
+hapi_get_image_memory_buffer_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetAnimCurve equivalent.
+ERL_NIF_TERM
+hapi_set_anim_curve_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetTransformAnimCurve equivalent.
+ERL_NIF_TERM
+hapi_set_transform_anim_curve_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_ResetSimulation equivalent.
+ERL_NIF_TERM
+hapi_reset_simulation_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetVolumeInfo equivalent.
+ERL_NIF_TERM
+hapi_get_volume_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetFirstVolumeTile equivalent.
+ERL_NIF_TERM
+hapi_get_first_volume_tile_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetNextVolumeTile equivalent.
+ERL_NIF_TERM
+hapi_get_next_volume_tile_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetVolumeTileFloatData equivalent.
+ERL_NIF_TERM
+hapi_get_volume_tile_float_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetVolumeTileIntData equivalent.
+ERL_NIF_TERM
+hapi_get_volume_tile_int_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetVolumeInfo equivalent.
+ERL_NIF_TERM
+hapi_set_volume_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetVolumeTileFloatData equivalent.
+ERL_NIF_TERM
+hapi_set_volume_tile_float_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetVolumeTileIntData equivalent.
+ERL_NIF_TERM
+hapi_set_volume_tile_int_data_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetCurveInfo equivalent.
+ERL_NIF_TERM
+hapi_get_curve_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetCurveCounts equivalent.
+ERL_NIF_TERM
+hapi_get_curve_counts_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetCurveOrders equivalent.
+ERL_NIF_TERM
+hapi_get_curve_orders_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetCurveKnots equivalent.
+ERL_NIF_TERM
+hapi_get_curve_knots_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetCurveInfo equivalent.
+ERL_NIF_TERM
+hapi_set_curve_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetCurveCounts equivalent.
+ERL_NIF_TERM
+hapi_set_curve_counts_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetCurveOrders equivalent.
+ERL_NIF_TERM
+hapi_set_curve_orders_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SetCurveKnots equivalent.
+ERL_NIF_TERM
+hapi_set_curve_knots_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SaveGeoToFile equivalent.
+ERL_NIF_TERM
+hapi_save_geo_to_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_LoadGeoFromFile equivalent.
+ERL_NIF_TERM
+hapi_load_geo_from_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_GetGeoSize equivalent.
+ERL_NIF_TERM
+hapi_get_geo_size_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_SaveGeoToMemory equivalent.
+ERL_NIF_TERM
+hapi_save_geo_to_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    // Needs implementation.
+    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+}
+
+// HAPI_LoadGeoFromMemory equivalent.
+ERL_NIF_TERM
+hapi_load_geo_from_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);

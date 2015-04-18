@@ -48,11 +48,12 @@ def generate_enum_erl_to_c_body(enum_name, enum_value_tuples)
         name_hash = XXhash.xxh32(name_entry, 0)
 
         entry = ""
-        entry << "    // \"#{name_entry}\"#{$/}"
-        entry << "            case #{name_hash}:#{$/}"
-        entry << "            {#{$/}"
-        entry << "                *#{enum_name} = HAPI_#{value_tuple[0]};#{$/}"
-        entry << "            }#{$/}"
+        entry << "// \"#{name_entry}\"#{$/}"
+        entry << "        case #{name_hash}:#{$/}"
+        entry << "        {#{$/}"
+        entry << "            *#{enum_name} = HAPI_#{value_tuple[0]};#{$/}"
+        entry << "            break;#{$/}"
+        entry << "        }#{$/}"
 
         erl_to_c_buffer << entry
     end

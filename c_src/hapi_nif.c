@@ -153,15 +153,15 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             !hapi_private_check_atom_value(env, tuple_cook_options[0], "hapi_cook_options", &cook_options_record) ||
             !cook_options_record ||
             !enif_is_atom(env, tuple_cook_options[1]) ||
-            !hapi_private_check_atom_value(env, tuple_cook_options[1], "true", &cook_options_split_geos_by_group) ||
+            !hapi_private_check_bool(env, tuple_cook_options[1], &cook_options_split_geos_by_group) ||
             !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive) ||
             !enif_is_atom(env, tuple_cook_options[3]) ||
-            !hapi_private_check_atom_value(env, tuple_cook_options[3], "true", &cook_options_refine_curve_to_linear) ||
+            !hapi_private_check_bool(env, tuple_cook_options[3], &cook_options_refine_curve_to_linear) ||
             !enif_get_double(env, tuple_cook_options[4], &cook_options_curve_refine_lod) ||
             !enif_is_atom(env, tuple_cook_options[5]) ||
-            !hapi_private_check_atom_value(env, tuple_cook_options[5], "true", &cook_options_clear_errors_and_warnings) ||
+            !hapi_private_check_bool(env, tuple_cook_options[5], &cook_options_clear_errors_and_warnings) ||
             !enif_is_atom(env, tuple_cook_options[6]) ||
-            !hapi_private_check_atom_value(env, tuple_cook_options[6], "true", &cook_options_cook_template_geos))
+            !hapi_private_check_bool(env, tuple_cook_options[6], &cook_options_cook_template_geos))
         {
             nif_success = false;
             goto label_cleanup;
@@ -177,15 +177,7 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     }
 
     // Process cooking thread parameter, it must be a boolean.
-    if(enif_is_atom(env, argv[3]))
-    {
-        if(!hapi_private_check_atom_value(env, argv[3], "true", &use_cooking_thread))
-        {
-            nif_success = false;
-            goto label_cleanup;
-        }
-    }
-    else
+    if(!hapi_private_check_bool(env, argv[3], &use_cooking_thread))
     {
         nif_success = false;
         goto label_cleanup;
@@ -418,7 +410,7 @@ hapi_python_thread_interpreter_lock_impl(ErlNifEnv* env, int argc, const ERL_NIF
 {
     bool lock_flag = true;
 
-    if(hapi_private_check_atom_value(env, argv[3], "true", &lock_flag))
+    if(hapi_private_check_bool(env, argv[0], &lock_flag))
     {
         return hapi_enum_result_c_to_erl(env, HAPI_PythonThreadInterpreterLock(lock_flag));
     }
@@ -610,8 +602,71 @@ hapi_is_asset_valid_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_load_asset_library_from_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    bool nif_success = true;
+    bool is_nil = false;
+    bool allow_overwrite = false;
+    uint32_t file_path_length = 0;
+
+    char* buffer = NULL;
+    char stack_buffer[HAPI_STACK_STRING_SIZE_MAX];
+
+    HAPI_AssetLibraryId library_id = -1;
+    HAPI_Result result = HAPI_RESULT_SUCCESS;
+
+    if(!hapi_private_check_bool(env, argv[1], &allow_overwrite))
+    {
+        return enif_make_badarg(env);
+    }
+
+    if(hapi_private_check_nil(env, argv[0], &is_nil))
+    {
+        if(is_nil)
+        {
+            result = HAPI_LoadAssetLibraryFromFile("", allow_overwrite, &library_id);
+            return hapi_private_make_result_tuple_int(env, result, (int32_t) library_id);
+        }
+        else
+        {
+            return enif_make_badarg(env);
+        }
+    }
+
+    if(!enif_get_list_length(env, argv[0], &file_path_length))
+    {
+        return enif_make_badarg(env);
+    }
+
+    if(file_path_length + 1 < HAPI_STACK_STRING_SIZE_MAX)
+    {
+        memset(stack_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
+        buffer = stack_buffer;
+    }
+    else
+    {
+        buffer = malloc(file_path_length);
+        memset(buffer, 0, file_path_length);
+    }
+
+    if(enif_get_string(env, argv[0], buffer, file_path_length + 1, ERL_NIF_LATIN1) < 1)
+    {
+        nif_success = false;
+    }
+    else
+    {
+        result = HAPI_LoadAssetLibraryFromFile(buffer, allow_overwrite, &library_id);
+    }
+
+    if(file_path_length + 1 >= HAPI_STACK_STRING_SIZE_MAX)
+    {
+        free(buffer);
+    }
+
+    if(nif_success)
+    {
+        return hapi_private_make_result_tuple_int(env, result, (int32_t) library_id);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_LoadAssetLibraryFromMemory equivalent.

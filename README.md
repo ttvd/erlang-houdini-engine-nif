@@ -66,7 +66,13 @@ true
 13> hapi:get_env_int(hapi_envint_version_houdini_build).
 {{hapi_result_success,3713831785},80}
 
-14> hapi:cleanup().
+14> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/dummyboxes.otl",true).
+{{hapi_result_success,3713831785},0}
+
+15> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/nonexistant.hda",true).
+{hapi_result_cant_loadfile,2751182470}
+
+16> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
 ## Supported HAPI calls (work in progress).
@@ -88,6 +94,7 @@ true
 * hapi:get_timeline_options/0
 * hapi:set_timeline_options/1
 * hapi:is_asset_valid/2
+* hapi:load_asset_library_from_file/2
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

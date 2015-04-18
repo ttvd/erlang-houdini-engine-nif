@@ -486,7 +486,7 @@ def generate_hapi_h_resources(hapi_header)
             processed_param = parm.strip
             processed_param_name = "_#{create_camelcase(processed_param.split(' ').last)}"
 
-            if not processed_param.start_with? "const" and processed_param.strip.include? " * "
+            if not processed_param.start_with? "const" and processed_param.include? "*"
                 ignored_parameters << processed_param_name.gsub("_*", "_")
                 next
             else

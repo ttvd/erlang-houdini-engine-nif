@@ -434,8 +434,8 @@ end
 namespace :erlang do
 
     # This will generate hapi.erl
-    desc "Generate hapi.erl from HAPI.h"
-    task :generate_erl_from, [:hapi_header_path] do |t, args|
+    desc "Generate resources from HAPI.h"
+    task :process_hapi_common_header, [:hapi_header_path] do |t, args|
         hapi_path = args.values_at(:hapi_header_path)
 
         if not hapi_path.first.nil?
@@ -456,22 +456,22 @@ namespace :erlang do
     end
 
     # This will attempt to detect where HAPI.h is and run generation.
-    desc "Locate HAPI_Common.h and generate hapi.erl from it"
-    task :generate_erl do
+    desc "Locate HAPI.h and generate resources from it"
+    task :process_hapi_common do
 
         if RUBY_PLATFORM =~ /^.*darwin.*$/
 
             hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
 
             if File.exists? hapi_common_header
-                Rake::Task["erlang:generate_erl_from"].invoke hapi_common_header
+                Rake::Task["erlang:process_hapi_common_header"].invoke hapi_common_header
             end
         end
     end
 
     # This will generate hapi enum stubs.
-    desc "Generate hapi enum stubs from HAPI_Common.h"
-    task :generate_enums_from, [:hapi_common_header_path] do |t, args|
+    desc "Generate resources from HAPI_Common.h"
+    task :process_hapi_header, [:hapi_common_header_path] do |t, args|
         hapi_path = args.values_at(:hapi_common_header_path)
 
         if not hapi_path.first.nil?
@@ -494,22 +494,22 @@ namespace :erlang do
     end
 
     # This will attempt to detect where HAPI_Common.h is and run generation.
-    desc "Locate HAPI_Common.h and generate hapi enum stubs from it"
-    task :generate_enums do
+    desc "Locate HAPI_Common.h and generate resources from it"
+    task :process_hapi do
 
         if RUBY_PLATFORM =~ /^.*darwin.*$/
 
             hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI_Common.h"
 
             if File.exists? hapi_common_header
-                Rake::Task["erlang:generate_enums_from"].invoke hapi_common_header
+                Rake::Task["erlang:process_hapi_header"].invoke hapi_common_header
             end
         end
     end
 
     # This will generate all necessary files.
-    desc "Generate all necessary stubs."
-    task :generate => ["erlang:generate_enums", "erlang:generate_erl"] do
+    desc "Generate all necessary stubs"
+    task :generate => ["erlang:process_hapi", "erlang:process_hapi_common"] do
 
     end
 

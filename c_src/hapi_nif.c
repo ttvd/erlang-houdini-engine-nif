@@ -453,20 +453,26 @@ hapi_get_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if(enif_get_int(env, argv[0], (int32_t*) &string_handle) && enif_get_int(env, argv[1], &string_length))
     {
         char* buffer = NULL;
+        char stack_buffer[HAPI_STACK_STRING_SIZE_MAX];
 
-        if(string_length <= 0)
+        if(string_length < HAPI_STACK_STRING_SIZE_MAX)
         {
-            string_length = 1;
+            memset(stack_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
+            buffer = stack_buffer;
+        }
+        else
+        {
+            buffer = malloc(string_length);
+            memset(buffer, 0, string_length);
         }
 
-        buffer = malloc(string_length);
-        memset(buffer, 0, string_length);
-
         HAPI_Result result = HAPI_GetString(string_handle, buffer, string_length);
-
         ERL_NIF_TERM result_atom = hapi_private_make_result_tuple_string(env, result, buffer);
 
-        free(buffer);
+        if(string_length >= HAPI_STACK_STRING_SIZE_MAX)
+        {
+            free(buffer);
+        }
 
         return result_atom;
     }

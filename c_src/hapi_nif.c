@@ -471,16 +471,25 @@ hapi_get_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_time_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    float time_value = 0.0f;
+
+    HAPI_Result result = HAPI_GetTime(&time_value);
+
+    return hapi_private_make_result_tuple_double(env, result, (double) time_value);
 }
 
 // HAPI_SetTime equivalent.
 ERL_NIF_TERM
 hapi_set_time_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    double time_value = 0.0;
+
+    if(enif_get_double(env, argv[0], &time_value))
+    {
+        return hapi_enum_result_c_to_erl(env, HAPI_SetTime(time_value));
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetTimelineOptions equivalent.

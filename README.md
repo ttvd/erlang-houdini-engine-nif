@@ -48,15 +48,15 @@ true
 8> hapi:is_initialized().
 {hapi_result_success,3713831785}
 
-9> % pass an atom as parameter
+9> % pass an atom as parameter.
 9> hapi:get_env_int(hapi_envint_version_houdini_major).
 {{hapi_result_success,3713831785},14}
 
-10> % pass hash of an atom as parameter
+10> % pass a hash of an atom as parameter.
 10> hapi:get_env_int(729783216).
 {{hapi_result_success,3713831785},14}
 
-11> % pass tuple of atom and hash as parameter.
+11> % pass a tuple of an atom and a hash as parameter.
 11> hapi:get_env_int({hapi_envint_version_houdini_major, 729783216}).
 {{hapi_result_success,3713831785},14}
 

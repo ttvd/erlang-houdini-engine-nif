@@ -1,7 +1,11 @@
 Erlang NIF bindings for Houdini Engine - Work in progress.
 ===============  
 
-# Before Building.  
+# Goal.
+
+Main goal of this project is to be able to run Houdini Engine instance (and perform asset cooking) on an Erlang (as well as Elixir) node.
+
+# Before building.  
 
 Rakefile needs xxhash Ruby gem.
 

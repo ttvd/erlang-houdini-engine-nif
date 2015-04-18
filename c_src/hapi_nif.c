@@ -359,6 +359,11 @@ hapi_get_cooking_current_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 ERL_NIF_TERM
 hapi_convert_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
+    // HAPI_RSTOrder rst_order
+    // HAPI_XYZOrder rot_order
+
+    // HAPI_TransformEuler * transform_in_out
+
     // Needs implementation.
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }

@@ -144,3 +144,83 @@ label_cleanup:
 
     return nif_success;
 }
+
+
+bool
+hapi_private_check_nil(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
+{
+    if(enif_is_atom(env, term))
+    {
+        bool nil_status = false;
+        if(hapi_private_check_atom_value(env, term, "nil", &nil_status))
+        {
+            *status = nil_status;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool
+hapi_private_check_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
+{
+    bool nif_success = true;
+    uint32_t atom_len = 0;
+    char* atom_value = NULL;
+    char atom_buffer[HAPI_STACK_STRING_SIZE_MAX];
+
+    if(enif_is_atom(env, term))
+    {
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        {
+            return false;
+        }
+
+        if(atom_len + 1 < HAPI_STACK_STRING_SIZE_MAX)
+        {
+            memset(atom_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
+
+            if(!enif_get_atom(env, term, atom_buffer, atom_len + 1, ERL_NIF_LATIN1))
+            {
+                return false;
+            }
+
+            atom_value = atom_buffer;
+        }
+        else
+        {
+            atom_value = malloc(atom_len + 1);
+            memset(atom_value, 0, atom_len + 1);
+
+            if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
+        }
+
+        if(!strcmp(atom_value, "true"))
+        {
+            *status = true;
+        }
+        else if(!strcmp(atom_value, "false"))
+        {
+            *status = false;
+        }
+        else
+        {
+            nif_success = false;
+        }
+    }
+
+label_cleanup:
+
+    if(atom_len + 1 >= HAPI_STACK_STRING_SIZE_MAX)
+    {
+        free(atom_value);
+    }
+
+    return nif_success;
+}

@@ -1,5 +1,6 @@
 #include "hapi_private_nif.h"
 #include "hapi_enums_nif.h"
+#include "hapi_defines_nif.h"
 #include "HAPI.h"
 
 #include <stdbool.h>
@@ -84,13 +85,31 @@ hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, const cha
         goto label_cleanup;
     }
 
-    atom_value = malloc(atom_len + 1);
-    memset(atom_value, 0, atom_len + 1);
-
-    if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+    if(atom_len < HAPI_STACK_STRING_SIZE_MAX)
     {
-        nif_success = false;
-        goto label_cleanup;
+        char atom_buffer[HAPI_STACK_STRING_SIZE_MAX];
+        memset(atom_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
+
+        if(!enif_get_atom(env, term, atom_buffer, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+
+        *status = (bool)(!strcmp(atom_buffer, value));
+    }
+    else
+    {
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
+
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+
+        *status = (bool)(!strcmp(atom_value, value));
     }
 
 label_cleanup:
@@ -98,11 +117,6 @@ label_cleanup:
     if(atom_value)
     {
         free(atom_value);
-    }
-
-    if(nif_success)
-    {
-        *status = (bool)(!strcmp(atom_value, value));
     }
 
     return nif_success;

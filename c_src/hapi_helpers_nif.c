@@ -1,5 +1,6 @@
 #include "hapi_helpers_nif.h"
 #include "hapi_private_nif.h"
+#include "hapi_defines_nif.h"
 #include "xxhash.h"
 
 #include <string.h>
@@ -23,16 +24,32 @@ hapi_hash_enum_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             goto label_cleanup;
         }
 
-        atom_value = malloc(atom_len + 1);
-        memset(atom_value, 0, atom_len + 1);
-
-        if(!enif_get_atom(env, argv[0], atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        if(atom_len < HAPI_STACK_STRING_SIZE_MAX)
         {
-            nif_success = false;
-            goto label_cleanup;
-        }
+            char atom_buffer[HAPI_STACK_STRING_SIZE_MAX];
+            memset(atom_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
 
-        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+            if(!enif_get_atom(env, argv[0], atom_buffer, atom_len + 1, ERL_NIF_LATIN1))
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
+
+            atom_hash = XXH32(atom_buffer, strlen(atom_buffer), 0);
+        }
+        else
+        {
+            atom_value = malloc(atom_len + 1);
+            memset(atom_value, 0, atom_len + 1);
+
+            if(!enif_get_atom(env, argv[0], atom_value, atom_len + 1, ERL_NIF_LATIN1))
+            {
+                nif_success = false;
+                goto label_cleanup;
+            }
+
+            atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+        }
     }
 
 label_cleanup:

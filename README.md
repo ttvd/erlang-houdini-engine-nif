@@ -87,6 +87,7 @@ true
 * hapi:set_time/1
 * hapi:get_timeline_options/0
 * hapi:set_timeline_options/1
+* hapi:is_asset_valid/2
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

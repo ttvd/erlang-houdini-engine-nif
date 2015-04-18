@@ -592,8 +592,18 @@ hapi_set_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_is_asset_valid_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+    int32_t asset_validation_id = 0;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &asset_id) && enif_get_int(env, argv[1], &asset_validation_id))
+    {
+        int32_t is_valid = 0;
+        HAPI_Result result = HAPI_IsAssetValid(asset_id, asset_validation_id, &is_valid);
+
+        return hapi_private_make_result_tuple_bool(env, result, (0 != is_valid));
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_LoadAssetLibraryFromFile equivalent.

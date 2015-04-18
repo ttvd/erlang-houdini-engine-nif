@@ -1,4 +1,4 @@
-Erlang NIF bindings for Houdini Engine - Work in progress.
+Erlang NIF bindings for Houdini Engine
 ===============  
 
 # Goal.
@@ -79,3 +79,4 @@ true
 * hapi:set_time/1
 * hapi:get_timeline_options/0
 * hapi:set_timeline_options/1
+* **Other HAPI calls are being added.**

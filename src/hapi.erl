@@ -1,7 +1,8 @@
 %%% @author Mykola Konyk  <mykola@konyk.org>
 %%%
 %%% @copyright 2015
-%%% This file has been auto-generated.
+%%% This file has been auto-generated from hapi.erl.template
+%%% This file corresponds to %{HAPI_ENUM_NAME}% enum from HAPI_Common.h
 
 -module(hapi).
 -version(1.9).
@@ -12,10 +13,10 @@
 % Generated records.
 -include("hapi_records.hrl").
 
-% Imports are generated from HAPI_Common.h
--import(hapi_result, [hapi_result_to_int/1, int_to_hapi_result/1]).
+% Generated enum types and translation functions.
+-include("hapi_enums.hrl").
 
-% Exports are generated from HAPI.h
+% Generated exports.
 -export([
     is_initialized/0,
     initialize/5,

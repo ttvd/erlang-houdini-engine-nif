@@ -1,9 +1,13 @@
 #include "hapi_functions_nif.h"
+#include "hapi_helpers_nif.h"
+
 
 // Function mapping table.
 ErlNifFunc
 nif_funcs[] =
 {
+    {"hash_enum_value", 1, hapi_hash_enum_value_impl},
+    {"check_enum_value_hash", 2, hapi_check_enum_value_hash_impl},
     {"is_initialized", 0, hapi_is_initialized_impl},
     {"initialize", 5, hapi_initialize_impl},
     {"cleanup", 0, hapi_cleanup_impl},

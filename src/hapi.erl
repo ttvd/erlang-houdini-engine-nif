@@ -150,14 +150,16 @@
     load_geo_from_file/4,
     get_geo_size/4,
     save_geo_to_memory/4,
-    load_geo_from_memory/5
+    load_geo_from_memory/5,
+    hash_enum_value/1,
+    check_enum_value_hash/2
     ]).
 
 %
 nif_stub_error(Line) ->
     erlang:nif_error({nif_not_loaded, module, ?MODULE, line, Line}).
 
-%
+% Module init.
 -spec init() -> ok | {error, any()}.
 init() ->
     PrivDir = case code:priv_dir(?MODULE) of
@@ -169,6 +171,14 @@ init() ->
             Path
         end,
     erlang:load_nif(filename:join(PrivDir, hapi_nif), 0).
+
+% Helper function which returns hash of an atom.
+hash_enum_value(_Atom) ->
+    ?nif_stub.
+
+% Helper function which checks whether atom has a given hash.
+check_enum_value_hash(_Atom, _Hash) ->
+    ?nif_stub.
 
 %
 %-spec is_initialized() -> hapi_result().

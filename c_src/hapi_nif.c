@@ -504,7 +504,7 @@ hapi_get_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     if(HAPI_RESULT_SUCCESS == result)
     {
         ERL_NIF_TERM record_timeline_options = enif_make_tuple4(env,
-            enif_make_string(env, "hapi_timeline_options", ERL_NIF_LATIN1),
+            hapi_private_make_atom(env, "hapi_timeline_options"),
             enif_make_double(env, (double) timeline_options.fps),
             enif_make_double(env, (double) timeline_options.startTime),
             enif_make_double(env, (double) timeline_options.endTime));
@@ -519,8 +519,60 @@ hapi_get_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_set_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* tuple_timeline_options = NULL;
+    bool timeline_options_record = false;
+
+    double timeline_options_fps = 0.0;
+    double timeline_options_start_time = 0.0;
+    double timeline_options_end_time = 0.0;
+
+    if(enif_get_tuple(env, argv[0], &tuple_size, &tuple_timeline_options) &&
+        (4 == tuple_size) &&
+        hapi_private_check_atom_value(env, tuple_timeline_options[0], "hapi_timeline_options", &timeline_options_record) &&
+        timeline_options_record)
+    {
+        int32_t int_value;
+
+        if(!enif_get_double(env, tuple_timeline_options[1], &timeline_options_fps))
+        {
+            if(!enif_get_int(env, tuple_timeline_options[1], &int_value))
+            {
+                return enif_make_badarg(env);
+            }
+
+            timeline_options_fps = int_value;
+        }
+
+        if(!enif_get_double(env, tuple_timeline_options[2], &timeline_options_start_time))
+        {
+            if(!enif_get_int(env, tuple_timeline_options[2], &int_value))
+            {
+                return enif_make_badarg(env);
+            }
+
+            timeline_options_start_time = int_value;
+        }
+
+        if(!enif_get_double(env, tuple_timeline_options[3], &timeline_options_end_time))
+        {
+            if(!enif_get_int(env, tuple_timeline_options[3], &int_value))
+            {
+                return enif_make_badarg(env);
+            }
+
+            timeline_options_end_time = int_value;
+        }
+
+        HAPI_TimelineOptions timeline_options;
+        timeline_options.fps = (float) timeline_options_fps;
+        timeline_options.startTime = (float) timeline_options_start_time;
+        timeline_options.endTime = (float) timeline_options_end_time;
+
+        return hapi_enum_result_c_to_erl(env, HAPI_SetTimelineOptions(&timeline_options));
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_IsAssetValid equivalent.

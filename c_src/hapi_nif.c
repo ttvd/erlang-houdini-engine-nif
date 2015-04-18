@@ -423,16 +423,48 @@ hapi_python_thread_interpreter_lock_impl(ErlNifEnv* env, int argc, const ERL_NIF
 ERL_NIF_TERM
 hapi_get_string_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_StringHandle string_handle;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &string_handle))
+    {
+        int32_t string_buf_length = 0;
+        HAPI_Result result = HAPI_GetStringBufLength(string_handle, &string_buf_length);
+
+        return hapi_private_make_result_tuple_int(env, result, string_buf_length);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetString equivalent.
 ERL_NIF_TERM
 hapi_get_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_StringHandle string_handle;
+    int32_t string_length;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &string_handle) && enif_get_int(env, argv[1], &string_length))
+    {
+        char* buffer = NULL;
+
+        if(string_length <= 0)
+        {
+            string_length = 1;
+        }
+
+        buffer = malloc(string_length);
+        memset(buffer, 0, string_length);
+
+        HAPI_Result result = HAPI_GetString(string_handle, buffer, string_length);
+
+        ERL_NIF_TERM result_atom = hapi_private_make_result_tuple_string(env, result, buffer);
+
+        free(buffer);
+
+        return result_atom;
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetTime equivalent.

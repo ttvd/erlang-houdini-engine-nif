@@ -94,13 +94,30 @@ end
 # Helper function to generate erlang records from hapi structs.
 def generate_hapi_records(hapi_common_header)
 
+    # Scan record tuples from the common header.
+    scanned_records = scan_records hapi_common_header
+
+    # Create buffer for record names.
+    record_includes = []
+    #{}%-include("hapi_cook_options.hrl").
+
+    # Write out the hapi_records.hrl file.
+    File.open("./src/hapi_records.hrl", 'w') do |file|
+
+        # Read hapi_records.hrl template.
+        records_template = File.read "./src/hapi_records.hrl.template"
+        records_template.gsub!("%{HAPI_RECORD_INCLUDES}%", record_includes.join("#{$/}"))
+
+        # Write out hapi_records.hrl
+        file.write records_template
+    end
 end
 
 # Helper function to generate enum nif files.
 def generate_nif_enums(hapi_common_header)
 
     # Scan enum tuples from the common header.
-    scanned_enums = scan_enums(hapi_common_header)
+    scanned_enums = scan_enums hapi_common_header
 
     # Store enum source file names.
     enum_source_filenames = []
@@ -115,7 +132,7 @@ def generate_nif_enums(hapi_common_header)
         enum_body = enum_entry[1]
 
         # Get lowercase underscore'd version of enum name.
-        enum_name_underscore = create_underscore(enum_name)
+        enum_name_underscore = create_underscore enum_name
 
         # Remove any comments from body.
         enum_body.gsub!(/\s*\/\/\/.*$/, "")
@@ -183,7 +200,7 @@ def generate_nif_enums(hapi_common_header)
             enum_source_filenames << enum_source_filename
 
             # Write result.
-            file.write(template_enum_nif_file)
+            file.write template_enum_nif_file
         end
     end
 
@@ -206,7 +223,7 @@ def generate_nif_enums(hapi_common_header)
     File.open("./c_src/hapi_enums_nif.h", 'w') do |file|
 
         template_enums_nif_file.gsub!("%{HAPI_ENUM_CONVERSION_FUNCTIONS}%", enum_function_signatures.join("#{$/}#{$/}"))
-        file.write(template_enums_nif_file)
+        file.write template_enums_nif_file
     end
 end
 
@@ -231,6 +248,11 @@ def scan_enums(hapi_common_header)
 
     # Return scanned tuples.
     scanned_enums
+end
+
+# Helper function to generate records from hapi structs.
+def scan_records(hapi_common_header)
+
 end
 
 # Helper function to generate hapi_functions_nif_stubs.c.generated
@@ -285,11 +307,11 @@ def generate_hapi_functions_nif_h(function_names, buffer_arities)
 
     # Write out the files.
     File.open("./c_src/hapi_functions_nif.h", 'w') do |file|
-        file.write(template_file_header)
+        file.write template_file_header
     end
 
     File.open("./c_src/hapi_functions_nif.c", 'w') do |file|
-        file.write(template_file_source)
+        file.write template_file_source
     end
 end
 
@@ -332,7 +354,7 @@ def generate_hapi_erl(buffer_exports, buffer_functions, buffer_ignored_params)
     # Write out the file.
     File.open("./src/hapi.erl", 'w') do |file|
 
-        file.write(template_file)
+        file.write template_file
     end
 end
 

@@ -1,4 +1,4 @@
-# Erlang NIF bindings for Houdini Engine
+# Erlang NIF bindings for Houdini Engine.
 
 ## Goal.
 

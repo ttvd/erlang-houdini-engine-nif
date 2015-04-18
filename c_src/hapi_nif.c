@@ -365,6 +365,7 @@ hapi_convert_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     // HAPI_TransformEuler * transform_in_out
 
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -373,6 +374,7 @@ ERL_NIF_TERM
 hapi_convert_matrix_to_quat_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -381,6 +383,7 @@ ERL_NIF_TERM
 hapi_convert_matrix_to_euler_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -389,6 +392,7 @@ ERL_NIF_TERM
 hapi_convert_transform_quat_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -397,6 +401,7 @@ ERL_NIF_TERM
 hapi_convert_transform_euler_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -404,8 +409,14 @@ hapi_convert_transform_euler_to_matrix_impl(ErlNifEnv* env, int argc, const ERL_
 ERL_NIF_TERM
 hapi_python_thread_interpreter_lock_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    bool lock_flag = true;
+
+    if(hapi_private_check_atom_value(env, argv[3], "true", &lock_flag))
+    {
+        return hapi_enum_result_c_to_erl(env, HAPI_PythonThreadInterpreterLock(lock_flag));
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetStringBufLength equivalent.

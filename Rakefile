@@ -331,8 +331,8 @@ def generate_hapi_erl(buffer_exports, buffer_functions, buffer_ignored_params)
     end
 end
 
-# Helper function to create hapi.erl and other resources from template.
-def generate_hapi_erl_and_functions(hapi_header)
+# Helper function to create resources from HAPI.h
+def generate_hapi_h_resources(hapi_header)
 
     # Read hapi header.
     hapi_file = File.read hapi_header
@@ -446,7 +446,7 @@ namespace :erlang do
             end
 
             if File.file? hapi_path
-                generate_hapi_erl_and_functions hapi_path
+                generate_hapi_h_resources hapi_path
             else
                 puts "Could not locate HAPI.h"
             end

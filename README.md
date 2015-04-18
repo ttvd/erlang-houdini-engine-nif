@@ -61,3 +61,21 @@ true
 12> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
+# Suppored HAPI calls (work in progress)
+
+* hapi:initialize/5
+* hapi:is_initialized/0
+* hapi:cleanup/0
+* hapi:get_env_int/1
+* hapi:get_status/1
+* hapi:get_status_string_buf_length/2
+* hapi:get_status_string/1
+* hapi:get_cooking_total_count/0
+* hapi:get_cooking_current_count/0
+* hapi:python_thread_interpreter_lock/1
+* hapi:get_string_buf_length/1
+* hapi:get_string/2
+* hapi:get_time/0
+* hapi:set_time/1
+* hapi:get_timeline_options/0
+* hapi:set_timeline_options/1

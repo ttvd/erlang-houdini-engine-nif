@@ -4,6 +4,7 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include <assert.h>
 
 
 ERL_NIF_TERM
@@ -37,6 +38,20 @@ hapi_private_make_result_tuple_int(ErlNifEnv* env, HAPI_Result result, int32_t v
     if(HAPI_RESULT_SUCCESS == result)
     {
         return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_int(env, value));
+    }
+
+    return hapi_enum_result_c_to_erl(env, result);
+}
+
+
+ERL_NIF_TERM
+hapi_private_make_result_tuple_string(ErlNifEnv* env, HAPI_Result result, const char* value)
+{
+    assert(value != NULL);
+
+    if(HAPI_RESULT_SUCCESS == result)
+    {
+        return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_string(env, value, ERL_NIF_LATIN1));
     }
 
     return hapi_enum_result_c_to_erl(env, result);

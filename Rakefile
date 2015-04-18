@@ -95,9 +95,7 @@ end
 def generate_hapi_records_and_enums(hapi_common_header)
 
     # Scan record tuples from the common header.
-    scanned_result = scan_records hapi_common_header
-    scanned_records = scanned_result[0]
-    scanned_enums = scanned_result[1]
+    scanned_records = scan_records hapi_common_header
 
     # Create a list to store record names.
     record_names = []
@@ -259,6 +257,14 @@ def generate_nif_enums(hapi_common_header)
         template_enums_nif_file.gsub!("%{HAPI_ENUM_CONVERSION_FUNCTIONS}%", enum_function_signatures.join("#{$/}#{$/}"))
         file.write template_enums_nif_file
     end
+
+    # Read hapi_enums.hrl template file.
+    template_enum_erl_file = File.read "./src/hapi_enums.hrl.template"
+
+    # We also need to generate erlang side enums hrl.
+    File.open("./src/hapi_enums.hrl", 'w') do |file|
+        file.write template_enum_erl_file
+    end
 end
 
 # Helper function to generate nif c stubs for HAPI enums.
@@ -303,24 +309,17 @@ def scan_records(hapi_common_header)
     hapi_common_file.gsub!(/\s*\/\/\/.*$/, "")
     hapi_common_file.gsub!(/\s*\/\/.*$/, "")
 
-    # Extract all enum and record entries.
-    #hapi_enum_entries = hapi_common_file.scan /^enum\s+HAPI_\S+\s+\{[^}]*\};/i
-    #hapi_record_enties = hapi_common_file.scan /^struct\s+HAPI_API\s+HAPI_\S+\s+\{[^}]*\};/i
-
     hapi_record_entries = hapi_common_file.scan /^struct\s+HAPI_API\s+HAPI_([^\s]*)\s*$\s*{([^\}]*)\s*$\s*\};/i
 
     # Create array to hold record tuples.
     scanned_records = []
-
-    # Create array to hold enum tuples.
-    scanned_enums = []
 
     hapi_record_entries.each do |entry|
         scanned_records <<  [entry[0], entry[1]]
     end
 
     # Return scanned tuples.
-    [scanned_records, scanned_enums]
+    scanned_records
 end
 
 # Helper function to generate hapi_functions_nif_stubs.c.generated

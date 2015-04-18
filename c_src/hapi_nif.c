@@ -541,7 +541,7 @@ hapi_set_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
                 return enif_make_badarg(env);
             }
 
-            timeline_options_fps = int_value;
+            timeline_options_fps = (double) int_value;
         }
 
         if(!enif_get_double(env, tuple_timeline_options[2], &timeline_options_start_time))
@@ -551,7 +551,7 @@ hapi_set_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
                 return enif_make_badarg(env);
             }
 
-            timeline_options_start_time = int_value;
+            timeline_options_start_time = (double) int_value;
         }
 
         if(!enif_get_double(env, tuple_timeline_options[3], &timeline_options_end_time))
@@ -561,7 +561,7 @@ hapi_set_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
                 return enif_make_badarg(env);
             }
 
-            timeline_options_end_time = int_value;
+            timeline_options_end_time = (double) int_value;
         }
 
         HAPI_TimelineOptions timeline_options;

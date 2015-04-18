@@ -496,8 +496,23 @@ hapi_set_time_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_TimelineOptions timeline_options;
+
+    HAPI_Result result = HAPI_GetTimelineOptions(&timeline_options);
+    ERL_NIF_TERM result_atom = hapi_enum_result_c_to_erl(env, result);
+
+    if(HAPI_RESULT_SUCCESS == result)
+    {
+        ERL_NIF_TERM record_timeline_options = enif_make_tuple4(env,
+            enif_make_string(env, "hapi_timeline_options", ERL_NIF_LATIN1),
+            enif_make_double(env, (double) timeline_options.fps),
+            enif_make_double(env, (double) timeline_options.startTime),
+            enif_make_double(env, (double) timeline_options.endTime));
+
+        return enif_make_tuple(env, 2, result_atom, record_timeline_options);
+    }
+
+    return result_atom;
 }
 
 // HAPI_SetTimelineOptions equivalent.

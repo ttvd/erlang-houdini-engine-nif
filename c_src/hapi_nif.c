@@ -322,7 +322,7 @@ hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             ERL_NIF_TERM result_atom = hapi_private_make_result_tuple_string(env, result, buffer);
 
             free(buffer);
-            
+
             return result_atom;
         }
         else
@@ -349,8 +349,10 @@ hapi_get_cooking_total_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 ERL_NIF_TERM
 hapi_get_cooking_current_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    int32_t current_count = 0;
+    HAPI_Result result = HAPI_GetCookingCurrentCount(&current_count);
+
+    return hapi_private_make_result_tuple_int(env, result, current_count);
 }
 
 // HAPI_ConvertTransform equivalent.

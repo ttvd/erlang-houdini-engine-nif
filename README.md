@@ -48,16 +48,25 @@ true
 8> hapi:is_initialized().
 {hapi_result_success,3713831785}
 
+9> % pass an atom as parameter
 9> hapi:get_env_int(hapi_envint_version_houdini_major).
 {{hapi_result_success,3713831785},14}
 
-10> hapi:get_env_int(hapi_envint_version_houdini_minor).
+10> % pass hash of an atom as parameter
+hapi:get_env_int(729783216).
+{{hapi_result_success,3713831785},14}
+
+11> % pass tuple of atom and hash as parameter.
+hapi:get_env_int({hapi_envint_version_houdini_major, 729783216}).
+{{hapi_result_success,3713831785},14}
+
+12> hapi:get_env_int(hapi_envint_version_houdini_minor).
 {{hapi_result_success,3713831785},5}
 
-11> hapi:get_env_int(hapi_envint_version_houdini_build).
+13> hapi:get_env_int(hapi_envint_version_houdini_build).
 {{hapi_result_success,3713831785},80}
 
-12> hapi:cleanup().
+14> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
 ## Supported HAPI calls (work in progress).

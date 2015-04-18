@@ -97,9 +97,27 @@ def generate_hapi_records(hapi_common_header)
     # Scan record tuples from the common header.
     scanned_records = scan_records hapi_common_header
 
+    # Create a list to store record names.
+    record_names = []
+
     # Create buffer for record names.
     record_includes = []
-    #{}%-include("hapi_cook_options.hrl").
+
+    # We need to further process structs.
+    scanned_records.each do |record_entry|
+
+        record_name = record_entry[0]
+        record_body = record_entry[1]
+
+        # Get lowercase underscore'd version of record name.
+        record_name_underscore = create_underscore record_name
+
+        # Store record name.
+        record_names << record_name_underscore
+
+        # Store record include.
+        record_includes << "-include(\"hapi_record_#{record_name_underscore}.hrl\")."
+    end
 
     # Write out the hapi_records.hrl file.
     File.open("./src/hapi_records.hrl", 'w') do |file|
@@ -253,6 +271,24 @@ end
 # Helper function to generate records from hapi structs.
 def scan_records(hapi_common_header)
 
+    # Read hapi common header.
+    hapi_common_file = File.read hapi_common_header
+
+    # Preprocess for regex matching.
+    hapi_common_file.gsub!("@{", "").gsub!("@}", "")
+
+    # Extract all enum entries.
+    hapi_record_entries = hapi_common_file.scan /^struct\s+HAPI_API\s+HAPI_([^\s]*)\s*$\s*{([^\}]*)\s*$\s*\};/i
+
+    # Create array to hold tuples.
+    scanned_records = []
+
+    hapi_record_entries.each do |entry|
+        scanned_records <<  [entry[0], entry[1]]
+    end
+
+    # Return scanned tuples.
+    scanned_records
 end
 
 # Helper function to generate hapi_functions_nif_stubs.c.generated

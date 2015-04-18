@@ -88,3 +88,8 @@ true
 * hapi:get_timeline_options/0
 * hapi:set_timeline_options/1
 * **Other HAPI calls are being added.**
+
+## Additional helper calls.
+
+* hapi:hash_enum_value/1
+* hapi:check_enum_value_hash/2

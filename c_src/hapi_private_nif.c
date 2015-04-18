@@ -22,6 +22,17 @@ hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
 }
 
 
+ERL_NIF_TERM
+hapi_private_make_atom_bool(ErlNifEnv* env, bool value)
+{
+    if(value)
+    {
+        return hapi_private_make_atom(env, "true");
+    }
+
+    return hapi_private_make_atom(env, "false");
+}
+
 
 ERL_NIF_TERM
 hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name)
@@ -51,6 +62,18 @@ hapi_private_make_result_tuple_double(ErlNifEnv* env, HAPI_Result result, double
     if(HAPI_RESULT_SUCCESS == result)
     {
         return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), enif_make_double(env, value));
+    }
+
+    return hapi_enum_result_c_to_erl(env, result);
+}
+
+
+ERL_NIF_TERM
+hapi_private_make_result_tuple_bool(ErlNifEnv* env, HAPI_Result result, bool value)
+{
+    if(HAPI_RESULT_SUCCESS == result)
+    {
+        return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), hapi_private_make_atom_bool(env, value));
     }
 
     return hapi_enum_result_c_to_erl(env, result);

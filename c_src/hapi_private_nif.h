@@ -11,6 +11,9 @@
 // Create an atom.
 ERL_NIF_TERM hapi_private_make_atom(ErlNifEnv* env, const char* atom_name);
 
+// Create a boolean atom.
+ERL_NIF_TERM hapi_private_make_atom_bool(ErlNifEnv* env, bool value);
+
 // Create an atom with hash.
 ERL_NIF_TERM hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name);
 
@@ -22,6 +25,9 @@ ERL_NIF_TERM hapi_private_make_result_tuple_double(ErlNifEnv* env, HAPI_Result r
 
 // Create a result / string tuple if hapi call was successful, otherwise return hapi result atom.
 ERL_NIF_TERM hapi_private_make_result_tuple_string(ErlNifEnv* env, HAPI_Result result, const char* value);
+
+// Create a result / bool tuple if hapi call was successful, otherwise return hapi result atom.
+ERL_NIF_TERM hapi_private_make_result_tuple_bool(ErlNifEnv* env, HAPI_Result result, bool value);
 
 // Return true or false by pointer if given atom has a specified value.
 bool hapi_private_check_atom_value(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);

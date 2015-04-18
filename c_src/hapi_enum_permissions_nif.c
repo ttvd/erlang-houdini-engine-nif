@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_permissions_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Permissions* permissions)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_permissions_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,47 +21,84 @@ bool hapi_enum_permissions_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_permissions_non_applicable"
-            case 2395404179:
-            {
-                *permissions = HAPI_PERMISSIONS_NON_APPLICABLE;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_permissions_read_write"
-            case 3046338534:
-            {
-                *permissions = HAPI_PERMISSIONS_READ_WRITE;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_permissions_read_only"
-            case 3590233932:
-            {
-                *permissions = HAPI_PERMISSIONS_READ_ONLY;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_permissions_write_only"
-            case 256108734:
-            {
-                *permissions = HAPI_PERMISSIONS_WRITE_ONLY;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            // "hapi_permissions_max"
-            case 3126986835:
-            {
-                *permissions = HAPI_PERMISSIONS_MAX;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_permissions_non_applicable"
+        case 2395404179:
+        {
+            *permissions = HAPI_PERMISSIONS_NON_APPLICABLE;
+            break;
+        }
 
-            default:
-            {
-                break;
-            }
+        // "hapi_permissions_read_write"
+        case 3046338534:
+        {
+            *permissions = HAPI_PERMISSIONS_READ_WRITE;
+            break;
+        }
+
+        // "hapi_permissions_read_only"
+        case 3590233932:
+        {
+            *permissions = HAPI_PERMISSIONS_READ_ONLY;
+            break;
+        }
+
+        // "hapi_permissions_write_only"
+        case 256108734:
+        {
+            *permissions = HAPI_PERMISSIONS_WRITE_ONLY;
+            break;
+        }
+
+        // "hapi_permissions_max"
+        case 3126986835:
+        {
+            *permissions = HAPI_PERMISSIONS_MAX;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

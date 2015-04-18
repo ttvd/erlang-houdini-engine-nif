@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_geo_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoType* geo_type)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_geo_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_G
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,53 +21,91 @@ bool hapi_enum_geo_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_G
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_geotype_invalid"
-            case 2078624117:
-            {
-                *geo_type = HAPI_GEOTYPE_INVALID;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_geotype_default"
-            case 1702122176:
-            {
-                *geo_type = HAPI_GEOTYPE_DEFAULT;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_geotype_intermediate"
-            case 2057813327:
-            {
-                *geo_type = HAPI_GEOTYPE_INTERMEDIATE;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_geotype_input"
-            case 3505553948:
-            {
-                *geo_type = HAPI_GEOTYPE_INPUT;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            // "hapi_geotype_curve"
-            case 3589938837:
-            {
-                *geo_type = HAPI_GEOTYPE_CURVE;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_geotype_invalid"
+        case 2078624117:
+        {
+            *geo_type = HAPI_GEOTYPE_INVALID;
+            break;
+        }
 
-            // "hapi_geotype_max"
-            case 2561471983:
-            {
-                *geo_type = HAPI_GEOTYPE_MAX;
-            }
+        // "hapi_geotype_default"
+        case 1702122176:
+        {
+            *geo_type = HAPI_GEOTYPE_DEFAULT;
+            break;
+        }
 
-            default:
-            {
-                break;
-            }
+        // "hapi_geotype_intermediate"
+        case 2057813327:
+        {
+            *geo_type = HAPI_GEOTYPE_INTERMEDIATE;
+            break;
+        }
+
+        // "hapi_geotype_input"
+        case 3505553948:
+        {
+            *geo_type = HAPI_GEOTYPE_INPUT;
+            break;
+        }
+
+        // "hapi_geotype_curve"
+        case 3589938837:
+        {
+            *geo_type = HAPI_GEOTYPE_CURVE;
+            break;
+        }
+
+        // "hapi_geotype_max"
+        case 2561471983:
+        {
+            *geo_type = HAPI_GEOTYPE_MAX;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

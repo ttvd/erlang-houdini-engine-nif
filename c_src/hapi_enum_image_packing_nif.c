@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_image_packing_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* image_packing)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_image_packing_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, H
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,77 +21,119 @@ bool hapi_enum_image_packing_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, H
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_image_packing_unknown"
-            case 1026533579:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_UNKNOWN;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_image_packing_single"
-            case 4027772177:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_SINGLE;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_image_packing_dual"
-            case 3618580164:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_DUAL;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_image_packing_rgb"
-            case 1954788252:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_RGB;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            // "hapi_image_packing_bgr"
-            case 3355295031:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_BGR;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_image_packing_unknown"
+        case 1026533579:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_UNKNOWN;
+            break;
+        }
 
-            // "hapi_image_packing_rgba"
-            case 211676614:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_RGBA;
-            }
+        // "hapi_image_packing_single"
+        case 4027772177:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_SINGLE;
+            break;
+        }
 
-            // "hapi_image_packing_abgr"
-            case 4154788832:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_ABGR;
-            }
+        // "hapi_image_packing_dual"
+        case 3618580164:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_DUAL;
+            break;
+        }
 
-            // "hapi_image_packing_max"
-            case 2046891834:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_MAX;
-            }
+        // "hapi_image_packing_rgb"
+        case 1954788252:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_RGB;
+            break;
+        }
 
-            // "hapi_image_packing_default3"
-            case 3652598404:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_DEFAULT3;
-            }
+        // "hapi_image_packing_bgr"
+        case 3355295031:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_BGR;
+            break;
+        }
 
-            // "hapi_image_packing_default4"
-            case 1347420588:
-            {
-                *image_packing = HAPI_IMAGE_PACKING_DEFAULT4;
-            }
+        // "hapi_image_packing_rgba"
+        case 211676614:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_RGBA;
+            break;
+        }
 
-            default:
-            {
-                break;
-            }
+        // "hapi_image_packing_abgr"
+        case 4154788832:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_ABGR;
+            break;
+        }
+
+        // "hapi_image_packing_max"
+        case 2046891834:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_MAX;
+            break;
+        }
+
+        // "hapi_image_packing_default3"
+        case 3652598404:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_DEFAULT3;
+            break;
+        }
+
+        // "hapi_image_packing_default4"
+        case 1347420588:
+        {
+            *image_packing = HAPI_IMAGE_PACKING_DEFAULT4;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_rst_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* rst_order)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_rst_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,53 +21,91 @@ bool hapi_enum_rst_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_trs"
-            case 2754525809:
-            {
-                *rst_order = HAPI_TRS;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_tsr"
-            case 1637507022:
-            {
-                *rst_order = HAPI_TSR;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_rts"
-            case 813138616:
-            {
-                *rst_order = HAPI_RTS;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_rst"
-            case 3620151878:
-            {
-                *rst_order = HAPI_RST;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            // "hapi_str"
-            case 531899175:
-            {
-                *rst_order = HAPI_STR;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_trs"
+        case 2754525809:
+        {
+            *rst_order = HAPI_TRS;
+            break;
+        }
 
-            // "hapi_srt"
-            case 169178964:
-            {
-                *rst_order = HAPI_SRT;
-            }
+        // "hapi_tsr"
+        case 1637507022:
+        {
+            *rst_order = HAPI_TSR;
+            break;
+        }
 
-            default:
-            {
-                break;
-            }
+        // "hapi_rts"
+        case 813138616:
+        {
+            *rst_order = HAPI_RTS;
+            break;
+        }
+
+        // "hapi_rst"
+        case 3620151878:
+        {
+            *rst_order = HAPI_RST;
+            break;
+        }
+
+        // "hapi_str"
+        case 531899175:
+        {
+            *rst_order = HAPI_STR;
+            break;
+        }
+
+        // "hapi_srt"
+        case 169178964:
+        {
+            *rst_order = HAPI_SRT;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

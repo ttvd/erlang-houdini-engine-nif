@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_ramp_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RampType* ramp_type)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_ramp_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,41 +21,77 @@ bool hapi_enum_ramp_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_ramptype_invalid"
-            case 1007057020:
-            {
-                *ramp_type = HAPI_RAMPTYPE_INVALID;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_ramptype_float"
-            case 1236730525:
-            {
-                *ramp_type = HAPI_RAMPTYPE_FLOAT;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_ramptype_color"
-            case 784329284:
-            {
-                *ramp_type = HAPI_RAMPTYPE_COLOR;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_ramptype_max"
-            case 1883049949:
-            {
-                *ramp_type = HAPI_RAMPTYPE_MAX;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            default:
-            {
-                break;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_ramptype_invalid"
+        case 1007057020:
+        {
+            *ramp_type = HAPI_RAMPTYPE_INVALID;
+            break;
+        }
+
+        // "hapi_ramptype_float"
+        case 1236730525:
+        {
+            *ramp_type = HAPI_RAMPTYPE_FLOAT;
+            break;
+        }
+
+        // "hapi_ramptype_color"
+        case 784329284:
+        {
+            *ramp_type = HAPI_RAMPTYPE_COLOR;
+            break;
+        }
+
+        // "hapi_ramptype_max"
+        case 1883049949:
+        {
+            *ramp_type = HAPI_RAMPTYPE_MAX;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

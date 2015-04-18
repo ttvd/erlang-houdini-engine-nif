@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_parm_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* parm_type)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_parm_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,209 +21,273 @@ bool hapi_enum_parm_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_parmtype_int"
-            case 2938205493:
-            {
-                *parm_type = HAPI_PARMTYPE_INT;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_parmtype_multiparmlist"
-            case 94525824:
-            {
-                *parm_type = HAPI_PARMTYPE_MULTIPARMLIST;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_parmtype_toggle"
-            case 3487126731:
-            {
-                *parm_type = HAPI_PARMTYPE_TOGGLE;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_parmtype_button"
-            case 3222095719:
-            {
-                *parm_type = HAPI_PARMTYPE_BUTTON;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            // "hapi_parmtype_float"
-            case 3403782401:
-            {
-                *parm_type = HAPI_PARMTYPE_FLOAT;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_parmtype_int"
+        case 2938205493:
+        {
+            *parm_type = HAPI_PARMTYPE_INT;
+            break;
+        }
 
-            // "hapi_parmtype_color"
-            case 3651575535:
-            {
-                *parm_type = HAPI_PARMTYPE_COLOR;
-            }
+        // "hapi_parmtype_multiparmlist"
+        case 94525824:
+        {
+            *parm_type = HAPI_PARMTYPE_MULTIPARMLIST;
+            break;
+        }
 
-            // "hapi_parmtype_string"
-            case 3029524656:
-            {
-                *parm_type = HAPI_PARMTYPE_STRING;
-            }
+        // "hapi_parmtype_toggle"
+        case 3487126731:
+        {
+            *parm_type = HAPI_PARMTYPE_TOGGLE;
+            break;
+        }
 
-            // "hapi_parmtype_path_file"
-            case 3946815810:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_FILE;
-            }
+        // "hapi_parmtype_button"
+        case 3222095719:
+        {
+            *parm_type = HAPI_PARMTYPE_BUTTON;
+            break;
+        }
 
-            // "hapi_parmtype_path_file_geo"
-            case 2237470241:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_FILE_GEO;
-            }
+        // "hapi_parmtype_float"
+        case 3403782401:
+        {
+            *parm_type = HAPI_PARMTYPE_FLOAT;
+            break;
+        }
 
-            // "hapi_parmtype_path_file_image"
-            case 3582069620:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_FILE_IMAGE;
-            }
+        // "hapi_parmtype_color"
+        case 3651575535:
+        {
+            *parm_type = HAPI_PARMTYPE_COLOR;
+            break;
+        }
 
-            // "hapi_parmtype_path_node"
-            case 1563877995:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_NODE;
-            }
+        // "hapi_parmtype_string"
+        case 3029524656:
+        {
+            *parm_type = HAPI_PARMTYPE_STRING;
+            break;
+        }
 
-            // "hapi_parmtype_folderlist"
-            case 465413589:
-            {
-                *parm_type = HAPI_PARMTYPE_FOLDERLIST;
-            }
+        // "hapi_parmtype_path_file"
+        case 3946815810:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_FILE;
+            break;
+        }
 
-            // "hapi_parmtype_folder"
-            case 1692078012:
-            {
-                *parm_type = HAPI_PARMTYPE_FOLDER;
-            }
+        // "hapi_parmtype_path_file_geo"
+        case 2237470241:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_FILE_GEO;
+            break;
+        }
 
-            // "hapi_parmtype_label"
-            case 4255272841:
-            {
-                *parm_type = HAPI_PARMTYPE_LABEL;
-            }
+        // "hapi_parmtype_path_file_image"
+        case 3582069620:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_FILE_IMAGE;
+            break;
+        }
 
-            // "hapi_parmtype_separator"
-            case 2360826373:
-            {
-                *parm_type = HAPI_PARMTYPE_SEPARATOR;
-            }
+        // "hapi_parmtype_path_node"
+        case 1563877995:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_NODE;
+            break;
+        }
 
-            // "hapi_parmtype_max"
-            case 220098758:
-            {
-                *parm_type = HAPI_PARMTYPE_MAX;
-            }
+        // "hapi_parmtype_folderlist"
+        case 465413589:
+        {
+            *parm_type = HAPI_PARMTYPE_FOLDERLIST;
+            break;
+        }
 
-            // "hapi_parmtype_int_start"
-            case 2793337556:
-            {
-                *parm_type = HAPI_PARMTYPE_INT_START;
-            }
+        // "hapi_parmtype_folder"
+        case 1692078012:
+        {
+            *parm_type = HAPI_PARMTYPE_FOLDER;
+            break;
+        }
 
-            // "hapi_parmtype_int_end"
-            case 2924084007:
-            {
-                *parm_type = HAPI_PARMTYPE_INT_END;
-            }
+        // "hapi_parmtype_label"
+        case 4255272841:
+        {
+            *parm_type = HAPI_PARMTYPE_LABEL;
+            break;
+        }
 
-            // "hapi_parmtype_float_start"
-            case 3597937322:
-            {
-                *parm_type = HAPI_PARMTYPE_FLOAT_START;
-            }
+        // "hapi_parmtype_separator"
+        case 2360826373:
+        {
+            *parm_type = HAPI_PARMTYPE_SEPARATOR;
+            break;
+        }
 
-            // "hapi_parmtype_float_end"
-            case 2584819633:
-            {
-                *parm_type = HAPI_PARMTYPE_FLOAT_END;
-            }
+        // "hapi_parmtype_max"
+        case 220098758:
+        {
+            *parm_type = HAPI_PARMTYPE_MAX;
+            break;
+        }
 
-            // "hapi_parmtype_string_start"
-            case 2299523298:
-            {
-                *parm_type = HAPI_PARMTYPE_STRING_START;
-            }
+        // "hapi_parmtype_int_start"
+        case 2793337556:
+        {
+            *parm_type = HAPI_PARMTYPE_INT_START;
+            break;
+        }
 
-            // "hapi_parmtype_string_end"
-            case 883769106:
-            {
-                *parm_type = HAPI_PARMTYPE_STRING_END;
-            }
+        // "hapi_parmtype_int_end"
+        case 2924084007:
+        {
+            *parm_type = HAPI_PARMTYPE_INT_END;
+            break;
+        }
 
-            // "hapi_parmtype_path_start"
-            case 1937567703:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_START;
-            }
+        // "hapi_parmtype_float_start"
+        case 3597937322:
+        {
+            *parm_type = HAPI_PARMTYPE_FLOAT_START;
+            break;
+        }
 
-            // "hapi_parmtype_path_end"
-            case 233945276:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_END;
-            }
+        // "hapi_parmtype_float_end"
+        case 2584819633:
+        {
+            *parm_type = HAPI_PARMTYPE_FLOAT_END;
+            break;
+        }
 
-            // "hapi_parmtype_path_file_start"
-            case 2795114217:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_FILE_START;
-            }
+        // "hapi_parmtype_string_start"
+        case 2299523298:
+        {
+            *parm_type = HAPI_PARMTYPE_STRING_START;
+            break;
+        }
 
-            // "hapi_parmtype_path_file_end"
-            case 4055995372:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_FILE_END;
-            }
+        // "hapi_parmtype_string_end"
+        case 883769106:
+        {
+            *parm_type = HAPI_PARMTYPE_STRING_END;
+            break;
+        }
 
-            // "hapi_parmtype_path_node_start"
-            case 3219598411:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_NODE_START;
-            }
+        // "hapi_parmtype_path_start"
+        case 1937567703:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_START;
+            break;
+        }
 
-            // "hapi_parmtype_path_node_end"
-            case 381338848:
-            {
-                *parm_type = HAPI_PARMTYPE_PATH_NODE_END;
-            }
+        // "hapi_parmtype_path_end"
+        case 233945276:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_END;
+            break;
+        }
 
-            // "hapi_parmtype_container_start"
-            case 1309661876:
-            {
-                *parm_type = HAPI_PARMTYPE_CONTAINER_START;
-            }
+        // "hapi_parmtype_path_file_start"
+        case 2795114217:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_FILE_START;
+            break;
+        }
 
-            // "hapi_parmtype_container_end"
-            case 2873311351:
-            {
-                *parm_type = HAPI_PARMTYPE_CONTAINER_END;
-            }
+        // "hapi_parmtype_path_file_end"
+        case 4055995372:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_FILE_END;
+            break;
+        }
 
-            // "hapi_parmtype_nonvalue_start"
-            case 1808937396:
-            {
-                *parm_type = HAPI_PARMTYPE_NONVALUE_START;
-            }
+        // "hapi_parmtype_path_node_start"
+        case 3219598411:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_NODE_START;
+            break;
+        }
 
-            // "hapi_parmtype_nonvalue_end"
-            case 920931063:
-            {
-                *parm_type = HAPI_PARMTYPE_NONVALUE_END;
-            }
+        // "hapi_parmtype_path_node_end"
+        case 381338848:
+        {
+            *parm_type = HAPI_PARMTYPE_PATH_NODE_END;
+            break;
+        }
 
-            default:
-            {
-                break;
-            }
+        // "hapi_parmtype_container_start"
+        case 1309661876:
+        {
+            *parm_type = HAPI_PARMTYPE_CONTAINER_START;
+            break;
+        }
+
+        // "hapi_parmtype_container_end"
+        case 2873311351:
+        {
+            *parm_type = HAPI_PARMTYPE_CONTAINER_END;
+            break;
+        }
+
+        // "hapi_parmtype_nonvalue_start"
+        case 1808937396:
+        {
+            *parm_type = HAPI_PARMTYPE_NONVALUE_START;
+            break;
+        }
+
+        // "hapi_parmtype_nonvalue_end"
+        case 920931063:
+        {
+            *parm_type = HAPI_PARMTYPE_NONVALUE_END;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

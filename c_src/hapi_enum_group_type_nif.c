@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_group_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GroupType* group_type)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_group_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,41 +21,77 @@ bool hapi_enum_group_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_grouptype_invalid"
-            case 1807777027:
-            {
-                *group_type = HAPI_GROUPTYPE_INVALID;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_grouptype_point"
-            case 3354691949:
-            {
-                *group_type = HAPI_GROUPTYPE_POINT;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_grouptype_prim"
-            case 2860112191:
-            {
-                *group_type = HAPI_GROUPTYPE_PRIM;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_grouptype_max"
-            case 2983497873:
-            {
-                *group_type = HAPI_GROUPTYPE_MAX;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            default:
-            {
-                break;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_grouptype_invalid"
+        case 1807777027:
+        {
+            *group_type = HAPI_GROUPTYPE_INVALID;
+            break;
+        }
+
+        // "hapi_grouptype_point"
+        case 3354691949:
+        {
+            *group_type = HAPI_GROUPTYPE_POINT;
+            break;
+        }
+
+        // "hapi_grouptype_prim"
+        case 2860112191:
+        {
+            *group_type = HAPI_GROUPTYPE_PRIM;
+            break;
+        }
+
+        // "hapi_grouptype_max"
+        case 2983497873:
+        {
+            *group_type = HAPI_GROUPTYPE_MAX;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

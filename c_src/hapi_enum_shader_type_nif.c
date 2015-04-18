@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_shader_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ShaderType* shader_type)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_shader_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,41 +21,77 @@ bool hapi_enum_shader_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_shader_invalid"
-            case 1767885971:
-            {
-                *shader_type = HAPI_SHADER_INVALID;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_shader_opengl"
-            case 172551974:
-            {
-                *shader_type = HAPI_SHADER_OPENGL;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_shader_mantra"
-            case 2307354241:
-            {
-                *shader_type = HAPI_SHADER_MANTRA;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_shader_max"
-            case 2683922648:
-            {
-                *shader_type = HAPI_SHADER_MAX;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            default:
-            {
-                break;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_shader_invalid"
+        case 1767885971:
+        {
+            *shader_type = HAPI_SHADER_INVALID;
+            break;
+        }
+
+        // "hapi_shader_opengl"
+        case 172551974:
+        {
+            *shader_type = HAPI_SHADER_OPENGL;
+            break;
+        }
+
+        // "hapi_shader_mantra"
+        case 2307354241:
+        {
+            *shader_type = HAPI_SHADER_MANTRA;
+            break;
+        }
+
+        // "hapi_shader_max"
+        case 2683922648:
+        {
+            *shader_type = HAPI_SHADER_MAX;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

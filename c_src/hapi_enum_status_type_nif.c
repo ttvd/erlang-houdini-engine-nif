@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_status_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* status_type)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_status_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,41 +21,77 @@ bool hapi_enum_status_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_status_call_result"
-            case 2001185294:
-            {
-                *status_type = HAPI_STATUS_CALL_RESULT;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_status_cook_result"
-            case 2030323224:
-            {
-                *status_type = HAPI_STATUS_COOK_RESULT;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_status_cook_state"
-            case 3336497966:
-            {
-                *status_type = HAPI_STATUS_COOK_STATE;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_status_max"
-            case 220878498:
-            {
-                *status_type = HAPI_STATUS_MAX;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            default:
-            {
-                break;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_status_call_result"
+        case 2001185294:
+        {
+            *status_type = HAPI_STATUS_CALL_RESULT;
+            break;
+        }
+
+        // "hapi_status_cook_result"
+        case 2030323224:
+        {
+            *status_type = HAPI_STATUS_COOK_RESULT;
+            break;
+        }
+
+        // "hapi_status_cook_state"
+        case 3336497966:
+        {
+            *status_type = HAPI_STATUS_COOK_STATE;
+            break;
+        }
+
+        // "hapi_status_max"
+        case 220878498:
+        {
+            *status_type = HAPI_STATUS_MAX;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

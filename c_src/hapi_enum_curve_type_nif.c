@@ -1,6 +1,8 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
+#include <stdio.h>
+
 
 bool hapi_enum_curve_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveType* curve_type)
 {
@@ -10,6 +12,8 @@ bool hapi_enum_curve_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* hash_tuple = NULL;
 
+    char* atom_value = NULL;
+
     if(enif_is_tuple(env, term) && enif_get_tuple(env, term, &tuple_size, &hash_tuple) && (2 == tuple_size))
     {
         if(!enif_get_uint(env, hash_tuple[1], &atom_hash))
@@ -17,47 +21,84 @@ bool hapi_enum_curve_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
             nif_success = false;
             goto label_cleanup;
         }
+    }
+    else if(enif_is_atom(env, term))
+    {
+        uint32_t atom_len = 0;
 
-        switch(atom_hash)
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
         {
-            // "hapi_curvetype_invalid"
-            case 2202586514:
-            {
-                *curve_type = HAPI_CURVETYPE_INVALID;
-            }
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_curvetype_linear"
-            case 2346647114:
-            {
-                *curve_type = HAPI_CURVETYPE_LINEAR;
-            }
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
 
-            // "hapi_curvetype_nurbs"
-            case 3129521528:
-            {
-                *curve_type = HAPI_CURVETYPE_NURBS;
-            }
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
 
-            // "hapi_curvetype_bezier"
-            case 2343775189:
-            {
-                *curve_type = HAPI_CURVETYPE_BEZIER;
-            }
+        atom_hash = XXH32(atom_value, strlen(atom_value), 0);
+    }
+    else if(!enif_get_uint(env, term, &atom_hash))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
 
-            // "hapi_curvetype_max"
-            case 2118035272:
-            {
-                *curve_type = HAPI_CURVETYPE_MAX;
-            }
+    switch(atom_hash)
+    {
+        // "hapi_curvetype_invalid"
+        case 2202586514:
+        {
+            *curve_type = HAPI_CURVETYPE_INVALID;
+            break;
+        }
 
-            default:
-            {
-                break;
-            }
+        // "hapi_curvetype_linear"
+        case 2346647114:
+        {
+            *curve_type = HAPI_CURVETYPE_LINEAR;
+            break;
+        }
+
+        // "hapi_curvetype_nurbs"
+        case 3129521528:
+        {
+            *curve_type = HAPI_CURVETYPE_NURBS;
+            break;
+        }
+
+        // "hapi_curvetype_bezier"
+        case 2343775189:
+        {
+            *curve_type = HAPI_CURVETYPE_BEZIER;
+            break;
+        }
+
+        // "hapi_curvetype_max"
+        case 2118035272:
+        {
+            *curve_type = HAPI_CURVETYPE_MAX;
+            break;
+        }
+
+        default:
+        {
+            nif_success = false;
+            break;
         }
     }
 
 label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
 
     return nif_success;
 }

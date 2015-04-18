@@ -1,7 +1,7 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
-#include <stdio.h>
+#include <string.h>
 
 
 bool hapi_enum_xyz_order_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* xyz_order)

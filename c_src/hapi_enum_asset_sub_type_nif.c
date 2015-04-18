@@ -1,7 +1,7 @@
 #include "hapi_enums_nif.h"
 #include "hapi_private_nif.h"
 
-#include <stdio.h>
+#include <string.h>
 
 
 bool hapi_enum_asset_sub_type_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetSubType* asset_sub_type)

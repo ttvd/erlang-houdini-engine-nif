@@ -17,6 +17,9 @@ ERL_NIF_TERM hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name)
 // Create a result / int tuple if hapi call was successful, otherwise return hapi result atom.
 ERL_NIF_TERM hapi_private_make_result_tuple_int(ErlNifEnv* env, HAPI_Result result, int32_t value);
 
+// Create a result / double tuple if hapi call was successful, otherwise return hapi result atom.
+ERL_NIF_TERM hapi_private_make_result_tuple_double(ErlNifEnv* env, HAPI_Result result, double value);
+
 // Create a result / string tuple if hapi call was successful, otherwise return hapi result atom.
 ERL_NIF_TERM hapi_private_make_result_tuple_string(ErlNifEnv* env, HAPI_Result result, const char* value);
 

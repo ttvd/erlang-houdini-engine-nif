@@ -61,7 +61,7 @@ true
 12> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-# Suppored HAPI calls (work in progress)
+# Suppored HAPI calls (work in progress).
 
 * hapi:initialize/5
 * hapi:is_initialized/0

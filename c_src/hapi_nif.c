@@ -319,10 +319,10 @@ hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
             result = HAPI_GetStatusString(status_type, buffer);
 
-            ERL_NIF_TERM result_atom = enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result),
-                enif_make_string(env, buffer, ERL_NIF_LATIN1));
+            ERL_NIF_TERM result_atom = hapi_private_make_result_tuple_string(env, result, buffer);
 
             free(buffer);
+            
             return result_atom;
         }
         else

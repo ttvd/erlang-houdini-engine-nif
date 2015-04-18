@@ -91,6 +91,11 @@ def generate_enum_c_to_erl_body(enum_value_tuples)
     c_to_erl_buffer.join "#{$/}        "
 end
 
+# Helper function to generate erlang records from hapi structs.
+def generate_hapi_records(hapi_common_header)
+
+end
+
 # Helper function to generate enum nif files.
 def generate_nif_enums(hapi_common_header)
 
@@ -331,6 +336,16 @@ def generate_hapi_erl(buffer_exports, buffer_functions, buffer_ignored_params)
     end
 end
 
+# Helper function to generate resources from HAPI_Common.h
+def generate_hapi_common_h_resourcs(hapi_common_header)
+
+    # Generate enum entries.
+    generate_nif_enums hapi_common_header
+
+    # Generate erlang records from hapi structs.
+    generate_hapi_records hapi_common_header
+end
+
 # Helper function to create resources from HAPI.h
 def generate_hapi_h_resources(hapi_header)
 
@@ -477,16 +492,14 @@ namespace :erlang do
         if not hapi_path.first.nil?
             hapi_path = hapi_path.first
 
-            if File.file? hapi_path
-                generate_nif_enums hapi_path
-            else
+            if not File.file? hapi_path
                 hapi_path = "#{hapi_path}/HAPI_Common.h"
+            end
 
-                if File.file? hapi_path
-                    generate_nif_enums hapi_path
-                else
-                    puts "Could not locate HAPI_Common.h"
-                end
+            if File.file? hapi_path
+                generate_hapi_common_h_resourcs hapi_path
+            else
+                puts "Could not locate HAPI_Common.h"
             end
         else
             puts "Please provide location of HAPI_Common.h as parameter."

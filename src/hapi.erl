@@ -39,7 +39,7 @@
     get_timeline_options/0,
     set_timeline_options/1,
     is_asset_valid/2,
-    load_asset_library_from_file/3,
+    load_asset_library_from_file/2,
     load_asset_library_from_memory/3,
     get_available_asset_count/1,
     get_available_assets/2,
@@ -118,7 +118,7 @@
     render_material_to_image/3,
     render_texture_to_image/3,
     get_supported_image_file_format_count/0,
-    get_supported_image_file_formats/2,
+    get_supported_image_file_formats/1,
     get_image_info/2,
     set_image_info/3,
     get_image_plane_count/2,
@@ -290,8 +290,8 @@ is_asset_valid(_AssetId, _AssetValidationId) ->
     ?nif_stub.
 
 %
-%-spec load_asset_library_from_file(_FilePath, _AllowOverwrite, _LibraryId) -> hapi_result().
-load_asset_library_from_file(_FilePath, _AllowOverwrite, _LibraryId) ->
+%-spec load_asset_library_from_file(_FilePath, _AllowOverwrite) -> {hapi_result(), _LibraryId}.
+load_asset_library_from_file(_FilePath, _AllowOverwrite) ->
     ?nif_stub.
 
 %
@@ -685,8 +685,8 @@ get_supported_image_file_format_count() ->
     ?nif_stub.
 
 %
-%-spec get_supported_image_file_formats(_formats, _FileFormatCount) -> hapi_result().
-get_supported_image_file_formats(_formats, _FileFormatCount) ->
+%-spec get_supported_image_file_formats(_FileFormatCount) -> {hapi_result(), _formats}.
+get_supported_image_file_formats(_FileFormatCount) ->
     ?nif_stub.
 
 %

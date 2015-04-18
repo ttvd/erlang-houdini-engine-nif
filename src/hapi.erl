@@ -2,7 +2,6 @@
 %%%
 %%% @copyright 2015
 %%% This file has been auto-generated from hapi.erl.template
-%%% This file corresponds to %{HAPI_ENUM_NAME}% enum from HAPI_Common.h
 
 -module(hapi).
 -version(1.9).

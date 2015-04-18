@@ -91,17 +91,22 @@ def generate_enum_c_to_erl_body(enum_value_tuples)
     c_to_erl_buffer.join "#{$/}        "
 end
 
-# Helper function to generate erlang records from hapi structs.
-def generate_hapi_records(hapi_common_header)
+# Helper function to generate erlang records and erlang enums from hapi structs.
+def generate_hapi_records_and_enums(hapi_common_header)
 
     # Scan record tuples from the common header.
-    scanned_records = scan_records hapi_common_header
+    scanned_result = scan_records hapi_common_header
+    scanned_records = scanned_result[0]
+    scanned_enums = scanned_result[1]
 
     # Create a list to store record names.
     record_names = []
 
     # Create buffer for record names.
     record_includes = []
+
+    # Read template file for records.
+    template_record_file = File.read "./src/hapi_record.hrl.template"
 
     # We need to further process structs.
     scanned_records.each do |record_entry|
@@ -115,8 +120,25 @@ def generate_hapi_records(hapi_common_header)
         # Store record name.
         record_names << record_name_underscore
 
+        # We need to extract structure fields.
+        record_fields = []
+        extracted_record_fields = record_body.scan /^\s*\S*\s*([^\s\[]*).*;/i
+        extracted_record_fields.each do |record_field|
+            record_fields << "    #{create_underscore(record_field[0])}"
+        end
+
         # Store record include.
         record_includes << "-include(\"hapi_record_#{record_name_underscore}.hrl\")."
+
+        # Replace template with data.
+        record_data = template_record_file.gsub("%{HAPI_STRUCT_NAME}%", "HAPI_#{record_name}")
+        record_data.gsub!("%{HAPI_ERL_RECORD_NAME}%", "hapi_#{record_name_underscore}")
+        record_data.gsub!("%{HAPI_ERL_RECORD_ENTRIES}%", record_fields.join(",#{$/}"))
+
+        # Write out the record file.
+        File.open("./src/hapi_record_#{record_name_underscore}.hrl", 'w') do |file|
+            file.write record_data
+        end
     end
 
     # Write out the hapi_records.hrl file.
@@ -151,12 +173,6 @@ def generate_nif_enums(hapi_common_header)
 
         # Get lowercase underscore'd version of enum name.
         enum_name_underscore = create_underscore enum_name
-
-        # Remove any comments from body.
-        enum_body.gsub!(/\s*\/\/\/.*$/, "")
-        enum_body.gsub!(/^\s*\/\/\/.*$/, "")
-        enum_body.gsub!(/^\s*\/\/.*$/, "")
-        enum_body.gsub!(/$\s*$/, "")
 
         # Read template enum file.
         template_enum_nif_file = File.read "./c_src/hapi_enum_nif.c.template"
@@ -254,6 +270,12 @@ def scan_enums(hapi_common_header)
     # Preprocess for regex matching.
     hapi_common_file.gsub!("@{", "").gsub!("@}", "")
 
+    # Remove any comments from body.
+    hapi_common_file.gsub!(/\s*\/\/\/.*$/, "")
+    hapi_common_file.gsub!(/^\s*\/\/\/.*$/, "")
+    hapi_common_file.gsub!(/^\s*\/\/.*$/, "")
+    hapi_common_file.gsub!(/$\s*$/, "")
+
     # Extract all enum entries.
     hapi_enum_entries = hapi_common_file.scan /^enum\s+HAPI_([^\s]*)\s*$\s*{([^\}]*)\s*$\s*\};/i
 
@@ -277,18 +299,28 @@ def scan_records(hapi_common_header)
     # Preprocess for regex matching.
     hapi_common_file.gsub!("@{", "").gsub!("@}", "")
 
-    # Extract all enum entries.
+    # Remove any comments from body.
+    hapi_common_file.gsub!(/\s*\/\/\/.*$/, "")
+    hapi_common_file.gsub!(/\s*\/\/.*$/, "")
+
+    # Extract all enum and record entries.
+    #hapi_enum_entries = hapi_common_file.scan /^enum\s+HAPI_\S+\s+\{[^}]*\};/i
+    #hapi_record_enties = hapi_common_file.scan /^struct\s+HAPI_API\s+HAPI_\S+\s+\{[^}]*\};/i
+
     hapi_record_entries = hapi_common_file.scan /^struct\s+HAPI_API\s+HAPI_([^\s]*)\s*$\s*{([^\}]*)\s*$\s*\};/i
 
-    # Create array to hold tuples.
+    # Create array to hold record tuples.
     scanned_records = []
+
+    # Create array to hold enum tuples.
+    scanned_enums = []
 
     hapi_record_entries.each do |entry|
         scanned_records <<  [entry[0], entry[1]]
     end
 
     # Return scanned tuples.
-    scanned_records
+    [scanned_records, scanned_enums]
 end
 
 # Helper function to generate hapi_functions_nif_stubs.c.generated
@@ -401,7 +433,7 @@ def generate_hapi_common_h_resourcs(hapi_common_header)
     generate_nif_enums hapi_common_header
 
     # Generate erlang records from hapi structs.
-    generate_hapi_records hapi_common_header
+    generate_hapi_records_and_enums hapi_common_header
 end
 
 # Helper function to create resources from HAPI.h

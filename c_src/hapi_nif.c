@@ -1,6 +1,7 @@
 #include "hapi_private_nif.h"
 #include "hapi_enums_nif.h"
 #include "hapi_functions_nif.h"
+#include "hapi_defines_nif.h"
 
 #include <assert.h>
 #include <string.h>
@@ -308,20 +309,26 @@ hapi_get_status_string_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         if(HAPI_RESULT_SUCCESS == result)
         {
             char* buffer = NULL;
+            char stack_buffer[HAPI_STACK_STRING_SIZE_MAX];
 
-            if(buffer_size <= 0)
+            if(buffer_size < HAPI_STACK_STRING_SIZE_MAX)
             {
-                buffer_size = 1;
+                memset(stack_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
+                buffer = stack_buffer;
+            }
+            else
+            {
+                buffer = malloc(buffer_size);
+                memset(buffer, 0, buffer_size);
             }
 
-            buffer = malloc(buffer_size);
-            memset(buffer, 0, buffer_size);
-
-            result = HAPI_GetStatusString(status_type, buffer);
-
+            result = HAPI_GetStatusString(status_type, stack_buffer);
             ERL_NIF_TERM result_atom = hapi_private_make_result_tuple_string(env, result, buffer);
 
-            free(buffer);
+            if(buffer_size >= HAPI_STACK_STRING_SIZE_MAX)
+            {
+                free(buffer);
+            }
 
             return result_atom;
         }

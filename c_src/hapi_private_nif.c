@@ -363,15 +363,11 @@ hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
         (tuple_size != 7) ||
         !hapi_private_check_atom_value(env, tuple_cook_options[0], "hapi_cook_options", &cook_options_record) ||
         !cook_options_record ||
-        !enif_is_atom(env, tuple_cook_options[1]) ||
         !hapi_private_check_bool(env, tuple_cook_options[1], &cook_options_split_geos_by_group) ||
         !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive) ||
-        !enif_is_atom(env, tuple_cook_options[3]) ||
         !hapi_private_check_bool(env, tuple_cook_options[3], &cook_options_refine_curve_to_linear) ||
         !enif_get_double(env, tuple_cook_options[4], &cook_options_curve_refine_lod) ||
-        !enif_is_atom(env, tuple_cook_options[5]) ||
         !hapi_private_check_bool(env, tuple_cook_options[5], &cook_options_clear_errors_and_warnings) ||
-        !enif_is_atom(env, tuple_cook_options[6]) ||
         !hapi_private_check_bool(env, tuple_cook_options[6], &cook_options_cook_template_geos))
     {
         return false;

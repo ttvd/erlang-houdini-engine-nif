@@ -1,14 +1,12 @@
 # Erlang NIF bindings for Houdini Engine.
 
-## Goals.
-
-Goals of this project are:
+## Goals of this project.
 
 * To be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
 * Create an HTTP RESTful service based on this NIF.
 * Create a WebGL client to interact with the RESTful service.
 
-## Before Building.
+## Before building.
 
 * Install latest build of Houdini 14.
   * If you choose to install to custom location, you may need to patch rebar.config

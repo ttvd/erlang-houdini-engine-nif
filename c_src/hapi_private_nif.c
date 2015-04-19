@@ -350,6 +350,13 @@ hapi_private_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Node
 
 
 bool
+hapi_private_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* parm_id)
+{
+    return hapi_private_get_id_helper(env, term, (int32_t*) parm_id);
+}
+
+
+bool
 hapi_private_get_vector(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data)
 {
     uint32_t list_size = 0;

@@ -226,7 +226,6 @@ label_cleanup:
 }
 
 
-
 bool
 hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
 {

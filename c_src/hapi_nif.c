@@ -649,6 +649,7 @@ ERL_NIF_TERM
 hapi_load_asset_library_from_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -656,8 +657,17 @@ hapi_load_asset_library_from_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF
 ERL_NIF_TERM
 hapi_get_available_asset_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetLibraryId asset_library_id = -1;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &asset_library_id))
+    {
+        int32_t asset_count = 0;
+        HAPI_Result result = HAPI_GetAvailableAssetCount(asset_library_id, &asset_count);
+
+        return hapi_private_make_result_tuple_int(env, result, asset_count);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetAvailableAssets equivalent.

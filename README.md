@@ -3,8 +3,8 @@
 ## Goals.
 
 Goals of this project are:
-* To be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
 
+* To be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
 * Create an HTTP RESTful service based on this NIF.
 * Create a WebGL client to interact with the RESTful service.
 

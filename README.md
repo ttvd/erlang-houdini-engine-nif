@@ -1,6 +1,6 @@
 # Erlang NIF bindings for Houdini Engine.
 
-## Goal.
+## Goals.
 
 Goals of this project are:
 * To be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.

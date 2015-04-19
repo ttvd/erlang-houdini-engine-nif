@@ -225,4 +225,6 @@ true
 
 ## Other notes.
 
-Please report bugs. Also, pull requests are awesome.
+* This is a personal project.
+* Please report bugs.
+* Pull requests are awesome.

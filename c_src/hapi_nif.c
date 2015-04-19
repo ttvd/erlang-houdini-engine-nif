@@ -639,7 +639,7 @@ hapi_load_asset_library_from_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF
 
     HAPI_Result result = HAPI_LoadAssetLibraryFromMemory((const char*) library_buffer.data, library_buffer_size,
         allow_overwrite, &library_id);
-        
+
     return hapi_private_make_result_tuple_int(env, result, (int32_t) library_id);
 }
 
@@ -884,6 +884,7 @@ ERL_NIF_TERM
 hapi_set_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -892,6 +893,7 @@ ERL_NIF_TERM
 hapi_get_input_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -900,6 +902,7 @@ ERL_NIF_TERM
 hapi_load_hip_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -908,6 +911,7 @@ ERL_NIF_TERM
 hapi_check_for_new_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -916,6 +920,7 @@ ERL_NIF_TERM
 hapi_get_new_asset_ids_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -924,6 +929,7 @@ ERL_NIF_TERM
 hapi_save_hip_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -931,8 +937,36 @@ hapi_save_hip_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_node_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id))
+    {
+        HAPI_NodeInfo node_info;
+        HAPI_Result result = HAPI_GetNodeInfo(node_id, &node_info);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            ERL_NIF_TERM node_info_tuple = enif_make_tuple(env, 12,
+                hapi_private_make_atom(env, "hapi_node_info"),
+                enif_make_int(env, node_info.id),
+                enif_make_int(env, node_info.assetId),
+                enif_make_int(env, node_info.nameSH),
+                enif_make_int(env, node_info.totalCookCount),
+                enif_make_int(env, node_info.uniqueHoudiniNodeId),
+                enif_make_int(env, node_info.internalNodePathSH),
+                enif_make_int(env, node_info.parmCount),
+                enif_make_int(env, node_info.parmIntValueCount),
+                enif_make_int(env, node_info.parmFloatValueCount),
+                enif_make_int(env, node_info.parmStringValueCount),
+                enif_make_int(env, node_info.parmChoiceCount));
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), node_info_tuple);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetGlobalNodes equivalent.

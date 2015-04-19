@@ -76,6 +76,9 @@ bool hapi_private_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
 // Return a double vector by pointer.
 bool hapi_private_get_vector_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data);
 
+// Return a float vector by pointer.
+bool hapi_private_get_vector_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data);
+
 // Return an int vector by pointer.
 bool hapi_private_get_vector_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_t* data);
 

@@ -16,14 +16,14 @@
 * Install Rebar (for example through brew).
 
 ## Building.
-Use rebar
+Use rebar:
 
 ```
 rebar get-deps
 rebar compile
 ```
 
-Or use rake (also run rake without arguments to see available tasks).
+Or use rake (also run rake without arguments to see available tasks):
 
 ```
 $ rake erlang:deps

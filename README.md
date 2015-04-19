@@ -4,8 +4,23 @@
 
 Main goal of this project is to be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
 
+## Before Building.
+
+* Install latest build of Houdini 14.
+  * If you choose to install to custom location, you may need to patch rebar.config
+* Install Erlang OTP 17.5 (build it yourself or install pre-built).
+  * If you choose to install to custom location, you may need to patch rebar.config
+* Install Rebar (for example through brew).
+
 ## Building.
-Use rake (run rake without arguments to see available tasks).
+Use rebar
+
+```
+rebar get-deps
+rebar compile
+```
+
+Or use rake (also run rake without arguments to see available tasks).
 
 ```
 $ rake erlang:deps

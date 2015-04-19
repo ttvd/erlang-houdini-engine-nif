@@ -602,13 +602,8 @@ hapi_is_asset_valid_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_load_asset_library_from_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    bool nif_success = true;
     bool is_nil = false;
     bool allow_overwrite = false;
-    uint32_t file_path_length = 0;
-
-    char* buffer = NULL;
-    char stack_buffer[HAPI_STACK_STRING_SIZE_MAX];
 
     HAPI_AssetLibraryId library_id = -1;
     HAPI_Result result = HAPI_RESULT_SUCCESS;
@@ -631,38 +626,18 @@ hapi_load_asset_library_from_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_T
         }
     }
 
-    if(!enif_get_list_length(env, argv[0], &file_path_length))
-    {
-        return enif_make_badarg(env);
-    }
+    char* buffer = NULL;
+    uint32_t buffer_length = 0;
 
-    if(file_path_length + 1 < HAPI_STACK_STRING_SIZE_MAX)
-    {
-        memset(stack_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
-        buffer = stack_buffer;
-    }
-    else
-    {
-        buffer = malloc(file_path_length);
-        memset(buffer, 0, file_path_length);
-    }
-
-    if(enif_get_string(env, argv[0], buffer, file_path_length + 1, ERL_NIF_LATIN1) < 1)
-    {
-        nif_success = false;
-    }
-    else
+    if(hapi_private_get_string(env, argv[0], &buffer, &buffer_length))
     {
         result = HAPI_LoadAssetLibraryFromFile(buffer, allow_overwrite, &library_id);
-    }
 
-    if(file_path_length + 1 >= HAPI_STACK_STRING_SIZE_MAX)
-    {
-        free(buffer);
-    }
+        if(buffer)
+        {
+            free(buffer);
+        }
 
-    if(nif_success)
-    {
         return hapi_private_make_result_tuple_int(env, result, (int32_t) library_id);
     }
 

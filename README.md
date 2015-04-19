@@ -148,9 +148,15 @@ true
 > hapi:get_parm_id_from_name(3, "int_16").
 {{hapi_result_success,3713831785},33}
 
-> hapi:get_parm_int_values(3, 33, 16).
+> hapi:get_parm_info(3, 33).
 {{hapi_result_success,3713831785},
- [7,8,9,10,11,12,13,14,15,16,0,0,0,0,0,0]}
+ {hapi_parm_info,33,23,0,0,0,16,0,3266,3267,3269,3268,3269,
+                 3268,false,false,true,true,0.0,10.0,0.0,10.0,false,false,
+                 false,false,false,27...}}
+
+> hapi:get_parm_int_values(3, 27, 16).
+{{hapi_result_success,3713831785},
+ [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]}
 
 > hapi:cleanup().
 {hapi_result_success,3713831785}

@@ -53,6 +53,9 @@ bool hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
 // Return HAPI_AssetLibraryId by pointer.
 bool hapi_private_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* asset_library_id);
 
+// Return HAPI_NodeId by pointer.
+bool hapi_private_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* node_id);
+
 // Return vector by pointer.
 bool hapi_private_get_vector(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data);
 

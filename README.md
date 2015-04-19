@@ -158,10 +158,22 @@ true
 {{hapi_result_success,3713831785},
  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]}
 
+> hapi:get_parm_id_from_name(3, "t").
+ {{hapi_result_success,3713831785},51}
+
+> hapi:get_parm_info(3, 51).
+{{hapi_result_success,3713831785},
+ {hapi_parm_info,51,3,4,0,0,3,0,3358,3357,3395,3380,3395,
+                  3380,false,false,false,false,0.0,10.0,0.0,10.0,false,false,
+                  false,false,false,28,...}}
+
+> hapi:get_parm_float_values(3, 28, 3).
+ {{hapi_result_success,3713831785},[0.0,0.0,0.0]}
+ 
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 37 / 135, work in progress).
+## Supported HAPI calls ( 38 / 135, work in progress).
 
 * hapi:initialize/5
 * hapi:is_initialized/0
@@ -198,6 +210,7 @@ true
 * hapi:get_parm_int_value/3
 * hapi:get_parm_float_value/3
 * hapi:get_parm_int_values/3
+* hapi:get_parm_float_values/3
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

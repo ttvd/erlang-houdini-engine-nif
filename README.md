@@ -97,9 +97,6 @@ true
 > hapi:instantiate_asset("hapi::Object/dummyboxes::2.0", true).
 {{hapi_result_success,3713831785},0}
 
-> hapi:destroy_asset(0).
-{hapi_result_success,3713831785}
-
 > hapi:get_asset_info(0).
 {{hapi_result_success,3713831785},
  {hapi_asset_info,0,0,0,1409326048,3,4,false,2968,2984,2932,2985,2941,2940,4,1,1,1,false,false}}
@@ -190,6 +187,9 @@ true
 
 > hapi:get_parm_float_values(3, 28, 3).
 {{hapi_result_success,3713831785},[5.0,42.0,33.5]}
+
+> hapi:destroy_asset(0).
+{hapi_result_success,3713831785}
 
 > hapi:cleanup().
 {hapi_result_success,3713831785}

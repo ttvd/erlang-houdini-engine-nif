@@ -680,7 +680,7 @@ hapi_get_available_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 
             if(HAPI_RESULT_SUCCESS == result)
             {
-                for(int32_t handle_idx = 0; handle_idx < asset_count; ++handle_idx)
+                for(int32_t handle_idx = asset_count - 1; handle_idx >= 0; handle_idx--)
                 {
                     list = enif_make_list_cell(env, enif_make_int(env, handles[handle_idx]), list);
                 }
@@ -997,7 +997,7 @@ hapi_get_parameters_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         {
             ERL_NIF_TERM list = enif_make_list(env, 0);
 
-            for(int32_t parm_idx = 0; parm_idx < parm_length; ++parm_idx)
+            for(int32_t parm_idx = parm_length - 1; parm_idx >= 0; parm_idx--)
             {
                 const HAPI_ParmInfo* parm_info = &(*(parm_infos + parm_idx));
 
@@ -1189,7 +1189,7 @@ hapi_get_parm_int_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 
         if(HAPI_RESULT_SUCCESS == result)
         {
-            for(int32_t parm_idx = 0; parm_idx < parm_length; ++parm_idx)
+            for(int32_t parm_idx = parm_length - 1; parm_idx >= 0; parm_idx--)
             {
                 list = enif_make_list_cell(env, enif_make_int(env, *(parm_values + parm_idx)), list);
             }

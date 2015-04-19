@@ -1294,8 +1294,32 @@ hapi_get_parm_float_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_get_parm_string_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    int32_t parm_index = 0;
+    bool evaluate = false;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) &&
+        enif_get_int(env, argv[2], &parm_index) &&
+        hapi_private_check_bool(env, argv[3], &evaluate))
+    {
+        char* buffer = NULL;
+        uint32_t buffer_length = 0;
+        HAPI_StringHandle string_handle = -1;
+
+        if(hapi_private_get_string(env, argv[1], &buffer, &buffer_length))
+        {
+            HAPI_Result result = HAPI_GetParmStringValue(node_id, buffer, parm_index, evaluate, &string_handle);
+
+            if(buffer)
+            {
+                free(buffer);
+            }
+
+            return hapi_private_make_result_tuple_int(env, result, string_handle);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetParmStringValues equivalent.

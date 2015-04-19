@@ -11,7 +11,7 @@
 * Install latest build of Houdini 14.
   * If you choose to install to custom location, you may need to patch rebar.config
 * Install Erlang (build it yourself or install pre-built).
-  * This NIF library relies on enif_schedule_nif, which requires a fairly recent Erlang OTP, for example OTP 17.5
+  * This NIF library relies on enif_schedule_nif, which requires a fairly recent Erlang OTP, for example OTP 17.5 .
   * If you choose to install to custom location, you may need to patch rebar.config
 * Install Rebar (for example through brew).
 

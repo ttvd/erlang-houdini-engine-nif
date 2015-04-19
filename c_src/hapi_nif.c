@@ -1576,8 +1576,31 @@ hapi_set_parm_float_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_set_parm_string_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    HAPI_ParmId parm_id = -1;
+    int32_t parm_index = 0;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) &&
+        hapi_private_get_hapi_parm_id(env, argv[2], &parm_id) &&
+        enif_get_int(env, argv[3], &parm_index))
+    {
+        char* buffer = NULL;
+        uint32_t buffer_length = 0;
+
+        if(hapi_private_get_string(env, argv[1], &buffer, &buffer_length))
+        {
+            HAPI_Result result = HAPI_SetParmStringValue(node_id, buffer, parm_id, parm_index);
+
+            if(buffer)
+            {
+                free(buffer);
+            }
+
+            return hapi_enum_result_c_to_erl(env, result);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_InsertMultiparmInstance equivalent.

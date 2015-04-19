@@ -17,6 +17,9 @@ ERL_NIF_TERM hapi_private_make_atom_bool(ErlNifEnv* env, bool value);
 // Create an atom with hash.
 ERL_NIF_TERM hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name);
 
+// Create a vector of doubles (list) from float array of given size.
+ERL_NIF_TERM hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data);
+
 // Create a result / int tuple if hapi call was successful, otherwise return hapi result atom.
 ERL_NIF_TERM hapi_private_make_result_tuple_int(ErlNifEnv* env, HAPI_Result result, int32_t value);
 
@@ -43,6 +46,12 @@ bool hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** str
 
 // Return HAPI_CookOptions by pointer.
 bool hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* cook_options);
+
+// Return HAPI_AssetId by pointer.
+bool hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* asset_id);
+
+// Return vector by pointer.
+bool hapi_private_get_vector(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data);
 
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

@@ -45,6 +45,20 @@ hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name)
 
 
 ERL_NIF_TERM
+hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = 0; idx < size; ++idx)
+    {
+        list = enif_make_list_cell(env, enif_make_int(env, (double) *(data + idx)), list);
+    }
+
+    return list;
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_result_tuple_int(ErlNifEnv* env, HAPI_Result result, int32_t value)
 {
     if(HAPI_RESULT_SUCCESS == result)
@@ -296,4 +310,60 @@ hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
     cook_options->cookTemplatedGeos = cook_options_cook_template_geos;
 
     return true;
+}
+
+
+bool
+hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* asset_id_out)
+{
+    HAPI_AssetId asset_id = -1;
+
+    if(enif_get_int(env, term, (int32_t*) &asset_id))
+    {
+        *asset_id_out = asset_id;
+        return true;
+    }
+
+    return false;
+}
+
+
+bool
+hapi_private_get_vector(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data)
+{
+    uint32_t list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &list_size) &&
+        (list_size == size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            double param_double = 0.0;
+            int param_int = 0;
+
+            if(enif_get_double(env, head, &param_double))
+            {
+                *(data + index) = param_double;
+            }
+            else if(enif_get_int(env, head, &param_int))
+            {
+                *(data + index) = (double) param_int;
+            }
+            else
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
 }

@@ -101,6 +101,13 @@ true
 {{hapi_result_success,3713831785},
  {hapi_asset_info,0,0,0,1409326048,3,4,false,2968,2984,2932,2985,2941,2940,4,1,1,1,false,false}}
 
+> hapi:get_objects(0, 0, 4).
+{{hapi_result_success,3713831785},
+ [{hapi_object_info,0,5044,4909,true,true,true,false,1,5,-1},
+  {hapi_object_info,1,5837,5702,true,true,true,false,1,7,-1},
+  {hapi_object_info,2,6634,6499,true,true,true,false,1,9,-1},
+  {hapi_object_info,3,8037,7902,true,true,true,false,1,11,-1}]}
+
 > hapi:get_node_info(3).
 {{hapi_result_success,3713831785},
  {hapi_node_info,3,0,3616,0,35,3635,84,64,60,21,66}}

@@ -421,7 +421,7 @@ hapi_private_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Parm
 
 
 bool
-hapi_private_get_vector(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data)
+hapi_private_get_vector_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -444,6 +444,42 @@ hapi_private_get_vector(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, 
             else if(enif_get_int(env, head, &param_int))
             {
                 *(data + index) = (double) param_int;
+            }
+            else
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+bool
+hapi_private_get_vector_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_t* data)
+{
+    uint32_t list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &list_size) &&
+        (list_size == size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            int32_t param_int = 0.0;
+
+            if(enif_get_int(env, head, &param_int))
+            {
+                *(data + index) = param_int;
             }
             else
             {

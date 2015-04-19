@@ -773,8 +773,46 @@ hapi_destroy_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_asset_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &asset_id))
+    {
+        HAPI_AssetInfo asset_info;
+        HAPI_Result result = HAPI_GetAssetInfo(asset_id, &asset_info);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            ERL_NIF_TERM asset_info_tuple = enif_make_tuple(env, 20,
+                hapi_private_make_atom(env, "hapi_asset_info"),
+                enif_make_int(env, asset_info.id),
+                enif_make_int(env, asset_info.type),
+                enif_make_int(env, asset_info.subType),
+                enif_make_int(env, asset_info.validationId),
+                enif_make_int(env, asset_info.nodeId),
+                enif_make_int(env, asset_info.objectNodeId),
+                hapi_private_make_atom_bool(env, asset_info.hasEverCooked),
+                enif_make_int(env, asset_info.nameSH),
+                enif_make_int(env, asset_info.labelSH),
+                enif_make_int(env, asset_info.filePathSH),
+                enif_make_int(env, asset_info.versionSH),
+                enif_make_int(env, asset_info.fullOpNameSH),
+                enif_make_int(env, asset_info.helpTextSH),
+
+                enif_make_int(env, asset_info.objectCount),
+                enif_make_int(env, asset_info.handleCount),
+                enif_make_int(env, asset_info.transformInputCount),
+                enif_make_int(env, asset_info.geoInputCount),
+
+                hapi_private_make_atom_bool(env, asset_info.haveObjectsChanged),
+                hapi_private_make_atom_bool(env, asset_info.haveMaterialsChanged));
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), asset_info_tuple);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_CookAsset equivalent.

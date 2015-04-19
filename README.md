@@ -69,8 +69,8 @@ true
 14> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/nonexistant.hda",true).
 {hapi_result_cant_loadfile,2751182470}
 
-15> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/dummyboxes.otl",true).
-{{hapi_result_success,3713831785},0}
+15> hapi:load_asset_library_from_file("otls/dummyboxes.otl",true).
+{{hapi_result_success,3713831785},1}
 
 16> hapi:get_available_asset_count(0).
 {{hapi_result_success,3713831785},1}

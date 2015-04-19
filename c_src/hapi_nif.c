@@ -32,13 +32,6 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     bool otl_search_path_nil = false;
     bool dso_search_path_nil = false;
 
-    bool cook_options_split_geos_by_group = true;
-    int32_t cook_options_max_vertices_per_primitive = -1;
-    bool cook_options_refine_curve_to_linear = false;
-    double cook_options_curve_refine_lod = 8.0;
-    bool cook_options_clear_errors_and_warnings = false;
-    bool cook_options_cook_template_geos = false;
-
     bool use_cooking_thread = false;
     int32_t cooking_thread_stack_size = 0;
 
@@ -144,36 +137,11 @@ hapi_initialize_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     }
     else
     {
-        int32_t tuple_size = 0;
-        const ERL_NIF_TERM* tuple_cook_options = NULL;
-        bool cook_options_record = false;
-
-        if(!enif_get_tuple(env, argv[2], &tuple_size, &tuple_cook_options) ||
-            (tuple_size != 7) ||
-            !hapi_private_check_atom_value(env, tuple_cook_options[0], "hapi_cook_options", &cook_options_record) ||
-            !cook_options_record ||
-            !enif_is_atom(env, tuple_cook_options[1]) ||
-            !hapi_private_check_bool(env, tuple_cook_options[1], &cook_options_split_geos_by_group) ||
-            !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive) ||
-            !enif_is_atom(env, tuple_cook_options[3]) ||
-            !hapi_private_check_bool(env, tuple_cook_options[3], &cook_options_refine_curve_to_linear) ||
-            !enif_get_double(env, tuple_cook_options[4], &cook_options_curve_refine_lod) ||
-            !enif_is_atom(env, tuple_cook_options[5]) ||
-            !hapi_private_check_bool(env, tuple_cook_options[5], &cook_options_clear_errors_and_warnings) ||
-            !enif_is_atom(env, tuple_cook_options[6]) ||
-            !hapi_private_check_bool(env, tuple_cook_options[6], &cook_options_cook_template_geos))
+        if(!hapi_private_get_hapi_cook_options(env, argv[2], &cook_options))
         {
             nif_success = false;
             goto label_cleanup;
         }
-
-        // Set cook options.
-        cook_options.splitGeosByGroup = cook_options_split_geos_by_group;
-        cook_options.maxVerticesPerPrimitive = cook_options_max_vertices_per_primitive;
-        cook_options.refineCurveToLinear = cook_options_refine_curve_to_linear;
-        cook_options.curveRefineLOD = cook_options_curve_refine_lod;
-        cook_options.clearErrorsAndWarnings = cook_options_clear_errors_and_warnings;
-        cook_options.cookTemplatedGeos = cook_options_cook_template_geos;
     }
 
     // Process cooking thread parameter, it must be a boolean.
@@ -797,12 +765,10 @@ hapi_get_asset_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
                 enif_make_int(env, asset_info.versionSH),
                 enif_make_int(env, asset_info.fullOpNameSH),
                 enif_make_int(env, asset_info.helpTextSH),
-
                 enif_make_int(env, asset_info.objectCount),
                 enif_make_int(env, asset_info.handleCount),
                 enif_make_int(env, asset_info.transformInputCount),
                 enif_make_int(env, asset_info.geoInputCount),
-
                 hapi_private_make_atom_bool(env, asset_info.haveObjectsChanged),
                 hapi_private_make_atom_bool(env, asset_info.haveMaterialsChanged));
 
@@ -815,12 +781,33 @@ hapi_get_asset_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     return enif_make_badarg(env);
 }
 
+// Helper cooking function invoked by scheduler.
+static
+ERL_NIF_TERM
+hapi_cook_asset_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    HAPI_AssetId asset_id = -1;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &asset_id))
+    {
+        HAPI_CookOptions cook_options;
+
+        if(!hapi_private_get_hapi_cook_options(env, argv[1], &cook_options))
+        {
+            return enif_make_badarg(env);
+        }
+
+        return hapi_enum_result_c_to_erl(env, HAPI_CookAsset(asset_id, &cook_options));
+    }
+
+    return enif_make_badarg(env);
+}
+
 // HAPI_CookAsset equivalent.
 ERL_NIF_TERM
 hapi_cook_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    return enif_schedule_nif(env, "hapi_cook_asset_impl_helper", 0, hapi_cook_asset_impl_helper, argc, argv);
 }
 
 // HAPI_Interrupt equivalent.

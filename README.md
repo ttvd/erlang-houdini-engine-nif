@@ -95,9 +95,17 @@ true
  {hapi_asset_info,0,0,0,1409326048,3,4,false,2968,2984,2932,2985,2941,2940,4,1,1,1,false,false}}
 
 23> hapi:cook_asset(0, {hapi_cook_options, false, 3, false, 8.0, false, false}).
- {hapi_result_success,3713831785}
+{hapi_result_success,3713831785}
 
-24> hapi:cleanup().
+24> hapi:get_asset_transform(0, hapi_trs, hapi_zyx).
+{{hapi_result_success,3713831785},
+ {hapi_transform,[0,0,0],
+                 [0,0,0],
+                 [1,1,1],
+                 {hapi_zyx,2804301731},
+                 {hapi_trs,2754525809}}}
+
+25> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
 ## Supported HAPI calls (work in progress).
@@ -126,6 +134,8 @@ true
 * hapi:destroy_asset/1
 * hapi:get_asset_info/1
 * hapi:cook_asset/2
+* hapi:interrupt/0
+* hapi:get_asset_transform/3
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

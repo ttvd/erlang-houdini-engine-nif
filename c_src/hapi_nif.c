@@ -555,7 +555,7 @@ hapi_is_asset_valid_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_AssetId asset_id = -1;
     int32_t asset_validation_id = 0;
 
-    if(enif_get_int(env, argv[0], (int32_t*) &asset_id) && enif_get_int(env, argv[1], &asset_validation_id))
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id) && enif_get_int(env, argv[1], &asset_validation_id))
     {
         int32_t is_valid = 0;
         HAPI_Result result = HAPI_IsAssetValid(asset_id, asset_validation_id, &is_valid);
@@ -729,7 +729,7 @@ hapi_destroy_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     HAPI_AssetId asset_id = -1;
 
-    if(enif_get_int(env, argv[0], (int32_t*) &asset_id))
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id))
     {
         return hapi_enum_result_c_to_erl(env, HAPI_DestroyAsset(asset_id));
     }
@@ -743,7 +743,7 @@ hapi_get_asset_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     HAPI_AssetId asset_id = -1;
 
-    if(enif_get_int(env, argv[0], (int32_t*) &asset_id))
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id))
     {
         HAPI_AssetInfo asset_info;
         HAPI_Result result = HAPI_GetAssetInfo(asset_id, &asset_info);
@@ -788,7 +788,7 @@ hapi_cook_asset_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     HAPI_AssetId asset_id = -1;
 
-    if(enif_get_int(env, argv[0], (int32_t*) &asset_id))
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id))
     {
         HAPI_CookOptions cook_options;
 
@@ -821,8 +821,34 @@ hapi_interrupt_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+    HAPI_RSTOrder rst_order;
+    HAPI_XYZOrder xyz_order;
+
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id) &&
+        hapi_enum_rst_order_erl_to_c(env, argv[1], &rst_order) &&
+        hapi_enum_xyz_order_erl_to_c(env, argv[2], &xyz_order))
+    {
+        HAPI_TransformEuler transform_euler;
+        HAPI_Result result = HAPI_GetAssetTransform(asset_id, rst_order, xyz_order, &transform_euler);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            ERL_NIF_TERM transform_tuple = enif_make_tuple(env, 6,
+                hapi_private_make_atom(env, "hapi_transform"),
+                hapi_private_make_vector_float(env, HAPI_POSITION_VECTOR_SIZE, transform_euler.position),
+                hapi_private_make_vector_float(env, HAPI_EULER_VECTOR_SIZE, transform_euler.rotationEuler),
+                hapi_private_make_vector_float(env, HAPI_SCALE_VECTOR_SIZE, transform_euler.scale),
+                hapi_enum_xyz_order_c_to_erl(env, transform_euler.rotationOrder),
+                hapi_enum_rst_order_c_to_erl(env, transform_euler.rstOrder));
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), transform_tuple);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_SetAssetTransform equivalent.

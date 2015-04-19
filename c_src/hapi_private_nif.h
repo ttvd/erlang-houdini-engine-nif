@@ -35,6 +35,10 @@ ERL_NIF_TERM hapi_private_make_hapi_parm_choice_info(ErlNifEnv* env, HAPI_ParmId
 ERL_NIF_TERM hapi_private_make_hapi_handle_info(ErlNifEnv* env, HAPI_StringHandle name_sh, HAPI_StringHandle typeName_sh,
     int32_t bindings_count);
 
+// Create hapi_handle_binding_info record.
+ERL_NIF_TERM hapi_private_make_hapi_handle_binding_info(ErlNifEnv* env, HAPI_StringHandle handle_parm_name_sh,
+    HAPI_StringHandle asset_parm_name_sh, HAPI_ParmId asset_parm_id);
+
 // Create a vector of doubles (list) from float array of given size.
 ERL_NIF_TERM hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data);
 

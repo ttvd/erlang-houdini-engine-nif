@@ -1535,8 +1535,41 @@ hapi_set_parm_float_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_set_parm_float_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    int32_t parm_start = 0;
+    int32_t parm_length = 0;
+    float* data_buffer = NULL;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) &&
+        enif_get_int(env, argv[2], &parm_start) &&
+        enif_get_int(env, argv[3], &parm_length))
+    {
+        if(parm_length > 0)
+        {
+            data_buffer = malloc(parm_length * sizeof(float));
+        }
+
+        if(!hapi_private_get_vector_float(env, argv[1], parm_length, data_buffer))
+        {
+            if(data_buffer)
+            {
+                free(data_buffer);
+            }
+
+            return enif_make_badarg(env);
+        }
+
+        HAPI_Result result = HAPI_SetParmFloatValues(node_id, data_buffer, parm_start, parm_length);
+
+        if(data_buffer)
+        {
+            free(data_buffer);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_SetParmStringValue equivalent.

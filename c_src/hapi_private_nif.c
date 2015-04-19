@@ -133,6 +133,26 @@ hapi_private_make_hapi_handle_binding_info(ErlNifEnv* env, HAPI_StringHandle han
 
 
 ERL_NIF_TERM
+hapi_private_hapi_object_info(ErlNifEnv* env, HAPI_ObjectId id, HAPI_StringHandle name_sh,
+    HAPI_StringHandle object_instance_path_sh, HAPI_Bool has_transform_changed, HAPI_Bool have_geos_changed,
+    HAPI_Bool is_visible, HAPI_Bool is_instancer, int32_t geo_count, HAPI_NodeId node_id, HAPI_ObjectId object_to_instance_id)
+{
+    return enif_make_tuple(env, 11,
+        hapi_private_make_atom(env, "hapi_object_info"),
+        enif_make_int(env, id),
+        enif_make_int(env, name_sh),
+        enif_make_int(env, object_instance_path_sh),
+        hapi_private_make_atom_bool(env, has_transform_changed),
+        hapi_private_make_atom_bool(env, have_geos_changed),
+        hapi_private_make_atom_bool(env, is_visible),
+        hapi_private_make_atom_bool(env, is_instancer),
+        enif_make_int(env, geo_count),
+        enif_make_int(env, node_id),
+        enif_make_int(env, object_to_instance_id));
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);

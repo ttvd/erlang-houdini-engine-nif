@@ -4,19 +4,10 @@
 
 Main goal of this project is to be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
 
-## Before building.  
-
-Rakefile needs xxhash Ruby gem.
-
-```
-gem install xxhash
-```
-
 ## Building.
 Use rake (run rake without arguments to see available tasks).
 
 ```
-$ rake erlang:generate
 $ rake erlang:deps
 $ rake erlang:compile
 ```

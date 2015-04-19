@@ -4,8 +4,7 @@ require 'rubygems'
 begin
     require 'xxhash'
 rescue LoadError
-    puts "Please install xxhash Ruby gem."
-    exit
+    puts "xxhash Ruby gem is not installed, disabling generators."
 end
 
 # Helper function to produce underscore version of a string.
@@ -538,82 +537,85 @@ end
 
 namespace :erlang do
 
-    # This will generate hapi.erl
-    desc "Generate resources from HAPI.h"
-    task :process_hapi_common_header, [:hapi_header_path] do |t, args|
-        hapi_path = args.values_at(:hapi_header_path)
+    if defined?(XXhash)
 
-        if not hapi_path.first.nil?
-            hapi_path = hapi_path.first
+        # This will generate hapi.erl
+        desc "Generate resources from HAPI.h"
+        task :process_hapi_common_header, [:hapi_header_path] do |t, args|
+            hapi_path = args.values_at(:hapi_header_path)
 
-            if not File.file? hapi_path
-                hapi_path = "#{hapi_path}/HAPI.h"
-            end
+            if not hapi_path.first.nil?
+                hapi_path = hapi_path.first
 
-            if File.file? hapi_path
-                generate_hapi_h_resources hapi_path
+                if not File.file? hapi_path
+                    hapi_path = "#{hapi_path}/HAPI.h"
+                end
+
+                if File.file? hapi_path
+                    generate_hapi_h_resources hapi_path
+                else
+                    puts "Could not locate HAPI.h"
+                end
             else
-                puts "Could not locate HAPI.h"
-            end
-        else
-            puts "Please provide location of HAPI.h as parameter."
-        end
-    end
-
-    # This will attempt to detect where HAPI.h is and run generation.
-    desc "Locate HAPI.h and generate resources from it"
-    task :process_hapi_common do
-
-        if RUBY_PLATFORM =~ /^.*darwin.*$/
-
-            hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
-
-            if File.exists? hapi_common_header
-                Rake::Task["erlang:process_hapi_common_header"].invoke hapi_common_header
+                puts "Please provide location of HAPI.h as parameter."
             end
         end
-    end
 
-    # This will generate hapi enum stubs.
-    desc "Generate resources from HAPI_Common.h"
-    task :process_hapi_header, [:hapi_common_header_path] do |t, args|
-        hapi_path = args.values_at(:hapi_common_header_path)
+        # This will attempt to detect where HAPI.h is and run generation.
+        desc "Locate HAPI.h and generate resources from it"
+        task :process_hapi_common do
 
-        if not hapi_path.first.nil?
-            hapi_path = hapi_path.first
+            if RUBY_PLATFORM =~ /^.*darwin.*$/
 
-            if not File.file? hapi_path
-                hapi_path = "#{hapi_path}/HAPI_Common.h"
+                hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI.h"
+
+                if File.exists? hapi_common_header
+                    Rake::Task["erlang:process_hapi_common_header"].invoke hapi_common_header
+                end
             end
+        end
 
-            if File.file? hapi_path
-                generate_hapi_common_h_resourcs hapi_path
+        # This will generate hapi enum stubs.
+        desc "Generate resources from HAPI_Common.h"
+        task :process_hapi_header, [:hapi_common_header_path] do |t, args|
+            hapi_path = args.values_at(:hapi_common_header_path)
+
+            if not hapi_path.first.nil?
+                hapi_path = hapi_path.first
+
+                if not File.file? hapi_path
+                    hapi_path = "#{hapi_path}/HAPI_Common.h"
+                end
+
+                if File.file? hapi_path
+                    generate_hapi_common_h_resourcs hapi_path
+                else
+                    puts "Could not locate HAPI_Common.h"
+                end
             else
-                puts "Could not locate HAPI_Common.h"
-            end
-        else
-            puts "Please provide location of HAPI_Common.h as parameter."
-        end
-    end
-
-    # This will attempt to detect where HAPI_Common.h is and run generation.
-    desc "Locate HAPI_Common.h and generate resources from it"
-    task :process_hapi do
-
-        if RUBY_PLATFORM =~ /^.*darwin.*$/
-
-            hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI_Common.h"
-
-            if File.exists? hapi_common_header
-                Rake::Task["erlang:process_hapi_header"].invoke hapi_common_header
+                puts "Please provide location of HAPI_Common.h as parameter."
             end
         end
-    end
 
-    # This will generate all necessary files.
-    desc "Generate all necessary stubs"
-    task :generate => ["erlang:process_hapi", "erlang:process_hapi_common"] do
+        # This will attempt to detect where HAPI_Common.h is and run generation.
+        desc "Locate HAPI_Common.h and generate resources from it"
+        task :process_hapi do
 
+            if RUBY_PLATFORM =~ /^.*darwin.*$/
+
+                hapi_common_header = "/Library/Frameworks/Houdini.framework/Resources/toolkit/include/HAPI/HAPI_Common.h"
+
+                if File.exists? hapi_common_header
+                    Rake::Task["erlang:process_hapi_header"].invoke hapi_common_header
+                end
+            end
+        end
+
+        # This will generate all necessary files.
+        desc "Generate all necessary stubs"
+        task :generate => ["erlang:process_hapi", "erlang:process_hapi_common"] do
+
+        end
     end
 
     # This will clean all binary files.

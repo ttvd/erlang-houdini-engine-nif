@@ -109,6 +109,18 @@ hapi_private_make_hapi_parm_choice_info(ErlNifEnv* env, HAPI_ParmId parent_parm_
 
 
 ERL_NIF_TERM
+hapi_private_make_hapi_handle_info(ErlNifEnv* env, HAPI_StringHandle name_sh, HAPI_StringHandle typeName_sh,
+    int32_t bindings_count)
+{
+    return enif_make_tuple(env, 4,
+        hapi_private_make_atom(env, "hapi_handle_info"),
+        enif_make_int(env, name_sh),
+        enif_make_int(env, typeName_sh),
+        enif_make_int(env, bindings_count));
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);

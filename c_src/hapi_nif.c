@@ -704,12 +704,37 @@ hapi_get_available_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     return enif_make_badarg(env);
 }
 
+// Helper intstantiation function invoked by scheduler.
+static
+ERL_NIF_TERM
+hapi_instantiate_asset_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    char* asset_name = NULL;
+    uint32_t asset_name_length = 0;
+    bool cook_on_load = false;
+
+    if(hapi_private_get_string(env, argv[0], &asset_name, &asset_name_length) &&
+        hapi_private_check_bool(env, argv[1], &cook_on_load))
+    {
+        HAPI_AssetId asset_id = -1;
+        HAPI_Result result = HAPI_InstantiateAsset(asset_name, cook_on_load, &asset_id);
+
+        if(asset_name)
+        {
+            free(asset_name);
+        }
+
+        return hapi_private_make_result_tuple_int(env, result, asset_id);
+    }
+
+    return enif_make_badarg(env);
+}
+
 // HAPI_InstantiateAsset equivalent.
 ERL_NIF_TERM
 hapi_instantiate_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    return enif_schedule_nif(env, "hapi_instantiate_asset_impl_helper", 0, hapi_instantiate_asset_impl_helper, argc, argv);
 }
 
 // HAPI_CreateCurve equivalent.

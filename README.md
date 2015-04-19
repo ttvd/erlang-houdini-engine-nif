@@ -84,7 +84,10 @@ true
 19> hapi:get_string(2982, 29).
 {{hapi_result_success,3713831785}, "hapi::Object/dummyboxes::2.0"}
 
-20> hapi:cleanup().
+20> hapi:instantiate_asset("hapi::Object/dummyboxes::2.0", true).
+{{hapi_result_success,3713831785},0}
+
+21> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
 ## Supported HAPI calls (work in progress).
@@ -109,6 +112,7 @@ true
 * hapi:load_asset_library_from_file/2
 * hapi:get_available_asset_count/1
 * hapi:get_available_assets/2
+* hapi:instantiate_asset/2
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

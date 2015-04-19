@@ -102,10 +102,22 @@ true
 ...
   {...}|...]}
 
-25> hapi:cook_asset(0, {hapi_cook_options, false, 3, false, 8.0, false, false}).
+25> hapi:get_parm_info(3, 0).
+{{hapi_result_success,3713831785},
+ {hapi_parm_info,0,-1,0,0,0,1,0,3052,3053,3055,3054,3055,
+               3054,false,false,true,true,0.0,10.0,0.0,10.0,false,false,
+               false,false,false,...}}
+
+26> hapi:get_parm_info(3, 83).
+{{hapi_result_success,3713831785},
+ {hapi_parm_info,83,-1,0,0,0,1,6,3786,3787,3789,3788,3789,
+                3788,false,false,true,true,0.0,1.0,0.0,1.0,false,false,
+                false,false,true,...}}
+
+27> hapi:cook_asset(0, {hapi_cook_options, false, 3, false, 8.0, false, false}).
 {hapi_result_success,3713831785}
 
-26> hapi:get_asset_transform(0, hapi_trs, hapi_zyx).
+28> hapi:get_asset_transform(0, hapi_trs, hapi_zyx).
 {{hapi_result_success,3713831785},
  {hapi_transform,[0,0,0],
                  [0,0,0],
@@ -113,7 +125,7 @@ true
                  {hapi_zyx,2804301731},
                  {hapi_trs,2754525809}}}
 
-27> hapi:cleanup().
+29> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
 ## Supported HAPI calls (work in progress).
@@ -147,6 +159,7 @@ true
 * hapi:get_asset_transform/3
 * hapi:get_node_info/1
 * hapi:get_parameters/3
+* hapi:get_parm_info/2
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

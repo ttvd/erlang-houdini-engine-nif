@@ -70,7 +70,7 @@ true
 {hapi_result_cant_loadfile,2751182470}
 
 15> hapi:load_asset_library_from_file("otls/dummyboxes.otl",true).
-{{hapi_result_success,3713831785},1}
+{{hapi_result_success,3713831785},0}
 
 16> hapi:get_available_asset_count(0).
 {{hapi_result_success,3713831785},1}

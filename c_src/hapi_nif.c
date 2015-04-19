@@ -674,8 +674,34 @@ hapi_get_available_asset_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 ERL_NIF_TERM
 hapi_get_available_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetLibraryId asset_library_id = -1;
+    int32_t asset_count = 0;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &asset_library_id) && enif_get_int(env, argv[1], (int32_t*) &asset_count))
+    {
+        assert(asset_count >= 0);
+        ERL_NIF_TERM list = enif_make_list(env, 0);
+
+        if(asset_count > 0)
+        {
+            HAPI_StringHandle* handles = malloc(asset_count * sizeof(HAPI_StringHandle));
+            HAPI_Result result = HAPI_GetAvailableAssets(asset_library_id, handles, asset_count);
+
+            if(HAPI_RESULT_SUCCESS == result)
+            {
+                for(int32_t handle_idx = 0; handle_idx < asset_count; ++handle_idx)
+                {
+                    list = enif_make_list_cell(env, enif_make_int(env, handles[handle_idx]), list);
+                }
+            }
+
+            free(handles);
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), list);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_InstantiateAsset equivalent.

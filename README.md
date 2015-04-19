@@ -188,6 +188,13 @@ true
 > hapi:get_parm_float_values(3, 28, 3).
 {{hapi_result_success,3713831785},[5.0,42.0,33.5]}
 
+> hapi:get_preset_buf_length(3, hapi_presettype_binary, "preset").
+{{hapi_result_success,3713831785},2626}
+
+> hapi:get_preset(3, 2626).
+{{hapi_result_success,3713831785},
+ <<"#PSI_PRESET\nversion 2.0a\nopvalues\n{\nversion 0.8\nstdswitcher\t[ 0\tlocks=0 ]\t(\t0\t0\t)\nkeeppos\t[ 0\tlocks=0 ]\t(\t\"o"...>>}
+
 > hapi:destroy_asset(0).
 {hapi_result_success,3713831785}
 

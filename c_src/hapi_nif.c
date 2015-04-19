@@ -1002,46 +1002,19 @@ hapi_get_parameters_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             {
                 const HAPI_ParmInfo* parm_info = &(*(parm_infos + parm_idx));
 
-                ERL_NIF_TERM parm_tuple = enif_make_tuple(env, 35,
-                    hapi_private_make_atom(env, "hapi_parm_info"),
-                    enif_make_int(env, parm_info->id),
-                    enif_make_int(env, parm_info->parentId),
-                    enif_make_int(env, parm_info->type),
-                    enif_make_int(env, parm_info->typeInfoSH),
-                    enif_make_int(env, parm_info->permissions),
-                    enif_make_int(env, parm_info->size),
-                    enif_make_int(env, parm_info->choiceCount),
-                    enif_make_int(env, parm_info->nameSH),
-                    enif_make_int(env, parm_info->labelSH),
-                    enif_make_int(env, parm_info->templateNameSH),
-                    enif_make_int(env, parm_info->helpSH),
-                    enif_make_int(env, parm_info->templateNameSH),
-                    enif_make_int(env, parm_info->helpSH),
-                    hapi_private_make_atom_bool(env, parm_info->hasMin),
-                    hapi_private_make_atom_bool(env, parm_info->hasMax),
-                    hapi_private_make_atom_bool(env, parm_info->hasUIMin),
-                    hapi_private_make_atom_bool(env, parm_info->hasUIMax),
-                    enif_make_double(env, (double) parm_info->min),
-                    enif_make_double(env, (double) parm_info->max),
-                    enif_make_double(env, (double) parm_info->UIMin),
-                    enif_make_double(env, (double) parm_info->UIMax),
-                    hapi_private_make_atom_bool(env, parm_info->invisible),
-                    hapi_private_make_atom_bool(env, parm_info->disabled),
-                    hapi_private_make_atom_bool(env, parm_info->spare),
-                    hapi_private_make_atom_bool(env, parm_info->joinNext),
-                    hapi_private_make_atom_bool(env, parm_info->labelNone),
-                    enif_make_int(env, parm_info->intValuesIndex),
-                    enif_make_int(env, parm_info->floatValuesIndex),
-                    enif_make_int(env, parm_info->stringValuesIndex),
-                    enif_make_int(env, parm_info->choiceIndex),
-                    hapi_private_make_atom_bool(env, parm_info->isChildOfMultiParm),
-                    enif_make_int(env, parm_info->instanceNum),
-                    enif_make_int(env, parm_info->instanceLength),
-                    enif_make_int(env, parm_info->instanceCount),
-                    enif_make_int(env, parm_info->instanceStartOffset),
-                    enif_make_int(env, parm_info->rampType));
+                ERL_NIF_TERM parm_info_tuple = hapi_private_make_hapi_parm_info(env,
+                    parm_info->id, parm_info->parentId, parm_info->type, parm_info->typeInfoSH,
+                    parm_info->permissions, parm_info->size, parm_info->choiceCount,
+                    parm_info->nameSH, parm_info->labelSH, parm_info->templateNameSH,
+                    parm_info->helpSH, parm_info->hasMin, parm_info->hasMax, parm_info->hasUIMin, parm_info->hasUIMax,
+                    parm_info->min, parm_info->max, parm_info->UIMin, parm_info->UIMax,
+                    parm_info->invisible, parm_info->disabled, parm_info->spare,
+                    parm_info->joinNext, parm_info->labelNone, parm_info->intValuesIndex,
+                    parm_info->floatValuesIndex, parm_info->stringValuesIndex, parm_info->choiceIndex,
+                    parm_info->isChildOfMultiParm, parm_info->instanceNum, parm_info->instanceLength,
+                    parm_info->instanceCount, parm_info->instanceStartOffset, parm_info->rampType);
 
-                list = enif_make_list_cell(env, parm_tuple, list);
+                list = enif_make_list_cell(env, parm_info_tuple, list);
             }
 
             return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), list);
@@ -1068,46 +1041,19 @@ hapi_get_parm_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
         if(HAPI_RESULT_SUCCESS == result)
         {
-            ERL_NIF_TERM parm_tuple = enif_make_tuple(env, 35,
-                hapi_private_make_atom(env, "hapi_parm_info"),
-                enif_make_int(env, parm_info.id),
-                enif_make_int(env, parm_info.parentId),
-                enif_make_int(env, parm_info.type),
-                enif_make_int(env, parm_info.typeInfoSH),
-                enif_make_int(env, parm_info.permissions),
-                enif_make_int(env, parm_info.size),
-                enif_make_int(env, parm_info.choiceCount),
-                enif_make_int(env, parm_info.nameSH),
-                enif_make_int(env, parm_info.labelSH),
-                enif_make_int(env, parm_info.templateNameSH),
-                enif_make_int(env, parm_info.helpSH),
-                enif_make_int(env, parm_info.templateNameSH),
-                enif_make_int(env, parm_info.helpSH),
-                hapi_private_make_atom_bool(env, parm_info.hasMin),
-                hapi_private_make_atom_bool(env, parm_info.hasMax),
-                hapi_private_make_atom_bool(env, parm_info.hasUIMin),
-                hapi_private_make_atom_bool(env, parm_info.hasUIMax),
-                enif_make_double(env, (double) parm_info.min),
-                enif_make_double(env, (double) parm_info.max),
-                enif_make_double(env, (double) parm_info.UIMin),
-                enif_make_double(env, (double) parm_info.UIMax),
-                hapi_private_make_atom_bool(env, parm_info.invisible),
-                hapi_private_make_atom_bool(env, parm_info.disabled),
-                hapi_private_make_atom_bool(env, parm_info.spare),
-                hapi_private_make_atom_bool(env, parm_info.joinNext),
-                hapi_private_make_atom_bool(env, parm_info.labelNone),
-                enif_make_int(env, parm_info.intValuesIndex),
-                enif_make_int(env, parm_info.floatValuesIndex),
-                enif_make_int(env, parm_info.stringValuesIndex),
-                enif_make_int(env, parm_info.choiceIndex),
-                hapi_private_make_atom_bool(env, parm_info.isChildOfMultiParm),
-                enif_make_int(env, parm_info.instanceNum),
-                enif_make_int(env, parm_info.instanceLength),
-                enif_make_int(env, parm_info.instanceCount),
-                enif_make_int(env, parm_info.instanceStartOffset),
-                enif_make_int(env, parm_info.rampType));
+            ERL_NIF_TERM parm_info_tuple = hapi_private_make_hapi_parm_info(env,
+                parm_info.id, parm_info.parentId, parm_info.type, parm_info.typeInfoSH,
+                parm_info.permissions, parm_info.size, parm_info.choiceCount,
+                parm_info.nameSH, parm_info.labelSH, parm_info.templateNameSH,
+                parm_info.helpSH, parm_info.hasMin, parm_info.hasMax, parm_info.hasUIMin, parm_info.hasUIMax,
+                parm_info.min, parm_info.max, parm_info.UIMin, parm_info.UIMax,
+                parm_info.invisible, parm_info.disabled, parm_info.spare,
+                parm_info.joinNext, parm_info.labelNone, parm_info.intValuesIndex,
+                parm_info.floatValuesIndex, parm_info.stringValuesIndex, parm_info.choiceIndex,
+                parm_info.isChildOfMultiParm, parm_info.instanceNum, parm_info.instanceLength,
+                parm_info.instanceCount, parm_info.instanceStartOffset, parm_info.rampType);
 
-            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), parm_tuple);
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), parm_info_tuple);
         }
 
         return hapi_enum_result_c_to_erl(env, result);
@@ -1120,8 +1066,14 @@ hapi_get_parm_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_id_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id))
+    {
+
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetParmInfoFromName equivalent.

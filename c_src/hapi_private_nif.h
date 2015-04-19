@@ -41,5 +41,8 @@ bool hapi_private_check_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* stat
 // Return string and length by pointer, caller is responsible for clean up.
 bool hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);
 
+// Return HAPI_CookOptions by pointer.
+bool hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* cook_options);
+
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

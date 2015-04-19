@@ -253,3 +253,47 @@ hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, 
     *string = buffer;
     return true;
 }
+
+
+bool
+hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* cook_options)
+{
+    int32_t tuple_size;
+    const ERL_NIF_TERM* tuple_cook_options = NULL;
+    bool cook_options_record = false;
+
+    bool cook_options_split_geos_by_group = true;
+    int32_t cook_options_max_vertices_per_primitive = -1;
+    bool cook_options_refine_curve_to_linear = false;
+    double cook_options_curve_refine_lod = 8.0;
+    bool cook_options_clear_errors_and_warnings = false;
+    bool cook_options_cook_template_geos = false;
+
+    if(!enif_get_tuple(env, term, &tuple_size, &tuple_cook_options) ||
+        (tuple_size != 7) ||
+        !hapi_private_check_atom_value(env, tuple_cook_options[0], "hapi_cook_options", &cook_options_record) ||
+        !cook_options_record ||
+        !enif_is_atom(env, tuple_cook_options[1]) ||
+        !hapi_private_check_bool(env, tuple_cook_options[1], &cook_options_split_geos_by_group) ||
+        !enif_get_int(env, tuple_cook_options[2], &cook_options_max_vertices_per_primitive) ||
+        !enif_is_atom(env, tuple_cook_options[3]) ||
+        !hapi_private_check_bool(env, tuple_cook_options[3], &cook_options_refine_curve_to_linear) ||
+        !enif_get_double(env, tuple_cook_options[4], &cook_options_curve_refine_lod) ||
+        !enif_is_atom(env, tuple_cook_options[5]) ||
+        !hapi_private_check_bool(env, tuple_cook_options[5], &cook_options_clear_errors_and_warnings) ||
+        !enif_is_atom(env, tuple_cook_options[6]) ||
+        !hapi_private_check_bool(env, tuple_cook_options[6], &cook_options_cook_template_geos))
+    {
+        return false;
+    }
+
+    // Set cook options.
+    cook_options->splitGeosByGroup = cook_options_split_geos_by_group;
+    cook_options->maxVerticesPerPrimitive = cook_options_max_vertices_per_primitive;
+    cook_options->refineCurveToLinear = cook_options_refine_curve_to_linear;
+    cook_options->curveRefineLOD = cook_options_curve_refine_lod;
+    cook_options->clearErrorsAndWarnings = cook_options_clear_errors_and_warnings;
+    cook_options->cookTemplatedGeos = cook_options_cook_template_geos;
+
+    return true;
+}

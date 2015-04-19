@@ -38,5 +38,8 @@ bool hapi_private_check_nil(ErlNifEnv* env, const ERL_NIF_TERM term, bool* statu
 // Return boolean value by pointer.
 bool hapi_private_check_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);
 
+// Return string and length by pointer, caller is responsible for clean up.
+bool hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);
+
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

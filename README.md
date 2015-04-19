@@ -161,6 +161,7 @@ true
 * hapi:get_parameters/3
 * hapi:get_parm_info/2
 * hapi:get_parm_id_from_name/2
+* hapi:get_parm_info_from_name/2
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

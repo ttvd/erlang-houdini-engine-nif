@@ -1083,10 +1083,8 @@ hapi_get_parm_id_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
                 free(buffer);
             }
 
-             return hapi_private_make_result_tuple_int(env, result, parm_id);
+            return hapi_private_make_result_tuple_int(env, result, parm_id);
         }
-
-        return enif_make_badarg(env);
     }
 
     return enif_make_badarg(env);
@@ -1096,8 +1094,45 @@ hapi_get_parm_id_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_get_parm_info_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id))
+    {
+        char* buffer = NULL;
+        uint32_t buffer_length = 0;
+
+        if(hapi_private_get_string(env, argv[1], &buffer, &buffer_length))
+        {
+            HAPI_ParmInfo parm_info;
+            HAPI_Result result = HAPI_GetParmInfoFromName(node_id, buffer, &parm_info);
+
+            if(buffer)
+            {
+                free(buffer);
+            }
+
+            if(HAPI_RESULT_SUCCESS == result)
+            {
+                ERL_NIF_TERM parm_info_tuple = hapi_private_make_hapi_parm_info(env,
+                    parm_info.id, parm_info.parentId, parm_info.type, parm_info.typeInfoSH,
+                    parm_info.permissions, parm_info.size, parm_info.choiceCount,
+                    parm_info.nameSH, parm_info.labelSH, parm_info.templateNameSH,
+                    parm_info.helpSH, parm_info.hasMin, parm_info.hasMax, parm_info.hasUIMin, parm_info.hasUIMax,
+                    parm_info.min, parm_info.max, parm_info.UIMin, parm_info.UIMax,
+                    parm_info.invisible, parm_info.disabled, parm_info.spare,
+                    parm_info.joinNext, parm_info.labelNone, parm_info.intValuesIndex,
+                    parm_info.floatValuesIndex, parm_info.stringValuesIndex, parm_info.choiceIndex,
+                    parm_info.isChildOfMultiParm, parm_info.instanceNum, parm_info.instanceLength,
+                    parm_info.instanceCount, parm_info.instanceStartOffset, parm_info.rampType);
+
+                return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), parm_info_tuple);
+            }
+
+            return hapi_enum_result_c_to_erl(env, result);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetParmIntValue equivalent.

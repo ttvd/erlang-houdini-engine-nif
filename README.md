@@ -108,7 +108,7 @@ true
 * hapi:is_asset_valid/2
 * hapi:load_asset_library_from_file/2
 * hapi:get_available_asset_count/1
-* get_available_assets/2
+* hapi:get_available_assets/2
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

@@ -134,6 +134,15 @@ true
 > hapi:get_parm_int_value(3, "int_1", 0).
 {{hapi_result_success,3713831785},1}
 
+> hapi:set_parm_int_value(3, "int_1", 0, 42).
+{hapi_result_success,3713831785}
+
+> hapi:cook_asset(0, nil).
+{hapi_result_success,3713831785}
+
+> hapi:get_parm_int_value(3, "int_1", 0).
+{{hapi_result_success,3713831785},42}
+
 > hapi:get_parm_float_value(3, "t", 0).
 {{hapi_result_success,3713831785},0.0}
 

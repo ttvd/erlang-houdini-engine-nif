@@ -1732,8 +1732,30 @@ hapi_get_handle_binding_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 ERL_NIF_TERM
 hapi_get_preset_buf_length_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    HAPI_PresetType preset_type;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) &&
+        hapi_enum_preset_type_erl_to_c(env, argv[1], &preset_type))
+    {
+        char* buffer = NULL;
+        uint32_t buffer_length = 0;
+
+        if(hapi_private_get_string(env, argv[2], &buffer, &buffer_length))
+        {
+            int32_t preset_length = 0;
+            HAPI_Result result = HAPI_GetPresetBufLength(node_id, preset_type, buffer, &preset_length);
+
+            if(buffer)
+            {
+                free(buffer);
+            }
+
+            return hapi_private_make_result_tuple_int(env, result, preset_length);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetPreset equivalent.

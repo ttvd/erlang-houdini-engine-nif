@@ -128,6 +128,7 @@ true
 * hapi:set_timeline_options/1
 * hapi:is_asset_valid/2
 * hapi:load_asset_library_from_file/2
+* hapi:load_asset_library_from_memory/3
 * hapi:get_available_asset_count/1
 * hapi:get_available_assets/2
 * hapi:instantiate_asset/2

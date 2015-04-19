@@ -616,9 +616,31 @@ hapi_load_asset_library_from_file_impl(ErlNifEnv* env, int argc, const ERL_NIF_T
 ERL_NIF_TERM
 hapi_load_asset_library_from_memory_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    assert(false);
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    bool allow_overwrite = false;
+    int32_t library_buffer_size = 0;
+    HAPI_AssetLibraryId library_id = -1;
+
+    if(!enif_get_int(env, argv[1], &library_buffer_size))
+    {
+        return enif_make_badarg(env);
+    }
+
+    if(!hapi_private_check_bool(env, argv[2], &allow_overwrite))
+    {
+        return enif_make_badarg(env);
+    }
+
+    ErlNifBinary library_buffer;
+
+    if(!enif_inspect_iolist_as_binary(env, argv[0], &library_buffer))
+    {
+        return enif_make_badarg(env);
+    }
+
+    HAPI_Result result = HAPI_LoadAssetLibraryFromMemory((const char*) library_buffer.data, library_buffer_size,
+        allow_overwrite, &library_id);
+        
+    return hapi_private_make_result_tuple_int(env, result, (int32_t) library_id);
 }
 
 // HAPI_GetAvailableAssetCount equivalent.
@@ -627,7 +649,7 @@ hapi_get_available_asset_count_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     HAPI_AssetLibraryId asset_library_id = -1;
 
-    if(enif_get_int(env, argv[0], (int32_t*) &asset_library_id))
+    if(hapi_private_get_hapi_asset_library_id(env, argv[0], &asset_library_id))
     {
         int32_t asset_count = 0;
         HAPI_Result result = HAPI_GetAvailableAssetCount(asset_library_id, &asset_count);
@@ -645,7 +667,8 @@ hapi_get_available_assets_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_AssetLibraryId asset_library_id = -1;
     int32_t asset_count = 0;
 
-    if(enif_get_int(env, argv[0], (int32_t*) &asset_library_id) && enif_get_int(env, argv[1], (int32_t*) &asset_count))
+    if(hapi_private_get_hapi_asset_library_id(env, argv[0], &asset_library_id) &&
+        enif_get_int(env, argv[1], (int32_t*) &asset_count))
     {
         assert(asset_count >= 0);
         ERL_NIF_TERM list = enif_make_list(env, 0);

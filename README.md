@@ -24,7 +24,7 @@ rebar get-deps
 rebar compile
 ```
 
-Or use Rake (also run rake without arguments to see available tasks):
+Or use Rake (also run Rake without arguments to see available tasks):
 
 ```
 $ rake erlang:deps

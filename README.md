@@ -220,3 +220,7 @@ true
 
 * hapi:hash_enum_value/1
 * hapi:check_enum_value_hash/2
+
+## Other notes.
+
+Please report bugs. Also, pull requests are awesome.

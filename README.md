@@ -176,7 +176,7 @@ true
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 40 / 135, work in progress).
+## Supported HAPI calls ( 41 / 135, work in progress).
 
 * [hapi:initialize/5](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acd30bbc744cee30749c71b5cd0976de5)
 * [hapi:is_initialized/0](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acf5bd48d9c280385ba33c33d3f462655)
@@ -216,6 +216,7 @@ true
 * [hapi:get_parm_float_values/3](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#ababb5d4a50952884002caa46f8160f19)
 * [hapi:get_parm_string_value/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a3e3f14ed3a120e914bfba13f46ac8cf7)
 * [hapi:get_parm_string_values/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a561adb791f4c678381af0b973cd050ce)
+* [hapi:get_parm_choice_lists/3](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#affc757d3433458e4a3d86ff6b1dce760)
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

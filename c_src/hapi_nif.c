@@ -1338,7 +1338,13 @@ hapi_get_parm_string_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         enif_get_int(env, argv[2], &parm_start) &&
         enif_get_int(env, argv[3], &parm_length))
     {
-        HAPI_StringHandle* parm_values = malloc(parm_length * sizeof(HAPI_StringHandle));
+        HAPI_StringHandle* parm_values = NULL;
+
+        if(parm_length > 0)
+        {
+            parm_values = malloc(parm_length * sizeof(HAPI_StringHandle));
+        }
+
         HAPI_Result result = HAPI_GetParmStringValues(node_id, evaluate, parm_values, parm_start, parm_length);
 
         if(HAPI_RESULT_SUCCESS == result)
@@ -1373,15 +1379,59 @@ hapi_get_parm_string_values_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 ERL_NIF_TERM
 hapi_get_parm_choice_lists_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    int32_t parm_start = 0;
+    int32_t parm_length = 0;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) &&
+        enif_get_int(env, argv[1], &parm_start) &&
+        enif_get_int(env, argv[2], &parm_length))
+    {
+        HAPI_ParmChoiceInfo* parm_choices = NULL;
+
+        if(parm_length > 0)
+        {
+            parm_choices = malloc(parm_length * sizeof(HAPI_ParmChoiceInfo));
+        }
+
+        HAPI_Result result = HAPI_GetParmChoiceLists(node_id, parm_choices, parm_start, parm_length);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            ERL_NIF_TERM list = enif_make_list(env, 0);
+
+            for(int32_t parm_idx = parm_length - 1; parm_idx >= 0; parm_idx--)
+            {
+                const HAPI_ParmChoiceInfo* parm = &(*(parm_choices + parm_idx));
+
+                list = enif_make_list_cell(env,
+                    hapi_private_make_hapi_parm_choice_info(env, parm->parentParmId, parm->labelSH, parm->valueSH),
+                    list);
+            }
+
+            if(parm_choices)
+            {
+                free(parm_choices);
+            }
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), list);
+        }
+
+        if(parm_choices)
+        {
+            free(parm_choices);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_SetParmIntValue equivalent.
 ERL_NIF_TERM
 hapi_set_parm_int_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 

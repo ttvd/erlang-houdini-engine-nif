@@ -1070,7 +1070,23 @@ hapi_get_parm_id_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 
     if(hapi_private_get_hapi_node_id(env, argv[0], &node_id))
     {
+        char* buffer = NULL;
+        uint32_t buffer_length = 0;
 
+        if(hapi_private_get_string(env, argv[1], &buffer, &buffer_length))
+        {
+            HAPI_ParmId parm_id = -1;
+            HAPI_Result result = HAPI_GetParmIdFromName(node_id, buffer, &parm_id);
+
+            if(buffer)
+            {
+                free(buffer);
+            }
+
+             return hapi_private_make_result_tuple_int(env, result, parm_id);
+        }
+
+        return enif_make_badarg(env);
     }
 
     return enif_make_badarg(env);

@@ -8,7 +8,8 @@ Main goal of this project is to be able to run Houdini Engine instance (and be a
 
 * Install latest build of Houdini 14.
   * If you choose to install to custom location, you may need to patch rebar.config
-* Install Erlang OTP 17.5 (build it yourself or install pre-built).
+* Install Erlang (build it yourself or install pre-built).
+  * This NIF library relies on enif_schedule_nif, which requires a fairly recent Erlang OTP, for example OTP 17.5
   * If you choose to install to custom location, you may need to patch rebar.config
 * Install Rebar (for example through brew).
 
@@ -146,10 +147,17 @@ true
                  {hapi_zyx,2804301731},
                  {hapi_trs,2754525809}}}
 
+> hapi:get_parm_id_from_name(3, "int_16").
+{{hapi_result_success,3713831785},33}
+
+> hapi:get_parm_int_values(3, 33, 16).
+{{hapi_result_success,3713831785},
+ [0,0,0,0,0,0,16,15,14,13,12,11,10,9,8,7]}
+
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 36 / 135, work in progress).
+## Supported HAPI calls ( 37 / 135, work in progress).
 
 * hapi:initialize/5
 * hapi:is_initialized/0
@@ -185,6 +193,7 @@ true
 * hapi:get_parm_info_from_name/2
 * hapi:get_parm_int_value/3
 * hapi:get_parm_float_value/3
+* hapi:get_parm_int_values/3
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

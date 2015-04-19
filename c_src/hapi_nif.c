@@ -1677,8 +1677,55 @@ hapi_get_handle_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_handle_binding_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+    int32_t handle_index = 0;
+    int32_t handle_start = 0;
+    int32_t handle_length = 0;
+
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id) &&
+        enif_get_int(env, argv[1], &handle_index) &&
+        enif_get_int(env, argv[2], &handle_start) &&
+        enif_get_int(env, argv[3], &handle_length))
+    {
+        HAPI_HandleBindingInfo* handle_infos = NULL;
+
+        if(handle_length > 0)
+        {
+            handle_infos = malloc(handle_length * sizeof(HAPI_HandleBindingInfo));
+        }
+
+        HAPI_Result result = HAPI_GetHandleBindingInfo(asset_id, handle_index, handle_infos, handle_start, handle_length);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            ERL_NIF_TERM list = enif_make_list(env, 0);
+
+            for(int32_t handle_idx = handle_length - 1; handle_idx >= 0; handle_idx--)
+            {
+                HAPI_HandleBindingInfo* handle = &(*(handle_infos + handle_idx));
+                list = enif_make_list_cell(env,
+                    hapi_private_make_hapi_handle_binding_info(env, handle->handleParmNameSH, handle->assetParmNameSH,
+                        handle->assetParmId),
+                    list);
+            }
+
+            if(handle_infos)
+            {
+                free(handle_infos);
+            }
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), list);
+        }
+
+        if(handle_infos)
+        {
+            free(handle_infos);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetPresetBufLength equivalent.

@@ -1,4 +1,4 @@
-%%% @author Mykola Konyk  <mykola@konyk.org>
+%%% @author Mykola Konyk <mykola@konyk.org>
 %%%
 %%% @copyright 2015
 %%% This file has been auto-generated from hapi.erl.template

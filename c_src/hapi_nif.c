@@ -1790,8 +1790,33 @@ hapi_get_preset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_preset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    HAPI_PresetType preset_type;
+    int32_t buffer_length = 0;
+    ErlNifBinary preset;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) &&
+        hapi_enum_preset_type_erl_to_c(env, argv[1], &preset_type) &&
+        enif_inspect_iolist_as_binary(env, argv[3], &preset) &&
+        enif_get_int(env, argv[4], &buffer_length))
+    {
+        char* preset_name = NULL;
+        uint32_t preset_name_length = 0;
+
+        if(hapi_private_get_string(env, argv[2], &preset_name, &preset_name_length))
+        {
+            HAPI_Result result = HAPI_SetPreset(node_id, preset_type, preset_name, (const char*) preset.data, buffer_length);
+
+            if(preset_name)
+            {
+                free(preset_name);
+            }
+
+            return hapi_enum_result_c_to_erl(env, result);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetObjects equivalent.

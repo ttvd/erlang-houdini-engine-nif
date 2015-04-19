@@ -389,6 +389,36 @@ hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
 }
 
 
+bool
+hapi_private_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* handle_info)
+{
+    int32_t tuple_size;
+    const ERL_NIF_TERM* tuple_handle_info = NULL;
+    bool handle_info_record = false;
+
+    HAPI_StringHandle handle_info_name_sh;
+    HAPI_StringHandle handle_info_type_name_sh;
+    int32_t bindings_count;
+
+    if(!enif_get_tuple(env, term, &tuple_size, &tuple_handle_info) ||
+        (tuple_size != 4) ||
+        !hapi_private_check_atom_value(env, tuple_handle_info[0], "hapi_handle_info", &handle_info_record) ||
+        !handle_info_record ||
+        !enif_get_int(env, tuple_handle_info[1], &handle_info_name_sh) ||
+        !enif_get_int(env, tuple_handle_info[2], &handle_info_type_name_sh) ||
+        !enif_get_int(env, tuple_handle_info[3], &bindings_count))
+    {
+        return false;
+    }
+
+    handle_info->nameSH = handle_info_name_sh;
+    handle_info->typeNameSH = handle_info_type_name_sh;
+    handle_info->bindingsCount = bindings_count;
+
+    return true;
+}
+
+
 static
 bool
 hapi_private_get_id_helper(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* hapi_id_out)

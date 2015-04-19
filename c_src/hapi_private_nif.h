@@ -65,6 +65,9 @@ bool hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** str
 // Return HAPI_CookOptions by pointer.
 bool hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* cook_options);
 
+// Return HAPI_HandleInfo by pointer.
+bool hapi_private_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* handle_info);
+
 // Return HAPI_AssetId by pointer.
 bool hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* asset_id);
 

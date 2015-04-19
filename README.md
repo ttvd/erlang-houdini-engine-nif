@@ -132,6 +132,9 @@ true
 > hapi:get_parm_int_value(3, "int_1", 0).
 {{hapi_result_success,3713831785},1}
 
+> hapi:get_parm_float_value(3, "t", 0).
+{{hapi_result_success,3713831785},0.0}
+
 > hapi:cook_asset(0, {hapi_cook_options, false, 3, false, 8.0, false, false}).
 {hapi_result_success,3713831785}
 
@@ -146,7 +149,7 @@ true
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 35 / 135, work in progress).
+## Supported HAPI calls ( 36 / 135, work in progress).
 
 * hapi:initialize/5
 * hapi:is_initialized/0
@@ -181,6 +184,7 @@ true
 * hapi:get_parm_id_from_name/2
 * hapi:get_parm_info_from_name/2
 * hapi:get_parm_int_value/3
+* hapi:get_parm_float_value/3
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

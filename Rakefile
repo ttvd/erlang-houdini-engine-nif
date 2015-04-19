@@ -178,8 +178,11 @@ def generate_nif_enums(hapi_common_header)
         # Replace enum lower case name in template file.
         template_enum_nif_file.gsub!("%{HAPI_ENUM_NAME_L}", enum_name_underscore)
 
-        # Replace capitalized enum name in tmeplate file.
+        # Replace capitalized enum name in template file.
         template_enum_nif_file.gsub!("%{HAPI_ENUM_NAME_C}", enum_name)
+
+        # Replace comment.
+        template_enum_nif_file.gsub!("%{HAPI_ENUM_NAME}%", "HAPI_#{enum_name}")
 
         # Create function signatures.
         function_erl_to_c = generate_enum_erl_to_c_function(enum_name_underscore, enum_name)

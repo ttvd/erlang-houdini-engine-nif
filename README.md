@@ -176,7 +176,7 @@ true
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 41 / 135, 30%, work in progress).
+## Supported HAPI calls ( 41 / 135, 30% complete).
 
 * [hapi:initialize/5](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acd30bbc744cee30749c71b5cd0976de5)
 * [hapi:is_initialized/0](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acf5bd48d9c280385ba33c33d3f462655)

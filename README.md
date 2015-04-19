@@ -66,16 +66,25 @@ true
 13> hapi:get_env_int(hapi_envint_version_houdini_build).
 {{hapi_result_success,3713831785},80}
 
-14> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/dummyboxes.otl",true).
-{{hapi_result_success,3713831785},0}
-
-15> hapi:get_available_asset_count(0).
-{{hapi_result_success,3713831785},1}
-
-16> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/nonexistant.hda",true).
+14> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/nonexistant.hda",true).
 {hapi_result_cant_loadfile,2751182470}
 
-17> hapi:cleanup().
+15> hapi:load_asset_library_from_file("/Users/radix/HoudiniAssets/dummyboxes.otl",true).
+{{hapi_result_success,3713831785},0}
+
+16> hapi:get_available_asset_count(0).
+{{hapi_result_success,3713831785},1}
+
+17> hapi:get_available_assets(0, 1).
+{{hapi_result_success,3713831785},[2982]}
+
+18> hapi:get_string_buf_length(2982).
+{{hapi_result_success,3713831785},29}
+
+19> hapi:get_string(2982, 29).
+{{hapi_result_success,3713831785}, "hapi::Object/dummyboxes::2.0"}
+
+20> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
 ## Supported HAPI calls (work in progress).

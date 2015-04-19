@@ -180,12 +180,21 @@ true
                   false,false,false,28,...}}
 
 > hapi:get_parm_float_values(3, 28, 3).
- {{hapi_result_success,3713831785},[0.0,0.0,0.0]}
+{{hapi_result_success,3713831785},[0.0,0.0,0.0]}
+
+> hapi:set_parm_float_values(3, [5, 42.0, 33.5], 28, 3).
+{hapi_result_success,3713831785}
+
+> hapi:cook_asset(0, nil).
+{hapi_result_success,3713831785}
+
+> hapi:get_parm_float_values(3, 28, 3).
+{{hapi_result_success,3713831785},[5.0,42.0,33.5]}
 
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 44 / 135, 32% complete).
+## Supported HAPI calls ( 45 / 135, 33% complete).
 
 * [hapi:initialize/5](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acd30bbc744cee30749c71b5cd0976de5)
 * [hapi:is_initialized/0](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acf5bd48d9c280385ba33c33d3f462655)
@@ -229,6 +238,7 @@ true
 * [hapi:set_parm_int_value/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a4c8fa4d73f30acf99c5a8348c648eb22)
 * [hapi:set_parm_float_value/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#aa519aebc0ff408a2526808c82b45b888)
 * [hapi:set_parm_int_values/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a483745f85d0e6ac9448c729814b00d9a)
+* [hapi:set_parm_float_values/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a79c1484bb10e294ee1ec19bcc4235f47)
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

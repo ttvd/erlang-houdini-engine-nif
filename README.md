@@ -1,8 +1,9 @@
 # Erlang NIF bindings for Houdini Engine.
 
+
 ## Goals of this project.
 
-* To be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
+* To be able to run [Houdini Engine](http://www.sidefx.com/index.php?option=com_content&task=blogcategory&id=227&Itemid=381) instance (and be able to perform asset instantiation, cooking, etc) on an [Erlang](http://www.erlang.org/) (as well as [Elixir](http://elixir-lang.org)) node.
 * Create an HTTP RESTful service based on this NIF.
 * Create a WebGL client to interact with the RESTful service.
 
@@ -10,10 +11,10 @@
 
 * Install latest build of Houdini 14.
   * If you choose to install to custom location, you may need to patch rebar.config .
-* Install Erlang (build it yourself or install pre-built).
+  * Install [Erlang](http://www.erlang.org/download.html) (build it yourself or install pre-built).
   * This NIF library relies on enif_schedule_nif, which requires a fairly recent Erlang OTP, for example OTP 17.5 .
   * If you choose to install to a custom location, you may need to patch rebar.config .
-* Install Rebar (for example through brew).
+* Install [Rebar](https://github.com/rebar/rebar) (for example through [brew](http://brew.sh/)).
 
 ## Building.
 Use Rebar:

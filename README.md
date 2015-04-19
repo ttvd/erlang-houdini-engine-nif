@@ -2,7 +2,11 @@
 
 ## Goal.
 
-Main goal of this project is to be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
+Goals of this project are:
+* To be able to run Houdini Engine instance (and be able to perform asset instantiation, cooking, etc) on an Erlang (as well as Elixir) node.
+
+* Create an HTTP RESTful service based on this NIF.
+* Create a WebGL client to interact with the RESTful service.
 
 ## Before Building.
 
@@ -169,7 +173,7 @@ true
 
 > hapi:get_parm_float_values(3, 28, 3).
  {{hapi_result_success,3713831785},[0.0,0.0,0.0]}
- 
+
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```

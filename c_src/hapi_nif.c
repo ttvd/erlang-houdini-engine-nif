@@ -791,13 +791,18 @@ hapi_cook_asset_impl_helper(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id))
     {
         HAPI_CookOptions cook_options;
+        bool is_nil = false;
 
-        if(!hapi_private_get_hapi_cook_options(env, argv[1], &cook_options))
+        if(hapi_private_get_hapi_cook_options(env, argv[1], &cook_options))
         {
-            return enif_make_badarg(env);
+            return hapi_enum_result_c_to_erl(env, HAPI_CookAsset(asset_id, &cook_options));
+        }
+        else if(hapi_private_check_nil(env, argv[1], &is_nil) && is_nil)
+        {
+            return hapi_enum_result_c_to_erl(env, HAPI_CookAsset(asset_id, NULL));
         }
 
-        return hapi_enum_result_c_to_erl(env, HAPI_CookAsset(asset_id, &cook_options));
+        return enif_make_badarg(env);
     }
 
     return enif_make_badarg(env);

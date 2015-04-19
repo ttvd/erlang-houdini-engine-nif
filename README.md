@@ -128,7 +128,7 @@ true
 29> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls (work in progress).
+## Supported HAPI calls ( 31 / 135, work in progress).
 
 * hapi:initialize/5
 * hapi:is_initialized/0

@@ -742,6 +742,7 @@ ERL_NIF_TERM
 hapi_create_curve_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -750,6 +751,7 @@ ERL_NIF_TERM
 hapi_create_input_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     // Needs implementation.
+    assert(false);
     return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
 }
 
@@ -757,8 +759,14 @@ hapi_create_input_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_destroy_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+
+    if(enif_get_int(env, argv[0], (int32_t*) &asset_id))
+    {
+        return hapi_enum_result_c_to_erl(env, HAPI_DestroyAsset(asset_id));
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetAssetInfo equivalent.

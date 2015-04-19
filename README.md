@@ -87,7 +87,10 @@ true
 20> hapi:instantiate_asset("hapi::Object/dummyboxes::2.0", true).
 {{hapi_result_success,3713831785},0}
 
-21> hapi:cleanup().
+21> hapi:destroy_asset(0).
+{hapi_result_success,3713831785}
+
+22> hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
 ## Supported HAPI calls (work in progress).
@@ -113,6 +116,7 @@ true
 * hapi:get_available_asset_count/1
 * hapi:get_available_assets/2
 * hapi:instantiate_asset/2
+* hapi:destroy_asset/1
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

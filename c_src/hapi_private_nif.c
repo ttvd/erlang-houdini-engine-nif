@@ -45,6 +45,58 @@ hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name)
 
 
 ERL_NIF_TERM
+hapi_private_make_hapi_parm_info(ErlNifEnv* env, HAPI_ParmId id, HAPI_ParmId parent_id, HAPI_ParmType type,
+    HAPI_StringHandle type_info_sh, HAPI_Permissions permissions, int32_t size, int32_t choice_count,
+    HAPI_StringHandle name_sh, HAPI_StringHandle label_sh, HAPI_StringHandle template_name_sh,
+    HAPI_StringHandle help_sh, bool has_min, bool has_max, bool has_ui_min, bool has_ui_max,
+    double min, double max, double ui_min, double ui_max,
+    bool invisible, bool disabled, bool spare, bool join_next, bool label_none,
+    int32_t int_values_index, int32_t float_values_index, int32_t string_values_index, int32_t choice_index,
+    bool is_child_of_multiparm, int32_t instance_num, int32_t instance_length, int32_t instance_count,
+    int32_t instance_start_offset, HAPI_RampType ramp_type)
+{
+    return enif_make_tuple(env, 35,
+        hapi_private_make_atom(env, "hapi_parm_info"),
+        enif_make_int(env, id),
+        enif_make_int(env, parent_id),
+        enif_make_int(env, type),
+        enif_make_int(env, type_info_sh),
+        enif_make_int(env, permissions),
+        enif_make_int(env, size),
+        enif_make_int(env, choice_count),
+        enif_make_int(env, name_sh),
+        enif_make_int(env, label_sh),
+        enif_make_int(env, template_name_sh),
+        enif_make_int(env, help_sh),
+        enif_make_int(env, template_name_sh),
+        enif_make_int(env, help_sh),
+        hapi_private_make_atom_bool(env, has_min),
+        hapi_private_make_atom_bool(env, has_max),
+        hapi_private_make_atom_bool(env, has_ui_min),
+        hapi_private_make_atom_bool(env, has_ui_max),
+        enif_make_double(env, min),
+        enif_make_double(env, max),
+        enif_make_double(env, ui_min),
+        enif_make_double(env, ui_max),
+        hapi_private_make_atom_bool(env, invisible),
+        hapi_private_make_atom_bool(env, disabled),
+        hapi_private_make_atom_bool(env, spare),
+        hapi_private_make_atom_bool(env, join_next),
+        hapi_private_make_atom_bool(env, label_none),
+        enif_make_int(env, int_values_index),
+        enif_make_int(env, float_values_index),
+        enif_make_int(env, string_values_index),
+        enif_make_int(env, choice_index),
+        hapi_private_make_atom_bool(env, is_child_of_multiparm),
+        enif_make_int(env, instance_num),
+        enif_make_int(env, instance_length),
+        enif_make_int(env, instance_count),
+        enif_make_int(env, instance_start_offset),
+        enif_make_int(env, ramp_type));
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);

@@ -211,8 +211,8 @@ true
 * hapi:get_parm_id_from_name/2
 * hapi:get_parm_info_from_name/2
 * hapi:get_parm_int_value/3
-* hapi:get_parm_float_value/3
 * hapi:get_parm_int_values/3
+* hapi:get_parm_float_value/3
 * hapi:get_parm_float_values/3
 * hapi:get_parm_string_value/4
 * hapi:get_parm_string_values/4

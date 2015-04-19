@@ -313,18 +313,32 @@ hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
 }
 
 
+static
 bool
-hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* asset_id_out)
+hapi_private_get_id_helper(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* hapi_id_out)
 {
-    HAPI_AssetId asset_id = -1;
+    int32_t hapi_id = -1;
 
-    if(enif_get_int(env, term, (int32_t*) &asset_id))
+    if(enif_get_int(env, term, (int32_t*) &hapi_id))
     {
-        *asset_id_out = asset_id;
+        *hapi_id_out = hapi_id;
         return true;
     }
 
     return false;
+}
+
+bool
+hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* asset_id)
+{
+    return hapi_private_get_id_helper(env, term, (int32_t*) asset_id);
+}
+
+
+bool
+hapi_private_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* asset_library_id)
+{
+    return hapi_private_get_id_helper(env, term, (int32_t*) asset_library_id);
 }
 
 

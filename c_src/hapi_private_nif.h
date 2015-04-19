@@ -50,6 +50,9 @@ bool hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term,
 // Return HAPI_AssetId by pointer.
 bool hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* asset_id);
 
+// Return HAPI_AssetLibraryId by pointer.
+bool hapi_private_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* asset_library_id);
+
 // Return vector by pointer.
 bool hapi_private_get_vector(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data);
 

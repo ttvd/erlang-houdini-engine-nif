@@ -176,7 +176,7 @@ true
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 39 / 135, work in progress).
+## Supported HAPI calls ( 40 / 135, work in progress).
 
 * hapi:initialize/5
 * hapi:is_initialized/0
@@ -215,6 +215,7 @@ true
 * hapi:get_parm_int_values/3
 * hapi:get_parm_float_values/3
 * hapi:get_parm_string_value/4
+* hapi:get_parm_string_values/4
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

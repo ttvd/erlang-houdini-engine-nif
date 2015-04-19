@@ -91,13 +91,13 @@ true
 
 24> hapi:get_parameters(3, 0, 84).
 {{hapi_result_success,3713831785},
- [{hapi_part_info,83,-1,0,0,0,1,6,3786,3787,3789,3788,3789,
+ [{hapi_parm_info,83,-1,0,0,0,1,6,3786,3787,3789,3788,3789,
                   3788,false,false,true,true,0.0,1.0,0.0,1.0,false,false,
                   false,false,...},
-  {hapi_part_info,82,-1,0,0,0,1,6,3767,3768,3770,3769,3770,
+  {hapi_parm_info,82,-1,0,0,0,1,6,3767,3768,3770,3769,3770,
                   3769,false,false,true,true,0.0,1.0,0.0,1.0,false,false,
                   false,...},
-  {hapi_part_info,81,-1,4,0,0,1,0,3712,3713,3715,3714,3715,
+  {hapi_parm_info,81,-1,4,0,0,1,0,3712,3713,3715,3714,3715,
                   3714,false,false,true,true,0.0,10.0,0.0,10.0,false,false,...},
 ...
   {...}|...]}

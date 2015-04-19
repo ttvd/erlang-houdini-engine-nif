@@ -1003,7 +1003,7 @@ hapi_get_parameters_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
                 const HAPI_ParmInfo* parm_info = &(*(parm_infos + parm_idx));
 
                 ERL_NIF_TERM parm_tuple = enif_make_tuple(env, 35,
-                    hapi_private_make_atom(env, "hapi_part_info"),
+                    hapi_private_make_atom(env, "hapi_parm_info"),
                     enif_make_int(env, parm_info->id),
                     enif_make_int(env, parm_info->parentId),
                     enif_make_int(env, parm_info->type),

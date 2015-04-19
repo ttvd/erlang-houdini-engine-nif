@@ -814,8 +814,7 @@ hapi_cook_asset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_interrupt_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    return hapi_enum_result_c_to_erl(env, HAPI_Interrupt());
 }
 
 // HAPI_GetAssetTransform equivalent.

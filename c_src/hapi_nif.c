@@ -1823,8 +1823,63 @@ hapi_set_preset_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_objects_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+    int32_t object_start = 0;
+    int32_t object_length = 0;
+
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id) &&
+        enif_get_int(env, argv[1], &object_start) &&
+        enif_get_int(env, argv[2], &object_length))
+    {
+        HAPI_ObjectInfo* objects = NULL;
+
+        if(object_length > 0)
+        {
+            objects = malloc(object_length * sizeof(HAPI_ObjectInfo));
+        }
+
+        HAPI_Result result = HAPI_GetObjects(asset_id, objects, object_start, object_length);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            ERL_NIF_TERM list = enif_make_list(env, 0);
+
+            for(int32_t object_idx = object_length - 1; object_idx >= 0; object_idx--)
+            {
+                HAPI_ObjectInfo* object = &(*(objects + object_idx));
+
+                list = enif_make_list_cell(env,
+                    hapi_private_hapi_object_info(env,
+                        object->id,
+                        object->nameSH,
+                        object->objectInstancePathSH,
+                        object->hasTransformChanged,
+                        object->haveGeosChanged,
+                        object->isVisible,
+                        object->isInstancer,
+                        object->geoCount,
+                        object->nodeId,
+                        object->objectToInstanceId),
+                    list);
+            }
+
+            if(objects)
+            {
+                free(objects);
+            }
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), list);
+        }
+
+        if(objects)
+        {
+            free(objects);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetObjectTransforms equivalent.

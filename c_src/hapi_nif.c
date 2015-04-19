@@ -1432,7 +1432,31 @@ hapi_get_parm_choice_lists_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_set_parm_int_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    int32_t parm_index = 0;
+    int32_t parm_value = 0;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) &&
+        enif_get_int(env, argv[2], &parm_index) &&
+        enif_get_int(env, argv[3], &parm_value))
+    {
+        char* buffer = NULL;
+        uint32_t buffer_length = 0;
+
+        if(hapi_private_get_string(env, argv[1], &buffer, &buffer_length))
+        {
+            HAPI_Result result = HAPI_SetParmIntValue(node_id, buffer, parm_index, parm_value);
+
+            if(buffer)
+            {
+                free(buffer);
+            }
+
+            return hapi_enum_result_c_to_erl(env, result);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_SetParmIntValues equivalent.

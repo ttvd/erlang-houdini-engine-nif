@@ -1139,8 +1139,29 @@ hapi_get_parm_info_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 ERL_NIF_TERM
 hapi_get_parm_int_value_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_NodeId node_id = -1;
+    int32_t param_index = 0;
+
+    if(hapi_private_get_hapi_node_id(env, argv[0], &node_id) && enif_get_int(env, argv[2], &param_index))
+    {
+        char* buffer = NULL;
+        uint32_t buffer_length = 0;
+
+        if(hapi_private_get_string(env, argv[1], &buffer, &buffer_length))
+        {
+            int32_t param_value = 0;
+            HAPI_Result result = HAPI_GetParmIntValue(node_id, buffer, param_index, &param_value);
+
+            if(buffer)
+            {
+                free(buffer);
+            }
+
+            return hapi_private_make_result_tuple_int(env, result, param_value);
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetParmIntValues equivalent.

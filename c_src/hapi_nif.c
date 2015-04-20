@@ -1885,8 +1885,59 @@ hapi_get_objects_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_object_transforms_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+    HAPI_RSTOrder rst_order;
+    int32_t object_start = 0;
+    int32_t object_length = 0;
+
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id) &&
+        hapi_enum_rst_order_erl_to_c(env, argv[1], &rst_order) &&
+        enif_get_int(env, argv[2], &object_start) &&
+        enif_get_int(env, argv[3], &object_length))
+    {
+        HAPI_Transform* transforms = NULL;
+
+        if(object_length > 0)
+        {
+            transforms = malloc(object_length * sizeof(HAPI_Transform));
+        }
+
+        HAPI_Result result = HAPI_GetObjectTransforms(asset_id, rst_order, transforms, object_start, object_length);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            ERL_NIF_TERM list = enif_make_list(env, 0);
+
+            for(int32_t object_idx = object_length - 1; object_idx >= 0; object_idx--)
+            {
+                HAPI_Transform* transform = &(*(transforms + object_idx));
+
+                list = enif_make_list_cell(env,
+                    hapi_private_make_hapi_transform(env,
+                        transform->position, HAPI_POSITION_VECTOR_SIZE,
+                        transform->rotationQuaternion, HAPI_QUATERNION_VECTOR_SIZE,
+                        transform->scale, HAPI_SCALE_VECTOR_SIZE,
+                        transform->rstOrder),
+                    list);
+            }
+
+            if(transforms)
+            {
+                free(transforms);
+            }
+
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), list);
+        }
+
+        if(transforms)
+        {
+            free(transforms);
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetInstanceTransforms equivalent.

@@ -111,6 +111,25 @@ true
   {hapi_object_info,2,6634,6499,true,true,true,false,1,9,-1},
   {hapi_object_info,3,8037,7902,true,true,true,false,1,11,-1}]}
 
+6> hapi:get_object_transforms(0, hapi_trs, 0, 4).
+{{hapi_result_success,3713831785},
+   [{hapi_transform,[1,0,3],
+                    [1,0,0,0],
+                    [1,1,1],
+                    {hapi_trs,2754525809}},
+    {hapi_transform,[-3,0,-2],
+                    [1,0,0,0],
+                    [1,1,1],
+                    {hapi_trs,2754525809}},
+    {hapi_transform,[4,0,-2],
+                    [1,0,0,0],
+                    [1,1,1],
+                    {hapi_trs,2754525809}},
+    {hapi_transform,[-3,0,3],
+                    [0,0,0,0],
+                    [1,1,1],
+                    {hapi_trs,2754525809}}]}
+
 > hapi:get_node_info(3).
 {{hapi_result_success,3713831785},
  {hapi_node_info,3,0,3616,0,35,3635,84,64,60,21,66}}
@@ -211,7 +230,7 @@ true
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 52 / 135, 39% complete).
+## Supported HAPI calls ( 53 / 135, 39% complete).
 
 * [hapi:initialize/5](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acd30bbc744cee30749c71b5cd0976de5)
 * [hapi:is_initialized/0](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acf5bd48d9c280385ba33c33d3f462655)
@@ -263,6 +282,7 @@ true
 * [hapi:get_preset/2](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a1aaf85e26914888e1fd6c3692d539459)
 * [hapi:set_preset/5](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#aac2a396dd97583689fa598aaaddb2074)
 * [hapi:get_objects/3](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a67ed79f993e75910e04c6f0dda14e9f1)
+* [hapi:get_object_transforms/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a8265bcc2760c608a70347083dfd51297)
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

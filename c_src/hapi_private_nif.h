@@ -49,6 +49,11 @@ ERL_NIF_TERM hapi_private_hapi_transform(ErlNifEnv* env, const float* position, 
     const float* rotation_quaternion, uint32_t rotation_quaternion_size, const float* scale,
     uint32_t scale_size, HAPI_RSTOrder rst_order);
 
+// Create hapi_transform_euler record.
+ERL_NIF_TERM hapi_private_hapi_transform_euler(ErlNifEnv* env, const float* position, uint32_t position_size,
+    const float* rotation_euler, uint32_t rotation_euler_size, const float* scale,
+    uint32_t scale_size, HAPI_XYZOrder xyz_order, HAPI_RSTOrder rst_order);
+
 // Create a vector of doubles (list) from float array of given size.
 ERL_NIF_TERM hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data);
 

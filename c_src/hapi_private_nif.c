@@ -167,6 +167,21 @@ hapi_private_hapi_transform(ErlNifEnv* env, const float* position, uint32_t posi
 
 
 ERL_NIF_TERM
+hapi_private_hapi_transform_euler(ErlNifEnv* env, const float* position, uint32_t position_size,
+    const float* rotation_euler, uint32_t rotation_euler_size, const float* scale,
+    uint32_t scale_size, HAPI_XYZOrder xyz_order, HAPI_RSTOrder rst_order)
+{
+    return enif_make_tuple(env, 6,
+        hapi_private_make_atom(env, "hapi_transform_euler"),
+        hapi_private_make_vector_float(env, position_size, position),
+        hapi_private_make_vector_float(env, rotation_euler_size, rotation_euler),
+        hapi_private_make_vector_float(env, scale_size, scale),
+        hapi_enum_xyz_order_c_to_erl(env, xyz_order),
+        hapi_enum_rst_order_c_to_erl(env, rst_order));
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);

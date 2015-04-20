@@ -271,7 +271,7 @@ true
 
 * [MS-RL Licensed.](http://opensource.org/licenses/MS-RL)
 * **To further explain the license:**
-  * **You may not relicense any files in this project. This clause forbids you from using this code in a GPL project and re-licensing it under any of the GPL licenses afterwards.**
+  * **You may not re-license any files in this project. This clause forbids you from using this code in a GPL project and re-licensing it under any of the GPL licenses afterwards.**
   * Otherwise you are free to do pretty much anything you want with this code.
 * Use at your own risk. No warranties.
 * This is a personal project.

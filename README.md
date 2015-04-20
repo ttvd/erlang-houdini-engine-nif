@@ -8,7 +8,8 @@
 * Create a WebGL client to interact with the RESTful service.
 
 ## Before building.
-
+* Will build only on Mac OS X right now.
+  * If you want to build on another platform you will need to patch rebar.config .
 * Install latest build of [Houdini 14](http://www.sidefx.com/index.php?option=com_download&Itemid=208) .
   * If you choose to install to a custom location, you may need to patch rebar.config .
 * Install [Erlang](http://www.erlang.org/download.html) (build it yourself or install pre-built).

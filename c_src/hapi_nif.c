@@ -481,13 +481,7 @@ hapi_get_timeline_options_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 
     if(HAPI_RESULT_SUCCESS == result)
     {
-        ERL_NIF_TERM record_timeline_options = enif_make_tuple4(env,
-            hapi_private_make_atom(env, "hapi_timeline_options"),
-            enif_make_double(env, (double) timeline_options.fps),
-            enif_make_double(env, (double) timeline_options.startTime),
-            enif_make_double(env, (double) timeline_options.endTime));
-
-        return enif_make_tuple(env, 2, result_atom, record_timeline_options);
+        return enif_make_tuple(env, 2, result_atom, hapi_private_make_hapi_timeline_options(env, &timeline_options));
     }
 
     return result_atom;

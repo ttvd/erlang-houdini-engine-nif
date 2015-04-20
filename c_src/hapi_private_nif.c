@@ -133,7 +133,7 @@ hapi_private_make_hapi_handle_binding_info(ErlNifEnv* env, HAPI_StringHandle han
 
 
 ERL_NIF_TERM
-hapi_private_hapi_object_info(ErlNifEnv* env, HAPI_ObjectId id, HAPI_StringHandle name_sh,
+hapi_private_make_hapi_object_info(ErlNifEnv* env, HAPI_ObjectId id, HAPI_StringHandle name_sh,
     HAPI_StringHandle object_instance_path_sh, HAPI_Bool has_transform_changed, HAPI_Bool have_geos_changed,
     HAPI_Bool is_visible, HAPI_Bool is_instancer, int32_t geo_count, HAPI_NodeId node_id, HAPI_ObjectId object_to_instance_id)
 {
@@ -153,7 +153,7 @@ hapi_private_hapi_object_info(ErlNifEnv* env, HAPI_ObjectId id, HAPI_StringHandl
 
 
 ERL_NIF_TERM
-hapi_private_hapi_transform(ErlNifEnv* env, const float* position, uint32_t position_size,
+hapi_private_make_hapi_transform(ErlNifEnv* env, const float* position, uint32_t position_size,
     const float* rotation_quaternion, uint32_t rotation_quaternion_size, const float* scale,
     uint32_t scale_size, HAPI_RSTOrder rst_order)
 {
@@ -167,7 +167,7 @@ hapi_private_hapi_transform(ErlNifEnv* env, const float* position, uint32_t posi
 
 
 ERL_NIF_TERM
-hapi_private_hapi_transform_euler(ErlNifEnv* env, const float* position, uint32_t position_size,
+hapi_private_hapi_make_transform_euler(ErlNifEnv* env, const float* position, uint32_t position_size,
     const float* rotation_euler, uint32_t rotation_euler_size, const float* scale,
     uint32_t scale_size, HAPI_XYZOrder xyz_order, HAPI_RSTOrder rst_order)
 {

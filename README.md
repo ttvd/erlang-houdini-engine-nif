@@ -34,6 +34,8 @@ $ rake erlang:compile
 
 ## Running.  
 
+Run erl:
+
 ```
 > code:add_path("ebin").
 true

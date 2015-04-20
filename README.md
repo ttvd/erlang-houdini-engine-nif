@@ -111,7 +111,7 @@ true
   {hapi_object_info,2,6634,6499,true,true,true,false,1,9,-1},
   {hapi_object_info,3,8037,7902,true,true,true,false,1,11,-1}]}
 
-6> hapi:get_object_transforms(0, hapi_trs, 0, 4).
+> hapi:get_object_transforms(0, hapi_trs, 0, 4).
 {{hapi_result_success,3713831785},
    [{hapi_transform,[1,0,3],
                     [1,0,0,0],

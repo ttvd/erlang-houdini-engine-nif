@@ -177,11 +177,11 @@ true
 
 > hapi:get_asset_transform(0, hapi_trs, hapi_zyx).
 {{hapi_result_success,3713831785},
- {hapi_transform,[0,0,0],
-                 [0,0,0],
-                 [1,1,1],
-                 {hapi_zyx,2804301731},
-                 {hapi_trs,2754525809}}}
+ {hapi_transform_euler,[0,0,0],
+                       [0,0,0],
+                       [1,1,1],
+                       {hapi_zyx,2804301731},
+                       {hapi_trs,2754525809}}}
 
 > hapi:get_parm_id_from_name(3, "int_16").
 {{hapi_result_success,3713831785},33}

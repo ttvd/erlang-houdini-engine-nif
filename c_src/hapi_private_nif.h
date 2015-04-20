@@ -99,6 +99,9 @@ bool hapi_private_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
 // Return HAPI_ParmId by pointer.
 bool hapi_private_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* parm_id);
 
+// Return HAPI_ObjectId by pointer.
+bool hapi_private_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* object_id);
+
 // Return a double vector by pointer.
 bool hapi_private_get_vector_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data);
 

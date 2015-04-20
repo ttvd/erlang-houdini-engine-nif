@@ -481,6 +481,54 @@ hapi_private_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 }
 
 
+bool
+hapi_private_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* transform)
+{
+    int32_t tuple_size;
+    const ERL_NIF_TERM* tuple_transform_euler = NULL;
+    bool transform_euler_record = false;
+
+    double transform_euler_position[HAPI_POSITION_VECTOR_SIZE];
+    double transform_euler_rotation[HAPI_EULER_VECTOR_SIZE];
+    double transform_euler_scale[HAPI_SCALE_VECTOR_SIZE];
+    HAPI_XYZOrder transform_euler_rotation_order;
+    HAPI_RSTOrder transform_euler_rst_order;
+
+    if(!enif_get_tuple(env, term, &tuple_size, &tuple_transform_euler) ||
+        (tuple_size != 6) ||
+        !hapi_private_check_atom_value(env, tuple_transform_euler[0], "hapi_transform_euler", &transform_euler_record) ||
+        !transform_euler_record ||
+        !hapi_private_get_vector_double(env, tuple_transform_euler[1], HAPI_POSITION_VECTOR_SIZE, &transform_euler_position[0]) ||
+        !hapi_private_get_vector_double(env, tuple_transform_euler[2], HAPI_EULER_VECTOR_SIZE, &transform_euler_rotation[0]) ||
+        !hapi_private_get_vector_double(env, tuple_transform_euler[3], HAPI_SCALE_VECTOR_SIZE, &transform_euler_scale[0]) ||
+        !hapi_enum_xyz_order_erl_to_c(env, tuple_transform_euler[4], &transform_euler_rotation_order) ||
+        !hapi_enum_rst_order_erl_to_c(env, tuple_transform_euler[5], &transform_euler_rst_order))
+    {
+        return false;
+    }
+
+    for(int idx = 0; idx < HAPI_POSITION_VECTOR_SIZE; ++idx)
+    {
+        transform->position[idx] = (float) transform_euler_position[idx];
+    }
+
+    for(int idx = 0; idx < HAPI_EULER_VECTOR_SIZE; ++idx)
+    {
+        transform->rotationEuler[idx] = (float) transform_euler_rotation[idx];
+    }
+
+    for(int idx = 0; idx < HAPI_SCALE_VECTOR_SIZE; ++idx)
+    {
+        transform->scale[idx] = (float) transform_euler_scale[idx];
+    }
+
+    transform->rotationOrder = transform_euler_rotation_order;
+    transform->rstOrder = transform_euler_rst_order;
+
+    return true;
+}
+
+
 static
 bool
 hapi_private_get_id_helper(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* hapi_id_out)

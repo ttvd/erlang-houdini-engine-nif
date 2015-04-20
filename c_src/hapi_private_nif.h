@@ -92,6 +92,9 @@ bool hapi_private_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term,
 // Return HAPI_HandleInfo by pointer.
 bool hapi_private_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* handle_info);
 
+// Return HAPI_TransformEuler by pointer.
+bool hapi_private_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* transform);
+
 // Return HAPI_AssetId by pointer.
 bool hapi_private_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* asset_id);
 

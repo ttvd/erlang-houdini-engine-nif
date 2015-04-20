@@ -293,7 +293,7 @@ true
 
 ## License.
 
-* [MS-RL Licensed.](http://opensource.org/licenses/MS-RL)
+* Distributed under [MS-RL License.](http://opensource.org/licenses/MS-RL)
 * **To further explain the license:**
   * **You cannot re-license any files in this project.**
   * **That is, they must remain under MS-RL license.**

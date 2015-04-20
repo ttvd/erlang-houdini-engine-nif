@@ -243,6 +243,17 @@ hapi_private_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* geo_info)
 
 
 ERL_NIF_TERM
+hapi_private_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* timeline_options)
+{
+    return enif_make_tuple4(env,
+        hapi_private_make_atom(env, "hapi_timeline_options"),
+        enif_make_double(env, (double) timeline_options->fps),
+        enif_make_double(env, (double) timeline_options->startTime),
+        enif_make_double(env, (double) timeline_options->endTime));
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_vector_float(ErlNifEnv* env, uint32_t size, const float* data)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);

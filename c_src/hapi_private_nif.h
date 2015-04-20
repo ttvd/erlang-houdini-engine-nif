@@ -56,6 +56,9 @@ ERL_NIF_TERM hapi_private_make_hapi_transform_euler(ErlNifEnv* env, const float*
     const float* rotation_euler, uint32_t rotation_euler_size, const float* scale,
     uint32_t scale_size, HAPI_XYZOrder xyz_order, HAPI_RSTOrder rst_order);
 
+// Create hapi_timeline_options record.
+ERL_NIF_TERM hapi_private_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* timeline_options);
+
 // Create hapi_geo_info record.
 ERL_NIF_TERM hapi_private_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* geo_info);
 

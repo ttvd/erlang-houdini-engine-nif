@@ -50,6 +50,25 @@ hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name)
 
 
 ERL_NIF_TERM
+hapi_private_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* node_info)
+{
+    return enif_make_tuple(env, 12,
+        hapi_private_make_atom(env, "hapi_node_info"),
+        enif_make_int(env, (int32_t) node_info->id),
+        enif_make_int(env, (int32_t) node_info->assetId),
+        enif_make_int(env, (int32_t) node_info->nameSH),
+        enif_make_int(env, node_info->totalCookCount),
+        enif_make_int(env, node_info->uniqueHoudiniNodeId),
+        enif_make_int(env, (int32_t) node_info->internalNodePathSH),
+        enif_make_int(env, node_info->parmCount),
+        enif_make_int(env, node_info->parmIntValueCount),
+        enif_make_int(env, node_info->parmFloatValueCount),
+        enif_make_int(env, node_info->parmStringValueCount),
+        enif_make_int(env, node_info->parmChoiceCount));
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* parm_info)
 {
     return enif_make_tuple(env, 35,

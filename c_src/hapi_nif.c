@@ -1852,19 +1852,7 @@ hapi_get_objects_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             {
                 HAPI_ObjectInfo* object = &(*(objects + object_idx));
 
-                list = enif_make_list_cell(env,
-                    hapi_private_make_hapi_object_info(env,
-                        object->id,
-                        object->nameSH,
-                        object->objectInstancePathSH,
-                        object->hasTransformChanged,
-                        object->haveGeosChanged,
-                        object->isVisible,
-                        object->isInstancer,
-                        object->geoCount,
-                        object->nodeId,
-                        object->objectToInstanceId),
-                    list);
+                list = enif_make_list_cell(env, hapi_private_make_hapi_object_info(env, object), list);
             }
 
             if(objects)

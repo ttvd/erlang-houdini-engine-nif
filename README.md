@@ -295,7 +295,8 @@ true
 
 * [MS-RL Licensed.](http://opensource.org/licenses/MS-RL)
 * **To further explain the license:**
-  * **You may not re-license any files in this project. That is, they must remain under MS-RL license.**
+  * **You may not re-license any files in this project.**
+  * **That is, they must remain under MS-RL license.**
   * **Any other files you add to this project can be under any license you want.**
   * **You may not use any of this code in a GPL project.**
   * Otherwise you are free to do pretty much anything you want with this code.

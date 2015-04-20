@@ -1,6 +1,7 @@
-%%% @author Mykola Konyk  <mykola@konyk.org>
+%%% @author Mykola Konyk <mykola@konyk.org>
 %%%
 %%% @copyright 2015
+%%% @license MS-RL
 %%% HAPI_Status enum.
 
 -module(hapi_status).

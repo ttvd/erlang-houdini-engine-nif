@@ -1,3 +1,8 @@
+/// @author Mykola Konyk <mykola@konyk.org>
+///
+/// @copyright 2015
+/// @license MS-RL
+
 #include "hapi_private_nif.h"
 #include "hapi_enums_nif.h"
 #include "hapi_defines_nif.h"

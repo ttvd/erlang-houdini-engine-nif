@@ -1,6 +1,7 @@
-%%% @author Mykola Konyk  <mykola@konyk.org>
+%%% @author Mykola Konyk <mykola@konyk.org>
 %%%
 %%% @copyright 2015
+%%% @license MS-RL
 %%% HAPI_EnvIntType enum.
 
 -module(hapi_env_int_type).

@@ -1,3 +1,8 @@
+/// @author Mykola Konyk <mykola@konyk.org>
+///
+/// @copyright 2015
+/// @license MS-RL
+
 #pragma once
 
 #if !defined(HAPI_PRIVATE_NIF_H)

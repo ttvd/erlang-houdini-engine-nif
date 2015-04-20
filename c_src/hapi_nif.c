@@ -2013,8 +2013,21 @@ hapi_get_instance_transforms_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 ERL_NIF_TERM
 hapi_set_object_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+    HAPI_ObjectId object_id = -1;
+
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id) &&
+        hapi_private_get_hapi_object_id(env, argv[1], &object_id))
+    {
+        HAPI_TransformEuler transform;
+
+        if(hapi_private_get_hapi_transform_euler(env, argv[2], &transform))
+        {
+            return hapi_enum_result_c_to_erl(env, HAPI_SetObjectTransform(asset_id, object_id, &transform));
+        }
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetGeoInfo equivalent.

@@ -230,7 +230,7 @@ true
 > hapi:cleanup().
 {hapi_result_success,3713831785}
 ```
-## Supported HAPI calls ( 54 / 135, 40% complete).
+## Supported HAPI calls ( 55 / 135, 41% complete).
 
 * [hapi:initialize/5](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acd30bbc744cee30749c71b5cd0976de5)
 * [hapi:is_initialized/0](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#acf5bd48d9c280385ba33c33d3f462655)
@@ -284,6 +284,7 @@ true
 * [hapi:get_objects/3](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a67ed79f993e75910e04c6f0dda14e9f1)
 * [hapi:get_object_transforms/4](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a8265bcc2760c608a70347083dfd51297)
 * [hapi:get_instance_transforms/6](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#a189e2852be1b37e7f7f79808e63e61df)
+* [hapi:set_object_transform/3](http://www.sidefx.com/docs/hengine1.9/_h_a_p_i_8h.html#ae2a4819b6fe94b4a1ede1ebefcbee8f9)
 * **Other HAPI calls are being added.**
 
 ## Additional helper calls.

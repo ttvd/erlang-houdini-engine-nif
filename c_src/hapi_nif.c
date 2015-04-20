@@ -950,21 +950,8 @@ hapi_get_node_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
         if(HAPI_RESULT_SUCCESS == result)
         {
-            ERL_NIF_TERM node_info_tuple = enif_make_tuple(env, 12,
-                hapi_private_make_atom(env, "hapi_node_info"),
-                enif_make_int(env, node_info.id),
-                enif_make_int(env, node_info.assetId),
-                enif_make_int(env, node_info.nameSH),
-                enif_make_int(env, node_info.totalCookCount),
-                enif_make_int(env, node_info.uniqueHoudiniNodeId),
-                enif_make_int(env, node_info.internalNodePathSH),
-                enif_make_int(env, node_info.parmCount),
-                enif_make_int(env, node_info.parmIntValueCount),
-                enif_make_int(env, node_info.parmFloatValueCount),
-                enif_make_int(env, node_info.parmStringValueCount),
-                enif_make_int(env, node_info.parmChoiceCount));
-
-            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), node_info_tuple);
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result),
+                hapi_private_make_hapi_node_info(env, &node_info));
         }
 
         return hapi_enum_result_c_to_erl(env, result);

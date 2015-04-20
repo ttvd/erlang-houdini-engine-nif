@@ -862,13 +862,12 @@ hapi_get_asset_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 
         if(HAPI_RESULT_SUCCESS == result)
         {
-            ERL_NIF_TERM transform_tuple = enif_make_tuple(env, 6,
-                hapi_private_make_atom(env, "hapi_transform_euler"),
-                hapi_private_make_vector_float(env, HAPI_POSITION_VECTOR_SIZE, transform_euler.position),
-                hapi_private_make_vector_float(env, HAPI_EULER_VECTOR_SIZE, transform_euler.rotationEuler),
-                hapi_private_make_vector_float(env, HAPI_SCALE_VECTOR_SIZE, transform_euler.scale),
-                hapi_enum_xyz_order_c_to_erl(env, transform_euler.rotationOrder),
-                hapi_enum_rst_order_c_to_erl(env, transform_euler.rstOrder));
+            ERL_NIF_TERM transform_tuple = hapi_private_make_hapi_transform_euler(env,
+                transform_euler.position, HAPI_POSITION_VECTOR_SIZE,
+                transform_euler.rotationEuler, HAPI_EULER_VECTOR_SIZE,
+                transform_euler.scale, HAPI_SCALE_VECTOR_SIZE,
+                transform_euler.rotationOrder,
+                transform_euler.rstOrder);
 
             return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), transform_tuple);
         }

@@ -167,7 +167,7 @@ hapi_private_make_hapi_transform(ErlNifEnv* env, const float* position, uint32_t
 
 
 ERL_NIF_TERM
-hapi_private_hapi_make_transform_euler(ErlNifEnv* env, const float* position, uint32_t position_size,
+hapi_private_make_hapi_transform_euler(ErlNifEnv* env, const float* position, uint32_t position_size,
     const float* rotation_euler, uint32_t rotation_euler_size, const float* scale,
     uint32_t scale_size, HAPI_XYZOrder xyz_order, HAPI_RSTOrder rst_order)
 {

@@ -2034,8 +2034,27 @@ hapi_set_object_transform_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_geo_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    // Needs implementation.
-    return hapi_enum_result_c_to_erl(env, HAPI_RESULT_SUCCESS);
+    HAPI_AssetId asset_id = -1;
+    HAPI_ObjectId object_id = -1;
+    HAPI_GeoId geo_id = -1;
+
+    if(hapi_private_get_hapi_asset_id(env, argv[0], &asset_id) &&
+        hapi_private_get_hapi_object_id(env, argv[1], &object_id) &&
+        hapi_private_get_hapi_geo_id(env, argv[2], &geo_id))
+    {
+        HAPI_GeoInfo geo_info;
+        HAPI_Result result = HAPI_GetGeoInfo(asset_id, object_id, geo_id, &geo_info);
+
+        if(HAPI_RESULT_SUCCESS == result)
+        {
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result),
+                hapi_private_make_hapi_geo_info(env, &geo_info));
+        }
+
+        return hapi_enum_result_c_to_erl(env, result);
+    }
+
+    return enif_make_badarg(env);
 }
 
 // HAPI_GetPartInfo equivalent.

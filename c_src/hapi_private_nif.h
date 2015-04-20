@@ -23,14 +23,7 @@ ERL_NIF_TERM hapi_private_make_atom_bool(ErlNifEnv* env, bool value);
 ERL_NIF_TERM hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name);
 
 // Create hapi_parm_info record.
-ERL_NIF_TERM hapi_private_make_hapi_parm_info(ErlNifEnv* env, HAPI_ParmId id, HAPI_ParmId parent_id, HAPI_ParmType type,
-    HAPI_StringHandle type_info_sh, HAPI_Permissions permissions, int32_t size, int32_t choice_count,
-    HAPI_StringHandle name_sh, HAPI_StringHandle label_sh, HAPI_StringHandle template_name_sh, HAPI_StringHandle help_sh,
-    bool has_min, bool has_max, bool has_ui_min, bool has_ui_max, double min, double max, double ui_min, double ui_max,
-    bool invisible, bool disabled, bool spare, bool join_next, bool label_none,
-    int32_t int_values_index, int32_t float_values_index, int32_t string_values_index, int32_t choice_index,
-    bool is_child_of_multiparm, int32_t instance_num, int32_t instance_length, int32_t instance_count,
-    int32_t instance_start_offset, HAPI_RampType ramp_type);
+ERL_NIF_TERM hapi_private_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* parm_info);
 
 // Create hapi_parm_choice_info record.
 ERL_NIF_TERM hapi_private_make_hapi_parm_choice_info(ErlNifEnv* env, HAPI_ParmId parent_parm_id, HAPI_StringHandle label_sh,

@@ -1004,20 +1004,7 @@ hapi_get_parameters_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
             for(int32_t parm_idx = parm_length - 1; parm_idx >= 0; parm_idx--)
             {
                 const HAPI_ParmInfo* parm_info = &(*(parm_infos + parm_idx));
-
-                ERL_NIF_TERM parm_info_tuple = hapi_private_make_hapi_parm_info(env,
-                    parm_info->id, parm_info->parentId, parm_info->type, parm_info->typeInfoSH,
-                    parm_info->permissions, parm_info->size, parm_info->choiceCount,
-                    parm_info->nameSH, parm_info->labelSH, parm_info->templateNameSH,
-                    parm_info->helpSH, parm_info->hasMin, parm_info->hasMax, parm_info->hasUIMin, parm_info->hasUIMax,
-                    parm_info->min, parm_info->max, parm_info->UIMin, parm_info->UIMax,
-                    parm_info->invisible, parm_info->disabled, parm_info->spare,
-                    parm_info->joinNext, parm_info->labelNone, parm_info->intValuesIndex,
-                    parm_info->floatValuesIndex, parm_info->stringValuesIndex, parm_info->choiceIndex,
-                    parm_info->isChildOfMultiParm, parm_info->instanceNum, parm_info->instanceLength,
-                    parm_info->instanceCount, parm_info->instanceStartOffset, parm_info->rampType);
-
-                list = enif_make_list_cell(env, parm_info_tuple, list);
+                list = enif_make_list_cell(env, hapi_private_make_hapi_parm_info(env, parm_info), list);
             }
 
             free(parm_infos);
@@ -1046,19 +1033,8 @@ hapi_get_parm_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
         if(HAPI_RESULT_SUCCESS == result)
         {
-            ERL_NIF_TERM parm_info_tuple = hapi_private_make_hapi_parm_info(env,
-                parm_info.id, parm_info.parentId, parm_info.type, parm_info.typeInfoSH,
-                parm_info.permissions, parm_info.size, parm_info.choiceCount,
-                parm_info.nameSH, parm_info.labelSH, parm_info.templateNameSH,
-                parm_info.helpSH, parm_info.hasMin, parm_info.hasMax, parm_info.hasUIMin, parm_info.hasUIMax,
-                parm_info.min, parm_info.max, parm_info.UIMin, parm_info.UIMax,
-                parm_info.invisible, parm_info.disabled, parm_info.spare,
-                parm_info.joinNext, parm_info.labelNone, parm_info.intValuesIndex,
-                parm_info.floatValuesIndex, parm_info.stringValuesIndex, parm_info.choiceIndex,
-                parm_info.isChildOfMultiParm, parm_info.instanceNum, parm_info.instanceLength,
-                parm_info.instanceCount, parm_info.instanceStartOffset, parm_info.rampType);
-
-            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), parm_info_tuple);
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result),
+                hapi_private_make_hapi_parm_info(env, &parm_info));
         }
 
         return hapi_enum_result_c_to_erl(env, result);
@@ -1118,19 +1094,8 @@ hapi_get_parm_info_from_name_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 
             if(HAPI_RESULT_SUCCESS == result)
             {
-                ERL_NIF_TERM parm_info_tuple = hapi_private_make_hapi_parm_info(env,
-                    parm_info.id, parm_info.parentId, parm_info.type, parm_info.typeInfoSH,
-                    parm_info.permissions, parm_info.size, parm_info.choiceCount,
-                    parm_info.nameSH, parm_info.labelSH, parm_info.templateNameSH,
-                    parm_info.helpSH, parm_info.hasMin, parm_info.hasMax, parm_info.hasUIMin, parm_info.hasUIMax,
-                    parm_info.min, parm_info.max, parm_info.UIMin, parm_info.UIMax,
-                    parm_info.invisible, parm_info.disabled, parm_info.spare,
-                    parm_info.joinNext, parm_info.labelNone, parm_info.intValuesIndex,
-                    parm_info.floatValuesIndex, parm_info.stringValuesIndex, parm_info.choiceIndex,
-                    parm_info.isChildOfMultiParm, parm_info.instanceNum, parm_info.instanceLength,
-                    parm_info.instanceCount, parm_info.instanceStartOffset, parm_info.rampType);
-
-                return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), parm_info_tuple);
+                return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result),
+                    hapi_private_make_hapi_parm_info(env, &parm_info));
             }
 
             return hapi_enum_result_c_to_erl(env, result);

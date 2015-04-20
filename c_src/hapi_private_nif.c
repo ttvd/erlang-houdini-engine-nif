@@ -50,6 +50,33 @@ hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name)
 
 
 ERL_NIF_TERM
+hapi_private_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* asset_info)
+{
+    return enif_make_tuple(env, 20,
+        hapi_private_make_atom(env, "hapi_asset_info"),
+        enif_make_int(env, (int32_t) asset_info->id),
+        enif_make_int(env, (int32_t) asset_info->type),
+        enif_make_int(env, (int32_t) asset_info->subType),
+        enif_make_int(env, asset_info->validationId),
+        enif_make_int(env, (int32_t) asset_info->nodeId),
+        enif_make_int(env, (int32_t) asset_info->objectNodeId),
+        hapi_private_make_atom_bool(env, (bool) asset_info->hasEverCooked),
+        enif_make_int(env, (int32_t) asset_info->nameSH),
+        enif_make_int(env, (int32_t) asset_info->labelSH),
+        enif_make_int(env, (int32_t) asset_info->filePathSH),
+        enif_make_int(env, (int32_t) asset_info->versionSH),
+        enif_make_int(env, (int32_t) asset_info->fullOpNameSH),
+        enif_make_int(env, (int32_t) asset_info->helpTextSH),
+        enif_make_int(env, asset_info->objectCount),
+        enif_make_int(env, asset_info->handleCount),
+        enif_make_int(env, asset_info->transformInputCount),
+        enif_make_int(env, asset_info->geoInputCount),
+        hapi_private_make_atom_bool(env, (bool) asset_info->haveObjectsChanged),
+        hapi_private_make_atom_bool(env, (bool) asset_info->haveMaterialsChanged));
+}
+
+
+ERL_NIF_TERM
 hapi_private_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* node_info)
 {
     return enif_make_tuple(env, 12,

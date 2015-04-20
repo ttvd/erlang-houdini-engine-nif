@@ -22,6 +22,9 @@ ERL_NIF_TERM hapi_private_make_atom_bool(ErlNifEnv* env, bool value);
 // Create an atom with hash.
 ERL_NIF_TERM hapi_private_make_hash_tuple(ErlNifEnv* env, const char* atom_name);
 
+// Create hapi_asset_info record.
+ERL_NIF_TERM hapi_private_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* asset_info);
+
 // Create hapi_node_info record.
 ERL_NIF_TERM hapi_private_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* node_info);
 

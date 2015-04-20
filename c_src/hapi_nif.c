@@ -778,29 +778,8 @@ hapi_get_asset_info_impl(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
         if(HAPI_RESULT_SUCCESS == result)
         {
-            ERL_NIF_TERM asset_info_tuple = enif_make_tuple(env, 20,
-                hapi_private_make_atom(env, "hapi_asset_info"),
-                enif_make_int(env, asset_info.id),
-                enif_make_int(env, asset_info.type),
-                enif_make_int(env, asset_info.subType),
-                enif_make_int(env, asset_info.validationId),
-                enif_make_int(env, asset_info.nodeId),
-                enif_make_int(env, asset_info.objectNodeId),
-                hapi_private_make_atom_bool(env, asset_info.hasEverCooked),
-                enif_make_int(env, asset_info.nameSH),
-                enif_make_int(env, asset_info.labelSH),
-                enif_make_int(env, asset_info.filePathSH),
-                enif_make_int(env, asset_info.versionSH),
-                enif_make_int(env, asset_info.fullOpNameSH),
-                enif_make_int(env, asset_info.helpTextSH),
-                enif_make_int(env, asset_info.objectCount),
-                enif_make_int(env, asset_info.handleCount),
-                enif_make_int(env, asset_info.transformInputCount),
-                enif_make_int(env, asset_info.geoInputCount),
-                hapi_private_make_atom_bool(env, asset_info.haveObjectsChanged),
-                hapi_private_make_atom_bool(env, asset_info.haveMaterialsChanged));
-
-            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result), asset_info_tuple);
+            return enif_make_tuple(env, 2, hapi_enum_result_c_to_erl(env, result),
+                hapi_private_make_hapi_asset_info(env, &asset_info));
         }
 
         return hapi_enum_result_c_to_erl(env, result);

@@ -166,11 +166,11 @@ defmodule HAPI do
         {enum_dict, remaining} = enum_map_hapi_extract(HashDict.new, rest, 0)
         Dict.put(dict, enum_name, enum_dict) |> enum_map_hapi_collect(remaining)
     end
-    defp enum_map_hapi_collect(dict, [:token_enum | _rest]), do: raise(SyntaxError, description: "Invalid enum detected")
+    defp enum_map_hapi_collect(_dict, [:token_enum | _rest]), do: raise(SyntaxError, description: "Invalid enum detected")
     defp enum_map_hapi_collect(dict, [_token | rest]), do: enum_map_hapi_collect(dict, rest)
 
     # Helper function to extract enum values from token stream.
-    defp enum_map_hapi_extract(dict, [], _idx), do: raise(SyntaxError, description: "Malformed enum detected")
+    defp enum_map_hapi_extract(_dict, [], _idx), do: raise(SyntaxError, description: "Malformed enum detected")
     defp enum_map_hapi_extract(dict, [:token_comma | rest], idx), do: enum_map_hapi_extract(dict, rest, idx)
     defp enum_map_hapi_extract(dict, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {dict, rest}
     defp enum_map_hapi_extract(dict, [enum_entry, :token_comma | rest], idx) do
@@ -214,9 +214,9 @@ defmodule HAPI do
     def struct_map_hapi(tokens, types, enums), do: struct_map_hapi_collect(HashDict.new, tokens, types, enums)
 
     # Process tokens and collect structures.
-    defp struct_map_hapi_collect(dict, [], types, enums), do: dict
+    defp struct_map_hapi_collect(dict, [], _types, _enums), do: dict
     defp struct_map_hapi_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest], types, enums), do: dict
-    defp struct_map_hapi_collect(dict, [:token_struct | rest], types, enums) do
+    defp struct_map_hapi_collect(_dict, [:token_struct | rest], _types, _enums) do
         raise(SyntaxError, description: "Invalid struct detected")
     end
     defp struct_map_hapi_collect(dict, [_token | rest], types, enums), do: struct_map_hapi_collect(dict, rest, types, enums)
@@ -229,10 +229,10 @@ data = HAPI.preprocess(data)
 data = HAPI.parse(data)
 #HAPI.print_tokens(data)
 
-#types_from_hapi = HAPI.type_map_hapi(data)
+types_from_hapi = HAPI.type_map_hapi(data)
 #HAPI.print_type_map_hapi(types_from_hapi)
 
 types_enums_from_hapi = HAPI.enum_map_hapi(data)
-HAPI.print_enum_map_hapi(types_enums_from_hapi)
+#HAPI.print_enum_map_hapi(types_enums_from_hapi)
 
-#types_structs_from_hapi = HAPI.struct_map_hapi(data)
+types_structs_from_hapi = HAPI.struct_map_hapi(data, types_from_hapi, types_enums_from_hapi)

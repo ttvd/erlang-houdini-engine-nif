@@ -221,6 +221,7 @@ defmodule HAPI do
     defp struct_map_hapi_collect(dict, [:token_struct | rest], types, enums) do
         raise(SyntaxError, description: "Invalid struct detected")
     end
+    defp struct_map_hapi_collect(dict, [_token | rest], types, enums), do: struct_map_hapi_collect(dict, rest, types, enums)
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")

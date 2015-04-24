@@ -128,16 +128,46 @@ defmodule HAPI do
         end
     end
 
-    # Print token stream.
-    def print_tokens([]), do: :ok
-    def print_tokens([token | rest]) do
-        IO.inspect(token)
-        print_tokens(rest)
+    # Print tokens.
+    def print_tokens(tokens), do: Enum.map(tokens, fn(token) -> IO.inspect(token) end)
+
+    # Given a type map for mapping types from hapi.
+    def type_map_from_hapi([]), do: []
+    def type_map_from_hapi(tokens) do
+        dict = HashDict.new
+            |> Dict.put("void", :token_void)
+            |> Dict.put("int", :token_int)
+            |> Dict.put("float", :token_float)
+            |> Dict.put("bool", :token_bool)
+        type_map_from_hapi_collect(tokens, dict)
     end
+
+    # Process tokens and collect types.
+    defp type_map_from_hapi_collect([], dict), do: dict
+    defp type_map_from_hapi_collect([:token_typedecl, _type_origin, "HAPI_Bool" | rest], dict) do
+        type_map_from_hapi_collect(rest, Dict.put(dict, "HAPI_Bool", :token_bool))
+    end
+    defp type_map_from_hapi_collect([:token_typedecl, type_origin, type_new | rest], dict) do
+        type_map_from_hapi_collect(rest, Dict.put(dict, type_new, type_origin))
+    end
+    defp type_map_from_hapi_collect([:token_enum, enum_name | rest], dict) do
+        type_map_from_hapi_collect(rest, Dict.put(dict, enum_name, :token_enum))
+    end
+    defp type_map_from_hapi_collect([:token_struct, struct_name | rest], dict) do
+        type_map_from_hapi_collect(rest, Dict.put(dict, struct_name, :token_struct))
+    end
+    defp type_map_from_hapi_collect([_token | rest], dict), do: type_map_from_hapi_collect(rest, dict)
+
+    # Print from hapi type dictionary.
+    def print_type_map_from_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
+
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")
 data = HAPI.preprocess(data)
 data = HAPI.parse(data)
-HAPI.print_tokens(data)
+#HAPI.print_tokens(data)
 #IO.puts(data)
+
+#types_from_hapi = HAPI.type_map_from_hapi(data)
+#HAPI.print_type_map_from_hapi(types_from_hapi)

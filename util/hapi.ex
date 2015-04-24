@@ -210,31 +210,31 @@ defmodule HAPI do
         IO.puts("")
     end
 
-    # Given a list of tokens, map of types and map of enums, produce a mapping table of structures.
-    def struct_map_hapi(tokens, types, enums), do: HashDict.new |> struct_map_hapi_collect(tokens, types, enums)
+    # Given a list of tokens, produce a mapping table of structures.
+    def struct_map_hapi(tokens), do: HashDict.new |> struct_map_hapi_collect(tokens)
 
     # Process tokens and collect structures.
-    defp struct_map_hapi_collect(dict, [], _types, _enums), do: dict
-    defp struct_map_hapi_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest], types, enums) do
-        [struct_body, remaining] = struct_map_hapi_extract([], rest, types, enums)
-        Dict.put(dict, struct_name, struct_body) |> struct_map_hapi_collect(remaining, types, enums)
+    defp struct_map_hapi_collect(dict, []), do: dict
+    defp struct_map_hapi_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest]) do
+        [struct_body, remaining] = struct_map_hapi_extract([], rest)
+        Dict.put(dict, struct_name, struct_body) |> struct_map_hapi_collect(remaining)
     end
-    defp struct_map_hapi_collect(_dict, [:token_struct | _rest], _types, _enums) do
+    defp struct_map_hapi_collect(_dict, [:token_struct | _rest]) do
         raise(SyntaxError, description: "Invalid struct detected")
     end
-    defp struct_map_hapi_collect(dict, [_token | rest], types, enums), do: struct_map_hapi_collect(dict, rest, types, enums)
+    defp struct_map_hapi_collect(dict, [_token | rest]), do: struct_map_hapi_collect(dict, rest)
 
     # Helper function to extract struct fields from token stream.
-    defp struct_map_hapi_extract(_list, [], _types, _enums), do: raise(SyntaxError, description: "Malformed struct detected")
-    defp struct_map_hapi_extract(list, [:token_bracket_curly_right, :token_semicolon | rest], _types, _enums) do
+    defp struct_map_hapi_extract(_list, []), do: raise(SyntaxError, description: "Malformed struct detected")
+    defp struct_map_hapi_extract(list, [:token_bracket_curly_right, :token_semicolon | rest]) do
         [list, rest]
     end
     defp struct_map_hapi_extract(list, [field_type, field_name, :token_bracket_square_left, field_size,
-        :token_bracket_square_right, :token_semicolon | rest], types, enums) do
-            list ++ [[field_name, field_type, field_size]] |> struct_map_hapi_extract(rest, types, enums)
+        :token_bracket_square_right, :token_semicolon | rest]) do
+            list ++ [[field_name, field_type, field_size]] |> struct_map_hapi_extract(rest)
     end
-    defp struct_map_hapi_extract(list, [field_type, field_name, :token_semicolon | rest], types, enums) do
-        list ++ [[field_name, field_type]] |> struct_map_hapi_extract(rest, types, enums)
+    defp struct_map_hapi_extract(list, [field_type, field_name, :token_semicolon | rest]) do
+        list ++ [[field_name, field_type]] |> struct_map_hapi_extract(rest)
     end
 
     # Print from hapi structs dictionary.
@@ -267,5 +267,5 @@ types_from_hapi = HAPI.type_map_hapi(data)
 types_enums_from_hapi = HAPI.enum_map_hapi(data)
 #HAPI.print_enum_map_hapi(types_enums_from_hapi)
 
-types_structs_from_hapi = HAPI.struct_map_hapi(data, types_from_hapi, types_enums_from_hapi)
+types_structs_from_hapi = HAPI.struct_map_hapi(data)
 HAPI.print_struct_map_hapi(types_structs_from_hapi)

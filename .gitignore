@@ -9,3 +9,6 @@ priv
 deps
 
 .DS_Store
+
+util/HAPI.h
+util/HAPI_Common.h

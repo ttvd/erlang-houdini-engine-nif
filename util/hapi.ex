@@ -2,12 +2,11 @@ defmodule HAPI do
 
     # Remove preprocessor left overs from data stream.
     def preprocess(data) do
-        data
-            |> String.replace("int main() { return 0; }", "")
-            |> String.replace(~r/#\s*\d+.*\n/, "")
-            |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
-            |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
-            |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
+        String.replace(data, "int main() { return 0; }", "")
+        |> String.replace(~r/#\s*\d+.*\n/, "")
+        |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
+        |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
+        |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
     end
 
     # Parse given string containing code.
@@ -16,7 +15,6 @@ defmodule HAPI do
 
     # Parse and collect tokens.
     defp parse_collect("", _buf, tokens) do
-        # miss here
         tokens
     end
     defp parse_collect(<<c>> <> rest, buf, tokens) do
@@ -134,29 +132,29 @@ defmodule HAPI do
     # Given a type map for mapping types from hapi.
     def type_map_from_hapi([]), do: []
     def type_map_from_hapi(tokens) do
-        dict = HashDict.new
+        HashDict.new
             |> Dict.put("void", :token_void)
             |> Dict.put("int", :token_int)
             |> Dict.put("float", :token_float)
             |> Dict.put("bool", :token_bool)
-        type_map_from_hapi_collect(tokens, dict)
+            |> type_map_from_hapi_collect(tokens)
     end
 
     # Process tokens and collect types.
-    defp type_map_from_hapi_collect([], dict), do: dict
-    defp type_map_from_hapi_collect([:token_typedecl, _type_origin, "HAPI_Bool" | rest], dict) do
-        type_map_from_hapi_collect(rest, Dict.put(dict, "HAPI_Bool", :token_bool))
+    defp type_map_from_hapi_collect(dict, []), do: dict
+    defp type_map_from_hapi_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
+        type_map_from_hapi_collect(Dict.put(dict, "HAPI_Bool", :token_bool), rest)
     end
-    defp type_map_from_hapi_collect([:token_typedecl, type_origin, type_new | rest], dict) do
-        type_map_from_hapi_collect(rest, Dict.put(dict, type_new, type_origin))
+    defp type_map_from_hapi_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
+        type_map_from_hapi_collect(Dict.put(dict, type_new, type_origin), rest)
     end
-    defp type_map_from_hapi_collect([:token_enum, enum_name | rest], dict) do
-        type_map_from_hapi_collect(rest, Dict.put(dict, enum_name, :token_enum))
+    defp type_map_from_hapi_collect(dict, [:token_enum, enum_name | rest]) do
+        type_map_from_hapi_collect(Dict.put(dict, enum_name, :token_enum), rest)
     end
-    defp type_map_from_hapi_collect([:token_struct, struct_name | rest], dict) do
-        type_map_from_hapi_collect(rest, Dict.put(dict, struct_name, :token_struct))
+    defp type_map_from_hapi_collect(dict, [:token_struct, struct_name | rest]) do
+        type_map_from_hapi_collect(Dict.put(dict, struct_name, :token_struct), rest)
     end
-    defp type_map_from_hapi_collect([_token | rest], dict), do: type_map_from_hapi_collect(rest, dict)
+    defp type_map_from_hapi_collect(dict, [_token | rest]), do: type_map_from_hapi_collect(dict, rest)
 
     # Print from hapi type dictionary.
     def print_type_map_from_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)

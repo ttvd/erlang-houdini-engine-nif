@@ -226,6 +226,9 @@ defmodule HAPI do
 
     # Helper function to extract struct fields from token stream.
     defp struct_map_hapi_extract(_list, [], _types, _enums), do: raise(SyntaxError, description: "Malformed struct detected")
+    defp struct_map_hapi_extract(list, [:token_bracket_curly_right, :token_semicolon | rest], _types, _enums) do
+        [list, rest]
+    end
     defp struct_map_hapi_extract(list, tokens, types, enums), do: [[], []]
 end
 

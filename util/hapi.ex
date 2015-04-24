@@ -20,7 +20,7 @@ defmodule HAPI do
     defp parse_collect(<<c>> <> rest, buf, tokens) do
         cond do
             is_whitespace(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :nil)
+                parse_collect_submit(rest, buf, tokens)
             is_comma(<<c>>) ->
                 parse_collect_submit(rest, buf, tokens, :token_comma)
             is_semicolon(<<c>>) ->
@@ -47,9 +47,9 @@ defmodule HAPI do
     end
 
     # Helper method to collect and avoid empty token submission.
-    defp parse_collect_submit(code, "", tokens, :nil), do: parse_collect(code, "", tokens)
+    defp parse_collect_submit(code, "", tokens), do: parse_collect(code, "", tokens)
+    defp parse_collect_submit(code, buf, tokens), do: parse_collect(code, "", tokens ++ map_token(buf))
     defp parse_collect_submit(code, "", tokens, extra), do: parse_collect(code, "", tokens ++ [extra])
-    defp parse_collect_submit(code, buf, tokens, :nil), do: parse_collect(code, "", tokens ++ map_token(buf))
     defp parse_collect_submit(code, buf, tokens, extra), do: parse_collect(code, "", tokens ++ map_token(buf) ++ [extra])
 
     # Return true if current position is whitespace.

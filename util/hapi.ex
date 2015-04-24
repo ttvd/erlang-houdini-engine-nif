@@ -117,8 +117,7 @@ defmodule HAPI do
     defp map_token("int"), do: [:token_int]
     defp map_token("char"), do: [:token_char]
     defp map_token(token) do
-        parse_int = Integer.parse(token)
-        case parse_int do
+        case Integer.parse(token) do
             {num, ""} ->
                 [num]
             _ ->
@@ -164,8 +163,7 @@ end
 {:ok, data} = File.read("hapi.c.generated.osx")
 data = HAPI.preprocess(data)
 data = HAPI.parse(data)
-#HAPI.print_tokens(data)
-#IO.puts(data)
+HAPI.print_tokens(data)
 
 #types_from_hapi = HAPI.type_map_from_hapi(data)
 #HAPI.print_type_map_from_hapi(types_from_hapi)

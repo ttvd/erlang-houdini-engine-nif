@@ -215,13 +215,17 @@ defmodule HAPI do
 
     # Process tokens and collect structures.
     defp struct_map_hapi_collect(dict, [], _types, _enums), do: dict
-    defp struct_map_hapi_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest], types, enums), do: dict
-    defp struct_map_hapi_collect(_dict, [:token_struct | rest], _types, _enums) do
+    defp struct_map_hapi_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest], types, enums) do
+        [struct_body, remaining] = struct_map_hapi_extract([], rest, types, enums)
+        Dict.put(dict, struct_name, struct_body) |> struct_map_hapi_collect(remaining, types, enums)
+    end
+    defp struct_map_hapi_collect(_dict, [:token_struct | _rest], _types, _enums) do
         raise(SyntaxError, description: "Invalid struct detected")
     end
     defp struct_map_hapi_collect(dict, [_token | rest], types, enums), do: struct_map_hapi_collect(dict, rest, types, enums)
 
     # Helper function to extract struct fields from token stream.
+    defp struct_map_hapi_extract(list, tokens, types, enums), do: [[], []]
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")

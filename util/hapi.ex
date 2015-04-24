@@ -217,7 +217,10 @@ defmodule HAPI do
 
     # Process tokens and collect structures.
     defp struct_map_hapi_collect(dict, [], types, enums), do: dict
-    defp struct_map_hapi_collect(dict, tokens, types, enums), do: dict
+    defp struct_map_hapi_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest], types, enums), do: dict
+    defp struct_map_hapi_collect(dict, [:token_struct | rest], types, enums) do
+        raise(SyntaxError, description: "Invalid struct detected")
+    end
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")
@@ -230,3 +233,5 @@ data = HAPI.parse(data)
 
 types_enums_from_hapi = HAPI.enum_map_hapi(data)
 HAPI.print_enum_map_hapi(types_enums_from_hapi)
+
+#types_structs_from_hapi = HAPI.struct_map_hapi(data)

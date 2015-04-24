@@ -170,7 +170,7 @@ defmodule HAPI do
     defp enum_map_hapi_collect(dict, [_token | rest]), do: enum_map_hapi_collect(dict, rest)
 
     # Helper function to extract enum values from token stream.
-    defp enum_map_hapi_extract(_dict, [], _idx), do: raise(SyntaxError, description: "Malformed enum detected")
+    defp enum_map_hapi_extract(_dict, [], _idx), do: raise(SyntaxError, description: "Unexpected end of enum")
     defp enum_map_hapi_extract(dict, [:token_comma | rest], idx), do: enum_map_hapi_extract(dict, rest, idx)
     defp enum_map_hapi_extract(dict, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {dict, rest}
     defp enum_map_hapi_extract(dict, [enum_entry, :token_comma | rest], idx) do
@@ -225,7 +225,7 @@ defmodule HAPI do
     defp struct_map_hapi_collect(dict, [_token | rest]), do: struct_map_hapi_collect(dict, rest)
 
     # Helper function to extract struct fields from token stream.
-    defp struct_map_hapi_extract(_list, []), do: raise(SyntaxError, description: "Malformed struct detected")
+    defp struct_map_hapi_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of struct")
     defp struct_map_hapi_extract(list, [:token_bracket_curly_right, :token_semicolon | rest]) do
         [list, rest]
     end
@@ -256,12 +256,79 @@ defmodule HAPI do
     end
 
     # Given a list of tokens, produce a mapping table of functions.
-    defp function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
+    def function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
 
     # Process tokens and collect functions.
     defp function_map_hapi_collect(dict, []), do: dict
-    defp function_map_hapi_collect(dict, list), do: dict
+    defp function_map_hapi_collect(dict, [function_type, function_name, :token_bracket_left | rest]) do
+        [params, remaining] = function_map_hapi_extract_params([], rest)
+        Dict.put(dict, function_name, [function_type, params]) |> function_map_hapi_collect(remaining)
+    end
+    defp function_map_hapi_collect(dict, [_token | rest]), do: function_map_hapi_collect(dict, rest)
 
+    # Helper function to extract function parameters.
+    defp function_map_hapi_extract_params(_list, []), do: raise(SyntaxError, description: "Unexpected end of function")
+    defp function_map_hapi_extract_params(list, [:token_comma | rest]), do: function_map_hapi_extract_params(list, rest)
+    defp function_map_hapi_extract_params(list, [:token_bracket_right, :token_semicolon | rest]) do
+        [list, rest]
+    end
+    defp function_map_hapi_extract_params(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+            |> function_map_hapi_extract_params(rest)
+    end
+    defp function_map_hapi_extract_params(list, [:token_const, param_type, param_name | rest] = tokens) do
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+            |> function_map_hapi_extract_params(rest)
+    end
+    defp function_map_hapi_extract_params(list, [param_type, :token_pointer, param_name | rest] = tokens) do
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+            |> function_map_hapi_extract_params(rest)
+    end
+    defp function_map_hapi_extract_params(list, [param_type, param_name | rest] = tokens) do
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+            |> function_map_hapi_extract_params(rest)
+    end
+
+    # Helper function used add flags.
+    defp function_map_hapi_param_flags(dict, []), do: dict
+    defp function_map_hapi_param_flags(dict, [param | rest]) do
+        case param do
+            :token_const ->
+                Dict.put(dict, :param_const, true) |> function_map_hapi_param_flags(rest)
+            :token_pointer ->
+                Dict.put(dict, :param_pointer, true) |> function_map_hapi_param_flags(rest)
+            _ ->
+                if is_binary(param) do
+                    if String.match?(param, ~r/\w+es$/) or String.match?(param, ~r/\w+s$/) do
+                        Dict.put(dict, :param_array, true) |> function_map_hapi_param_flags(rest)
+                    else
+                        function_map_hapi_param_flags(dict, rest)
+                    end
+                else
+                    function_map_hapi_param_flags(dict, rest)
+                end
+        end
+    end
+
+    # Print from hapi functions dictionary.
+    def print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
+
+    # Helper function to print each function.
+    defp print_function_map_hapi(function_name, function_body) do
+        [function_type, function_params] = function_body
+        IO.puts("#{function_name} -> #{function_type}")
+        Enum.map(function_params, fn(param) -> print_function_map_hapi_param(param) end)
+        IO.puts("")
+    end
+
+    # Helper function to print each param.
+    defp print_function_map_hapi_param([param_type, param_name]) do
+        IO.puts("    #{param_type} #{param_name}")
+    end
+    defp print_function_map_hapi_param([param_type, param_name, param_opts]) do
+        IO.puts("    #{param_type} #{param_name}")
+        Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
+    end
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")
@@ -275,4 +342,7 @@ types_enums_from_hapi = HAPI.enum_map_hapi(tokens)
 #HAPI.print_enum_map_hapi(types_enums_from_hapi)
 
 types_structs_from_hapi = HAPI.struct_map_hapi(tokens)
-HAPI.print_struct_map_hapi(types_structs_from_hapi)
+#HAPI.print_struct_map_hapi(types_structs_from_hapi)
+
+types_functions_from_hapi = HAPI.function_map_hapi(tokens)
+HAPI.print_function_map_hapi(types_functions_from_hapi)

@@ -141,16 +141,16 @@ defmodule HAPI do
     # Process tokens and collect types.
     defp type_map_hapi_collect(dict, []), do: dict
     defp type_map_hapi_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
-        type_map_hapi_collect(Dict.put(dict, "HAPI_Bool", :token_bool), rest)
+        Dict.put(dict, "HAPI_Bool", :token_bool) |> type_map_hapi_collect(rest)
     end
     defp type_map_hapi_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
-        type_map_hapi_collect(Dict.put(dict, type_new, type_origin), rest)
+        Dict.put(dict, type_new, type_origin) |> type_map_hapi_collect(rest)
     end
     defp type_map_hapi_collect(dict, [:token_enum, enum_name | rest]) do
-        type_map_hapi_collect(Dict.put(dict, enum_name, :token_enum), rest)
+        Dict.put(dict, enum_name, :token_enum) |> type_map_hapi_collect(rest)
     end
     defp type_map_hapi_collect(dict, [:token_struct, struct_name | rest]) do
-        type_map_hapi_collect(Dict.put(dict, struct_name, :token_struct), rest)
+        Dict.put(dict, struct_name, :token_struct) |> type_map_hapi_collect(rest)
     end
     defp type_map_hapi_collect(dict, [_token | rest]), do: type_map_hapi_collect(dict, rest)
 
@@ -158,7 +158,7 @@ defmodule HAPI do
     def print_type_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
 
     # Given a list of tokens, produce a mapping table of hapi enums.
-    def enum_map_hapi(tokens), do: enum_map_hapi_collect(HashDict.new, tokens)
+    def enum_map_hapi(tokens), do: HashDict.new |> enum_map_hapi_collect(tokens)
 
     # Process tokens and collect enums.
     defp enum_map_hapi_collect(dict, []), do: dict
@@ -174,13 +174,13 @@ defmodule HAPI do
     defp enum_map_hapi_extract(dict, [:token_comma | rest], idx), do: enum_map_hapi_extract(dict, rest, idx)
     defp enum_map_hapi_extract(dict, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {dict, rest}
     defp enum_map_hapi_extract(dict, [enum_entry, :token_comma | rest], idx) do
-        enum_map_hapi_extract(Dict.put(dict, enum_entry, idx), rest, idx + 1)
+        Dict.put(dict, enum_entry, idx) |> enum_map_hapi_extract(rest, idx + 1)
     end
     defp enum_map_hapi_extract(dict, [enum_entry, :token_bracket_curly_right, :token_semicolon | rest], idx) do
         {Dict.put(dict, enum_entry, idx), rest}
     end
     defp enum_map_hapi_extract(dict, [enum_entry, :token_assignment, enum_value | rest], _idx) when is_integer(enum_value) do
-        enum_map_hapi_extract(Dict.put(dict, enum_entry, enum_value), rest, enum_value + 1)
+        Dict.put(dict, enum_entry, enum_value) |> enum_map_hapi_extract(rest, enum_value + 1)
     end
     defp enum_map_hapi_extract(dict, [enum_entry, :token_assignment, enum_value | rest], _idx) do
         (&(enum_map_hapi_extract(Dict.put(dict, enum_entry, &1), rest, &1 + 1))).(enum_map_hapi_lookup_value(dict, enum_value))
@@ -211,7 +211,7 @@ defmodule HAPI do
     end
 
     # Given a list of tokens, map of types and map of enums, produce a mapping table of structures.
-    def struct_map_hapi(tokens, types, enums), do: struct_map_hapi_collect(HashDict.new, tokens, types, enums)
+    def struct_map_hapi(tokens, types, enums), do: HashDict.new |> struct_map_hapi_collect(tokens, types, enums)
 
     # Process tokens and collect structures.
     defp struct_map_hapi_collect(dict, [], _types, _enums), do: dict

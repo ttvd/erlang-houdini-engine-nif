@@ -210,6 +210,13 @@ defmodule HAPI do
         Enum.map(enum_dict, fn {k, v} -> IO.puts("    #{k} -> #{v}") end)
         IO.puts("")
     end
+
+    # Given a list of tokens, map of types and map of enums, produce a mapping table of structures.
+    def struct_map_hapi(tokens, types, enums), do: struct_map_hapi_collect(HashDict.new, tokens, types, enums)
+
+    # Process tokens and collect structures.
+    defp struct_map_hapi_collect(dict, [], types, enums), do: dict
+    defp struct_map_hapi_collect(dict, tokens, types, enums), do: dict
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")

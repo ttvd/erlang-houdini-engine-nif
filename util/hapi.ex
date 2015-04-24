@@ -225,6 +225,7 @@ defmodule HAPI do
     defp struct_map_hapi_collect(dict, [_token | rest], types, enums), do: struct_map_hapi_collect(dict, rest, types, enums)
 
     # Helper function to extract struct fields from token stream.
+    defp struct_map_hapi_extract(_list, [], _types, _enums), do: raise(SyntaxError, description: "Malformed struct detected")
     defp struct_map_hapi_extract(list, tokens, types, enums), do: [[], []]
 end
 

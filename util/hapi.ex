@@ -3,10 +3,10 @@ defmodule HAPI do
     # Remove preprocessor left overs from data stream.
     def preprocess(data) do
         String.replace(data, "int main() { return 0; }", "")
-        |> String.replace(~r/#\s*\d+.*\n/, "")
-        |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
-        |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
-        |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
+            |> String.replace(~r/#\s*\d+.*\n/, "")
+            |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
+            |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
+            |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
     end
 
     # Parse given string containing code.

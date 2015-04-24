@@ -236,6 +236,24 @@ defmodule HAPI do
     defp struct_map_hapi_extract(list, [field_type, field_name, :token_semicolon | rest], types, enums) do
         list ++ [[field_name, field_type]] |> struct_map_hapi_extract(rest, types, enums)
     end
+
+    # Print from hapi structs dictionary.
+    def print_struct_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_struct_map_hapi(k, v) end)
+
+    # Helper function to print each struct.
+    defp print_struct_map_hapi(struct_name, struct_body) do
+        IO.puts("#{struct_name}")
+        Enum.map(struct_body, fn(field) -> print_struct_map_hapi_field(field) end)
+        IO.puts("")
+    end
+
+    # Helper function to print each struct field.
+    defp print_struct_map_hapi_field([field_name, field_type, field_size]) do
+        IO.puts("    #{field_type} #{field_name}[#{field_size}]")
+    end
+    defp print_struct_map_hapi_field([field_name, field_type]) do
+        IO.puts("    #{field_type} #{field_name}")
+    end
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")
@@ -250,3 +268,4 @@ types_enums_from_hapi = HAPI.enum_map_hapi(data)
 #HAPI.print_enum_map_hapi(types_enums_from_hapi)
 
 types_structs_from_hapi = HAPI.struct_map_hapi(data, types_from_hapi, types_enums_from_hapi)
+HAPI.print_struct_map_hapi(types_structs_from_hapi)

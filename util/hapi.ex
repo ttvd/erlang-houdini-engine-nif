@@ -254,18 +254,25 @@ defmodule HAPI do
     defp print_struct_map_hapi_field([field_name, field_type]) do
         IO.puts("    #{field_type} #{field_name}")
     end
+
+    # Given a list of tokens, produce a mapping table of functions.
+    defp function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
+
+    # Process tokens and collect functions.
+    defp function_map_hapi_collect(dict, []), do: dict
+    defp function_map_hapi_collect(dict, list), do: dict
+
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")
-data = HAPI.preprocess(data)
-data = HAPI.parse(data)
-#HAPI.print_tokens(data)
+tokens = HAPI.preprocess(data) |> HAPI.parse()
+#HAPI.print_tokens(tokens)
 
-types_from_hapi = HAPI.type_map_hapi(data)
+types_from_hapi = HAPI.type_map_hapi(tokens)
 #HAPI.print_type_map_hapi(types_from_hapi)
 
-types_enums_from_hapi = HAPI.enum_map_hapi(data)
+types_enums_from_hapi = HAPI.enum_map_hapi(tokens)
 #HAPI.print_enum_map_hapi(types_enums_from_hapi)
 
-types_structs_from_hapi = HAPI.struct_map_hapi(data)
+types_structs_from_hapi = HAPI.struct_map_hapi(tokens)
 HAPI.print_struct_map_hapi(types_structs_from_hapi)

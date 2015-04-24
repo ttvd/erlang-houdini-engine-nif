@@ -166,13 +166,11 @@ defmodule HAPI do
         {enum_dict, remaining} = enum_map_hapi_extract(HashDict.new, rest, 0)
         Dict.put(dict, enum_name, enum_dict) |> enum_map_hapi_collect(remaining)
     end
-    defp enum_map_hapi_collect(dict, [:token_enum | _rest]) do
-        raise(SyntaxError, description: "Invalid enum detected")
-    end
+    defp enum_map_hapi_collect(dict, [:token_enum | _rest]), do: raise(SyntaxError, description: "Invalid enum detected")
     defp enum_map_hapi_collect(dict, [_token | rest]), do: enum_map_hapi_collect(dict, rest)
 
     # Helper function to extract enum values from token stream.
-    defp enum_map_hapi_extract(dict, [], _idx), do: {dict, []}
+    defp enum_map_hapi_extract(dict, [], _idx), do: raise(SyntaxError, description: "Malformed enum detected")
     defp enum_map_hapi_extract(dict, [:token_comma | rest], idx), do: enum_map_hapi_extract(dict, rest, idx)
     defp enum_map_hapi_extract(dict, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {dict, rest}
     defp enum_map_hapi_extract(dict, [enum_entry, :token_comma | rest], idx) do
@@ -222,6 +220,8 @@ defmodule HAPI do
         raise(SyntaxError, description: "Invalid struct detected")
     end
     defp struct_map_hapi_collect(dict, [_token | rest], types, enums), do: struct_map_hapi_collect(dict, rest, types, enums)
+
+    # Helper function to extract struct fields from token stream.
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")

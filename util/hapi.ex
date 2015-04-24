@@ -129,7 +129,6 @@ defmodule HAPI do
     def print_tokens(tokens), do: Enum.map(tokens, fn(token) -> IO.inspect(token) end)
 
     # Given a list of tokens, produce a mapping table from hapi types.
-    def type_map_hapi([]), do: []
     def type_map_hapi(tokens) do
         HashDict.new
             |> Dict.put("void", :token_void)
@@ -159,7 +158,6 @@ defmodule HAPI do
     def print_type_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
 
     # Given a list of tokens, produce a mapping table of hapi enums.
-    def enum_map_hapi([]), do: []
     def enum_map_hapi(tokens), do: enum_map_hapi_collect(HashDict.new, tokens)
 
     # Process tokens and collect enums.

@@ -1,0 +1,1698 @@
+    typedef char HAPI_Bool;
+
+
+
+
+typedef int HAPI_StringHandle;
+
+typedef int HAPI_AssetLibraryId;
+typedef int HAPI_AssetId;
+
+
+typedef int HAPI_NodeId;
+
+
+
+typedef int HAPI_ParmId;
+
+
+
+typedef int HAPI_ObjectId;
+
+
+
+typedef int HAPI_GeoId;
+
+
+
+typedef int HAPI_PartId;
+
+typedef int HAPI_MaterialId;
+
+
+
+
+enum HAPI_License
+{
+    HAPI_LICENSE_NONE,
+    HAPI_LICENSE_HOUDINI_ENGINE,
+    HAPI_LICENSE_HOUDINI,
+    HAPI_LICENSE_HOUDINI_FX,
+    HAPI_LICENSE_HOUDINI_ENGINE_INDIE,
+    HAPI_LICENSE_HOUDINI_INDIE,
+    HAPI_LICENSE_MAX
+};
+
+
+enum HAPI_StatusType
+{
+    HAPI_STATUS_CALL_RESULT,
+    HAPI_STATUS_COOK_RESULT,
+    HAPI_STATUS_COOK_STATE,
+    HAPI_STATUS_MAX
+};
+
+
+enum HAPI_StatusVerbosity
+{
+    HAPI_STATUSVERBOSITY_0,
+    HAPI_STATUSVERBOSITY_1,
+    HAPI_STATUSVERBOSITY_2,
+
+    HAPI_STATUSVERBOSITY_ALL = HAPI_STATUSVERBOSITY_2,
+
+
+
+    HAPI_STATUSVERBOSITY_ERRORS = HAPI_STATUSVERBOSITY_0,
+
+    HAPI_STATUSVERBOSITY_WARNINGS = HAPI_STATUSVERBOSITY_1,
+
+    HAPI_STATUSVERBOSITY_MESSAGES = HAPI_STATUSVERBOSITY_2,
+
+};
+
+
+enum HAPI_Result
+{
+    HAPI_RESULT_SUCCESS = 0,
+    HAPI_RESULT_FAILURE = 1,
+    HAPI_RESULT_ALREADY_INITIALIZED = 2,
+    HAPI_RESULT_NOT_INITIALIZED = 3,
+    HAPI_RESULT_CANT_LOADFILE = 4,
+    HAPI_RESULT_PARM_SET_FAILED = 5,
+    HAPI_RESULT_INVALID_ARGUMENT = 6,
+    HAPI_RESULT_CANT_LOAD_GEO = 7,
+    HAPI_RESULT_CANT_GENERATE_PRESET = 8,
+    HAPI_RESULT_CANT_LOAD_PRESET = 9,
+    HAPI_RESULT_ASSET_DEF_ALREADY_LOADED = 10,
+
+    HAPI_RESULT_NO_LICENSE_FOUND = 110,
+    HAPI_RESULT_DISALLOWED_NC_LICENSE_FOUND = 120,
+    HAPI_RESULT_DISALLOWED_NC_ASSET_WITH_C_LICENSE = 130,
+    HAPI_RESULT_DISALLOWED_NC_ASSET_WITH_LC_LICENSE = 140,
+    HAPI_RESULT_DISALLOWED_LC_ASSET_WITH_C_LICENSE = 150,
+};
+
+
+enum HAPI_State
+{
+    HAPI_STATE_READY,
+    HAPI_STATE_READY_WITH_FATAL_ERRORS,
+    HAPI_STATE_READY_WITH_COOK_ERRORS,
+    HAPI_STATE_STARTING_COOK,
+    HAPI_STATE_COOKING,
+    HAPI_STATE_STARTING_LOAD,
+    HAPI_STATE_LOADING,
+    HAPI_STATE_MAX,
+
+    HAPI_STATE_MAX_READY_STATE = HAPI_STATE_READY_WITH_COOK_ERRORS
+};
+
+
+enum HAPI_Permissions
+{
+    HAPI_PERMISSIONS_NON_APPLICABLE,
+    HAPI_PERMISSIONS_READ_WRITE,
+    HAPI_PERMISSIONS_READ_ONLY,
+    HAPI_PERMISSIONS_WRITE_ONLY,
+    HAPI_PERMISSIONS_MAX
+};
+
+
+enum HAPI_RampType
+{
+    HAPI_RAMPTYPE_INVALID = -1,
+    HAPI_RAMPTYPE_FLOAT,
+    HAPI_RAMPTYPE_COLOR,
+    HAPI_RAMPTYPE_MAX,
+};
+
+
+
+
+
+
+
+
+enum HAPI_ParmType
+{
+    HAPI_PARMTYPE_INT = 0,
+    HAPI_PARMTYPE_MULTIPARMLIST,
+    HAPI_PARMTYPE_TOGGLE,
+    HAPI_PARMTYPE_BUTTON,
+
+    HAPI_PARMTYPE_FLOAT,
+    HAPI_PARMTYPE_COLOR,
+
+    HAPI_PARMTYPE_STRING,
+    HAPI_PARMTYPE_PATH_FILE,
+    HAPI_PARMTYPE_PATH_FILE_GEO,
+    HAPI_PARMTYPE_PATH_FILE_IMAGE,
+    HAPI_PARMTYPE_PATH_NODE,
+
+    HAPI_PARMTYPE_FOLDERLIST,
+
+    HAPI_PARMTYPE_FOLDER,
+    HAPI_PARMTYPE_LABEL,
+    HAPI_PARMTYPE_SEPARATOR,
+
+
+
+    HAPI_PARMTYPE_MAX,
+
+    HAPI_PARMTYPE_INT_START = HAPI_PARMTYPE_INT,
+    HAPI_PARMTYPE_INT_END = HAPI_PARMTYPE_BUTTON,
+
+    HAPI_PARMTYPE_FLOAT_START = HAPI_PARMTYPE_FLOAT,
+    HAPI_PARMTYPE_FLOAT_END = HAPI_PARMTYPE_COLOR,
+
+    HAPI_PARMTYPE_STRING_START = HAPI_PARMTYPE_STRING,
+    HAPI_PARMTYPE_STRING_END = HAPI_PARMTYPE_PATH_NODE,
+
+    HAPI_PARMTYPE_PATH_START = HAPI_PARMTYPE_PATH_FILE,
+    HAPI_PARMTYPE_PATH_END = HAPI_PARMTYPE_PATH_NODE,
+
+    HAPI_PARMTYPE_PATH_FILE_START = HAPI_PARMTYPE_PATH_FILE,
+    HAPI_PARMTYPE_PATH_FILE_END = HAPI_PARMTYPE_PATH_FILE_IMAGE,
+
+    HAPI_PARMTYPE_PATH_NODE_START = HAPI_PARMTYPE_PATH_NODE,
+    HAPI_PARMTYPE_PATH_NODE_END = HAPI_PARMTYPE_PATH_NODE,
+
+    HAPI_PARMTYPE_CONTAINER_START = HAPI_PARMTYPE_FOLDERLIST,
+    HAPI_PARMTYPE_CONTAINER_END = HAPI_PARMTYPE_FOLDERLIST,
+
+    HAPI_PARMTYPE_NONVALUE_START = HAPI_PARMTYPE_FOLDER,
+    HAPI_PARMTYPE_NONVALUE_END = HAPI_PARMTYPE_SEPARATOR
+};
+
+
+enum HAPI_PresetType
+{
+    HAPI_PRESETTYPE_INVALID = -1,
+    HAPI_PRESETTYPE_BINARY = 0,
+    HAPI_PRESETTYPE_IDX,
+    HAPI_PRESETTYPE_MAX
+};
+
+
+enum HAPI_AssetType
+{
+    HAPI_ASSETTYPE_INVALID = -1,
+    HAPI_ASSETTYPE_OBJ = 0,
+    HAPI_ASSETTYPE_SOP,
+    HAPI_ASSETTYPE_POPNET,
+    HAPI_ASSETTYPE_POP,
+    HAPI_ASSETTYPE_CHOPNET,
+    HAPI_ASSETTYPE_CHOP,
+    HAPI_ASSETTYPE_ROP,
+    HAPI_ASSETTYPE_SHOP,
+    HAPI_ASSETTYPE_COP2,
+    HAPI_ASSETTYPE_COPNET,
+    HAPI_ASSETTYPE_VOP,
+    HAPI_ASSETTYPE_VOPNET,
+    HAPI_ASSETTYPE_DOP,
+    HAPI_ASSETTYPE_MGR,
+    HAPI_ASSETTYPE_DIR,
+    HAPI_ASSETTYPE_MAX
+};
+
+
+enum HAPI_AssetSubType
+{
+    HAPI_ASSETSUBTYPE_INVALID = -1,
+    HAPI_ASSETSUBTYPE_DEFAULT,
+    HAPI_ASSETSUBTYPE_CURVE,
+    HAPI_ASSETSUBTYPE_INPUT,
+    HAPI_ASSETSUBTYPE_MAX
+};
+
+
+enum HAPI_GroupType
+{
+    HAPI_GROUPTYPE_INVALID = -1,
+    HAPI_GROUPTYPE_POINT,
+    HAPI_GROUPTYPE_PRIM,
+    HAPI_GROUPTYPE_MAX
+};
+
+
+enum HAPI_AttributeOwner
+{
+    HAPI_ATTROWNER_INVALID = -1,
+    HAPI_ATTROWNER_VERTEX,
+    HAPI_ATTROWNER_POINT,
+    HAPI_ATTROWNER_PRIM,
+    HAPI_ATTROWNER_DETAIL,
+    HAPI_ATTROWNER_MAX
+};
+
+
+enum HAPI_CurveType
+{
+    HAPI_CURVETYPE_INVALID = -1,
+    HAPI_CURVETYPE_LINEAR,
+    HAPI_CURVETYPE_NURBS,
+    HAPI_CURVETYPE_BEZIER,
+    HAPI_CURVETYPE_MAX
+};
+
+
+enum HAPI_StorageType
+{
+    HAPI_STORAGETYPE_INVALID = -1,
+    HAPI_STORAGETYPE_INT,
+    HAPI_STORAGETYPE_FLOAT,
+    HAPI_STORAGETYPE_STRING,
+    HAPI_STORAGETYPE_MAX
+};
+
+
+enum HAPI_GeoType
+{
+    HAPI_GEOTYPE_INVALID = -1,
+
+
+
+    HAPI_GEOTYPE_DEFAULT,
+
+
+
+    HAPI_GEOTYPE_INTERMEDIATE,
+
+
+
+    HAPI_GEOTYPE_INPUT,
+
+
+
+    HAPI_GEOTYPE_CURVE,
+
+    HAPI_GEOTYPE_MAX
+};
+
+
+enum HAPI_InputType
+{
+    HAPI_INPUT_INVALID = -1,
+    HAPI_INPUT_TRANSFORM,
+    HAPI_INPUT_GEOMETRY,
+    HAPI_INPUT_MAX
+};
+
+
+enum HAPI_CurveOrders
+{
+    HAPI_CURVE_ORDER_VARYING = 0,
+    HAPI_CURVE_ORDER_INVALID = 1,
+    HAPI_CURVE_ORDER_LINEAR = 2,
+    HAPI_CURVE_ORDER_QUADRATIC = 3,
+    HAPI_CURVE_ORDER_CUBIC = 4,
+};
+
+
+enum HAPI_TransformComponent
+{
+    HAPI_TRANSFORM_TX = 0,
+    HAPI_TRANSFORM_TY,
+    HAPI_TRANSFORM_TZ,
+    HAPI_TRANSFORM_RX,
+    HAPI_TRANSFORM_RY,
+    HAPI_TRANSFORM_RZ,
+    HAPI_TRANSFORM_QX,
+    HAPI_TRANSFORM_QY,
+    HAPI_TRANSFORM_QZ,
+    HAPI_TRANSFORM_QW,
+    HAPI_TRANSFORM_SX,
+    HAPI_TRANSFORM_SY,
+    HAPI_TRANSFORM_SZ
+};
+
+
+enum HAPI_RSTOrder
+{
+    HAPI_TRS = 0,
+    HAPI_TSR,
+    HAPI_RTS,
+    HAPI_RST,
+    HAPI_STR,
+    HAPI_SRT
+};
+
+
+enum HAPI_XYZOrder
+{
+    HAPI_XYZ = 0,
+    HAPI_XZY,
+    HAPI_YXZ,
+    HAPI_YZX,
+    HAPI_ZXY,
+    HAPI_ZYX
+};
+
+
+enum HAPI_ShaderType
+{
+    HAPI_SHADER_INVALID = -1,
+    HAPI_SHADER_OPENGL,
+    HAPI_SHADER_MANTRA,
+    HAPI_SHADER_MAX
+};
+
+
+enum HAPI_ImageDataFormat
+{
+    HAPI_IMAGE_DATA_UNKNOWN = -1,
+    HAPI_IMAGE_DATA_INT8,
+    HAPI_IMAGE_DATA_INT16,
+    HAPI_IMAGE_DATA_INT32,
+    HAPI_IMAGE_DATA_FLOAT16,
+    HAPI_IMAGE_DATA_FLOAT32,
+    HAPI_IMAGE_DATA_MAX,
+
+    HAPI_IMAGE_DATA_DEFAULT = HAPI_IMAGE_DATA_INT8
+};
+
+
+enum HAPI_ImagePacking
+{
+    HAPI_IMAGE_PACKING_UNKNOWN = -1,
+    HAPI_IMAGE_PACKING_SINGLE,
+    HAPI_IMAGE_PACKING_DUAL,
+    HAPI_IMAGE_PACKING_RGB,
+    HAPI_IMAGE_PACKING_BGR,
+    HAPI_IMAGE_PACKING_RGBA,
+    HAPI_IMAGE_PACKING_ABGR,
+    HAPI_IMAGE_PACKING_MAX,
+
+    HAPI_IMAGE_PACKING_DEFAULT3 = HAPI_IMAGE_PACKING_RGB,
+    HAPI_IMAGE_PACKING_DEFAULT4 = HAPI_IMAGE_PACKING_RGBA
+};
+
+
+enum HAPI_EnvIntType
+{
+    HAPI_ENVINT_INVALID = -1,
+
+
+
+
+    HAPI_ENVINT_VERSION_HOUDINI_MAJOR,
+    HAPI_ENVINT_VERSION_HOUDINI_MINOR,
+    HAPI_ENVINT_VERSION_HOUDINI_BUILD,
+    HAPI_ENVINT_VERSION_HOUDINI_PATCH,
+    HAPI_ENVINT_VERSION_ORIG_HOUDINI_MAJOR,
+    HAPI_ENVINT_VERSION_ORIG_HOUDINI_MINOR,
+    HAPI_ENVINT_VERSION_ORIG_HOUDINI_BUILD,
+    HAPI_ENVINT_VERSION_ORIG_HOUDINI_PATCH,
+
+
+
+
+    HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MAJOR,
+    HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MINOR,
+    HAPI_ENVINT_VERSION_HOUDINI_ENGINE_API,
+
+
+    HAPI_ENVINT_LICENSE,
+
+    HAPI_ENVINT_MAX,
+};
+
+
+
+
+
+
+
+struct HAPI_Transform
+{
+    float position[ 3 ];
+    float rotationQuaternion[ 4 ];
+    float scale[ 3 ];
+
+    HAPI_RSTOrder rstOrder;
+};
+
+
+struct HAPI_TransformEuler
+{
+    float position[ 3 ];
+    float rotationEuler[ 3 ];
+    float scale[ 3 ];
+
+    HAPI_XYZOrder rotationOrder;
+    HAPI_RSTOrder rstOrder;
+};
+
+
+
+
+struct HAPI_TimelineOptions
+{
+    float fps;
+
+    float startTime;
+    float endTime;
+};
+
+ void
+    HAPI_TimelineOptions_Init( HAPI_TimelineOptions * in );
+ HAPI_TimelineOptions
+    HAPI_TimelineOptions_Create();
+
+
+
+struct HAPI_AssetInfo
+{
+    HAPI_AssetId id;
+
+
+
+
+
+
+    HAPI_AssetType type;
+
+
+
+
+    HAPI_AssetSubType subType;
+    int validationId;
+
+
+
+    HAPI_NodeId nodeId;
+    HAPI_NodeId objectNodeId;
+
+
+
+    HAPI_Bool hasEverCooked;
+
+    HAPI_StringHandle nameSH;
+    HAPI_StringHandle labelSH;
+    HAPI_StringHandle filePathSH;
+    HAPI_StringHandle versionSH;
+    HAPI_StringHandle fullOpNameSH;
+    HAPI_StringHandle helpTextSH;
+
+    int objectCount;
+    int handleCount;
+
+
+
+
+
+    int transformInputCount;
+
+
+
+
+
+
+
+    int geoInputCount;
+
+
+
+    HAPI_Bool haveObjectsChanged;
+
+
+
+    HAPI_Bool haveMaterialsChanged;
+};
+
+ void
+    HAPI_AssetInfo_Init( HAPI_AssetInfo * in );
+ HAPI_AssetInfo
+    HAPI_AssetInfo_Create();
+
+struct HAPI_CookOptions
+{
+    HAPI_Bool splitGeosByGroup;
+
+
+
+    int maxVerticesPerPrimitive;
+
+
+
+
+
+
+    HAPI_Bool refineCurveToLinear;
+
+
+
+    float curveRefineLOD;
+
+
+
+
+    HAPI_Bool clearErrorsAndWarnings;
+
+
+    HAPI_Bool cookTemplatedGeos;
+};
+
+ void
+    HAPI_CookOptions_Init( HAPI_CookOptions * in );
+ HAPI_CookOptions
+    HAPI_CookOptions_Create();
+
+
+
+struct HAPI_NodeInfo
+{
+    HAPI_NodeId id;
+    HAPI_AssetId assetId;
+    HAPI_StringHandle nameSH;
+
+
+    int totalCookCount;
+
+
+
+
+    int uniqueHoudiniNodeId;
+
+
+
+
+    HAPI_StringHandle internalNodePathSH;
+
+
+
+
+    int parmCount;
+
+
+
+
+    int parmIntValueCount;
+    int parmFloatValueCount;
+    int parmStringValueCount;
+
+
+
+
+    int parmChoiceCount;
+};
+
+ void
+    HAPI_NodeInfo_Init( HAPI_NodeInfo * in );
+ HAPI_NodeInfo
+    HAPI_NodeInfo_Create();
+
+
+
+
+
+struct HAPI_GlobalNodes
+{
+    HAPI_NodeId defaultCamera;
+    HAPI_NodeId defaultLight;
+    HAPI_NodeId mantraRenderer;
+};
+
+ void
+    HAPI_GlobalNodes_Init( HAPI_GlobalNodes * in );
+ HAPI_GlobalNodes
+    HAPI_GlobalNodes_Create();
+
+
+
+
+
+
+
+struct HAPI_ParmInfo
+{
+
+
+    HAPI_ParmId id;
+
+
+    HAPI_ParmId parentId;
+
+    HAPI_ParmType type;
+    HAPI_StringHandle typeInfoSH;
+
+
+
+
+
+
+    HAPI_Permissions permissions;
+
+
+
+
+
+    int size;
+
+
+
+
+    int choiceCount;
+    HAPI_StringHandle nameSH;
+
+    HAPI_StringHandle labelSH;
+    HAPI_StringHandle templateNameSH;
+
+
+    HAPI_StringHandle helpSH;
+
+
+
+    HAPI_Bool hasMin;
+    HAPI_Bool hasMax;
+    HAPI_Bool hasUIMin;
+    HAPI_Bool hasUIMax;
+
+
+
+
+    float min;
+    float max;
+    float UIMin;
+    float UIMax;
+
+
+
+
+
+    HAPI_Bool invisible;
+
+
+    HAPI_Bool disabled;
+
+
+
+
+
+    HAPI_Bool spare;
+
+    HAPI_Bool joinNext;
+
+    HAPI_Bool labelNone;
+
+
+
+
+    int intValuesIndex;
+    int floatValuesIndex;
+    int stringValuesIndex;
+    int choiceIndex;
+
+
+
+
+    HAPI_Bool isChildOfMultiParm;
+
+    int instanceNum;
+    int instanceLength;
+    int instanceCount;
+
+
+    int instanceStartOffset;
+
+    HAPI_RampType rampType;
+
+};
+
+
+
+ void
+    HAPI_ParmInfo_Init( HAPI_ParmInfo * in );
+
+
+ HAPI_ParmInfo
+    HAPI_ParmInfo_Create();
+
+
+
+
+ HAPI_Bool
+    HAPI_ParmInfo_IsInt( const HAPI_ParmInfo * in );
+ HAPI_Bool
+    HAPI_ParmInfo_IsFloat( const HAPI_ParmInfo * in );
+ HAPI_Bool
+    HAPI_ParmInfo_IsString( const HAPI_ParmInfo * in );
+ HAPI_Bool
+    HAPI_ParmInfo_IsPath( const HAPI_ParmInfo * in );
+ HAPI_Bool
+    HAPI_ParmInfo_IsFilePath( const HAPI_ParmInfo * in );
+ HAPI_Bool
+    HAPI_ParmInfo_IsNodePath( const HAPI_ParmInfo * in );
+
+
+
+
+ HAPI_Bool
+    HAPI_ParmInfo_IsNonValue( const HAPI_ParmInfo * in );
+
+
+
+
+ int
+    HAPI_ParmInfo_GetIntValueCount( const HAPI_ParmInfo * in );
+ int
+    HAPI_ParmInfo_GetFloatValueCount( const HAPI_ParmInfo * in );
+ int
+    HAPI_ParmInfo_GetStringValueCount( const HAPI_ParmInfo* in );
+
+
+struct HAPI_ParmChoiceInfo
+{
+    HAPI_ParmId parentParmId;
+    HAPI_StringHandle labelSH;
+
+
+
+    HAPI_StringHandle valueSH;
+};
+
+ void
+    HAPI_ParmChoiceInfo_Init( HAPI_ParmChoiceInfo * in );
+ HAPI_ParmChoiceInfo
+    HAPI_ParmChoiceInfo_Create();
+struct HAPI_HandleInfo
+{
+    HAPI_StringHandle nameSH;
+    HAPI_StringHandle typeNameSH;
+
+    int bindingsCount;
+};
+
+ void
+    HAPI_HandleInfo_Init( HAPI_HandleInfo * in );
+ HAPI_HandleInfo
+    HAPI_HandleInfo_Create();
+
+
+
+
+
+
+struct HAPI_HandleBindingInfo
+{
+    HAPI_StringHandle handleParmNameSH;
+    HAPI_StringHandle assetParmNameSH;
+
+    HAPI_ParmId assetParmId;
+};
+
+ void
+    HAPI_HandleBindingInfo_Init( HAPI_HandleBindingInfo * in );
+ HAPI_HandleBindingInfo
+    HAPI_HandleBindingInfo_Create();
+
+
+
+struct HAPI_ObjectInfo
+{
+    HAPI_ObjectId id;
+
+    HAPI_StringHandle nameSH;
+    HAPI_StringHandle objectInstancePathSH;
+
+
+
+    HAPI_Bool hasTransformChanged;
+
+
+
+    HAPI_Bool haveGeosChanged;
+
+
+
+
+
+    HAPI_Bool isVisible;
+
+
+    HAPI_Bool isInstancer;
+
+
+
+
+
+    int geoCount;
+
+
+
+
+
+    HAPI_NodeId nodeId;
+
+
+
+
+    HAPI_ObjectId objectToInstanceId;
+};
+
+ void
+    HAPI_ObjectInfo_Init( HAPI_ObjectInfo * in );
+ HAPI_ObjectInfo
+    HAPI_ObjectInfo_Create();
+
+
+
+struct HAPI_GeoInfo
+{
+    HAPI_GeoId id;
+    HAPI_GeoType type;
+    HAPI_StringHandle nameSH;
+
+
+
+
+    HAPI_NodeId nodeId;
+
+
+
+    HAPI_Bool isEditable;
+
+
+    HAPI_Bool isTemplated;
+
+
+    HAPI_Bool isDisplayGeo;
+
+
+    HAPI_Bool hasGeoChanged;
+
+
+
+
+
+
+    HAPI_Bool hasMaterialChanged;
+
+
+
+    int pointGroupCount;
+    int primitiveGroupCount;
+
+
+
+
+    int partCount;
+};
+
+ void
+    HAPI_GeoInfo_Init( HAPI_GeoInfo * in );
+ HAPI_GeoInfo
+    HAPI_GeoInfo_Create();
+ int
+    HAPI_GeoInfo_GetGroupCountByType(
+        HAPI_GeoInfo * in, HAPI_GroupType type );
+
+struct HAPI_GeoInputInfo
+{
+    HAPI_ObjectId objectId;
+    HAPI_GeoId geoId;
+    HAPI_NodeId objectNodeId;
+};
+
+ void
+    HAPI_GeoInputInfo_Init( HAPI_GeoInputInfo * in );
+ HAPI_GeoInputInfo
+    HAPI_GeoInputInfo_Create();
+
+struct HAPI_PartInfo
+{
+    HAPI_PartId id;
+    HAPI_StringHandle nameSH;
+
+    int faceCount;
+    int vertexCount;
+    int pointCount;
+
+
+
+    int pointAttributeCount;
+    int faceAttributeCount;
+    int vertexAttributeCount;
+    int detailAttributeCount;
+
+    HAPI_Bool hasVolume;
+    HAPI_Bool isCurve;
+};
+
+ void
+    HAPI_PartInfo_Init( HAPI_PartInfo * in );
+ HAPI_PartInfo
+    HAPI_PartInfo_Create();
+ int
+    HAPI_PartInfo_GetElementCountByAttributeOwner(
+        HAPI_PartInfo * in, HAPI_AttributeOwner owner );
+ int
+    HAPI_PartInfo_GetElementCountByGroupType(
+        HAPI_PartInfo * in, HAPI_GroupType type );
+ int
+    HAPI_PartInfo_GetAttributeCountByOwner(
+        HAPI_PartInfo * in, HAPI_AttributeOwner owner );
+
+
+struct HAPI_AttributeInfo
+{
+    HAPI_Bool exists;
+
+    HAPI_AttributeOwner owner;
+    HAPI_StorageType storage;
+    HAPI_AttributeOwner originalOwner;
+    int count;
+
+
+
+
+
+
+    int tupleSize;
+};
+
+ void
+    HAPI_AttributeInfo_Init( HAPI_AttributeInfo * in );
+ HAPI_AttributeInfo
+    HAPI_AttributeInfo_Create();
+
+
+
+struct HAPI_MaterialInfo
+{
+    HAPI_MaterialId id;
+    HAPI_AssetId assetId;
+
+
+
+
+
+
+
+    HAPI_NodeId nodeId;
+
+    HAPI_Bool exists;
+
+    HAPI_Bool hasChanged;
+};
+
+ void
+    HAPI_MaterialInfo_Init( HAPI_MaterialInfo * in );
+ HAPI_MaterialInfo
+    HAPI_MaterialInfo_Create();
+
+struct HAPI_ImageFileFormat
+{
+    HAPI_StringHandle nameSH;
+    HAPI_StringHandle descriptionSH;
+    HAPI_StringHandle defaultExtensionSH;
+};
+
+ void
+    HAPI_ImageFileFormat_Init( HAPI_ImageFileFormat *in );
+ HAPI_ImageFileFormat
+    HAPI_ImageFileFormat_Create();
+
+struct HAPI_ImageInfo
+{
+
+
+
+
+
+
+    HAPI_StringHandle imageFileFormatNameSH;
+
+    int xRes;
+    int yRes;
+
+    HAPI_ImageDataFormat dataFormat;
+
+    HAPI_Bool interleaved;
+    HAPI_ImagePacking packing;
+
+
+
+    double gamma;
+};
+
+ void
+    HAPI_ImageInfo_Init( HAPI_ImageInfo * in );
+ HAPI_ImageInfo
+    HAPI_ImageInfo_Create();
+
+
+
+struct HAPI_Keyframe
+{
+    float time;
+    float value;
+    float inTangent;
+    float outTangent;
+};
+
+ void
+    HAPI_Keyframe_Init( HAPI_Keyframe * in );
+ HAPI_Keyframe
+    HAPI_Keyframe_Create();
+struct HAPI_VolumeInfo
+{
+    HAPI_StringHandle nameSH;
+
+
+
+
+
+    int xLength;
+    int yLength;
+    int zLength;
+    int minX;
+    int minY;
+    int minZ;
+
+
+
+
+    int tupleSize;
+
+
+    HAPI_StorageType storage;
+
+
+
+    int tileSize;
+
+
+
+    HAPI_Transform transform;
+
+
+
+    HAPI_Bool hasTaper;
+
+
+
+    float xTaper;
+    float yTaper;
+
+};
+
+ void
+    HAPI_VolumeInfo_Init( HAPI_VolumeInfo * in );
+ HAPI_VolumeInfo
+    HAPI_VolumeInfo_Create();
+
+
+
+
+
+
+
+struct HAPI_VolumeTileInfo
+{
+    int minX;
+    int minY;
+    int minZ;
+    HAPI_Bool isValid;
+};
+
+ void
+    HAPI_VolumeTileInfo_Init( HAPI_VolumeTileInfo * in );
+ HAPI_VolumeTileInfo
+    HAPI_VolumeTileInfo_Create();
+struct HAPI_CurveInfo
+{
+    HAPI_CurveType curveType;
+    int curveCount;
+    int vertexCount;
+    int knotCount;
+
+    HAPI_Bool isPeriodic;
+
+    HAPI_Bool isRational;
+
+    int order;
+
+    HAPI_Bool hasKnots;
+};
+
+ void
+    HAPI_CurveInfo_Init( HAPI_CurveInfo * in );
+ HAPI_CurveInfo
+    HAPI_CurveInfo_Create();
+    HAPI_Result HAPI_IsInitialized();
+    HAPI_Result HAPI_Initialize( const char * otl_search_path,
+                               const char * dso_search_path,
+                               const HAPI_CookOptions * cook_options,
+                               HAPI_Bool use_cooking_thread,
+                               int cooking_thread_stack_size );
+    HAPI_Result HAPI_Cleanup();
+    HAPI_Result HAPI_GetEnvInt( HAPI_EnvIntType int_type, int * value );
+    HAPI_Result HAPI_GetStatus( HAPI_StatusType status_type, int * status );
+    HAPI_Result HAPI_GetStatusStringBufLength( HAPI_StatusType status_type,
+                                             HAPI_StatusVerbosity verbosity,
+                                             int * buffer_size );
+    HAPI_Result HAPI_GetStatusString( HAPI_StatusType status_type,
+                                    char * buffer );
+
+
+
+
+
+
+
+    HAPI_Result HAPI_GetCookingTotalCount( int * count );
+    HAPI_Result HAPI_GetCookingCurrentCount( int * count );
+    HAPI_Result HAPI_ConvertTransform( HAPI_TransformEuler * transform_in_out,
+                                     HAPI_RSTOrder rst_order,
+                                     HAPI_XYZOrder rot_order );
+    HAPI_Result HAPI_ConvertMatrixToQuat( float * mat,
+                                        HAPI_RSTOrder rst_order,
+                                        HAPI_Transform * transform_out );
+    HAPI_Result HAPI_ConvertMatrixToEuler( float * mat,
+                                         HAPI_RSTOrder rst_order,
+                                         HAPI_XYZOrder rot_order,
+                                         HAPI_TransformEuler * transform_out );
+    HAPI_Result HAPI_ConvertTransformQuatToMatrix(
+                                        const HAPI_Transform * transform,
+                                        float * matrix );
+    HAPI_Result HAPI_ConvertTransformEulerToMatrix(
+                                        const HAPI_TransformEuler * transform,
+                                        float * matrix );
+    HAPI_Result HAPI_PythonThreadInterpreterLock( HAPI_Bool locked );
+    HAPI_Result HAPI_GetStringBufLength( HAPI_StringHandle string_handle,
+                                       int * buffer_length );
+    HAPI_Result HAPI_GetString( HAPI_StringHandle string_handle,
+                              char * string_value,
+                              int buffer_length );
+    HAPI_Result HAPI_GetTime( float * time );
+
+
+
+
+
+
+
+    HAPI_Result HAPI_SetTime( float time );
+
+
+
+
+
+
+    HAPI_Result HAPI_GetTimelineOptions(
+                                HAPI_TimelineOptions * timeline_options );
+
+
+
+
+
+
+    HAPI_Result HAPI_SetTimelineOptions(
+                            const HAPI_TimelineOptions * timeline_options );
+    HAPI_Result HAPI_IsAssetValid( HAPI_AssetId asset_id,
+                                 int asset_validation_id,
+                                 int * answer );
+    HAPI_Result HAPI_LoadAssetLibraryFromFile( const char * file_path,
+                                             HAPI_Bool allow_overwrite,
+                                             HAPI_AssetLibraryId* library_id );
+    HAPI_Result HAPI_LoadAssetLibraryFromMemory(
+                                        const char * library_buffer,
+                                        int library_buffer_size,
+                                        HAPI_Bool allow_overwrite,
+                                        HAPI_AssetLibraryId * library_id );
+    HAPI_Result HAPI_GetAvailableAssetCount( HAPI_AssetLibraryId library_id,
+                                           int * asset_count );
+    HAPI_Result HAPI_GetAvailableAssets( HAPI_AssetLibraryId library_id,
+                                       HAPI_StringHandle * asset_names,
+                                       int asset_count );
+    HAPI_Result HAPI_InstantiateAsset( const char * asset_name,
+                                     HAPI_Bool cook_on_load,
+                                     HAPI_AssetId * asset_id );
+    HAPI_Result HAPI_CreateCurve( HAPI_AssetId * asset_id );
+    HAPI_Result HAPI_CreateInputAsset( HAPI_AssetId * asset_id,
+                                     const char * name );
+
+
+
+
+
+
+    HAPI_Result HAPI_DestroyAsset( HAPI_AssetId asset_id );
+    HAPI_Result HAPI_GetAssetInfo( HAPI_AssetId asset_id,
+                                 HAPI_AssetInfo * asset_info );
+    HAPI_Result HAPI_CookAsset( HAPI_AssetId asset_id,
+                              const HAPI_CookOptions * cook_options );
+
+
+
+    HAPI_Result HAPI_Interrupt();
+    HAPI_Result HAPI_GetAssetTransform( HAPI_AssetId asset_id,
+                                      HAPI_RSTOrder rst_order,
+                                      HAPI_XYZOrder rot_order,
+                                      HAPI_TransformEuler * transform );
+    HAPI_Result HAPI_SetAssetTransform( HAPI_AssetId asset_id,
+                                      HAPI_TransformEuler * transform );
+    HAPI_Result HAPI_GetInputName( HAPI_AssetId asset_id,
+                                 int input_idx, int input_type,
+                                 HAPI_StringHandle * name );
+    HAPI_Result HAPI_LoadHIPFile( const char * file_name,
+                                HAPI_Bool cook_on_load );
+    HAPI_Result HAPI_CheckForNewAssets( int * new_asset_count );
+    HAPI_Result HAPI_GetNewAssetIds( HAPI_AssetId * asset_ids );
+
+
+
+
+
+
+    HAPI_Result HAPI_SaveHIPFile( const char * file_path );
+    HAPI_Result HAPI_GetNodeInfo( HAPI_NodeId node_id,
+                                HAPI_NodeInfo * node_info );
+    HAPI_Result HAPI_GetGlobalNodes( HAPI_GlobalNodes * global_nodes );
+    HAPI_Result HAPI_GetParameters( HAPI_NodeId node_id,
+                                  HAPI_ParmInfo * parm_infos,
+                                  int start, int length );
+    HAPI_Result HAPI_GetParmInfo( HAPI_NodeId node_id,
+                                HAPI_ParmId parm_id,
+                                HAPI_ParmInfo * parm_info );
+    HAPI_Result HAPI_GetParmIdFromName( HAPI_NodeId node_id,
+                                      const char * parm_name,
+                                      HAPI_ParmId * parm_id );
+    HAPI_Result HAPI_GetParmInfoFromName( HAPI_NodeId node_id,
+                                        const char * parm_name,
+                                        HAPI_ParmInfo * parm_info );
+    HAPI_Result HAPI_GetParmIntValue( HAPI_NodeId node_id,
+                                    const char * parm_name,
+                                    int index,
+                                    int * value );
+    HAPI_Result HAPI_GetParmIntValues( HAPI_NodeId node_id,
+                                     int * values,
+                                     int start, int length );
+    HAPI_Result HAPI_GetParmFloatValue( HAPI_NodeId node_id,
+                                      const char * parm_name,
+                                      int index,
+                                      float * value );
+    HAPI_Result HAPI_GetParmFloatValues( HAPI_NodeId node_id, float * values,
+                                       int start, int length );
+    HAPI_Result HAPI_GetParmStringValue( HAPI_NodeId node_id,
+                                       const char * parm_name,
+                                       int index,
+                                       HAPI_Bool evaluate,
+                                       HAPI_StringHandle * value );
+    HAPI_Result HAPI_GetParmStringValues( HAPI_NodeId node_id,
+                                        HAPI_Bool evaluate,
+                                        HAPI_StringHandle * values,
+                                        int start, int length );
+    HAPI_Result HAPI_GetParmChoiceLists( HAPI_NodeId node_id,
+                                       HAPI_ParmChoiceInfo * parm_choices,
+                                       int start, int length );
+    HAPI_Result HAPI_SetParmIntValue( HAPI_NodeId node_id,
+                                    const char * parm_name,
+                                    int index,
+                                    int value );
+    HAPI_Result HAPI_SetParmIntValues( HAPI_NodeId node_id, const int * values,
+                                     int start, int length );
+    HAPI_Result HAPI_SetParmFloatValue( HAPI_NodeId node_id,
+                                      const char * parm_name,
+                                      int index,
+                                      float value );
+    HAPI_Result HAPI_SetParmFloatValues( HAPI_NodeId node_id,
+                                       const float * values,
+                                       int start, int length );
+    HAPI_Result HAPI_SetParmStringValue( HAPI_NodeId node_id,
+                                       const char * value,
+                                       HAPI_ParmId parm_id, int index );
+    HAPI_Result HAPI_InsertMultiparmInstance( HAPI_NodeId node_id,
+                                            HAPI_ParmId parm_id,
+                                            int instance_position );
+    HAPI_Result HAPI_RemoveMultiparmInstance( HAPI_NodeId node_id,
+                                            HAPI_ParmId parm_id,
+                                            int instance_position );
+    HAPI_Result HAPI_GetHandleInfo( HAPI_AssetId asset_id,
+                                  HAPI_HandleInfo * handle_infos,
+                                  int start, int length );
+    HAPI_Result HAPI_GetHandleBindingInfo( HAPI_AssetId asset_id,
+                                         int handle_index,
+                                         HAPI_HandleBindingInfo * handle_infos,
+                                         int start, int length );
+    HAPI_Result HAPI_GetPresetBufLength( HAPI_NodeId node_id,
+                                       HAPI_PresetType preset_type,
+                                       const char * preset_name,
+                                       int * buffer_length );
+    HAPI_Result HAPI_GetPreset( HAPI_NodeId node_id, char * buffer,
+                              int buffer_length );
+    HAPI_Result HAPI_SetPreset( HAPI_NodeId node_id,
+                              HAPI_PresetType preset_type,
+                              const char * preset_name,
+                              const char * buffer,
+                              int buffer_length );
+    HAPI_Result HAPI_GetObjects( HAPI_AssetId asset_id,
+                               HAPI_ObjectInfo * object_infos,
+                               int start, int length );
+    HAPI_Result HAPI_GetObjectTransforms( HAPI_AssetId asset_id,
+                                        HAPI_RSTOrder rst_order,
+                                        HAPI_Transform * transforms,
+                                        int start, int length );
+    HAPI_Result HAPI_GetInstanceTransforms( HAPI_AssetId asset_id,
+                                          HAPI_ObjectId object_id,
+                                          HAPI_GeoId geo_id,
+                                          HAPI_RSTOrder rst_order,
+                                          HAPI_Transform * transforms,
+                                          int start, int length );
+    HAPI_Result HAPI_SetObjectTransform( HAPI_AssetId asset_id,
+                                       HAPI_ObjectId object_id,
+                                       const HAPI_TransformEuler * transform );
+    HAPI_Result HAPI_GetGeoInfo( HAPI_AssetId asset_id,
+                               HAPI_ObjectId object_id,
+                               HAPI_GeoId geo_id,
+                               HAPI_GeoInfo * geo_info );
+    HAPI_Result HAPI_GetPartInfo( HAPI_AssetId asset_id, HAPI_ObjectId object_id,
+                                HAPI_GeoId geo_id, HAPI_PartId part_id,
+                                HAPI_PartInfo * part_info );
+    HAPI_Result HAPI_GetFaceCounts( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  HAPI_PartId part_id,
+                                  int * face_counts,
+                                  int start, int length );
+    HAPI_Result HAPI_GetVertexList( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  HAPI_PartId part_id,
+                                  int * vertex_list,
+                                  int start, int length );
+    HAPI_Result HAPI_GetAttributeInfo( HAPI_AssetId asset_id,
+                                     HAPI_ObjectId object_id,
+                                     HAPI_GeoId geo_id,
+                                     HAPI_PartId part_id,
+                                     const char * name,
+                                     HAPI_AttributeOwner owner,
+                                     HAPI_AttributeInfo * attr_info );
+    HAPI_Result HAPI_GetAttributeNames( HAPI_AssetId asset_id,
+                                      HAPI_ObjectId object_id,
+                                      HAPI_GeoId geo_id,
+                                      HAPI_PartId part_id,
+                                      HAPI_AttributeOwner owner,
+                                      HAPI_StringHandle * attribute_names,
+                                      int count );
+    HAPI_Result HAPI_GetAttributeIntData( HAPI_AssetId asset_id,
+                                        HAPI_ObjectId object_id,
+                                        HAPI_GeoId geo_id,
+                                        HAPI_PartId part_id,
+                                        const char * name,
+                                        HAPI_AttributeInfo * attr_info,
+                                        int * data,
+                                        int start, int length );
+    HAPI_Result HAPI_GetAttributeFloatData( HAPI_AssetId asset_id,
+                                          HAPI_ObjectId object_id,
+                                          HAPI_GeoId geo_id,
+                                          HAPI_PartId part_id,
+                                          const char * name,
+                                          HAPI_AttributeInfo * attr_info,
+                                          float * data,
+                                          int start, int length );
+    HAPI_Result HAPI_GetAttributeStringData( HAPI_AssetId asset_id,
+                                           HAPI_ObjectId object_id,
+                                           HAPI_GeoId geo_id,
+                                           HAPI_PartId part_id,
+                                           const char * name,
+                                           HAPI_AttributeInfo * attr_info,
+                                           int * data,
+                                           int start, int length );
+    HAPI_Result HAPI_GetGroupNames( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  HAPI_GroupType group_type,
+                                  HAPI_StringHandle * group_names,
+                                  int group_count );
+    HAPI_Result HAPI_GetGroupMembership( HAPI_AssetId asset_id,
+                                       HAPI_ObjectId object_id,
+                                       HAPI_GeoId geo_id,
+                                       HAPI_PartId part_id,
+                                       HAPI_GroupType group_type,
+                                       const char * group_name,
+                                       int * membership,
+                                       int start, int length );
+    HAPI_Result HAPI_SetGeoInfo( HAPI_AssetId asset_id,
+                               HAPI_ObjectId object_id,
+                               HAPI_GeoId geo_id,
+                               HAPI_GeoInfo * geo_info );
+    HAPI_Result HAPI_SetPartInfo( HAPI_AssetId asset_id,
+                                HAPI_ObjectId object_id,
+                                HAPI_GeoId geo_id,
+                                const HAPI_PartInfo * part_info );
+    HAPI_Result HAPI_SetFaceCounts( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  const int * face_counts,
+                                  int start, int length );
+    HAPI_Result HAPI_SetVertexList( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  const int * vertex_list,
+                                  int start, int length );
+    HAPI_Result HAPI_AddAttribute( HAPI_AssetId asset_id,
+                                 HAPI_ObjectId object_id,
+                                 HAPI_GeoId geo_id,
+                                 const char * name,
+                                 const HAPI_AttributeInfo * attr_info );
+    HAPI_Result HAPI_SetAttributeIntData( HAPI_AssetId asset_id,
+                                        HAPI_ObjectId object_id,
+                                        HAPI_GeoId geo_id,
+                                        const char * name,
+                                        const HAPI_AttributeInfo * attr_info,
+                                        const int * data,
+                                        int start, int length );
+    HAPI_Result HAPI_SetAttributeFloatData( HAPI_AssetId asset_id,
+                                          HAPI_ObjectId object_id,
+                                          HAPI_GeoId geo_id,
+                                          const char * name,
+                                          const HAPI_AttributeInfo * attr_info,
+                                          const float * data,
+                                          int start, int length );
+    HAPI_Result HAPI_SetAttributeStringData( HAPI_AssetId asset_id,
+                                           HAPI_ObjectId object_id,
+                                           HAPI_GeoId geo_id,
+                                           const char * name,
+                                           const HAPI_AttributeInfo *attr_info,
+                                           const char ** data,
+                                           int start, int length );
+    HAPI_Result HAPI_AddGroup( HAPI_AssetId asset_id,
+                             HAPI_ObjectId object_id,
+                             HAPI_GeoId geo_id,
+                             HAPI_GroupType group_type,
+                             const char * group_name );
+    HAPI_Result HAPI_SetGroupMembership( HAPI_AssetId asset_id,
+                                       HAPI_ObjectId object_id,
+                                       HAPI_GeoId geo_id,
+                                       HAPI_GroupType group_type,
+                                       const char * group_name,
+                                       int * membership,
+                                       int start, int length );
+    HAPI_Result HAPI_CommitGeo( HAPI_AssetId asset_id,
+                              HAPI_ObjectId object_id,
+                              HAPI_GeoId geo_id );
+    HAPI_Result HAPI_RevertGeo( HAPI_AssetId asset_id,
+                              HAPI_ObjectId object_id,
+                              HAPI_GeoId geo_id );
+    HAPI_Result HAPI_ConnectAssetTransform( HAPI_AssetId asset_id_from,
+                                          HAPI_AssetId asset_id_to,
+                                          int input_idx );
+    HAPI_Result HAPI_DisconnectAssetTransform( HAPI_AssetId asset_id,
+                                             int input_idx );
+    HAPI_Result HAPI_ConnectAssetGeometry( HAPI_AssetId asset_id_from,
+                                         HAPI_ObjectId object_id_from,
+                                         HAPI_AssetId asset_id_to,
+                                         int input_idx );
+    HAPI_Result HAPI_DisconnectAssetGeometry( HAPI_AssetId asset_id,
+                                            int input_idx );
+    HAPI_Result HAPI_GetMaterialIdsOnFaces( HAPI_AssetId asset_id,
+                                          HAPI_ObjectId object_id,
+                                          HAPI_GeoId geo_id,
+                                          HAPI_PartId part_id,
+                                          HAPI_Bool * are_all_the_same,
+                                          HAPI_MaterialId * material_ids,
+                                          int start, int length );
+    HAPI_Result HAPI_GetMaterialInfo( HAPI_AssetId asset_id,
+                                    HAPI_MaterialId material_id,
+                                    HAPI_MaterialInfo * material_info );
+    HAPI_Result
+    HAPI_GetMaterialOnPart( HAPI_AssetId asset_id,
+                            HAPI_ObjectId object_id,
+                            HAPI_GeoId geo_id,
+                            HAPI_PartId part_id,
+                            HAPI_MaterialInfo * material_info );
+    HAPI_Result
+    HAPI_GetMaterialOnGroup( HAPI_AssetId asset_id,
+                             HAPI_ObjectId object_id,
+                             HAPI_GeoId geo_id,
+                             const char * group_name,
+                             HAPI_MaterialInfo * material_info );
+    HAPI_Result HAPI_RenderMaterialToImage( HAPI_AssetId asset_id,
+                                          HAPI_MaterialId material_id,
+                                          HAPI_ShaderType shader_type );
+    HAPI_Result HAPI_RenderTextureToImage( HAPI_AssetId asset_id,
+                                          HAPI_MaterialId material_id,
+                                          HAPI_ParmId parm_id );
+
+
+
+
+
+
+    HAPI_Result HAPI_GetSupportedImageFileFormatCount( int * file_format_count );
+    HAPI_Result HAPI_GetSupportedImageFileFormats( HAPI_ImageFileFormat *formats,
+                                                 int file_format_count );
+    HAPI_Result HAPI_GetImageInfo( HAPI_AssetId asset_id,
+                                 HAPI_MaterialId material_id,
+                                 HAPI_ImageInfo * image_info );
+    HAPI_Result HAPI_SetImageInfo( HAPI_AssetId asset_id,
+                                 HAPI_MaterialId material_id,
+                                 const HAPI_ImageInfo * image_info );
+    HAPI_Result HAPI_GetImagePlaneCount( HAPI_AssetId asset_id,
+                                       HAPI_MaterialId material_id,
+                                       int * image_plane_count );
+    HAPI_Result HAPI_GetImagePlanes( HAPI_AssetId asset_id,
+                                   HAPI_MaterialId material_id,
+                                   HAPI_StringHandle * image_planes,
+                                   int image_plane_count );
+    HAPI_Result HAPI_ExtractImageToFile( HAPI_AssetId asset_id,
+                                       HAPI_MaterialId material_id,
+                                       const char * image_file_format_name,
+                                       const char * image_planes,
+                                       const char * destination_folder_path,
+                                       const char * destination_file_name,
+                                       int * destination_file_path );
+    HAPI_Result HAPI_ExtractImageToMemory( HAPI_AssetId asset_id,
+                                         HAPI_MaterialId material_id,
+                                         const char * image_file_format_name,
+                                         const char * image_planes,
+                                         int * buffer_size );
+    HAPI_Result HAPI_GetImageMemoryBuffer( HAPI_AssetId asset_id,
+                                         HAPI_MaterialId material_id,
+                                         char * buffer, int buffer_size );
+    HAPI_Result HAPI_SetAnimCurve( HAPI_NodeId node_id, HAPI_ParmId parm_id,
+                                 int parm_index,
+                                 const HAPI_Keyframe * curve_keyframes,
+                                 int keyframe_count );
+    HAPI_Result HAPI_SetTransformAnimCurve( HAPI_NodeId node_id,
+                                          HAPI_TransformComponent trans_comp,
+                                          const HAPI_Keyframe *curve_keyframes,
+                                          int keyframe_count );
+    HAPI_Result HAPI_ResetSimulation( HAPI_AssetId asset_id );
+    HAPI_Result HAPI_GetVolumeInfo( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  HAPI_PartId part_id,
+                                  HAPI_VolumeInfo * volume_info );
+    HAPI_Result HAPI_GetFirstVolumeTile( HAPI_AssetId asset_id,
+                                       HAPI_ObjectId object_id,
+                                       HAPI_GeoId geo_id,
+                                       HAPI_PartId part_id,
+                                       HAPI_VolumeTileInfo * tile );
+    HAPI_Result HAPI_GetNextVolumeTile( HAPI_AssetId asset_id,
+                                      HAPI_ObjectId object_id,
+                                      HAPI_GeoId geo_id,
+                                      HAPI_PartId part_id,
+                                      HAPI_VolumeTileInfo * next );
+    HAPI_Result HAPI_GetVolumeTileFloatData( HAPI_AssetId asset_id,
+                                           HAPI_ObjectId object_id,
+                                           HAPI_GeoId geo_id,
+                                           HAPI_PartId part_id,
+                                           HAPI_VolumeTileInfo * tile,
+                                           float * values );
+    HAPI_Result HAPI_GetVolumeTileIntData( HAPI_AssetId asset_id,
+                                         HAPI_ObjectId object_id,
+                                         HAPI_GeoId geo_id,
+                                         HAPI_PartId part_id,
+                                         HAPI_VolumeTileInfo * tile,
+                                         int * values );
+    HAPI_Result HAPI_SetVolumeInfo( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  const HAPI_VolumeInfo * volume_info );
+    HAPI_Result HAPI_SetVolumeTileFloatData( HAPI_AssetId asset_id,
+                                           HAPI_ObjectId object_id,
+                                           HAPI_GeoId geo_id,
+                                           const HAPI_VolumeTileInfo * tile,
+                                           const float * values );
+    HAPI_Result HAPI_SetVolumeTileIntData( HAPI_AssetId asset_id,
+                                         HAPI_ObjectId object_id,
+                                         HAPI_GeoId geo_id,
+                                         const HAPI_VolumeTileInfo * tile,
+                                         const int * values );
+    HAPI_Result HAPI_GetCurveInfo( HAPI_AssetId asset_id,
+                                 HAPI_ObjectId object_id,
+                                 HAPI_GeoId geo_id,
+                                 HAPI_PartId part_id,
+                                 HAPI_CurveInfo * info );
+    HAPI_Result HAPI_GetCurveCounts( HAPI_AssetId asset_id,
+                                   HAPI_ObjectId object_id,
+                                   HAPI_GeoId geo_id,
+                                   HAPI_PartId part_id,
+                                   int * counts,
+                                   int start, int length );
+    HAPI_Result HAPI_GetCurveOrders( HAPI_AssetId asset_id,
+                                   HAPI_ObjectId object_id,
+                                   HAPI_GeoId geo_id,
+                                   HAPI_PartId part_id,
+                                   int * orders,
+                                   int start, int length );
+    HAPI_Result HAPI_GetCurveKnots( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  HAPI_PartId part_id,
+                                  float * knots,
+                                  int start, int length );
+    HAPI_Result HAPI_SetCurveInfo( HAPI_AssetId asset_id,
+                                 HAPI_ObjectId object_id,
+                                 HAPI_GeoId geo_id,
+                                 HAPI_PartId part_id,
+                                 const HAPI_CurveInfo * info );
+    HAPI_Result HAPI_SetCurveCounts( HAPI_AssetId asset_id,
+                                   HAPI_ObjectId object_id,
+                                   HAPI_GeoId geo_id,
+                                   HAPI_PartId part_id,
+                                   const int * counts,
+                                   int start, int length );
+    HAPI_Result HAPI_SetCurveOrders( HAPI_AssetId asset_id,
+                                   HAPI_ObjectId object_id,
+                                   HAPI_GeoId geo_id,
+                                   HAPI_PartId part_id,
+                                   const int * orders,
+                                   int start, int length );
+    HAPI_Result HAPI_SetCurveKnots( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  HAPI_PartId part_id,
+                                  const float * knots,
+                                  int start, int length );
+    HAPI_Result HAPI_SaveGeoToFile( HAPI_AssetId asset_id,
+                                  HAPI_ObjectId object_id,
+                                  HAPI_GeoId geo_id,
+                                  const char * file_name );
+    HAPI_Result HAPI_LoadGeoFromFile( HAPI_AssetId asset_id,
+                                    HAPI_ObjectId object_id,
+                                    HAPI_GeoId geo_id,
+                                    const char * file_name );
+    HAPI_Result HAPI_GetGeoSize( HAPI_AssetId asset_id,
+                               HAPI_ObjectId object_id,
+                               HAPI_GeoId geo_id,
+                               const char * format,
+                               int * size );
+    HAPI_Result HAPI_SaveGeoToMemory( HAPI_AssetId asset_id,
+                                    HAPI_ObjectId object_id,
+                                    HAPI_GeoId geo_id,
+                                    char * buffer,
+                                    int size );
+    HAPI_Result HAPI_LoadGeoFromMemory( HAPI_AssetId asset_id,
+                                      HAPI_ObjectId object_id,
+                                      HAPI_GeoId geo_id,
+                                      const char * format,
+                                      char * buffer,
+                                      int size );
+
+
+

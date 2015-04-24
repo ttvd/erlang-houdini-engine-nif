@@ -166,6 +166,9 @@ defmodule HAPI do
         {enum_dict, remaining} = enum_map_hapi_extract(HashDict.new, rest, 0)
         Dict.put(dict, enum_name, enum_dict) |> enum_map_hapi_collect(remaining)
     end
+    defp enum_map_hapi_collect(dict, [:token_enum | _rest]) do
+        raise(SyntaxError, description: "Invalid enum detected")
+    end
     defp enum_map_hapi_collect(dict, [_token | rest]), do: enum_map_hapi_collect(dict, rest)
 
     # Helper function to extract enum values from token stream.

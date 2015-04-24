@@ -182,9 +182,7 @@ defmodule HAPI do
         enum_map_hapi_extract(Dict.put(dict, enum_entry, enum_value), rest, enum_value + 1)
     end
     defp enum_map_hapi_extract(dict, [enum_entry, :token_assignment, enum_value | rest], _idx) do
-        #&(enum_map_hapi_extract(Dict.put(dict, enum_entry, &1), rest, &1 + 1)).(enum_map_hapi_lookup_value(dict, enum_value))
-        value = enum_map_hapi_lookup_value(dict, enum_value)
-        enum_map_hapi_extract(Dict.put(dict, enum_entry, value), rest, value + 1)
+        (&(enum_map_hapi_extract(Dict.put(dict, enum_entry, &1), rest, &1 + 1))).(enum_map_hapi_lookup_value(dict, enum_value))
     end
 
     # Helper function used to look up enum value within enum table.

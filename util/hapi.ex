@@ -229,14 +229,13 @@ defmodule HAPI do
     defp struct_map_hapi_extract(list, [:token_bracket_curly_right, :token_semicolon | rest], _types, _enums) do
         [list, rest]
     end
-    defp struct_map_hapi_extract(list, [:token_semicolon | rest], types, enums) do
-        struct_map_hapi_extract(list, rest, types, enums)
-    end
     defp struct_map_hapi_extract(list, [field_type, field_name, :token_bracket_square_left, field_size,
-        :token_bracket_square_right | rest], types, enums) do
-            list ++ [field_name, field_type, field_size] |> struct_map_hapi_extract(rest, types, enums)
+        :token_bracket_square_right, :token_semicolon | rest], types, enums) do
+            list ++ [[field_name, field_type, field_size]] |> struct_map_hapi_extract(rest, types, enums)
     end
-    defp struct_map_hapi_extract(list, tokens, types, enums), do: [[[]], []]
+    defp struct_map_hapi_extract(list, [field_type, field_name, :token_semicolon | rest], types, enums) do
+        list ++ [[field_name, field_type]] |> struct_map_hapi_extract(rest, types, enums)
+    end
 end
 
 {:ok, data} = File.read("hapi.c.generated.osx")

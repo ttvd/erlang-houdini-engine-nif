@@ -1,0 +1,5 @@
+        case %{HAPI_ENUM_HASH}%:
+        {
+            *enum_result = %{HAPI_ENUM_VALUE}%;
+            break;
+        }

@@ -397,7 +397,7 @@ defmodule HAPI do
             parse(cmd_output)
                 |> create_enum_c_stubs()
         else
-            raise(RuntimeError, description: "Unable to write hapi.c.generated file")
+            raise(RuntimeError, description: "Unable to expand macros in hapi.c")
         end
     end
 end

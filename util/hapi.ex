@@ -127,7 +127,7 @@ defmodule HAPI do
     end
 
     # Print tokens.
-    defp print_tokens(tokens), do: Enum.map(tokens, fn(token) -> IO.inspect(token) end)
+    #defp print_tokens(tokens), do: Enum.map(tokens, fn(token) -> IO.inspect(token) end)
 
     # Given a list of tokens, produce a mapping table from hapi types.
     defp type_map_hapi(tokens) do
@@ -156,7 +156,7 @@ defmodule HAPI do
     defp type_map_hapi_collect(dict, [_token | rest]), do: type_map_hapi_collect(dict, rest)
 
     # Print from hapi type dictionary.
-    defp print_type_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
+    #defp print_type_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
 
     # Given a list of tokens, produce a mapping table of hapi enums.
     defp enum_map_hapi(tokens), do: HashDict.new |> enum_map_hapi_collect(tokens)
@@ -202,14 +202,14 @@ defmodule HAPI do
     end
 
     # Print from hapi enums dictionary.
-    defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
+    #defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
 
     # Helper function to print each enum.
-    defp print_enum_map_hapi(enum_name, enum_dict) do
-        IO.puts("#{enum_name}")
-        Enum.map(enum_dict, fn {k, v} -> IO.puts("    #{k} -> #{v}") end)
-        IO.puts("")
-    end
+    #defp print_enum_map_hapi(enum_name, enum_dict) do
+    #    IO.puts("#{enum_name}")
+    #    Enum.map(enum_dict, fn {k, v} -> IO.puts("    #{k} -> #{v}") end)
+    #    IO.puts("")
+    #end
 
     # Given a list of tokens, produce a mapping table of structures.
     defp struct_map_hapi(tokens), do: HashDict.new |> struct_map_hapi_collect(tokens)
@@ -239,22 +239,22 @@ defmodule HAPI do
     end
 
     # Print from hapi structs dictionary.
-    defp print_struct_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_struct_map_hapi(k, v) end)
+    #defp print_struct_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_struct_map_hapi(k, v) end)
 
     # Helper function to print each struct.
-    defp print_struct_map_hapi(struct_name, struct_body) do
-        IO.puts("#{struct_name}")
-        Enum.map(struct_body, fn(field) -> print_struct_map_hapi_field(field) end)
-        IO.puts("")
-    end
+    #defp print_struct_map_hapi(struct_name, struct_body) do
+    #    IO.puts("#{struct_name}")
+    #    Enum.map(struct_body, fn(field) -> print_struct_map_hapi_field(field) end)
+    #    IO.puts("")
+    #end
 
     # Helper function to print each struct field.
-    defp print_struct_map_hapi_field([field_name, field_type, field_size]) do
-        IO.puts("    #{field_type} #{field_name}[#{field_size}]")
-    end
-    defp print_struct_map_hapi_field([field_name, field_type]) do
-        IO.puts("    #{field_type} #{field_name}")
-    end
+    #defp print_struct_map_hapi_field([field_name, field_type, field_size]) do
+    #    IO.puts("    #{field_type} #{field_name}[#{field_size}]")
+    #end
+    #defp print_struct_map_hapi_field([field_name, field_type]) do
+    #    IO.puts("    #{field_type} #{field_name}")
+    #end
 
     # Given a list of tokens, produce a mapping table of functions.
     defp function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
@@ -322,23 +322,23 @@ defmodule HAPI do
     end
 
     # Print from hapi functions dictionary.
-    defp print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
+    #defp print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
 
     # Helper function to print each function.
-    defp print_function_map_hapi(function_name, [function_type, function_params]) do
-        IO.puts("#{function_name} -> #{function_type}")
-        Enum.map(function_params, fn(param) -> print_function_map_hapi_param(param) end)
-        IO.puts("")
-    end
+    #defp print_function_map_hapi(function_name, [function_type, function_params]) do
+    #    IO.puts("#{function_name} -> #{function_type}")
+    #    Enum.map(function_params, fn(param) -> print_function_map_hapi_param(param) end)
+    #    IO.puts("")
+    #end
 
     # Helper function to print each param.
-    defp print_function_map_hapi_param([param_type, param_name]) do
-        IO.puts("    #{param_type} #{param_name}")
-    end
-    defp print_function_map_hapi_param([param_type, param_name, param_opts]) do
-        IO.puts("    #{param_type} #{param_name}")
-        Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
-    end
+    #defp print_function_map_hapi_param([param_type, param_name]) do
+    #    IO.puts("    #{param_type} #{param_name}")
+    #end
+    #defp print_function_map_hapi_param([param_type, param_name, param_opts]) do
+    #    IO.puts("    #{param_type} #{param_name}")
+    #    Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
+    #end
 
     # Create environment consisting of types, enums, structs and functions.
     defp parse(data) do
@@ -351,18 +351,18 @@ defmodule HAPI do
     end
 
     # Helper method to get the name of the system.
-    defp get_os() do
-        {family, name} = :os.type
-        cond do
-            name == :darwin ->
-                :os_mac
-            family == :win32 ->
-                :os_win
-            true ->
-                raise(RuntimeError, description: "Unsupported platform")
-                :os_unknown
-        end
-    end
+    #defp get_os() do
+    #    {family, name} = :os.type
+    #    cond do
+    #        name == :darwin ->
+    #            :os_mac
+    #        family == :win32 ->
+    #            :os_win
+    #        true ->
+    #            raise(RuntimeError, description: "Unsupported platform")
+    #            :os_unknown
+    #    end
+    #end
 
     # Pre-process hapi.c which includes all hapi headers into something we can parse.
     def generate_hapi_c("clang", hapi_include_path) do
@@ -371,7 +371,7 @@ defmodule HAPI do
     def generate_hapi_c("cpp.exe", hapi_include_path) do
         parse_compile("./util/cpp.exe", ["-E", "-I\"#{hapi_include_path}\"", "./util/hapi.c"])
     end
-    def generate_hapi_c(_compiler, hapi_include_path) do
+    def generate_hapi_c(_compiler, _hapi_include_path) do
         raise(RuntimeError, description: "Unknown compiler, please add.")
     end
 

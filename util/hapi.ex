@@ -340,7 +340,7 @@ defmodule HAPI do
     end
 
     # Create environment consisting of types, enums, structs and functions.
-    def parse(file) do
+    defp parse(file) do
         {:ok, data} = File.read(file)
         tokens = preprocess(data) |> tokenize()
         HashDict.new |>
@@ -349,8 +349,27 @@ defmodule HAPI do
             Dict.put(:structs, struct_map_hapi(tokens)) |>
             Dict.put(:funcs, function_map_hapi(tokens))
     end
+
+    # Helper method to get the name of the system.
+    defp get_os() do
+        {family, name} = :os.type
+        cond do
+            name == :darwin ->
+                :os_osx
+            family == :win32 ->
+                :os_win
+            true ->
+                raise(RuntimeError, description: "Unsupported platform")
+                :os_unknown
+        end
+    end
+
+    # pre-process hapi.c which includes all hapi headers and create environment.
+    def parse() do
+
+    end
 end
 
 
 # Parse environment consisting of types, enums, structs and functions.
-env = HAPI.parse("hapi.c.generated.osx")
+#env = HAPI.parse("hapi.c.generated.osx")

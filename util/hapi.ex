@@ -310,12 +310,15 @@ defmodule HAPI do
         end
     end
 
+    # Given a function structure, return list of parameters which are used for return by pointer.
+    def function_get_return_parameters([function_type, function_params]) do
+    end
+
     # Print from hapi functions dictionary.
     def print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
 
     # Helper function to print each function.
-    defp print_function_map_hapi(function_name, function_body) do
-        [function_type, function_params] = function_body
+    defp print_function_map_hapi(function_name, [function_type, function_params]) do
         IO.puts("#{function_name} -> #{function_type}")
         Enum.map(function_params, fn(param) -> print_function_map_hapi_param(param) end)
         IO.puts("")

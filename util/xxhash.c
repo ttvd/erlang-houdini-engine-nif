@@ -12,6 +12,6 @@ int main(int argc, const char** argv)
         hash = XXH32(argv[1], strlen(argv[1]), 0);
     }
 
-    printf("%u\n", hash);
+    printf("%u", hash);
     return 0;
 }

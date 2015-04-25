@@ -412,14 +412,11 @@ defmodule HAPI do
     # Function used to generate c stub containing c <-> erl C conversion functions.
     defp create_enum_c_stub(enum_name, enum_body, template, template_c_to_erl, termplate_erl_to_c) do
 
-
-
         c_to_erl_blocks = Enum.map(enum_body, fn(f) -> create_enum_c_stub_c_to_erl_block(template_c_to_erl, f) end) |>
             Enum.filter(fn(f) -> not is_nil(f) end)
 
         enum_name_downcase = String.downcase(enum_name)
-        enum_code = template
-            |> String.replace("%{HAPI_ENUM}%", enum_name)
+        enum_code = String.replace(template, "%{HAPI_ENUM}%", enum_name)
             |> String.replace("%{HAPI_ENUM_DOWNCASE}%", enum_name_downcase)
             |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", Enum.join(c_to_erl_blocks, "\n"))
 
@@ -437,8 +434,7 @@ defmodule HAPI do
     defp parse_compile(compiler, compiler_flags) do
         {cmd_output, result_code} = System.cmd(compiler, compiler_flags)
         if 0 == result_code do
-            parse(cmd_output)
-                |> create_enum_c_stubs()
+            parse(cmd_output) |> create_enum_c_stubs()
         else
             raise(RuntimeError, description: "Unable to expand macros in hapi.c")
         end

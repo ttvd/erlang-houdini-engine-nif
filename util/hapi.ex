@@ -375,12 +375,7 @@ defmodule HAPI do
     # Helper function to generate hash for a given string.
     defp hash_binary(string) do
         if File.exists?("./util/xxhash") do
-            {cmd_output, result_code} = System.cmd("./util/xxhash", [])
-            if 0 == result_code do
-                cmd_output
-            else
-                raise(RuntimeError, description: "error executing xxhash utility")
-            end
+            to_string(:os.cmd './util/xxhash #{string}')
         else
             raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
         end
@@ -388,10 +383,21 @@ defmodule HAPI do
 
     # Pre-process hapi.c which includes all hapi headers into something we can parse.
     def generate_hapi_c("clang", hapi_include_path) do
-        parse_compile("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
+        {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
+        if 0 == result_code do
+            parse(cmd_output) |> create_enum_c_stubs()
+        else
+            raise(RuntimeError, description: "Unable to expand macros in hapi.c")
+        end
     end
     def generate_hapi_c("cpp.exe", hapi_include_path) do
-        parse_compile("./util/cpp.exe", ["-E", "-I\"#{hapi_include_path}\"", "./util/hapi.c"])
+        if File.exists?("./util/cpp.exe") do
+            to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
+                |> parse() |> create_enum_c_stubs()
+        else
+            raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
+        end
+
     end
     def generate_hapi_c(_compiler, _hapi_include_path) do
         raise(RuntimeError, description: "Unknown compiler, please add options")
@@ -414,11 +420,13 @@ defmodule HAPI do
 
         c_to_erl_blocks = Enum.map(enum_body, fn(f) -> create_enum_c_stub_c_to_erl_block(template_c_to_erl, f) end) |>
             Enum.filter(fn(f) -> not is_nil(f) end)
+        erl_to_c_blocks = Enum.map(enum_body, fn(f) -> create_enum_c_stub_erl_to_c_block(termplate_erl_to_c, elem(f, 0)) end)
 
         enum_name_downcase = String.downcase(enum_name)
         enum_code = String.replace(template, "%{HAPI_ENUM}%", enum_name)
             |> String.replace("%{HAPI_ENUM_DOWNCASE}%", enum_name_downcase)
             |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", Enum.join(c_to_erl_blocks, "\n"))
+            |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", Enum.join(erl_to_c_blocks, "\n"))
 
         File.write("./c_src/enums/#{String.downcase(enum_name)}_nif.c", enum_code)
     end
@@ -430,14 +438,10 @@ defmodule HAPI do
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", String.downcase(field_name))]
     end
 
-    # Helper function to compile and save output into generated file.
-    defp parse_compile(compiler, compiler_flags) do
-        {cmd_output, result_code} = System.cmd(compiler, compiler_flags)
-        if 0 == result_code do
-            parse(cmd_output) |> create_enum_c_stubs()
-        else
-            raise(RuntimeError, description: "Unable to expand macros in hapi.c")
-        end
+    # Function to generate erl_to_c block for c <-> erl enum c stub.
+    defp create_enum_c_stub_erl_to_c_block(template_erl_to_c, field_name) do
+        [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
+            |> String.replace("%{HAPI_ENUM_HASH}%", hash_binary(String.downcase(field_name)))]
     end
 end
 

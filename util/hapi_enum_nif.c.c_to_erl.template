@@ -1,0 +1,4 @@
+        case %{HAPI_ENUM_VALUE}%:
+        {
+            return hapi_private_make_atom(env, "%{HAPI_ENUM_VALUE_DOWNCASE}%");
+        }

@@ -2,9 +2,10 @@ defmodule HAPI do
 
     # Remove preprocessor left overs from data stream.
     defp preprocess(data) do
-        String.replace(data, "int main() { return 0; }", "")
+        String.replace(data, ~r/int main\(\)\s\{\s*.*\s*\}/, "")
             |> String.replace(~r/#\s*\d+.*\n/, "")
             |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
+            |> String.replace("__attribute__((visibility(0)))", "")
             |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
             |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
     end
@@ -340,8 +341,7 @@ defmodule HAPI do
     end
 
     # Create environment consisting of types, enums, structs and functions.
-    defp parse(file) do
-        {:ok, data} = File.read(file)
+    defp parse(data) do
         tokens = preprocess(data) |> tokenize()
         HashDict.new |>
             Dict.put(:types, type_map_hapi(tokens)) |>
@@ -379,9 +379,8 @@ defmodule HAPI do
     defp parse_compile(compiler, compiler_flags) do
         {cmd_output, result_code} = System.cmd(compiler, compiler_flags)
         if 0 == result_code do
-            {:ok, file} = File.open("./util/hapi.c.generated", [:write])
-            IO.binwrite(file, cmd_output)
-            File.close(file)
+            env = parse(cmd_output)
+
         else
             raise(RuntimeError, description: "Unable to write hapi.c.generated file")
         end

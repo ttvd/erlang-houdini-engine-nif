@@ -355,7 +355,7 @@ defmodule HAPI do
         {family, name} = :os.type
         cond do
             name == :darwin ->
-                :os_osx
+                :os_mac
             family == :win32 ->
                 :os_win
             true ->
@@ -364,12 +364,29 @@ defmodule HAPI do
         end
     end
 
-    # pre-process hapi.c which includes all hapi headers and create environment.
-    def parse() do
+    # Pre-process hapi.c which includes all hapi headers into something we can parse.
+    def generate_hapi_c("clang", hapi_include_path) do
+        parse_compile("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
+    end
+    def generate_hapi_c("cpp.exe", hapi_include_path) do
+        parse_compile("./util/cpp.exe", ["-E", "-I\"#{hapi_include_path}\"", "./util/hapi.c"])
+    end
+    def generate_hapi_c(_compiler, hapi_include_path) do
+        raise(RuntimeError, description: "Unknown compiler, please add.")
+    end
 
+    # Helper function to compile and save output into generated file.
+    defp parse_compile(compiler, compiler_flags) do
+        {cmd_output, result_code} = System.cmd(compiler, compiler_flags)
+        if 0 == result_code do
+            {:ok, file} = File.open("./util/hapi.c.generated", [:write])
+            IO.binwrite(file, cmd_output)
+            File.close(file)
+        else
+            raise(RuntimeError, description: "Unable to write hapi.c.generated file")
+        end
     end
 end
 
-
-# Parse environment consisting of types, enums, structs and functions.
-#env = HAPI.parse("hapi.c.generated.osx")
+[compiler, hapi_include_path] = System.argv()
+HAPI.generate_hapi_c(compiler, hapi_include_path)

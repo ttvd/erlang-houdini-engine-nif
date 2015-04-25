@@ -378,13 +378,15 @@ defmodule HAPI do
     # Generate enum c stubs containing c <-> erl convertors.
     defp create_enum_c_stubs(env) do
         enums = Dict.get(env, :enums, :nil)
+        {:ok, enum_c_stub_template} = File.read("./util/hapi_enum_nif.c.template")
         if not is_nil(enums) do
-            Enum.map(enums, fn {k, v} -> create_enum_c_stub(k, v) end)
+            Enum.map(enums, fn {k, v} -> create_enum_c_stub(k, v, enum_c_stub_template) end)
         end
     end
 
     # Function used to generate c stub containing c <-> erl C conversion functions.
-    defp create_enum_c_stub(enum_name, _enum_body) do
+    defp create_enum_c_stub(enum_name, _enum_body, template) do
+        #File.write("./c_src/enums/#{String.downcase(enum_name)}_nif.c", template)
         File.write("./c_src/enums/#{String.downcase(enum_name)}_nif.c", "")
     end
 

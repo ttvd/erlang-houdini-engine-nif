@@ -185,7 +185,7 @@ defmodule HAPI do
     end
     defp enum_map_hapi_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) do
         orig_value = enum_map_hapi_lookup_value(values, values, enum_value)
-        values ++ [{enum_entry, orig_value}] |> enum_map_hapi_extract(rest, orig_value + 1)
+        values ++ [{enum_entry, orig_value, enum_value}] |> enum_map_hapi_extract(rest, orig_value + 1)
     end
 
     # Helper function used to look up enum value within enum table.
@@ -204,14 +204,20 @@ defmodule HAPI do
     end
 
     # Print from hapi enums dictionary.
-    #defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
+    defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
 
-    # Helper function to print each enum.
-    #defp print_enum_map_hapi(enum_name, enum_values) do
-    #    IO.puts("#{enum_name}")
-    #    Enum.map(enum_values, fn(x) -> IO.puts("    #{elem(x, 0)} -> #{elem(x, 1)}") end)
-    #    IO.puts("")
-    #end
+    # Helper function to print each enum body.
+    defp print_enum_map_hapi(enum_name, enum_values) do
+        IO.puts("#{enum_name}")
+        Enum.map(enum_values, fn(x) -> print_enum_map_hapi_field(x) end)
+        IO.puts("")
+    end
+
+    #Helper function to print each enum.
+    defp print_enum_map_hapi_field({field_name, field_value, field_original}) do
+        IO.puts("    #{field_name} -> #{field_original} -> #{field_value}")
+    end
+    defp print_enum_map_hapi_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
 
     # Given a list of tokens, produce a mapping table of structures.
     defp struct_map_hapi(tokens), do: HashDict.new |> struct_map_hapi_collect(tokens)
@@ -408,8 +414,8 @@ defmodule HAPI do
 
 
 
-        c_to_erl_blocks = Enum.map(enum_body, fn {k, v} -> String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", k)
-            |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", String.downcase(k)) end)
+        c_to_erl_blocks = Enum.map(enum_body, fn(f) -> create_enum_c_stub_c_to_erl_block(template_c_to_erl, f) end) |>
+            Enum.filter(fn(f) -> not is_nil(f) end)
 
         enum_name_downcase = String.downcase(enum_name)
         enum_code = template
@@ -418,6 +424,13 @@ defmodule HAPI do
             |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", Enum.join(c_to_erl_blocks, "\n"))
 
         File.write("./c_src/enums/#{String.downcase(enum_name)}_nif.c", enum_code)
+    end
+
+    # Function to generate c_to_erl block for c <-> erl enum c stub.
+    defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, field_value, field_original}), do: :nil
+    defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, field_value}) do
+        [String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", field_name)
+            |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", String.downcase(field_name))]
     end
 
     # Helper function to compile and save output into generated file.

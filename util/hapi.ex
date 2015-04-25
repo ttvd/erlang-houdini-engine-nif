@@ -312,7 +312,12 @@ defmodule HAPI do
 
     # Given a function structure, return list of parameters which are used for return by pointer.
     def function_get_return_parameters([_function_type, function_params]) do
+        Enum.filter(function_params, &(function_check_return_parameter(&1)))
+    end
 
+    # Helper function to check if parameter is a return type parameter.
+    def function_check_return_parameter([_param_type, _param_name, dict]) do
+        Dict.get(dict, :param_pointer, false) and not Dict.get(dict, :param_const, false)
     end
 
     # Print from hapi functions dictionary.

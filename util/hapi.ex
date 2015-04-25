@@ -385,7 +385,7 @@ defmodule HAPI do
 
     # Function used to generate c stub containing c <-> erl C conversion functions.
     defp create_enum_c_stub(enum_name, _enum_body) do
-        File.write("./c_src/enums/#{String.downcase(enum_name)}.h", "")
+        File.write("./c_src/enums/#{String.downcase(enum_name)}_nif.c", "")
     end
 
     # Helper function to compile and save output into generated file.

@@ -273,19 +273,19 @@ defmodule HAPI do
         [list, rest]
     end
     defp function_map_hapi_extract_params(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 4))]]
             |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [:token_const, param_type, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
             |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [param_type, :token_pointer, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
             |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [param_type, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(tokens -- rest)]]
+        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 2))]]
             |> function_map_hapi_extract_params(rest)
     end
 
@@ -311,7 +311,8 @@ defmodule HAPI do
     end
 
     # Given a function structure, return list of parameters which are used for return by pointer.
-    def function_get_return_parameters([function_type, function_params]) do
+    def function_get_return_parameters([_function_type, function_params]) do
+
     end
 
     # Print from hapi functions dictionary.

@@ -1,7 +1,7 @@
 defmodule HAPI do
 
     # Remove preprocessor left overs from data stream.
-    def preprocess(data) do
+    defp preprocess(data) do
         String.replace(data, "int main() { return 0; }", "")
             |> String.replace(~r/#\s*\d+.*\n/, "")
             |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
@@ -10,8 +10,8 @@ defmodule HAPI do
     end
 
     # Parse given string containing code.
-    def parse([]), do: []
-    def parse(code), do: parse_collect(code, "", [])
+    defp tokenize([]), do: []
+    defp tokenize(code), do: parse_collect(code, "", [])
 
     # Parse and collect tokens.
     defp parse_collect("", _buf, tokens) do
@@ -126,10 +126,10 @@ defmodule HAPI do
     end
 
     # Print tokens.
-    def print_tokens(tokens), do: Enum.map(tokens, fn(token) -> IO.inspect(token) end)
+    defp print_tokens(tokens), do: Enum.map(tokens, fn(token) -> IO.inspect(token) end)
 
     # Given a list of tokens, produce a mapping table from hapi types.
-    def type_map_hapi(tokens) do
+    defp type_map_hapi(tokens) do
         HashDict.new
             |> Dict.put("void", :token_void)
             |> Dict.put("int", :token_int)
@@ -155,10 +155,10 @@ defmodule HAPI do
     defp type_map_hapi_collect(dict, [_token | rest]), do: type_map_hapi_collect(dict, rest)
 
     # Print from hapi type dictionary.
-    def print_type_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
+    defp print_type_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
 
     # Given a list of tokens, produce a mapping table of hapi enums.
-    def enum_map_hapi(tokens), do: HashDict.new |> enum_map_hapi_collect(tokens)
+    defp enum_map_hapi(tokens), do: HashDict.new |> enum_map_hapi_collect(tokens)
 
     # Process tokens and collect enums.
     defp enum_map_hapi_collect(dict, []), do: dict
@@ -201,7 +201,7 @@ defmodule HAPI do
     end
 
     # Print from hapi enums dictionary.
-    def print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
+    defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
 
     # Helper function to print each enum.
     defp print_enum_map_hapi(enum_name, enum_dict) do
@@ -211,7 +211,7 @@ defmodule HAPI do
     end
 
     # Given a list of tokens, produce a mapping table of structures.
-    def struct_map_hapi(tokens), do: HashDict.new |> struct_map_hapi_collect(tokens)
+    defp struct_map_hapi(tokens), do: HashDict.new |> struct_map_hapi_collect(tokens)
 
     # Process tokens and collect structures.
     defp struct_map_hapi_collect(dict, []), do: dict
@@ -238,7 +238,7 @@ defmodule HAPI do
     end
 
     # Print from hapi structs dictionary.
-    def print_struct_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_struct_map_hapi(k, v) end)
+    defp print_struct_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_struct_map_hapi(k, v) end)
 
     # Helper function to print each struct.
     defp print_struct_map_hapi(struct_name, struct_body) do
@@ -256,7 +256,7 @@ defmodule HAPI do
     end
 
     # Given a list of tokens, produce a mapping table of functions.
-    def function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
+    defp function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
 
     # Process tokens and collect functions.
     defp function_map_hapi_collect(dict, []), do: dict
@@ -311,17 +311,17 @@ defmodule HAPI do
     end
 
     # Given a function structure, return list of parameters which are used for return by pointer.
-    def function_get_return_parameters([_function_type, function_params]) do
+    defp function_get_return_parameters([_function_type, function_params]) do
         Enum.filter(function_params, &(function_check_return_parameter(&1)))
     end
 
     # Helper function to check if parameter is a return type parameter.
-    def function_check_return_parameter([_param_type, _param_name, dict]) do
+    defp function_check_return_parameter([_param_type, _param_name, dict]) do
         Dict.get(dict, :param_pointer, false) and not Dict.get(dict, :param_const, false)
     end
 
     # Print from hapi functions dictionary.
-    def print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
+    defp print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
 
     # Helper function to print each function.
     defp print_function_map_hapi(function_name, [function_type, function_params]) do
@@ -338,20 +338,19 @@ defmodule HAPI do
         IO.puts("    #{param_type} #{param_name}")
         Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
     end
+
+    # Create environment consisting of types, enums, structs and functions.
+    def parse(file) do
+        {:ok, data} = File.read(file)
+        tokens = preprocess(data) |> tokenize()
+        HashDict.new |>
+            Dict.put(:types, type_map_hapi(tokens)) |>
+            Dict.put(:enums, enum_map_hapi(tokens)) |>
+            Dict.put(:structs, struct_map_hapi(tokens)) |>
+            Dict.put(:funcs, function_map_hapi(tokens))
+    end
 end
 
-{:ok, data} = File.read("hapi.c.generated.osx")
-tokens = HAPI.preprocess(data) |> HAPI.parse()
-#HAPI.print_tokens(tokens)
 
-types_from_hapi = HAPI.type_map_hapi(tokens)
-#HAPI.print_type_map_hapi(types_from_hapi)
-
-types_enums_from_hapi = HAPI.enum_map_hapi(tokens)
-#HAPI.print_enum_map_hapi(types_enums_from_hapi)
-
-types_structs_from_hapi = HAPI.struct_map_hapi(tokens)
-#HAPI.print_struct_map_hapi(types_structs_from_hapi)
-
-types_functions_from_hapi = HAPI.function_map_hapi(tokens)
-HAPI.print_function_map_hapi(types_functions_from_hapi)
+# Parse environment consisting of types, enums, structs and functions.
+env = HAPI.parse("hapi.c.generated.osx")

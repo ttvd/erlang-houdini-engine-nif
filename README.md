@@ -25,6 +25,10 @@ Use Rebar:
 rebar get-deps
 rebar compile
 ```
+To clean:
+```
+rebar clean
+```
 
 ## Running.  
 

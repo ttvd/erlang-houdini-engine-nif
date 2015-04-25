@@ -372,15 +372,28 @@ defmodule HAPI do
         parse_compile("./util/cpp.exe", ["-E", "-I\"#{hapi_include_path}\"", "./util/hapi.c"])
     end
     def generate_hapi_c(_compiler, _hapi_include_path) do
-        raise(RuntimeError, description: "Unknown compiler, please add.")
+        raise(RuntimeError, description: "Unknown compiler, please add options")
+    end
+
+    # Generate enum c stubs containing c <-> erl convertors.
+    defp create_enum_c_stubs(env) do
+        enums = Dict.get(env, :enums, :nil)
+        if not is_nil(enums) do
+            Enum.map(enums, fn {k, v} -> create_enum_c_stub(k, v) end)
+        end
+    end
+
+    # Function used to generate c stub containing c <-> erl C conversion functions.
+    defp create_enum_c_stub(enum_name, _enum_body) do
+        File.write("./c_src/enums/#{String.downcase(enum_name)}.h", "")
     end
 
     # Helper function to compile and save output into generated file.
     defp parse_compile(compiler, compiler_flags) do
         {cmd_output, result_code} = System.cmd(compiler, compiler_flags)
         if 0 == result_code do
-            env = parse(cmd_output)
-
+            parse(cmd_output)
+                |> create_enum_c_stubs()
         else
             raise(RuntimeError, description: "Unable to write hapi.c.generated file")
         end

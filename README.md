@@ -9,6 +9,7 @@
 
 ## Before building.
 * Will build only on Mac OS X right now.
+  * Stubs will theoretically generate on Windows. However rebar.config is missing Windows compilation instructions.
   * If you want to build on another platform you will need to patch rebar.config .
 * Install latest build of [Houdini 14](http://www.sidefx.com/index.php?option=com_download&Itemid=208) .
   * If you choose to install to a custom location, you may need to patch rebar.config .

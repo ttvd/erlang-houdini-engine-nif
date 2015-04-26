@@ -490,10 +490,12 @@ defmodule HAPI do
         IO.puts("Creating record c stubs in c_src/records")
 
         structs = Dict.get(env, :structs, :nil)
-        if not is_nil(structs) do
+        types = Dict.get(env, :types, :nil)
+        enums = Dict.get(env, :enums, :nil)
+        if not is_nil(structs) and not is_nil(types) and not is_nil(enums) do
 
             {:ok, template_record_c} = File.read("./util/hapi_record_nif.c.template")
-            Enum.map(structs, fn {k, v} -> create_record_c_stub(k, v, template_record_c) end)
+            Enum.map(structs, fn {k, v} -> create_record_c_stub(types, enums, k, v, template_record_c) end)
 
             {:ok, template_records_h} = File.read("./util/hapi_records_nif.h.template")
             {:ok, template_records_block} = File.read("./util/hapi_records_nif.h.block.template")
@@ -504,10 +506,21 @@ defmodule HAPI do
     end
 
     # Function to generate c function for generating erl record corresponding to a given struct.
-    def create_record_c_stub(struct_name, struct_body, template_record_c) do
+    def create_record_c_stub(types, enums, struct_name, struct_body, template_record_c) do
         record_name = String.downcase(struct_name)
 
-        File.write("./c_src/records/#{String.downcase(record_name)}.c", "")
+        stub = String.replace(template_record_c, "%{HAPI_STRUCT_DOWNCASE}%", record_name)
+            |> String.replace("%{HAPI_STRUCT_SIZE}%", Integer.to_string(length(struct_body) + 1))
+            |> String.replace("%{HAPI_STRUCT}%", struct_name)
+            |> String.replace("%{HAPI_STRUCT_MAP}",
+                Enum.map_join(struct_body, "        \n", fn(f) -> create_record_c_stub_field(types, enums, f) end))
+
+        File.write("./c_src/records/#{String.downcase(record_name)}.c", stub)
+    end
+
+    # Function to generate each structure field.
+    defp create_record_c_stub_field(types, enums, struct_field) do
+        ""
     end
 
     # Function to generate header file which includes all c functions used for generation and parsing of records / structs.

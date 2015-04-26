@@ -117,6 +117,7 @@ defmodule HAPI do
     defp map_token("float"), do: [:token_float]
     defp map_token("int"), do: [:token_int]
     defp map_token("char"), do: [:token_char]
+    defp map_token("double"), do: [:token_double]
     defp map_token(token) do
         case Integer.parse(token) do
             {num, ""} ->
@@ -513,14 +514,44 @@ defmodule HAPI do
             |> String.replace("%{HAPI_STRUCT_SIZE}%", Integer.to_string(length(struct_body) + 1))
             |> String.replace("%{HAPI_STRUCT}%", struct_name)
             |> String.replace("%{HAPI_STRUCT_MAP}",
-                Enum.map_join(struct_body, "        \n", fn(f) -> create_record_c_stub_field(types, enums, f) end))
+                Enum.map_join(struct_body, ",\n        ", fn(f) -> create_record_c_stub_field(types, enums, f, false) end))
 
         File.write("./c_src/records/#{String.downcase(record_name)}.c", stub)
     end
 
     # Function to generate each structure field.
-    defp create_record_c_stub_field(types, enums, struct_field) do
-        ""
+    defp create_record_c_stub_field(_types, _enums, {field_name, :token_int}, cast) do
+        if cast do
+            "enif_make_int(env, (int32_t) hapi_struct->#{field_name})"
+        else
+            "enif_make_int(env, hapi_struct->#{field_name})"
+        end
+    end
+    defp create_record_c_stub_field(_types, _enums, {field_name, :token_bool}, _cast) do
+        "hapi_make_atom_bool(env, (bool) hapi_struct->#{field_name})"
+    end
+    defp create_record_c_stub_field(_types, _enums, {field_name, :token_float}, _cast) do
+        "enif_make_double(env, (double) hapi_struct->#{field_name})"
+    end
+    defp create_record_c_stub_field(_types, _enums, {field_name, :token_double}, _cast) do
+        "enif_make_double(env, hapi_struct->#{field_name})"
+    end
+    defp create_record_c_stub_field(types, enums, {field_name, :token_struct}, _cast) do
+        "//ADD_NESTED_STRUCT"
+    end
+    defp create_record_c_stub_field(types, enums, {field_name, :token_enum}, _cast) do
+        create_record_c_stub_field(types, enums, {field_name, :token_int}, true)
+    end
+    defp create_record_c_stub_field(types, enums, {field_name, field_type}, _cast) do
+        native_type = Dict.get(types, field_type)
+        if not is_nil(native_type) do
+            create_record_c_stub_field(types, enums, {field_name, native_type}, true)
+        else
+            raise(RuntimeError, description: "Generating record c stubs, do not know how to map custom type: #{field_type}.")
+        end
+    end
+    defp create_record_c_stub_field(types, enums, {field_name, field_type, field_size}, _cast) do
+        "//ADD_NESTED_ARRAY"
     end
 
     # Function to generate header file which includes all c functions used for generation and parsing of records / structs.

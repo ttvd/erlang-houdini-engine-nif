@@ -204,20 +204,20 @@ defmodule HAPI do
     end
 
     # Print from hapi enums dictionary.
-    defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
+    #defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
 
     # Helper function to print each enum body.
-    defp print_enum_map_hapi(enum_name, enum_values) do
-        IO.puts("#{enum_name}")
-        Enum.map(enum_values, fn(x) -> print_enum_map_hapi_field(x) end)
-        IO.puts("")
-    end
+    #defp print_enum_map_hapi(enum_name, enum_values) do
+    #    IO.puts("#{enum_name}")
+    #    Enum.map(enum_values, fn(x) -> print_enum_map_hapi_field(x) end)
+    #    IO.puts("")
+    #end
 
     #Helper function to print each enum.
-    defp print_enum_map_hapi_field({field_name, field_value, field_original}) do
-        IO.puts("    #{field_name} -> #{field_original} -> #{field_value}")
-    end
-    defp print_enum_map_hapi_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
+    #defp print_enum_map_hapi_field({field_name, field_value, field_original}) do
+    #    IO.puts("    #{field_name} -> #{field_original} -> #{field_value}")
+    #end
+    #defp print_enum_map_hapi_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
 
     # Given a list of tokens, produce a mapping table of structures.
     defp struct_map_hapi(tokens), do: HashDict.new |> struct_map_hapi_collect(tokens)
@@ -380,7 +380,7 @@ defmodule HAPI do
             raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
         end
     end
-    defp hash(string) do
+    defp hash(_string) do
         raise(RuntimeError, description: "Can't create hash of non-binary parameter")
     end
 
@@ -461,7 +461,7 @@ defmodule HAPI do
     end
 
     # Function to generate c_to_erl block for c <-> erl enum c stub.
-    defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, field_value, field_original}), do: :nil
+    defp create_enum_c_stub_c_to_erl_block(_template_c_to_erl, {_field_name, _field_value, _field_original}), do: :nil
     defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, _field_value}) do
         [String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", field_name)
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", String.downcase(field_name))]

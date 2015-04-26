@@ -440,8 +440,10 @@ defmodule HAPI do
 
     # Function to generate erl_to_c block for c <-> erl enum c stub.
     defp create_enum_c_stub_erl_to_c_block(template_erl_to_c, field_name) do
+        field_name_downcase = String.downcase(field_name)
         [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
-            |> String.replace("%{HAPI_ENUM_HASH}%", hash_binary(String.downcase(field_name)))]
+            |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_downcase)
+            |> String.replace("%{HAPI_ENUM_HASH}%", hash_binary(field_name_downcase))]
     end
 end
 

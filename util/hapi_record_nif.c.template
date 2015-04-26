@@ -11,7 +11,10 @@
 ERL_NIF_TERM
 hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct)
 {
-    return hapi_make_atom_ok(env);
+    return enif_make_tuple(env, %{HAPI_STRUCT_SIZE}%,
+        hapi_make_atom(env, "%{HAPI_STRUCT_DOWNCASE}%"),
+        %{HAPI_STRUCT_MAP}
+        );
 }
 
 

@@ -493,10 +493,32 @@ defmodule HAPI do
         if not is_nil(structs) do
 
             {:ok, template_record_c} = File.read("./util/hapi_record_nif.c.template")
+            Enum.map(structs, fn {k, v} -> create_record_c_stub(k, v, template_record_c) end)
+
             {:ok, template_records_h} = File.read("./util/hapi_records_nif.h.template")
+            {:ok, template_records_block} = File.read("./util/hapi_records_nif.h.block.template")
+            create_records_h_stub(structs, template_records_h, template_records_block)
         end
 
         env
+    end
+
+    # Function to generate c function for generating erl record corresponding to a given struct.
+    def create_record_c_stub(struct_name, struct_body, template_record_c) do
+        record_name = String.downcase(struct_name)
+
+        File.write("./c_src/records/#{String.downcase(record_name)}.c", "")
+    end
+
+    # Function to generate header file which includes all c functions used for generation and parsing of records / structs.
+    def create_records_h_stub(structs, template_records_h, template_records_block) do
+
+        record_function_blocks = Enum.map_join(structs, "\n", fn {k, _v} ->
+            String.replace(template_records_block, "%{HAPI_STRUCT_DOWNCASE}%", String.downcase(k))
+                |> String.replace("%{HAPI_STRUCT}%", k) end)
+
+        File.write("./c_src/hapi_records_nif.h",
+            String.replace(template_records_h, "%{HAPI_RECORD_FUNCTIONS}%", record_function_blocks))
     end
 
     # Generate erl records corresponding to parsed structs.
@@ -510,7 +532,7 @@ defmodule HAPI do
             Enum.map(structs, fn {k, v} -> create_record_erl_stub(k, v, template_record_erl) end)
 
             {:ok, template_records_erl} = File.read("./util/hapi_records.hrl.template")
-            create_record_erl_stub(structs, template_records_erl)
+            create_records_erl_stub(structs, template_records_erl)
         end
 
         env
@@ -528,7 +550,7 @@ defmodule HAPI do
     end
 
     # Function to generate main records erl include stub.
-    defp create_record_erl_stub(structs, template_records_erl) do
+    defp create_records_erl_stub(structs, template_records_erl) do
         record_includes = String.replace(template_records_erl, "%{HAPI_RECORDS}%",
             Enum.map_join(structs, "\n", fn {k, _v} -> "-include(\"records/#{String.downcase(k)}.hrl\")." end))
 

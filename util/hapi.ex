@@ -460,12 +460,6 @@ defmodule HAPI do
 
         File.write("./c_src/hapi_enums_nif.h", signatures)
     end
-
-    # Function to generate a block for enum conversion header file.
-    #defp create_enums_h_stub_block(template_enums_block, enum_name) do
-    #    String.replace(template_enums_block, "%{HAPI_ENUM}%", enum_name)
-    #        |> String.replace("%{HAPI_ENUM_DOWNCASE}%", String.downcase(enum_name))
-    #end
 end
 
 [compiler, hapi_include_path] = System.argv()

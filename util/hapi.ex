@@ -240,10 +240,10 @@ defmodule HAPI do
     end
     defp struct_map_hapi_extract(list, [field_type, field_name, :token_bracket_square_left, field_size,
         :token_bracket_square_right, :token_semicolon | rest]) do
-            list ++ [[field_name, field_type, field_size]] |> struct_map_hapi_extract(rest)
+            list ++ [{field_name, field_type, field_size}] |> struct_map_hapi_extract(rest)
     end
     defp struct_map_hapi_extract(list, [field_type, field_name, :token_semicolon | rest]) do
-        list ++ [[field_name, field_type]] |> struct_map_hapi_extract(rest)
+        list ++ [{field_name, field_type}] |> struct_map_hapi_extract(rest)
     end
 
     # Print from hapi structs dictionary.
@@ -257,10 +257,10 @@ defmodule HAPI do
     #end
 
     # Helper function to print each struct field.
-    #defp print_struct_map_hapi_field([field_name, field_type, field_size]) do
+    #defp print_struct_map_hapi_field({field_name, field_type, field_size}) do
     #    IO.puts("    #{field_type} #{field_name}[#{field_size}]")
     #end
-    #defp print_struct_map_hapi_field([field_name, field_type]) do
+    #defp print_struct_map_hapi_field({field_name, field_type}) do
     #    IO.puts("    #{field_type} #{field_name}")
     #end
 

@@ -385,7 +385,7 @@ defmodule HAPI do
     def generate_hapi_c("clang", hapi_include_path) do
         {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
         if 0 == result_code do
-            parse(cmd_output) |> create_enum_c_stubs()
+            parse(cmd_output)
         else
             raise(RuntimeError, description: "Unable to expand macros in hapi.c")
         end
@@ -393,7 +393,7 @@ defmodule HAPI do
     def generate_hapi_c("cpp.exe", hapi_include_path) do
         if File.exists?("./util/cpp.exe") do
             to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
-                |> parse() |> create_enum_c_stubs()
+                |> parse()
         else
             raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
         end
@@ -404,7 +404,9 @@ defmodule HAPI do
     end
 
     # Generate enum c stubs containing c <-> erl convertors.
-    defp create_enum_c_stubs(env) do
+    def create_enum_c_stubs(env) do
+        IO.puts("Creating enum c stubs in c_src/enums")
+
         enums = Dict.get(env, :enums, :nil)
         if not is_nil(enums) do
 
@@ -417,6 +419,8 @@ defmodule HAPI do
             {:ok, template_enums_block} = File.read("./util/hapi_enums_nif.h.block.template")
             create_enums_h_stub(enums, template_enums_h, template_enums_block)
         end
+
+        env
     end
 
     # Function used to generate c stub containing c <-> erl C conversion functions.
@@ -460,7 +464,21 @@ defmodule HAPI do
 
         File.write("./c_src/hapi_enums_nif.h", signatures)
     end
+
+    # Generate Erlang records corresponding to parsed structs.
+    def create_record_erl_stubs(env) do
+        IO.puts("Creating record erl stubs in src/records")
+
+        structs = Dict.get(env, :structs, :nil)
+        if not is_nil(structs) do
+
+        end
+
+        env
+    end
 end
 
 [compiler, hapi_include_path] = System.argv()
 HAPI.generate_hapi_c(compiler, hapi_include_path)
+    |> HAPI.create_enum_c_stubs()
+    |> HAPI.create_record_erl_stubs()

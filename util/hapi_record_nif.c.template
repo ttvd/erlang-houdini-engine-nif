@@ -13,8 +13,7 @@ hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_s
 {
     return enif_make_tuple(env, %{HAPI_STRUCT_SIZE}%,
         hapi_make_atom(env, "%{HAPI_STRUCT_DOWNCASE}%"),
-        %{HAPI_STRUCT_MAP}
-        );
+        %{HAPI_STRUCT_MAP});
 }
 
 

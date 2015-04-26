@@ -503,7 +503,13 @@ defmodule HAPI do
 
     # Function to generate erl record corresponding to a given struct.
     defp create_record_erl_stub(struct_name, struct_body, template_record_erl) do
-        IO.puts Enum.map_join(struct_body, "\n", fn(f) -> "    #{underscore(elem(f, 0))}" end)
+        record_name = String.downcase(struct_name)
+        record_fields = Enum.map_join(struct_body, "\n", fn(f) -> "    #{underscore(elem(f, 0))}" end)
+        record_block = String.replace(template_record_erl, "%{HAPI_STRUCT}%", struct_name)
+                        |> String.replace("%{HAPI_RECORD_NAME}%", record_name)
+                        |> String.replace("%{HAPI_RECORD_ENTRIES}%", record_fields)
+
+        File.write("./src/records/#{String.downcase(record_name)}.hrl", record_block)
     end
 end
 

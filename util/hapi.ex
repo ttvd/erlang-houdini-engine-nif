@@ -485,6 +485,20 @@ defmodule HAPI do
         File.write("./c_src/hapi_enums_nif.h", signatures)
     end
 
+    # Generate c record generating and parsing functions.
+    def create_record_c_stubs(env) do
+        IO.puts("Creating record c stubs in c_src/records")
+
+        structs = Dict.get(env, :structs, :nil)
+        if not is_nil(structs) do
+
+            {:ok, template_record_c} = File.read("./util/hapi_record_nif.c.template")
+            {:ok, template_records_h} = File.read("./util/hapi_records_nif.h.template")
+        end
+
+        env
+    end
+
     # Generate erl records corresponding to parsed structs.
     def create_record_erl_stubs(env) do
         IO.puts("Creating record erl stubs in src/records")
@@ -525,4 +539,5 @@ end
 [compiler, hapi_include_path] = System.argv()
 HAPI.generate_hapi_c(compiler, hapi_include_path)
     |> HAPI.create_enum_c_stubs()
+    |> HAPI.create_record_c_stubs()
     |> HAPI.create_record_erl_stubs()

@@ -1,0 +1,3 @@
+/* Defined in records/%{HAPI_STRUCT_DOWNCASE}%_nif.c */
+ERL_NIF_TERM hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct);
+bool hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct);

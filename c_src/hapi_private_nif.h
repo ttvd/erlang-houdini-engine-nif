@@ -21,4 +21,7 @@ ERL_NIF_TERM hapi_make_atom_ok(ErlNifEnv* env);
 // Create a boolean atom.
 ERL_NIF_TERM hapi_make_atom_bool(ErlNifEnv* env, bool value);
 
+// Create a list from float array.
+ERL_NIF_TERM hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data);
+
 #endif //!defined(HAPI_PRIVATE_NIF_H)

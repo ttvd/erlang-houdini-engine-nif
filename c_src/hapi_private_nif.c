@@ -37,3 +37,17 @@ hapi_make_atom_bool(ErlNifEnv* env, bool value)
 
     return hapi_make_atom(env, "false");
 }
+
+
+ERL_NIF_TERM
+hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = 0; idx < size; ++idx)
+    {
+        list = enif_make_list_cell(env, enif_make_int(env, (double) *(data + idx)), list);
+    }
+
+    return list;
+}

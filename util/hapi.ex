@@ -373,13 +373,33 @@ defmodule HAPI do
     #end
 
     # Helper function to generate hash for a given string.
-    defp hash_binary(string) do
+    defp hash(string) when is_binary(string) do
         if File.exists?("./util/xxhash") do
             to_string(:os.cmd './util/xxhash #{string}')
         else
             raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
         end
     end
+    defp hash(string) do
+        raise(RuntimeError, description: "Can't create hash of non-binary parameter")
+    end
+
+    # Helper function to translate character to lower case.
+    defp to_lower_case(c) when c in ?A..?Z, do: c + 32
+    defp to_lower_case(c), do: c
+
+    # Helper function to create underscore version of a given string.
+    defp underscore(""), do: ""
+    defp underscore(string) when is_binary(string), do: underscore_helper(string)
+    defp underscore(_string) do
+        raise(RuntimeError, description: "Can't create underscore version of non-binary parameter")
+    end
+    defp underscore_helper(<<c, rest ::binary>>), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
+    defp underscore_helper(<<c, rest ::binary>>, p) when c in ?A..?Z and not p in ?A..?Z do
+        <<?_, to_lower_case(c)>> <> underscore_helper(rest, c)
+    end
+    defp underscore_helper(<<c, rest ::binary>>, _p), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
+    defp underscore_helper("", _p), do: ""
 
     # Pre-process hapi.c which includes all hapi headers into something we can parse.
     def generate_hapi_c("clang", hapi_include_path) do

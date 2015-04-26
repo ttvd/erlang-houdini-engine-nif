@@ -13,9 +13,12 @@
 #include "HAPI.h"
 
 // Create an atom.
-ERL_NIF_TERM hapi_private_make_atom(ErlNifEnv* env, const char* atom_name);
+ERL_NIF_TERM hapi_make_atom(ErlNifEnv* env, const char* atom_name);
+
+// Create ok atom.
+ERL_NIF_TERM hapi_make_atom_ok(ErlNifEnv* env);
 
 // Create a boolean atom.
-ERL_NIF_TERM hapi_private_make_atom_bool(ErlNifEnv* env, bool value);
+ERL_NIF_TERM hapi_make_atom_bool(ErlNifEnv* env, bool value);
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

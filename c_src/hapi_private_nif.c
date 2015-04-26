@@ -5,8 +5,9 @@
 
 #include "hapi_private_nif.h"
 
+
 ERL_NIF_TERM
-hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
+hapi_make_atom(ErlNifEnv* env, const char* atom_name)
 {
     ERL_NIF_TERM atom;
 
@@ -20,12 +21,19 @@ hapi_private_make_atom(ErlNifEnv* env, const char* atom_name)
 
 
 ERL_NIF_TERM
-hapi_private_make_atom_bool(ErlNifEnv* env, bool value)
+hapi_make_atom_ok(ErlNifEnv* env)
+{
+    return hapi_make_atom(env, "ok");
+}
+
+
+ERL_NIF_TERM
+hapi_make_atom_bool(ErlNifEnv* env, bool value)
 {
     if(value)
     {
-        return hapi_private_make_atom(env, "true");
+        return hapi_make_atom(env, "true");
     }
 
-    return hapi_private_make_atom(env, "false");
+    return hapi_make_atom(env, "false");
 }

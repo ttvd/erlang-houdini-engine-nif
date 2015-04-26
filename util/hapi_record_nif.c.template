@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* asset_info)
+hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct)
 {
     return hapi_make_atom_ok(env);
+}
+
+
+bool
+hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct)
+{
+    return false;
 }

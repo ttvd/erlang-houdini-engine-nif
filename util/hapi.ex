@@ -5,9 +5,9 @@ defmodule HAPI do
         String.replace(data, ~r/int main\(\)\s\{\s*.*\s*\}/, "")
             |> String.replace(~r/#\s*\d+.*\n/, "")
             |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
-            |> String.replace("__attribute__((visibility(0)))", "")
             |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
             |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
+            |> String.replace("__attribute__((visibility(0)))", "")
     end
 
     # Parse given string containing code.

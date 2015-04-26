@@ -407,26 +407,31 @@ defmodule HAPI do
     defp create_enum_c_stubs(env) do
         enums = Dict.get(env, :enums, :nil)
         if not is_nil(enums) do
-            {:ok, template} = File.read("./util/hapi_enum_nif.c.template")
+
+            {:ok, template_enums_c} = File.read("./util/hapi_enum_nif.c.template")
             {:ok, template_c_to_erl} = File.read("./util/hapi_enum_nif.c.c_to_erl.template")
             {:ok, termplate_erl_to_c} = File.read("./util/hapi_enum_nif.c.erl_to_c.template")
+            Enum.map(enums, fn {k, v} -> create_enum_c_stub(k, v, template_enums_c, template_c_to_erl, termplate_erl_to_c) end)
 
-            Enum.map(enums, fn {k, v} -> create_enum_c_stub(k, v, template, template_c_to_erl, termplate_erl_to_c) end)
+            {:ok, template_enums_h} = File.read("./util/hapi_enums_nif.h.template")
+            {:ok, template_enums_block} = File.read("./util/hapi_enums_nif.h.block.template")
+            create_enums_h_stub(enums, template_enums_h, template_enums_block)
         end
     end
 
     # Function used to generate c stub containing c <-> erl C conversion functions.
     defp create_enum_c_stub(enum_name, enum_body, template, template_c_to_erl, termplate_erl_to_c) do
 
-        c_to_erl_blocks = Enum.map(enum_body, fn(f) -> create_enum_c_stub_c_to_erl_block(template_c_to_erl, f) end) |>
-            Enum.filter(fn(f) -> not is_nil(f) end)
-        erl_to_c_blocks = Enum.map(enum_body, fn(f) -> create_enum_c_stub_erl_to_c_block(termplate_erl_to_c, elem(f, 0)) end)
+        c_to_erl_blocks = Enum.map(enum_body, fn(f) -> create_enum_c_stub_c_to_erl_block(template_c_to_erl, f) end)
+            |> Enum.filter(fn(f) -> not is_nil(f) end)
+        erl_to_c_blocks = Enum.map_join(enum_body, "\n",
+            fn(f) -> create_enum_c_stub_erl_to_c_block(termplate_erl_to_c, elem(f, 0)) end)
 
         enum_name_downcase = String.downcase(enum_name)
         enum_code = String.replace(template, "%{HAPI_ENUM}%", enum_name)
             |> String.replace("%{HAPI_ENUM_DOWNCASE}%", enum_name_downcase)
             |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", Enum.join(c_to_erl_blocks, "\n"))
-            |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", Enum.join(erl_to_c_blocks, "\n"))
+            |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", erl_to_c_blocks)
 
         File.write("./c_src/enums/#{String.downcase(enum_name)}_nif.c", enum_code)
     end
@@ -445,6 +450,22 @@ defmodule HAPI do
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_downcase)
             |> String.replace("%{HAPI_ENUM_HASH}%", hash_binary(field_name_downcase))]
     end
+
+    # Function to generate header containing signatures for all enum conversion functions.
+    defp create_enums_h_stub(enums, template, template_enums_block) do
+        signature_blocks = Enum.map_join(enums, "\n", fn {k, v} ->
+            String.replace(template_enums_block, "%{HAPI_ENUM}%", k)
+                |> String.replace("%{HAPI_ENUM_DOWNCASE}%", String.downcase(k)) end)
+        signatures = String.replace(template, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)
+
+        File.write("./c_src/hapi_enums_nif.h", signatures)
+    end
+
+    # Function to generate a block for enum conversion header file.
+    #defp create_enums_h_stub_block(template_enums_block, enum_name) do
+    #    String.replace(template_enums_block, "%{HAPI_ENUM}%", enum_name)
+    #        |> String.replace("%{HAPI_ENUM_DOWNCASE}%", String.downcase(enum_name))
+    #end
 end
 
 [compiler, hapi_include_path] = System.argv()

@@ -1,3 +1,4 @@
+        /* %{HAPI_ENUM_VALUE_DOWNCASE}% */
         case %{HAPI_ENUM_HASH}%:
         {
             *enum_result = %{HAPI_ENUM_VALUE}%;

@@ -550,8 +550,12 @@ defmodule HAPI do
             raise(RuntimeError, description: "Generating record c stubs, do not know how to map custom type: #{field_type}.")
         end
     end
+    defp create_record_c_stub_field(types, enums, {field_name, :token_float, field_size}, _cast) do
+        "hapi_make_list_float(env, #{Integer.to_string(field_size)}, hapi_struct->#{field_name})"
+    end
     defp create_record_c_stub_field(types, enums, {field_name, field_type, field_size}, _cast) do
-        "//ADD_NESTED_ARRAY"
+        raise(RuntimeError,
+            description: "Generating record c stubs, do not know how to map array type: #{field_type} #{field_name}.")
     end
 
     # Function to generate header file which includes all c functions used for generation and parsing of records / structs.

@@ -472,7 +472,7 @@ defmodule HAPI do
         field_name_downcase = String.downcase(field_name)
         [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_downcase)
-            |> String.replace("%{HAPI_ENUM_HASH}%", hash_binary(field_name_downcase))]
+            |> String.replace("%{HAPI_ENUM_HASH}%", hash(field_name_downcase))]
     end
 
     # Function to generate header containing signatures for all enum conversion functions.
@@ -485,16 +485,25 @@ defmodule HAPI do
         File.write("./c_src/hapi_enums_nif.h", signatures)
     end
 
-    # Generate Erlang records corresponding to parsed structs.
+    # Generate erl records corresponding to parsed structs.
     def create_record_erl_stubs(env) do
         IO.puts("Creating record erl stubs in src/records")
 
         structs = Dict.get(env, :structs, :nil)
         if not is_nil(structs) do
 
+            {:ok, template_record_erl} = File.read("./util/hapi_record.hrl.template")
+            Enum.map(structs, fn {k, v} -> create_record_erl_stub(k, v, template_record_erl) end)
+
+            {:ok, template_records_erl} = File.read("./util/hapi_records.hrl.template")
         end
 
         env
+    end
+
+    # Function to generate erl record corresponding to a given struct.
+    defp create_record_erl_stub(struct_name, struct_body, template_record_erl) do
+        IO.puts Enum.map_join(struct_body, "\n", fn(f) -> "    #{underscore(elem(f, 0))}" end)
     end
 end
 

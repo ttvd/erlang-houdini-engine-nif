@@ -12,6 +12,7 @@
 #include "erl_nif.h"
 #include "HAPI.h"
 
+
 %{HAPI_ENUM_FUNCTIONS}%
 
 #endif //!defined(HAPI_ENUMS_NIF_H)

@@ -462,7 +462,7 @@ defmodule HAPI do
 
     # Function to generate c_to_erl block for c <-> erl enum c stub.
     defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, field_value, field_original}), do: :nil
-    defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, field_value}) do
+    defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, _field_value}) do
         [String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", field_name)
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", String.downcase(field_name))]
     end
@@ -477,7 +477,7 @@ defmodule HAPI do
 
     # Function to generate header containing signatures for all enum conversion functions.
     defp create_enums_h_stub(enums, template, template_enums_block) do
-        signature_blocks = Enum.map_join(enums, "\n", fn {k, v} ->
+        signature_blocks = Enum.map_join(enums, "\n", fn {k, _v} ->
             String.replace(template_enums_block, "%{HAPI_ENUM}%", k)
                 |> String.replace("%{HAPI_ENUM_DOWNCASE}%", String.downcase(k)) end)
         signatures = String.replace(template, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)

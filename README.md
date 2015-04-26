@@ -7,7 +7,7 @@
 * Create an HTTP RESTful service based on this NIF.
 * Create a WebGL client to interact with the RESTful service.
 
-## Before building.
+## Before building, required steps.
 * Will build only on Mac OS X right now.
   * If you want to build on another platform you will need to patch rebar.config .
   * Stubs will theoretically generate on Windows. However rebar.config is missing Windows compilation instructions. So nothing will happen.

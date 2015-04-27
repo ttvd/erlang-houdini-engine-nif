@@ -538,7 +538,7 @@ defmodule HAPI do
     end
     defp create_record_c_stub_var(types, enums, {field_name, field_type}) do
         native_type = Dict.get(types, field_type)
-        IO.puts native_type
+
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->

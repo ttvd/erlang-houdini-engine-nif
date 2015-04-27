@@ -14,4 +14,4 @@ nif_funcs[] =
 };
 
 
-//ERL_NIF_INIT(hapi, nif_funcs, NULL, NULL, NULL, NULL)
+ERL_NIF_INIT(hapi, nif_funcs, NULL, NULL, NULL, NULL)

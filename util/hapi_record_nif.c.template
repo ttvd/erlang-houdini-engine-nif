@@ -14,12 +14,28 @@ hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_s
 {
     return enif_make_tuple(env, %{HAPI_STRUCT_SIZE}%,
         hapi_make_atom(env, "%{HAPI_STRUCT_DOWNCASE}%"),
-        %{HAPI_STRUCT_MAP});
+        %{HAPI_STRUCT_TO_ERL_MAP});
 }
 
 
 bool
 hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct)
 {
-    return false;
+    int32_t tuple_size = 0;
+    const ERL_NIF_TERM* tuple_handle_info = NULL;
+    bool handle_info_record = false;
+
+    %{HAPI_STRUCT_TO_C_VARS}%
+
+    if(!enif_get_tuple(env, term, &tuple_size, &tuple_handle_info) ||
+        (tuple_size != %{HAPI_STRUCT_SIZE}%) ||
+        !hapi_check_atom(env, *tuple_handle_info, "%{HAPI_STRUCT_DOWNCASE}%", &handle_info_record) ||
+        !handle_info_record ||
+//%{HAPI_STRUCT_TO_C_MAP}%
+        false)
+    {
+        return false;
+    }
+
+    return true;
 }

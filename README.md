@@ -7,6 +7,18 @@
 * Create an HTTP RESTful service based on this NIF.
 * Create a WebGL client to interact with the RESTful service.
 
+## Approach.
+
+* An Elixir script util/hapi.ex will parse HAPI.h and HAPI_Common.h (at location specified in rebar.config).
+* It does it by running preprocessor on util/hapi.c and parsing expanded output.
+* It will construct environment object, containing type, enum, struct and function tables.
+* Once this is complete, it will iterate these tables and will generate:
+  * Erlang NIF source c files in c_src/enums for converting HAPI enums to Erlang atoms and vice versa.
+  * Erlang NIF header h file c_src/hapi_enums_nif.h with all NIF c enum conversion signatures.
+  * Erlang NIF source c files in c_src/records for converting HAPI structs to Erlang records and vice versa.
+  * Erlang NIF header h file c_src/hapi_records_nif.h with all NIF c struct conversion signatures.
+  * Erlang header hrl files in src/records which map to HAPI structs.
+
 ## Before building, required steps.
 * Will build only on Mac OS X right now.
   * If you want to build on another platform you will need to patch rebar.config .

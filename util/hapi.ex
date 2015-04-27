@@ -458,7 +458,9 @@ defmodule HAPI do
             |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", Enum.join(c_to_erl_blocks, "\n"))
             |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", erl_to_c_blocks)
 
-        File.write("./c_src/enums/#{String.downcase(enum_name)}_nif.c", enum_code)
+        file_name = "c_src/enums/#{String.downcase(enum_name)}_nif.c"
+        File.write("./#{file_name}", enum_code)
+        IO.puts("Generating #{file_name}")
     end
 
     # Function to generate c_to_erl block for c <-> erl enum c stub.
@@ -484,6 +486,7 @@ defmodule HAPI do
         signatures = String.replace(template, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)
 
         File.write("./c_src/hapi_enums_nif.h", signatures)
+        IO.puts("Generating c_src/hapi_enums_nif.h")
     end
 
     # Generate c record generating and parsing functions.
@@ -522,7 +525,9 @@ defmodule HAPI do
             |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%",
                 Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_assign(types, f) end))
 
-        File.write("./c_src/records/#{String.downcase(record_name)}_nif.c", stub)
+        file_name = "c_src/records/#{String.downcase(record_name)}_nif.c"
+        File.write("./#{file_name}", stub)
+        IO.puts("Generating #{file_name}")
     end
 
     # Function to assign extracted erl record fields to fields of hapi structs.
@@ -689,6 +694,7 @@ defmodule HAPI do
 
         File.write("./c_src/hapi_records_nif.h",
             String.replace(template_records_h, "%{HAPI_RECORD_FUNCTIONS}%", record_function_blocks))
+        IO.puts("Generating c_src/hapi_records_nif.h")
     end
 
     # Generate erl records corresponding to parsed structs.
@@ -716,7 +722,9 @@ defmodule HAPI do
                         |> String.replace("%{HAPI_RECORD_NAME}%", record_name)
                         |> String.replace("%{HAPI_RECORD_ENTRIES}%", record_fields)
 
-        File.write("./src/records/#{String.downcase(record_name)}.hrl", record_block)
+        file_name = "src/records/#{String.downcase(record_name)}.hrl"
+        File.write("./#{file_name}", record_block)
+        IO.puts("Generating #{file_name}")
     end
 
     # Function to generate main records erl include stub.
@@ -725,6 +733,7 @@ defmodule HAPI do
             Enum.map_join(structs, "\n", fn {k, _v} -> "-include(\"records/#{String.downcase(k)}.hrl\")." end))
 
         File.write("./src/hapi_records.hrl", record_includes)
+        IO.puts("Generating src/hapi_records.hrl")
     end
 end
 

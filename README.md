@@ -32,7 +32,7 @@
 - [x] Working Mac OS X port.
 - [ ] Working Linux port.
 - [ ] Working Windows port.
-- [ ] Adding full Exixir / Mix support.
+- [ ] Adding full Elixir / Mix support.
 
 ## Before building, required steps.
 * Will build only on Mac OS X right now.

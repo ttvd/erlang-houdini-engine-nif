@@ -439,6 +439,9 @@ defmodule HAPI do
         funcs = Dict.get(env, :funcs, :nil)
         if not is_nil(funcs) do
 
+            {:ok, template_function_c} = File.read("./util/hapi_function_nif.c.template")
+            Enum.map(funcs, fn {k, v} -> create_function_c_stub(k, v, template_function_c) end)
+
             {:ok, template_functions_h} = File.read("./util/hapi_functions_nif.h.template")
             {:ok, template_functions_block} = File.read("./util/hapi_functions_nif.h.block.template")
             create_functions_h_stub(funcs, template_functions_h, template_functions_block)
@@ -448,6 +451,17 @@ defmodule HAPI do
         end
 
         env
+    end
+
+    # Generate function c stub.
+    defp create_function_c_stub(function_name, function_body, template_function_c) do
+
+        function_code = String.replace(template_function_c, "%{HAPI_FUNCTION}%", function_name)
+            |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", underscore(function_name))
+
+        file_name = "c_src/functions/#{underscore(function_name)}_nif.c"
+        File.write("./#{file_name}", function_code)
+        IO.puts("Generating #{file_name}")
     end
 
     # Generate exports c stub containing NIF mapping table.

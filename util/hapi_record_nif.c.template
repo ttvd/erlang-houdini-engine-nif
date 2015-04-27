@@ -29,13 +29,14 @@ hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAP
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != %{HAPI_STRUCT_SIZE}%) ||
-        !hapi_check_atom(env, *tuple_record, "%{HAPI_STRUCT_DOWNCASE}%", &atom_name_match) ||
+        !hapi_check_atom(env, tuple_record[0], "%{HAPI_STRUCT_DOWNCASE}%", &atom_name_match) ||
         !atom_name_match ||
-//%{HAPI_STRUCT_TO_C_MAP}%
-        false)
+        //%{HAPI_STRUCT_TO_C_MAP}%)
     {
         return false;
     }
+
+    %{HAPI_STRUCT_TO_C_ASSIGN}%
 
     return true;
 }

@@ -12,6 +12,7 @@
 #include "xxhash.h"
 #include "HAPI.h"
 
+
 // Create an atom.
 ERL_NIF_TERM hapi_make_atom(ErlNifEnv* env, const char* atom_name);
 
@@ -29,5 +30,15 @@ bool hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value,
 
 // Get value of boolean atom. Return true if succeeds. Returns boolean by pointer.
 bool hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);
+
+// Retrieve elements of double list into float array (by pointer). Return status.
+bool hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data);
+
+// Retrieve elements of double list into double array (by pointer). Return status.
+bool hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data);
+
+// Retrieve elements of integer list into int array (by pointer). Return status.
+bool hapi_get_list_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_t* data);
+
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

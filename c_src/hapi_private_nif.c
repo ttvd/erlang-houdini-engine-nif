@@ -150,3 +150,118 @@ hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
 
     return nif_success;
 }
+
+
+bool
+hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data)
+{
+    uint32_t list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &list_size) && (list_size == size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            double param_double = 0.0;
+            int param_int = 0;
+
+            if(enif_get_double(env, head, &param_double))
+            {
+                *(data + index) = (float) param_double;
+            }
+            else if(enif_get_int(env, head, &param_int))
+            {
+                *(data + index) = (float) param_int;
+            }
+            else
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+bool
+hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data)
+{
+    uint32_t list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &list_size) && (list_size == size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            double param_double = 0.0;
+            int param_int = 0;
+
+            if(enif_get_double(env, head, &param_double))
+            {
+                *(data + index) = param_double;
+            }
+            else if(enif_get_int(env, head, &param_int))
+            {
+                *(data + index) = (double) param_int;
+            }
+            else
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+bool
+hapi_get_list_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_t* data)
+{
+    uint32_t list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &list_size) && (list_size == size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            int32_t param_int = 0.0;
+
+            if(enif_get_int(env, head, &param_int))
+            {
+                *(data + index) = param_int;
+            }
+            else
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}

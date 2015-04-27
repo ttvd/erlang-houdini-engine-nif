@@ -517,10 +517,20 @@ defmodule HAPI do
                 Enum.map_join(struct_body, ",\n        ", fn(f) -> create_record_c_stub_field(types, enums, f, false, :nil) end))
             |> String.replace("%{HAPI_STRUCT_TO_C_VARS}%",
                 Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_var(types, enums, f) end))
-
-
+            |> String.replace("%{HAPI_STRUCT_TO_C_MAP}%",
+                Enum.with_index(struct_body)
+                    |> Enum.map_join(" ||\n        ", fn(f) -> create_record_c_stub_extract(types, enums, f) end))
+            |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%", "")
 
         File.write("./c_src/records/#{String.downcase(record_name)}.c", stub)
+    end
+
+    # Function to generate code to extract each erl record field.
+    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_int}, index}) do
+        "!enif_get_int(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(_types, _enums, _) do
+        "//TO_BE_ADDED"
     end
 
     # Function to generate each temporary variable, for erl -> generation.

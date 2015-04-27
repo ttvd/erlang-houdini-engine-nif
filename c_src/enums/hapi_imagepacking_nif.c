@@ -13,7 +13,7 @@ bool
 hapi_imagepacking_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result)
 {
     bool nif_success = true;
-    uint32_t atom_len = 0;
+    uint32_t atom_len = 0u;
     uint32_t atom_hash = 0u;
     char* atom_value = NULL;
 

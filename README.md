@@ -10,7 +10,7 @@
 ## Approach.
 
 * An Elixir script util/hapi.ex will parse HAPI.h and HAPI_Common.h (at location specified in rebar.config).
-* It does it by running preprocessor on util/hapi.c and parsing expanded output.
+* It does it by running preprocessor of specified compiler (in rebar.config) on util/hapi.c and parsing expanded output.
 * It will construct environment object, containing type, enum, struct and function tables.
 * Once this is complete, it will iterate these tables and will generate:
   * Erlang NIF source c files in c_src/enums for converting HAPI enums to Erlang atoms and vice versa.

@@ -10,7 +10,7 @@
 
 
 bool
-hapi_make_hapi_statustype_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* enum_result)
+hapi_make_hapi_statustype(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -83,7 +83,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_get_hapi_statustype_c_to_erl(ErlNifEnv* env, HAPI_StatusType enum_value)
+hapi_get_hapi_statustype(ErlNifEnv* env, HAPI_StatusType enum_value)
 {
     switch(enum_value)
     {

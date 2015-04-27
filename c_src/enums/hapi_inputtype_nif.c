@@ -10,7 +10,7 @@
 
 
 bool
-hapi_make_hapi_inputtype_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_InputType* enum_result)
+hapi_make_hapi_inputtype(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_InputType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -83,7 +83,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_get_hapi_inputtype_c_to_erl(ErlNifEnv* env, HAPI_InputType enum_value)
+hapi_get_hapi_inputtype(ErlNifEnv* env, HAPI_InputType enum_value)
 {
     switch(enum_value)
     {

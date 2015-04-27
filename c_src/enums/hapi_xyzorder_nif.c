@@ -10,7 +10,7 @@
 
 
 bool
-hapi_make_hapi_xyzorder_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* enum_result)
+hapi_make_hapi_xyzorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -97,7 +97,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_get_hapi_xyzorder_c_to_erl(ErlNifEnv* env, HAPI_XYZOrder enum_value)
+hapi_get_hapi_xyzorder(ErlNifEnv* env, HAPI_XYZOrder enum_value)
 {
     switch(enum_value)
     {

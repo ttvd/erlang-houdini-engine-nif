@@ -10,7 +10,7 @@
 
 
 bool
-hapi_make_hapi_imagepacking_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result)
+hapi_make_hapi_imagepacking(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -125,7 +125,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_get_hapi_imagepacking_c_to_erl(ErlNifEnv* env, HAPI_ImagePacking enum_value)
+hapi_get_hapi_imagepacking(ErlNifEnv* env, HAPI_ImagePacking enum_value)
 {
     switch(enum_value)
     {

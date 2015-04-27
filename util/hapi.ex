@@ -492,11 +492,10 @@ defmodule HAPI do
 
         structs = Dict.get(env, :structs, :nil)
         types = Dict.get(env, :types, :nil)
-        enums = Dict.get(env, :enums, :nil)
-        if not is_nil(structs) and not is_nil(types) and not is_nil(enums) do
+        if not is_nil(structs) and not is_nil(types) do
 
             {:ok, template_record_c} = File.read("./util/hapi_record_nif.c.template")
-            Enum.map(structs, fn {k, v} -> create_record_c_stub(types, enums, k, v, template_record_c) end)
+            Enum.map(structs, fn {k, v} -> create_record_c_stub(types, k, v, template_record_c) end)
 
             {:ok, template_records_h} = File.read("./util/hapi_records_nif.h.template")
             {:ok, template_records_block} = File.read("./util/hapi_records_nif.h.block.template")
@@ -507,7 +506,7 @@ defmodule HAPI do
     end
 
     # Function to generate c function for generating erl record corresponding to a given struct.
-    def create_record_c_stub(types, enums, struct_name, struct_body, template_record_c) do
+    def create_record_c_stub(types, struct_name, struct_body, template_record_c) do
         record_name = String.downcase(struct_name)
 
         stub = String.replace(template_record_c, "%{HAPI_STRUCT_DOWNCASE}%", record_name)

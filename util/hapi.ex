@@ -552,13 +552,16 @@ defmodule HAPI do
                     create_record_c_stub_extract(types, enums, {{field_name, native_type}, index})
             end
         else
-            "//ERR"
-            #raise(RuntimeError,
-            #    description: "Generating record c stubs, erl -> c: do not know how to map custom type: #{field_type}.")
+            raise(RuntimeError,
+                description: "Generating record c stubs, erl -> c: do not know how to map custom type: #{field_type}.")
         end
     end
+    defp create_record_c_stub_extract(types, enums, {{field_name, :token_float, fs}, index}) do
+        "!hapi_get_list_float(env, tuple_record[#{Integer.to_string(index + 1)}], #{fs}, &record_#{underscore(field_name)}[0])"
+    end
     defp create_record_c_stub_extract(types, enums, {{field_name, field_type, field_size}, index}) do
-        "//ARRAY"
+        raise(RuntimeError,
+            description: "Generating record c stubs, c -> erl: do not know how to map array type: #{field_type} #{field_name}.")
     end
 
     # Function to generate each temporary variable, for erl -> generation.
@@ -592,7 +595,7 @@ defmodule HAPI do
         end
     end
     defp create_record_c_stub_var(types, enums, {field_name, :token_float, field_size}) do
-        "double record_#{underscore(field_name)}[#{field_size}];"
+        "float record_#{underscore(field_name)}[#{field_size}];"
     end
     defp create_record_c_stub_var(_types, _enums, {field_name, field_type, _field_size}) do
         raise(RuntimeError,

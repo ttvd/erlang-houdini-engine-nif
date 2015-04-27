@@ -514,130 +514,169 @@ defmodule HAPI do
             |> String.replace("%{HAPI_STRUCT_SIZE}%", Integer.to_string(length(struct_body) + 1))
             |> String.replace("%{HAPI_STRUCT}%", struct_name)
             |> String.replace("%{HAPI_STRUCT_TO_ERL_MAP}",
-                Enum.map_join(struct_body, ",\n        ", fn(f) -> create_record_c_stub_field(types, enums, f, false, :nil) end))
+                Enum.map_join(struct_body, ",\n        ", fn(f) -> create_record_c_stub_field(types, f, false, :nil) end))
             |> String.replace("%{HAPI_STRUCT_TO_C_VARS}%",
-                Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_var(types, enums, f) end))
+                Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_var(types, f) end))
             |> String.replace("%{HAPI_STRUCT_TO_C_MAP}%",
                 Enum.with_index(struct_body)
-                    |> Enum.map_join(" ||\n        ", fn(f) -> create_record_c_stub_extract(types, enums, f) end))
-            |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%", "")
+                    |> Enum.map_join(" ||\n        ", fn(f) -> create_record_c_stub_extract(types, f) end))
+            |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%",
+                Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_assign(types, f) end))
 
         File.write("./c_src/records/#{String.downcase(record_name)}.c", stub)
     end
 
-    # Function to generate code to extract each erl record field.
-    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_int}, index}) do
-        "!enif_get_int(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    # Function to assign extracted erl record fields to fields of hapi structs.
+    defp create_record_c_stub_assign(_types, {field_name, :token_int}) do
+        "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
     end
-    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_float}, index}) do
-        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    defp create_record_c_stub_assign(_types, {field_name, :token_float}) do
+        "hapi_struct->#{field_name} = (float) record_#{underscore(field_name)};"
     end
-    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_double}, index}) do
-        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    defp create_record_c_stub_assign(_types, {field_name, :token_double}) do
+        "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
     end
-    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_bool}, index}) do
-        "!hapi_get_atom_bool(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    defp create_record_c_stub_assign(_types, {field_name, :token_bool}) do
+        "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
     end
-    defp create_record_c_stub_extract(types, enums, {{field_name, field_type}, index}) do
+    defp create_record_c_stub_assign(types, {field_name, field_type}) do
         native_type = Dict.get(types, field_type)
 
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    create_record_c_stub_extract(types, enums, {{field_name, :token_int}, index})
+                    "hapi_struct->#{field_name} = (#{field_type}) record_#{underscore(field_name)};"
+                :token_struct ->
+                    "memcpy(&hapi_struct->#{field_name}, &record_#{underscore(field_name)}, sizeof(#{field_type}));"
+                _ ->
+                    "hapi_struct->#{field_name} = (#{field_type}) record_#{underscore(field_name)};"
+            end
+        else
+            raise(RuntimeError,
+                description: "Generating record c stubs, erl -> c: do not know how to set custom type: #{field_type}.")
+        end
+    end
+    defp create_record_c_stub_assign(_types, {field_name, :token_float, field_size}) do
+        "memcpy(&hapi_struct->#{field_name}, &record_#{underscore(field_name)}[0], #{field_size} * sizeof(float));"
+    end
+    defp create_record_c_stub_assign(_types, {field_name, field_type, _field_size}) do
+        raise(RuntimeError,
+            description: "Generating record c stubs, c -> erl: do not know how to copy array type: #{field_type} #{field_name}.")
+    end
+
+    # Function to generate code to extract each erl record field.
+    defp create_record_c_stub_extract(_types, {{field_name, :token_int}, index}) do
+        "!enif_get_int(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(_types, {{field_name, :token_float}, index}) do
+        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(_types, {{field_name, :token_double}, index}) do
+        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(_types, {{field_name, :token_bool}, index}) do
+        "!hapi_get_atom_bool(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(types, {{field_name, field_type}, index}) do
+        native_type = Dict.get(types, field_type)
+
+        if not is_nil(native_type) do
+            case native_type do
+                :token_enum ->
+                    create_record_c_stub_extract(types, {{field_name, :token_int}, index})
                 :token_struct ->
                     type_name = String.downcase(field_type)
                     "hapi_get_#{type_name}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
                 _ ->
-                    create_record_c_stub_extract(types, enums, {{field_name, native_type}, index})
+                    create_record_c_stub_extract(types, {{field_name, native_type}, index})
             end
         else
             raise(RuntimeError,
                 description: "Generating record c stubs, erl -> c: do not know how to map custom type: #{field_type}.")
         end
     end
-    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_float, fs}, index}) do
+    defp create_record_c_stub_extract(_types, {{field_name, :token_float, fs}, index}) do
         "!hapi_get_list_float(env, tuple_record[#{Integer.to_string(index + 1)}], #{fs}, &record_#{underscore(field_name)}[0])"
     end
-    defp create_record_c_stub_extract(_types, _enums, {{field_name, field_type, _field_size}, _index}) do
+    defp create_record_c_stub_extract(_types, {{field_name, field_type, _field_size}, _index}) do
         raise(RuntimeError,
             description: "Generating record c stubs, c -> erl: do not know how to map array type: #{field_type} #{field_name}.")
     end
 
     # Function to generate each temporary variable, for erl -> generation.
-    defp create_record_c_stub_var(_types, _enums, {field_name, :token_int}) do
+    defp create_record_c_stub_var(_types, {field_name, :token_int}) do
         "int32_t record_#{underscore(field_name)} = 0;"
     end
-    defp create_record_c_stub_var(_types, _enums, {field_name, :token_bool}) do
+    defp create_record_c_stub_var(_types, {field_name, :token_bool}) do
         "bool record_#{underscore(field_name)} = false;"
     end
-    defp create_record_c_stub_var(_types, _enums, {field_name, :token_float}) do
+    defp create_record_c_stub_var(_types, {field_name, :token_float}) do
         "double record_#{underscore(field_name)} = 0.0;"
     end
-    defp create_record_c_stub_var(_types, _enums, {field_name, :token_double}) do
+    defp create_record_c_stub_var(_types, {field_name, :token_double}) do
         "double record_#{underscore(field_name)} = 0.0;"
     end
-    defp create_record_c_stub_var(types, enums, {field_name, field_type}) do
+    defp create_record_c_stub_var(types, {field_name, field_type}) do
         native_type = Dict.get(types, field_type)
 
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    create_record_c_stub_var(types, enums, {field_name, :token_int})
+                    create_record_c_stub_var(types, {field_name, :token_int})
                 :token_struct ->
                     "#{field_type} record_#{underscore(field_name)};"
                 _ ->
-                    create_record_c_stub_var(types, enums, {field_name, native_type})
+                    create_record_c_stub_var(types, {field_name, native_type})
             end
         else
             raise(RuntimeError,
                 description: "Generating record c stubs, erl -> c: do not know how to map custom type: #{field_type}.")
         end
     end
-    defp create_record_c_stub_var(_types, _enums, {field_name, :token_float, field_size}) do
+    defp create_record_c_stub_var(_types, {field_name, :token_float, field_size}) do
         "float record_#{underscore(field_name)}[#{field_size}];"
     end
-    defp create_record_c_stub_var(_types, _enums, {field_name, field_type, _field_size}) do
+    defp create_record_c_stub_var(_types, {field_name, field_type, _field_size}) do
         raise(RuntimeError,
             description: "Generating record c stubs, erl -> c: do not know how to map array type: #{field_type} #{field_name}.")
     end
 
     # Function to generate each structure field, for c -> erl generation.
-    defp create_record_c_stub_field(_types, _enums, {field_name, :token_int}, cast, _from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_int}, cast, _from_type) do
         if cast do
             "enif_make_int(env, (int32_t) hapi_struct->#{field_name})"
         else
             "enif_make_int(env, hapi_struct->#{field_name})"
         end
     end
-    defp create_record_c_stub_field(_types, _enums, {field_name, :token_bool}, _cast, _from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_bool}, _cast, _from_type) do
         "hapi_make_atom_bool(env, (bool) hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(_types, _enums, {field_name, :token_float}, _cast, _from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_float}, _cast, _from_type) do
         "enif_make_double(env, (double) hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(_types, _enums, {field_name, :token_double}, _cast, _from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_double}, _cast, _from_type) do
         "enif_make_double(env, hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(_types, _enums, {field_name, :token_struct}, _cast, from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_struct}, _cast, from_type) do
         "hapi_make_#{String.downcase(from_type)}(env, &hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(types, enums, {field_name, :token_enum}, _cast, _from_type) do
-        create_record_c_stub_field(types, enums, {field_name, :token_int}, true, _from_type)
+    defp create_record_c_stub_field(types, {field_name, :token_enum}, _cast, _from_type) do
+        create_record_c_stub_field(types, {field_name, :token_int}, true, _from_type)
     end
-    defp create_record_c_stub_field(types, enums, {field_name, field_type}, _cast, _from_type) do
+    defp create_record_c_stub_field(types, {field_name, field_type}, _cast, _from_type) do
         native_type = Dict.get(types, field_type)
         if not is_nil(native_type) do
-            create_record_c_stub_field(types, enums, {field_name, native_type}, true, field_type)
+            create_record_c_stub_field(types, {field_name, native_type}, true, field_type)
         else
             raise(RuntimeError,
                 description: "Generating record c stubs, c -> erl: do not know how to map custom type: #{field_type}.")
         end
     end
-    defp create_record_c_stub_field(_types, _enums, {field_name, :token_float, field_size}, _cast, _from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_float, field_size}, _cast, _from_type) do
         "hapi_make_list_float(env, #{Integer.to_string(field_size)}, hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(_types, _enums, {field_name, field_type, _field_size}, _cast, _from_type) do
+    defp create_record_c_stub_field(_types, {field_name, field_type, _field_size}, _cast, _from_type) do
         raise(RuntimeError,
             description: "Generating record c stubs, c -> erl: do not know how to map array type: #{field_type} #{field_name}.")
     end

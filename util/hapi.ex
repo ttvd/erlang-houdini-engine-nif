@@ -523,7 +523,7 @@ defmodule HAPI do
             |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%",
                 Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_assign(types, f) end))
 
-        File.write("./c_src/records/#{String.downcase(record_name)}.c", stub)
+        File.write("./c_src/records/#{String.downcase(record_name)}_nif.c", stub)
     end
 
     # Function to assign extracted erl record fields to fields of hapi structs.

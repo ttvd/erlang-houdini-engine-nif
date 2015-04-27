@@ -29,6 +29,9 @@
 * Generation of Erlang function stubs - Work in progress.
 * Generation of NIF Export table - Work in progress.
 * Adding tests - Not done.
+* Adding Linux support - Not done.
+* Adding Windows support - Not done.
+* Adding full Exixir / Mix support - Not done.
 
 ## Before building, required steps.
 * Will build only on Mac OS X right now.

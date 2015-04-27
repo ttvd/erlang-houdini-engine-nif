@@ -482,13 +482,12 @@ defmodule HAPI do
         erl_to_c_blocks = Enum.map_join(enum_body, "\n",
             fn(f) -> create_enum_c_stub_erl_to_c_block(termplate_erl_to_c, elem(f, 0)) end)
 
-        enum_name_downcase = String.downcase(enum_name)
         enum_code = String.replace(template, "%{HAPI_ENUM}%", enum_name)
-            |> String.replace("%{HAPI_ENUM_DOWNCASE}%", enum_name_downcase)
+            |> String.replace("%{HAPI_ENUM_DOWNCASE}%", underscore(enum_name))
             |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", Enum.join(c_to_erl_blocks, "\n"))
             |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", erl_to_c_blocks)
 
-        file_name = "c_src/enums/#{String.downcase(enum_name)}_nif.c"
+        file_name = "c_src/enums/#{underscore(enum_name)}_nif.c"
         File.write("./#{file_name}", enum_code)
         IO.puts("Generating #{file_name}")
     end
@@ -497,12 +496,12 @@ defmodule HAPI do
     defp create_enum_c_stub_c_to_erl_block(_template_c_to_erl, {_field_name, _field_value, _field_original}), do: :nil
     defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, _field_value}) do
         [String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", field_name)
-            |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", String.downcase(field_name))]
+            |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", underscore(field_name))]
     end
 
     # Function to generate erl_to_c block for c <-> erl enum c stub.
     defp create_enum_c_stub_erl_to_c_block(template_erl_to_c, field_name) do
-        field_name_downcase = String.downcase(field_name)
+        field_name_downcase = underscore(field_name)
         [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_downcase)
             |> String.replace("%{HAPI_ENUM_HASH}%", hash(field_name_downcase))]
@@ -512,7 +511,7 @@ defmodule HAPI do
     defp create_enums_h_stub(enums, template, template_enums_block) do
         signature_blocks = Enum.map_join(enums, "\n", fn {k, _v} ->
             String.replace(template_enums_block, "%{HAPI_ENUM}%", k)
-                |> String.replace("%{HAPI_ENUM_DOWNCASE}%", String.downcase(k)) end)
+                |> String.replace("%{HAPI_ENUM_DOWNCASE}%", underscore(k)) end)
         signatures = String.replace(template, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)
 
         File.write("./c_src/hapi_enums_nif.h", signatures)
@@ -540,7 +539,7 @@ defmodule HAPI do
 
     # Function to generate c function for generating erl record corresponding to a given struct.
     def create_record_c_stub(types, struct_name, struct_body, template_record_c) do
-        record_name = String.downcase(struct_name)
+        record_name = underscore(struct_name)
 
         stub = String.replace(template_record_c, "%{HAPI_STRUCT_DOWNCASE}%", record_name)
             |> String.replace("%{HAPI_STRUCT_SIZE}%", Integer.to_string(length(struct_body) + 1))
@@ -555,7 +554,7 @@ defmodule HAPI do
             |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%",
                 Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_assign(types, f) end))
 
-        file_name = "c_src/records/#{String.downcase(record_name)}_nif.c"
+        file_name = "c_src/records/#{underscore(record_name)}_nif.c"
         File.write("./#{file_name}", stub)
         IO.puts("Generating #{file_name}")
     end
@@ -613,7 +612,7 @@ defmodule HAPI do
     end
     defp create_record_c_stub_extract(types, {{field_name, field_type}, index}) do
         native_type = Dict.get(types, field_type)
-        type = String.downcase(field_type)
+        type = underscore(field_type)
 
         if not is_nil(native_type) do
             case native_type do
@@ -693,10 +692,10 @@ defmodule HAPI do
         "enif_make_double(env, hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(_types, {field_name, :token_struct}, _cast, from_type) do
-        "hapi_make_#{String.downcase(from_type)}(env, &hapi_struct->#{field_name})"
+        "hapi_make_#{underscore(from_type)}(env, &hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(_types, {field_name, :token_enum}, _cast, from_type) do
-        "hapi_make_#{String.downcase(from_type)}(env, hapi_struct->#{field_name})"
+        "hapi_make_#{underscore(from_type)}(env, hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(types, {field_name, field_type}, _cast, _from_type) do
         native_type = Dict.get(types, field_type)
@@ -719,7 +718,7 @@ defmodule HAPI do
     def create_records_h_stub(structs, template_records_h, template_records_block) do
 
         record_function_blocks = Enum.map_join(structs, "\n", fn {k, _v} ->
-            String.replace(template_records_block, "%{HAPI_STRUCT_DOWNCASE}%", String.downcase(k))
+            String.replace(template_records_block, "%{HAPI_STRUCT_DOWNCASE}%", underscore(k))
                 |> String.replace("%{HAPI_STRUCT}%", k) end)
 
         File.write("./c_src/hapi_records_nif.h",
@@ -746,13 +745,13 @@ defmodule HAPI do
 
     # Function to generate erl record corresponding to a given struct.
     defp create_record_erl_stub(struct_name, struct_body, template_record_erl) do
-        record_name = String.downcase(struct_name)
+        record_name = underscore(struct_name)
         record_fields = Enum.map_join(struct_body, ",\n", fn(f) -> "    #{underscore(elem(f, 0))}" end)
         record_block = String.replace(template_record_erl, "%{HAPI_STRUCT}%", struct_name)
                         |> String.replace("%{HAPI_RECORD_NAME}%", record_name)
                         |> String.replace("%{HAPI_RECORD_ENTRIES}%", record_fields)
 
-        file_name = "src/records/#{String.downcase(record_name)}.hrl"
+        file_name = "src/records/#{underscore(record_name)}.hrl"
         File.write("./#{file_name}", record_block)
         IO.puts("Generating #{file_name}")
     end
@@ -760,7 +759,7 @@ defmodule HAPI do
     # Function to generate main records erl include stub.
     defp create_records_erl_stub(structs, template_records_erl) do
         record_includes = String.replace(template_records_erl, "%{HAPI_RECORDS}%",
-            Enum.map_join(structs, "\n", fn {k, _v} -> "-include(\"records/#{String.downcase(k)}.hrl\")." end))
+            Enum.map_join(structs, "\n", fn {k, _v} -> "-include(\"records/#{underscore(k)}.hrl\")." end))
 
         File.write("./src/hapi_records.hrl", record_includes)
         IO.puts("Generating src/hapi_records.hrl")

@@ -585,7 +585,7 @@ defmodule HAPI do
                     create_record_c_stub_extract(types, {{field_name, :token_int}, index})
                 :token_struct ->
                     type_name = String.downcase(field_type)
-                    "hapi_get_#{type_name}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+                    "!hapi_get_#{type_name}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
                 _ ->
                     create_record_c_stub_extract(types, {{field_name, native_type}, index})
             end

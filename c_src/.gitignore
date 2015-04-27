@@ -1,6 +1,7 @@
 hapi_enums_nif.h
 hapi_records_nif.h
 hapi_functions_nif.h
+hapi_exports_nif.c
 enums/*.c
 records/*.c
 functions/*.c

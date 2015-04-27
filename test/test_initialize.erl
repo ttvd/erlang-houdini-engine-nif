@@ -1,6 +1,6 @@
 -module(test_initialize).
 -include_lib("eunit/include/eunit.hrl").
--include_lib("../src/hapi_cook_options.hrl").
+-include_lib("../src/records/hapi_cookoptions.hrl").
 
 nil_test() ->
     %?assertEqual(hapi_result_success, hapi:initialize(nil, nil, nil, false, -1)),
@@ -9,7 +9,7 @@ nil_test() ->
     ok.
 
 record_test() ->
-    %CookOptions = #hapi_cook_options{
+    %CookOptions = #hapi_cookoptions{
     %    split_geos_by_group=true,
     %    max_vertices_per_primitive=3,
     %    refine_curve_to_linear=false,

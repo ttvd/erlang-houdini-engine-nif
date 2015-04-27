@@ -282,6 +282,11 @@ defmodule HAPI do
     defp function_map_hapi_extract_params(list, [:token_bracket_right, :token_semicolon | rest]) do
         [list, rest]
     end
+    defp function_map_hapi_extract_params(list, [:token_const, :token_char, :token_pointer, param_name | rest] = tokens) do
+        list ++ [[:token_char, param_name, HashDict.new
+            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 4))]]
+                |> function_map_hapi_extract_params(rest)
+    end
     defp function_map_hapi_extract_params(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
         list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 4))]]
             |> function_map_hapi_extract_params(rest)
@@ -289,6 +294,11 @@ defmodule HAPI do
     defp function_map_hapi_extract_params(list, [:token_const, param_type, param_name | rest] = tokens) do
         list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
             |> function_map_hapi_extract_params(rest)
+    end
+    defp function_map_hapi_extract_params(list, [:token_char, :token_pointer, param_name | rest] = tokens) do
+        list ++ [[:token_char, param_name, HashDict.new
+            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
+                |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [param_type, :token_pointer, param_name | rest] = tokens) do
         list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
@@ -333,6 +343,11 @@ defmodule HAPI do
     # Helper function to check if parameter is a return type parameter.
     defp function_check_return_parameter([_param_type, _param_name, dict]) do
         Dict.get(dict, :param_pointer, false) and not Dict.get(dict, :param_const, false)
+    end
+
+    # Helper function to check if parameter is a string.
+    defp function_check_parameter_string([_param_type, _param_name, dict]) do
+        Dict.get(dict, :param_string, false)
     end
 
     # Print from hapi functions dictionary.

@@ -544,7 +544,7 @@ defmodule HAPI do
                 :token_enum ->
                     create_record_c_stub_var(types, enums, {field_name, :token_int})
                 :token_struct ->
-                    "//STRUCT_YO"
+                    "#{field_type} record_#{underscore(field_name)};"
                 _ ->
                     create_record_c_stub_var(types, enums, {field_name, native_type})
             end

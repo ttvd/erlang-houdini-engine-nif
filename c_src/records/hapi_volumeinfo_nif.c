@@ -24,7 +24,7 @@ hapi_make_hapi_volumeinfo(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_struct)
         enif_make_int(env, hapi_struct->minY),
         enif_make_int(env, hapi_struct->minZ),
         enif_make_int(env, hapi_struct->tupleSize),
-        hapi_storagetype_c_to_erl(env, hapi_struct->storage),
+        hapi_make_hapi_storagetype(env, hapi_struct->storage),
         enif_make_int(env, hapi_struct->tileSize),
         hapi_make_hapi_transform(env, &hapi_struct->transform),
         hapi_make_atom_bool(env, (bool) hapi_struct->hasTaper),
@@ -67,7 +67,7 @@ hapi_get_hapi_volumeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInf
         !enif_get_int(env, tuple_record[6], &record_min_y) ||
         !enif_get_int(env, tuple_record[7], &record_min_z) ||
         !enif_get_int(env, tuple_record[8], &record_tuple_size) ||
-        !hapi_storagetype_erl_to_c(env, tuple_record[9], &record_storage) ||
+        !hapi_get_hapi_storagetype(env, tuple_record[9], &record_storage) ||
         !enif_get_int(env, tuple_record[10], &record_tile_size) ||
         !hapi_get_hapi_transform(env, tuple_record[11], &record_transform) ||
         !hapi_get_atom_bool(env, tuple_record[12], &record_has_taper) ||

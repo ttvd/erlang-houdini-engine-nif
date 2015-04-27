@@ -10,7 +10,7 @@
 
 
 bool
-hapi_parmtype_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* enum_result)
+hapi_make_hapi_parmtype_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -279,7 +279,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_parmtype_c_to_erl(ErlNifEnv* env, HAPI_ParmType enum_value)
+hapi_get_hapi_parmtype_c_to_erl(ErlNifEnv* env, HAPI_ParmType enum_value)
 {
     switch(enum_value)
     {

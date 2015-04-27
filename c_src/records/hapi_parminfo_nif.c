@@ -18,9 +18,9 @@ hapi_make_hapi_parminfo(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct)
         hapi_make_atom(env, "hapi_parminfo"),
         enif_make_int(env, (int32_t) hapi_struct->id),
         enif_make_int(env, (int32_t) hapi_struct->parentId),
-        hapi_parmtype_c_to_erl(env, hapi_struct->type),
+        hapi_make_hapi_parmtype(env, hapi_struct->type),
         enif_make_int(env, (int32_t) hapi_struct->typeInfoSH),
-        hapi_permissions_c_to_erl(env, hapi_struct->permissions),
+        hapi_make_hapi_permissions(env, hapi_struct->permissions),
         enif_make_int(env, hapi_struct->size),
         enif_make_int(env, hapi_struct->choiceCount),
         enif_make_int(env, (int32_t) hapi_struct->nameSH),
@@ -49,7 +49,7 @@ hapi_make_hapi_parminfo(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct)
         enif_make_int(env, hapi_struct->instanceLength),
         enif_make_int(env, hapi_struct->instanceCount),
         enif_make_int(env, hapi_struct->instanceStartOffset),
-        hapi_ramptype_c_to_erl(env, hapi_struct->rampType));
+        hapi_make_hapi_ramptype(env, hapi_struct->rampType));
 }
 
 
@@ -101,9 +101,9 @@ hapi_get_hapi_parminfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* h
         !atom_name_match ||
         !enif_get_int(env, tuple_record[1], &record_id) ||
         !enif_get_int(env, tuple_record[2], &record_parent_id) ||
-        !hapi_parmtype_erl_to_c(env, tuple_record[3], &record_type) ||
+        !hapi_get_hapi_parmtype(env, tuple_record[3], &record_type) ||
         !enif_get_int(env, tuple_record[4], &record_type_info_sh) ||
-        !hapi_permissions_erl_to_c(env, tuple_record[5], &record_permissions) ||
+        !hapi_get_hapi_permissions(env, tuple_record[5], &record_permissions) ||
         !enif_get_int(env, tuple_record[6], &record_size) ||
         !enif_get_int(env, tuple_record[7], &record_choice_count) ||
         !enif_get_int(env, tuple_record[8], &record_name_sh) ||
@@ -132,7 +132,7 @@ hapi_get_hapi_parminfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* h
         !enif_get_int(env, tuple_record[31], &record_instance_length) ||
         !enif_get_int(env, tuple_record[32], &record_instance_count) ||
         !enif_get_int(env, tuple_record[33], &record_instance_start_offset) ||
-        !hapi_ramptype_erl_to_c(env, tuple_record[34], &record_ramp_type))
+        !hapi_get_hapi_ramptype(env, tuple_record[34], &record_ramp_type))
     {
         return false;
     }

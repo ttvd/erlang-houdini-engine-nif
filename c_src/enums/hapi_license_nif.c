@@ -10,7 +10,7 @@
 
 
 bool
-hapi_license_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_License* enum_result)
+hapi_make_hapi_license_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_License* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -104,7 +104,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_license_c_to_erl(ErlNifEnv* env, HAPI_License enum_value)
+hapi_get_hapi_license_c_to_erl(ErlNifEnv* env, HAPI_License enum_value)
 {
     switch(enum_value)
     {

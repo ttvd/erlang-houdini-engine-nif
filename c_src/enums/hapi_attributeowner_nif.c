@@ -10,7 +10,7 @@
 
 
 bool
-hapi_attributeowner_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeOwner* enum_result)
+hapi_make_hapi_attributeowner_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeOwner* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -97,7 +97,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_attributeowner_c_to_erl(ErlNifEnv* env, HAPI_AttributeOwner enum_value)
+hapi_get_hapi_attributeowner_c_to_erl(ErlNifEnv* env, HAPI_AttributeOwner enum_value)
 {
     switch(enum_value)
     {

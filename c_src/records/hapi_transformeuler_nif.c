@@ -19,8 +19,8 @@ hapi_make_hapi_transformeuler(ErlNifEnv* env, const HAPI_TransformEuler* hapi_st
         hapi_make_list_float(env, 3, hapi_struct->position),
         hapi_make_list_float(env, 3, hapi_struct->rotationEuler),
         hapi_make_list_float(env, 3, hapi_struct->scale),
-        hapi_xyzorder_c_to_erl(env, hapi_struct->rotationOrder),
-        hapi_rstorder_c_to_erl(env, hapi_struct->rstOrder));
+        hapi_make_hapi_xyzorder(env, hapi_struct->rotationOrder),
+        hapi_make_hapi_rstorder(env, hapi_struct->rstOrder));
 }
 
 
@@ -44,8 +44,8 @@ hapi_get_hapi_transformeuler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Trans
         !hapi_get_list_float(env, tuple_record[1], 3, &record_position[0]) ||
         !hapi_get_list_float(env, tuple_record[2], 3, &record_rotation_euler[0]) ||
         !hapi_get_list_float(env, tuple_record[3], 3, &record_scale[0]) ||
-        !hapi_xyzorder_erl_to_c(env, tuple_record[4], &record_rotation_order) ||
-        !hapi_rstorder_erl_to_c(env, tuple_record[5], &record_rst_order))
+        !hapi_get_hapi_xyzorder(env, tuple_record[4], &record_rotation_order) ||
+        !hapi_get_hapi_rstorder(env, tuple_record[5], &record_rst_order))
     {
         return false;
     }

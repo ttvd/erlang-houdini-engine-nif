@@ -17,8 +17,8 @@ hapi_make_hapi_assetinfo(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct)
     return enif_make_tuple(env, 20,
         hapi_make_atom(env, "hapi_assetinfo"),
         enif_make_int(env, (int32_t) hapi_struct->id),
-        hapi_assettype_c_to_erl(env, hapi_struct->type),
-        hapi_assetsubtype_c_to_erl(env, hapi_struct->subType),
+        hapi_make_hapi_assettype(env, hapi_struct->type),
+        hapi_make_hapi_assetsubtype(env, hapi_struct->subType),
         enif_make_int(env, hapi_struct->validationId),
         enif_make_int(env, (int32_t) hapi_struct->nodeId),
         enif_make_int(env, (int32_t) hapi_struct->objectNodeId),
@@ -70,8 +70,8 @@ hapi_get_hapi_assetinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo*
         !hapi_check_atom(env, tuple_record[0], "hapi_assetinfo", &atom_name_match) ||
         !atom_name_match ||
         !enif_get_int(env, tuple_record[1], &record_id) ||
-        !hapi_assettype_erl_to_c(env, tuple_record[2], &record_type) ||
-        !hapi_assetsubtype_erl_to_c(env, tuple_record[3], &record_sub_type) ||
+        !hapi_get_hapi_assettype(env, tuple_record[2], &record_type) ||
+        !hapi_get_hapi_assetsubtype(env, tuple_record[3], &record_sub_type) ||
         !enif_get_int(env, tuple_record[4], &record_validation_id) ||
         !enif_get_int(env, tuple_record[5], &record_node_id) ||
         !enif_get_int(env, tuple_record[6], &record_object_node_id) ||

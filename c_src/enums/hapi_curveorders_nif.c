@@ -10,7 +10,7 @@
 
 
 bool
-hapi_curveorders_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveOrders* enum_result)
+hapi_make_hapi_curveorders_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveOrders* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -90,7 +90,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_curveorders_c_to_erl(ErlNifEnv* env, HAPI_CurveOrders enum_value)
+hapi_get_hapi_curveorders_c_to_erl(ErlNifEnv* env, HAPI_CurveOrders enum_value)
 {
     switch(enum_value)
     {

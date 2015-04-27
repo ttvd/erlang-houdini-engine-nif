@@ -17,7 +17,7 @@ hapi_make_hapi_geoinfo(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct)
     return enif_make_tuple(env, 13,
         hapi_make_atom(env, "hapi_geoinfo"),
         enif_make_int(env, (int32_t) hapi_struct->id),
-        hapi_geotype_c_to_erl(env, hapi_struct->type),
+        hapi_make_hapi_geotype(env, hapi_struct->type),
         enif_make_int(env, (int32_t) hapi_struct->nameSH),
         enif_make_int(env, (int32_t) hapi_struct->nodeId),
         hapi_make_atom_bool(env, (bool) hapi_struct->isEditable),
@@ -56,7 +56,7 @@ hapi_get_hapi_geoinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hap
         !hapi_check_atom(env, tuple_record[0], "hapi_geoinfo", &atom_name_match) ||
         !atom_name_match ||
         !enif_get_int(env, tuple_record[1], &record_id) ||
-        !hapi_geotype_erl_to_c(env, tuple_record[2], &record_type) ||
+        !hapi_get_hapi_geotype(env, tuple_record[2], &record_type) ||
         !enif_get_int(env, tuple_record[3], &record_name_sh) ||
         !enif_get_int(env, tuple_record[4], &record_node_id) ||
         !hapi_get_atom_bool(env, tuple_record[5], &record_is_editable) ||

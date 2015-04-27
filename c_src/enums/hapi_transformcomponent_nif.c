@@ -10,7 +10,7 @@
 
 
 bool
-hapi_transformcomponent_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* enum_result)
+hapi_make_hapi_transformcomponent_(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -146,7 +146,7 @@ label_cleanup:
 
 
 ERL_NIF_TERM
-hapi_transformcomponent_c_to_erl(ErlNifEnv* env, HAPI_TransformComponent enum_value)
+hapi_get_hapi_transformcomponent_c_to_erl(ErlNifEnv* env, HAPI_TransformComponent enum_value)
 {
     switch(enum_value)
     {

@@ -19,7 +19,7 @@ hapi_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct)
         hapi_make_list_float(env, 3, hapi_struct->position),
         hapi_make_list_float(env, 4, hapi_struct->rotationQuaternion),
         hapi_make_list_float(env, 3, hapi_struct->scale),
-        hapi_rstorder_c_to_erl(env, hapi_struct->rstOrder));
+        hapi_make_hapi_rstorder(env, hapi_struct->rstOrder));
 }
 
 
@@ -42,7 +42,7 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
         !hapi_get_list_float(env, tuple_record[1], 3, &record_position[0]) ||
         !hapi_get_list_float(env, tuple_record[2], 4, &record_rotation_quaternion[0]) ||
         !hapi_get_list_float(env, tuple_record[3], 3, &record_scale[0]) ||
-        !hapi_rstorder_erl_to_c(env, tuple_record[4], &record_rst_order))
+        !hapi_get_hapi_rstorder(env, tuple_record[4], &record_rst_order))
     {
         return false;
     }

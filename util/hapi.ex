@@ -583,7 +583,7 @@ defmodule HAPI do
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    "!#{type}_erl_to_c(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+                    "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
                 :token_struct ->
                     "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
                 _ ->
@@ -661,7 +661,7 @@ defmodule HAPI do
         "hapi_make_#{String.downcase(from_type)}(env, &hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(types, {field_name, :token_enum}, _cast, from_type) do
-        "#{String.downcase(from_type)}_c_to_erl(env, hapi_struct->#{field_name})"
+        "hapi_make_#{String.downcase(from_type)}(env, hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(types, {field_name, field_type}, _cast, _from_type) do
         native_type = Dict.get(types, field_type)

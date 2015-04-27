@@ -396,6 +396,9 @@ defmodule HAPI do
         raise(RuntimeError, description: "Can't create underscore version of non-binary parameter")
     end
     defp underscore_helper(<<c, rest ::binary>>), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
+    defp underscore_helper(<<c, rest ::binary>>, p) when p == ?_ do
+        <<to_lower_case(c)>> <> underscore_helper(rest, c)
+    end
     defp underscore_helper(<<c, rest ::binary>>, p) when c in ?A..?Z and not p in ?A..?Z do
         <<?_, to_lower_case(c)>> <> underscore_helper(rest, c)
     end

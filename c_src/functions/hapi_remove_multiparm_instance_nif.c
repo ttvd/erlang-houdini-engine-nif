@@ -6,6 +6,8 @@
 /// This file corresponds to HAPI_RemoveMultiparmInstance function from HAPI.h or HAPI_Common.h
 
 #include "../hapi_private_nif.h"
+#include "../hapi_enums_nif.h"
+#include "../hapi_records_nif.h"
 
 
 ERL_NIF_TERM

@@ -424,6 +424,33 @@ defmodule HAPI do
         raise(RuntimeError, description: "Unknown compiler, please add options")
     end
 
+    # Generate c function stubs.
+    def create_function_c_stubs(env) do
+        IO.puts("Creating function c stubs in c_src/functions")
+
+        funcs = Dict.get(env, :funcs, :nil)
+        if not is_nil(funcs) do
+
+            {:ok, template_functions_h} = File.read("./util/hapi_functions_nif.h.template")
+            {:ok, template_functions_block} = File.read("./util/hapi_functions_nif.h.block.template")
+
+            create_functions_h_stub(funcs, template_functions_h, template_functions_block)
+        end
+
+        env
+    end
+
+    # Generate header file containing all c function signatures.
+    defp create_functions_h_stub(funcs, template_functions_h, template_functions_block) do
+
+        signature_blocks = Enum.map_join(funcs, "", fn {k, _v} ->
+            String.replace(template_functions_block, "%{HAPI_FUNCTION}%", underscore(k)) end)
+        signatures = String.replace(template_functions_h, "%{HAPI_FUNCTIONS}%", signature_blocks)
+
+        File.write("./c_src/hapi_functions_nif.h", signatures)
+        IO.puts("Generating c_src/hapi_functions_nif.h")
+    end
+
     # Generate enum c stubs containing c <-> erl convertors.
     def create_enum_c_stubs(env) do
         IO.puts("Creating enum c stubs in c_src/enums")
@@ -742,3 +769,4 @@ HAPI.generate_hapi_c(compiler, hapi_include_path)
     |> HAPI.create_enum_c_stubs()
     |> HAPI.create_record_c_stubs()
     |> HAPI.create_record_erl_stubs()
+    |> HAPI.create_function_c_stubs()

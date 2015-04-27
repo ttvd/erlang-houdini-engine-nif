@@ -1,0 +1,6 @@
+hapi_enums_nif.h
+hapi_records_nif.h
+hapi_functions_nif.h
+enums/*.c
+records/*.c
+functions/*.c

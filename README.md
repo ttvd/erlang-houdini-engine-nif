@@ -21,17 +21,18 @@
 * After generation step is complete, Rebar will compile HAPI NIF dynamic library which can be used within Erlang.
 
 ## Status.
-* Generation of HAPI enum translation stubs - Complete.
-* Generation of Erlang enum mappings - Not done. Not required.
-* Generation of HAPI struct translation stubs - Complete.
-* Generation of Erlang records corresponding to HAPI structs - Complete.
-* Generation of HAPI function stubs - Work in progress.
-* Generation of Erlang function stubs - Work in progress.
-* Generation of NIF Export table - Work in progress.
-* Adding tests - Not done.
-* Adding Linux support - Not done.
-* Adding Windows support - Not done.
-* Adding full Exixir / Mix support - Not done.
+- [x] Generation of HAPI enum translation stubs.
+- [ ] Generation of Erlang enum mappings. Not required?
+- [x] Generation of HAPI struct translation stubs.
+- [x] Generation of Erlang records corresponding to HAPI structs.
+- [ ] Generation of HAPI function stubs - Work in progress.
+- [ ] Generation of Erlang function stubs - Work in progress.
+- [ ] Generation of NIF Export table - Work in progress.
+- [ ] Adding tests.
+- [x] Working Mac OS X port.
+- [ ] Working Linux port.
+- [ ] Working Windows port.
+- [ ] Adding full Exixir / Mix support.
 
 ## Before building, required steps.
 * Will build only on Mac OS X right now.

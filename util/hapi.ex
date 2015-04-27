@@ -544,7 +544,7 @@ defmodule HAPI do
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    "hapi_struct->#{field_name} = (#{field_type}) record_#{underscore(field_name)};"
+                    "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
                 :token_struct ->
                     "memcpy(&hapi_struct->#{field_name}, &record_#{underscore(field_name)}, sizeof(#{field_type}));"
                 _ ->
@@ -578,14 +578,14 @@ defmodule HAPI do
     end
     defp create_record_c_stub_extract(types, {{field_name, field_type}, index}) do
         native_type = Dict.get(types, field_type)
+        type = String.downcase(field_type)
 
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    create_record_c_stub_extract(types, {{field_name, :token_int}, index})
+                    "!#{type}_erl_to_c(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
                 :token_struct ->
-                    type_name = String.downcase(field_type)
-                    "!hapi_get_#{type_name}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+                    "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
                 _ ->
                     create_record_c_stub_extract(types, {{field_name, native_type}, index})
             end
@@ -621,7 +621,7 @@ defmodule HAPI do
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    create_record_c_stub_var(types, {field_name, :token_int})
+                    "#{field_type} record_#{underscore(field_name)};"
                 :token_struct ->
                     "#{field_type} record_#{underscore(field_name)};"
                 _ ->
@@ -660,8 +660,8 @@ defmodule HAPI do
     defp create_record_c_stub_field(_types, {field_name, :token_struct}, _cast, from_type) do
         "hapi_make_#{String.downcase(from_type)}(env, &hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(types, {field_name, :token_enum}, _cast, _from_type) do
-        create_record_c_stub_field(types, {field_name, :token_int}, true, _from_type)
+    defp create_record_c_stub_field(types, {field_name, :token_enum}, _cast, from_type) do
+        "#{String.downcase(from_type)}_c_to_erl(env, hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(types, {field_name, field_type}, _cast, _from_type) do
         native_type = Dict.get(types, field_type)

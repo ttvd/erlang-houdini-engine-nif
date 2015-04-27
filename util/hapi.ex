@@ -529,8 +529,36 @@ defmodule HAPI do
     defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_int}, index}) do
         "!enif_get_int(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
     end
-    defp create_record_c_stub_extract(_types, _enums, _) do
-        "//TO_BE_ADDED"
+    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_float}, index}) do
+        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_double}, index}) do
+        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(_types, _enums, {{field_name, :token_bool}, index}) do
+        "!hapi_get_atom_bool(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+    end
+    defp create_record_c_stub_extract(types, enums, {{field_name, field_type}, index}) do
+        native_type = Dict.get(types, field_type)
+
+        if not is_nil(native_type) do
+            case native_type do
+                :token_enum ->
+                    create_record_c_stub_extract(types, enums, {{field_name, :token_int}, index})
+                :token_struct ->
+                    #"#{field_type} record_#{underscore(field_name)};"
+                    "//STRUCT"
+                _ ->
+                    create_record_c_stub_extract(types, enums, {{field_name, native_type}, index})
+            end
+        else
+            "//ERR"
+            #raise(RuntimeError,
+            #    description: "Generating record c stubs, erl -> c: do not know how to map custom type: #{field_type}.")
+        end
+    end
+    defp create_record_c_stub_extract(types, enums, {{field_name, field_type, field_size}, index}) do
+        "//ARRAY"
     end
 
     # Function to generate each temporary variable, for erl -> generation.

@@ -325,6 +325,11 @@ defmodule HAPI do
         Enum.filter(function_params, &(function_check_return_parameter(&1)))
     end
 
+    # Given a function structure, return parameters (ignore parameters returned by pointer).
+    defp function_get_parameters([_function_type, function_params]) do
+        Enum.filter(function_params, &(not function_check_return_parameter(&1)))
+    end
+
     # Helper function to check if parameter is a return type parameter.
     defp function_check_return_parameter([_param_type, _param_name, dict]) do
         Dict.get(dict, :param_pointer, false) and not Dict.get(dict, :param_const, false)
@@ -436,11 +441,28 @@ defmodule HAPI do
 
             {:ok, template_functions_h} = File.read("./util/hapi_functions_nif.h.template")
             {:ok, template_functions_block} = File.read("./util/hapi_functions_nif.h.block.template")
-
             create_functions_h_stub(funcs, template_functions_h, template_functions_block)
+
+            {:ok, template_exports_c} = File.read("./util/hapi_exports_nif.c.template")
+            create_exports_c_stub(funcs, template_exports_c)
         end
 
         env
+    end
+
+    # Generate exports c stub containing NIF mapping table.
+    defp create_exports_c_stub(funcs, template_exports_c) do
+        exports = String.replace(template_exports_c, "%{HAPI_NIF_FUNCTIONS}%",
+            Enum.map_join(funcs, ",\n    ", fn {k, v} ->
+                create_exports_c_stub_entry(underscore(k), length(function_get_parameters(v))) end))
+
+        File.write("./c_src/hapi_exports_nif.c", exports)
+        IO.puts("Generating c_src/hapi_exports_nif.c")
+    end
+
+    # Helper function to create a NIF export table entry.
+    defp create_exports_c_stub_entry("hapi_" <> rest, arity) do
+        "{\"#{rest}\", #{Integer.to_string(arity)}}"
     end
 
     # Generate header file containing all c function signatures.

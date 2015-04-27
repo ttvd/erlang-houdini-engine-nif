@@ -68,7 +68,7 @@ hapi_get_hapi_volumeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInf
         !enif_get_int(env, tuple_record[8], &record_tuple_size) ||
         !enif_get_int(env, tuple_record[9], &record_storage) ||
         !enif_get_int(env, tuple_record[10], &record_tile_size) ||
-        hapi_get_hapi_transform(env, tuple_record[11], &record_transform) ||
+        !hapi_get_hapi_transform(env, tuple_record[11], &record_transform) ||
         !hapi_get_atom_bool(env, tuple_record[12], &record_has_taper) ||
         !enif_get_double(env, tuple_record[13], &record_x_taper) ||
         !enif_get_double(env, tuple_record[14], &record_y_taper))

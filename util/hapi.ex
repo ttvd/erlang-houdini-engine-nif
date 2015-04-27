@@ -476,7 +476,7 @@ defmodule HAPI do
 
     # Helper function to create a NIF export table entry.
     defp create_exports_c_stub_entry("hapi_" <> rest, arity) do
-        "{\"#{rest}\", #{Integer.to_string(arity)}}"
+        "{\"#{rest}\", #{Integer.to_string(arity)}, hapi_#{rest}}"
     end
 
     # Generate header file containing all c function signatures.

@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_insert_multiparm_instance(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_insert_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_insert_multiparm_instance(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_insert_multiparm_instance_schedule", 0, hapi_insert_multiparm_instance_schedule, argc, argv);
 }

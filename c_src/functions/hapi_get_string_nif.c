@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_get_string(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_get_string(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_get_string_schedule", 0, hapi_get_string_schedule, argc, argv);
 }

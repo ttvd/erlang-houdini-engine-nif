@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_keyframe_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_keyframe_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_keyframe_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_keyframe_init_schedule", 0, hapi_keyframe_init_schedule, argc, argv);
 }

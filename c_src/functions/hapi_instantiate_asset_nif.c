@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_instantiate_asset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_instantiate_asset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_instantiate_asset_schedule", 0, hapi_instantiate_asset_schedule, argc, argv);
 }

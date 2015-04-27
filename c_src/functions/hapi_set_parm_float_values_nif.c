@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_set_parm_float_values(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_set_parm_float_values(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_set_parm_float_values_schedule", 0, hapi_set_parm_float_values_schedule, argc, argv);
 }

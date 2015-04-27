@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_geo_input_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_geo_input_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_geo_input_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_geo_input_info_create_schedule", 0, hapi_geo_input_info_create_schedule, argc, argv);
 }

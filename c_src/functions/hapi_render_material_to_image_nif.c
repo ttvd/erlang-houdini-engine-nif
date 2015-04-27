@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_render_material_to_image(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_render_material_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_render_material_to_image(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_render_material_to_image_schedule", 0, hapi_render_material_to_image_schedule, argc, argv);
 }

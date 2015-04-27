@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_get_next_volume_tile(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_get_next_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_get_next_volume_tile(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_get_next_volume_tile_schedule", 0, hapi_get_next_volume_tile_schedule, argc, argv);
 }

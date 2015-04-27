@@ -9,7 +9,14 @@
 
 
 ERL_NIF_TERM
-hapi_convert_transform_euler_to_matrix(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+hapi_convert_transform_euler_to_matrix_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return hapi_make_atom_ok(env);
+}
+
+
+ERL_NIF_TERM
+hapi_convert_transform_euler_to_matrix(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_convert_transform_euler_to_matrix_schedule", 0, hapi_convert_transform_euler_to_matrix_schedule, argc, argv);
 }

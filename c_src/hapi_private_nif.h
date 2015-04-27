@@ -27,4 +27,7 @@ ERL_NIF_TERM hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* da
 // Check atom's value against passed value. Returns true if succeeds. Returns status of comparison by pointer.
 bool hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);
 
+// Get value of boolean atom. Return true if succeeds. Returns boolean by pointer.
+bool hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);
+
 #endif //!defined(HAPI_PRIVATE_NIF_H)

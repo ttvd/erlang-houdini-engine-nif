@@ -106,3 +106,47 @@ label_cleanup:
 
     return nif_success;
 }
+
+
+bool
+hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
+{
+    bool nif_success = true;
+    uint32_t atom_len = 0;
+
+    if(enif_is_atom(env, term))
+    {
+        if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+        {
+            return false;
+        }
+
+        if(atom_len > 6)
+        {
+            return false;
+        }
+
+        char atom_buffer[HAPI_STACK_STRING_SIZE_MAX];
+        memset(atom_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
+
+        if(!enif_get_atom(env, term, atom_buffer, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            return false;
+        }
+
+        if(!strcmp(atom_buffer, "true"))
+        {
+            *status = true;
+        }
+        else if(!strcmp(atom_buffer, "false"))
+        {
+            *status = false;
+        }
+        else
+        {
+            nif_success = false;
+        }
+    }
+
+    return nif_success;
+}

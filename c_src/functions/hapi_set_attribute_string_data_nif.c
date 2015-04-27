@@ -13,7 +13,10 @@
 ERL_NIF_TERM
 hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    return hapi_make_atom_ok(env);
+    //%{HAPI_FUNCTION_VARS}%
+
+    //return hapi_make_atom_ok(env);
+    return enif_make_badarg(env);
 }
 
 

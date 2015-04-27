@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 

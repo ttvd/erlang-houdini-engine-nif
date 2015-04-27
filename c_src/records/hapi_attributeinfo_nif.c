@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 
@@ -16,9 +17,9 @@ hapi_make_hapi_attributeinfo(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_stru
     return enif_make_tuple(env, 7,
         hapi_make_atom(env, "hapi_attributeinfo"),
         hapi_make_atom_bool(env, (bool) hapi_struct->exists),
-        enif_make_int(env, (int32_t) hapi_struct->owner),
-        enif_make_int(env, (int32_t) hapi_struct->storage),
-        enif_make_int(env, (int32_t) hapi_struct->originalOwner),
+        hapi_attributeowner_c_to_erl(env, hapi_struct->owner),
+        hapi_storagetype_c_to_erl(env, hapi_struct->storage),
+        hapi_attributeowner_c_to_erl(env, hapi_struct->originalOwner),
         enif_make_int(env, hapi_struct->count),
         enif_make_int(env, hapi_struct->tupleSize));
 }
@@ -32,9 +33,9 @@ hapi_get_hapi_attributeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attrib
     bool atom_name_match = false;
 
     bool record_exists = false;
-    int32_t record_owner = 0;
-    int32_t record_storage = 0;
-    int32_t record_original_owner = 0;
+    HAPI_AttributeOwner record_owner;
+    HAPI_StorageType record_storage;
+    HAPI_AttributeOwner record_original_owner;
     int32_t record_count = 0;
     int32_t record_tuple_size = 0;
 
@@ -43,9 +44,9 @@ hapi_get_hapi_attributeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attrib
         !hapi_check_atom(env, tuple_record[0], "hapi_attributeinfo", &atom_name_match) ||
         !atom_name_match ||
         !hapi_get_atom_bool(env, tuple_record[1], &record_exists) ||
-        !enif_get_int(env, tuple_record[2], &record_owner) ||
-        !enif_get_int(env, tuple_record[3], &record_storage) ||
-        !enif_get_int(env, tuple_record[4], &record_original_owner) ||
+        !hapi_attributeowner_erl_to_c(env, tuple_record[2], &record_owner) ||
+        !hapi_storagetype_erl_to_c(env, tuple_record[3], &record_storage) ||
+        !hapi_attributeowner_erl_to_c(env, tuple_record[4], &record_original_owner) ||
         !enif_get_int(env, tuple_record[5], &record_count) ||
         !enif_get_int(env, tuple_record[6], &record_tuple_size))
     {
@@ -53,9 +54,9 @@ hapi_get_hapi_attributeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attrib
     }
 
     hapi_struct->exists = (HAPI_Bool) record_exists;
-    hapi_struct->owner = (HAPI_AttributeOwner) record_owner;
-    hapi_struct->storage = (HAPI_StorageType) record_storage;
-    hapi_struct->originalOwner = (HAPI_AttributeOwner) record_original_owner;
+    hapi_struct->owner = record_owner;
+    hapi_struct->storage = record_storage;
+    hapi_struct->originalOwner = record_original_owner;
     hapi_struct->count = record_count;
     hapi_struct->tupleSize = record_tuple_size;
 

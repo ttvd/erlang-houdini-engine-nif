@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 
@@ -16,8 +17,8 @@ hapi_make_hapi_assetinfo(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct)
     return enif_make_tuple(env, 20,
         hapi_make_atom(env, "hapi_assetinfo"),
         enif_make_int(env, (int32_t) hapi_struct->id),
-        enif_make_int(env, (int32_t) hapi_struct->type),
-        enif_make_int(env, (int32_t) hapi_struct->subType),
+        hapi_assettype_c_to_erl(env, hapi_struct->type),
+        hapi_assetsubtype_c_to_erl(env, hapi_struct->subType),
         enif_make_int(env, hapi_struct->validationId),
         enif_make_int(env, (int32_t) hapi_struct->nodeId),
         enif_make_int(env, (int32_t) hapi_struct->objectNodeId),
@@ -45,8 +46,8 @@ hapi_get_hapi_assetinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo*
     bool atom_name_match = false;
 
     int32_t record_id = 0;
-    int32_t record_type = 0;
-    int32_t record_sub_type = 0;
+    HAPI_AssetType record_type;
+    HAPI_AssetSubType record_sub_type;
     int32_t record_validation_id = 0;
     int32_t record_node_id = 0;
     int32_t record_object_node_id = 0;
@@ -69,8 +70,8 @@ hapi_get_hapi_assetinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo*
         !hapi_check_atom(env, tuple_record[0], "hapi_assetinfo", &atom_name_match) ||
         !atom_name_match ||
         !enif_get_int(env, tuple_record[1], &record_id) ||
-        !enif_get_int(env, tuple_record[2], &record_type) ||
-        !enif_get_int(env, tuple_record[3], &record_sub_type) ||
+        !hapi_assettype_erl_to_c(env, tuple_record[2], &record_type) ||
+        !hapi_assetsubtype_erl_to_c(env, tuple_record[3], &record_sub_type) ||
         !enif_get_int(env, tuple_record[4], &record_validation_id) ||
         !enif_get_int(env, tuple_record[5], &record_node_id) ||
         !enif_get_int(env, tuple_record[6], &record_object_node_id) ||
@@ -92,8 +93,8 @@ hapi_get_hapi_assetinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo*
     }
 
     hapi_struct->id = (HAPI_AssetId) record_id;
-    hapi_struct->type = (HAPI_AssetType) record_type;
-    hapi_struct->subType = (HAPI_AssetSubType) record_sub_type;
+    hapi_struct->type = record_type;
+    hapi_struct->subType = record_sub_type;
     hapi_struct->validationId = record_validation_id;
     hapi_struct->nodeId = (HAPI_NodeId) record_node_id;
     hapi_struct->objectNodeId = (HAPI_NodeId) record_object_node_id;

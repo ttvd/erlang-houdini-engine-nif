@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 
@@ -16,7 +17,7 @@ hapi_make_hapi_geoinfo(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct)
     return enif_make_tuple(env, 13,
         hapi_make_atom(env, "hapi_geoinfo"),
         enif_make_int(env, (int32_t) hapi_struct->id),
-        enif_make_int(env, (int32_t) hapi_struct->type),
+        hapi_geotype_c_to_erl(env, hapi_struct->type),
         enif_make_int(env, (int32_t) hapi_struct->nameSH),
         enif_make_int(env, (int32_t) hapi_struct->nodeId),
         hapi_make_atom_bool(env, (bool) hapi_struct->isEditable),
@@ -38,7 +39,7 @@ hapi_get_hapi_geoinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hap
     bool atom_name_match = false;
 
     int32_t record_id = 0;
-    int32_t record_type = 0;
+    HAPI_GeoType record_type;
     int32_t record_name_sh = 0;
     int32_t record_node_id = 0;
     bool record_is_editable = false;
@@ -55,7 +56,7 @@ hapi_get_hapi_geoinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hap
         !hapi_check_atom(env, tuple_record[0], "hapi_geoinfo", &atom_name_match) ||
         !atom_name_match ||
         !enif_get_int(env, tuple_record[1], &record_id) ||
-        !enif_get_int(env, tuple_record[2], &record_type) ||
+        !hapi_geotype_erl_to_c(env, tuple_record[2], &record_type) ||
         !enif_get_int(env, tuple_record[3], &record_name_sh) ||
         !enif_get_int(env, tuple_record[4], &record_node_id) ||
         !hapi_get_atom_bool(env, tuple_record[5], &record_is_editable) ||
@@ -71,7 +72,7 @@ hapi_get_hapi_geoinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hap
     }
 
     hapi_struct->id = (HAPI_GeoId) record_id;
-    hapi_struct->type = (HAPI_GeoType) record_type;
+    hapi_struct->type = record_type;
     hapi_struct->nameSH = (HAPI_StringHandle) record_name_sh;
     hapi_struct->nodeId = (HAPI_NodeId) record_node_id;
     hapi_struct->isEditable = (HAPI_Bool) record_is_editable;

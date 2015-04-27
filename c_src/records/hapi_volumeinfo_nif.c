@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 
@@ -23,7 +24,7 @@ hapi_make_hapi_volumeinfo(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_struct)
         enif_make_int(env, hapi_struct->minY),
         enif_make_int(env, hapi_struct->minZ),
         enif_make_int(env, hapi_struct->tupleSize),
-        enif_make_int(env, (int32_t) hapi_struct->storage),
+        hapi_storagetype_c_to_erl(env, hapi_struct->storage),
         enif_make_int(env, hapi_struct->tileSize),
         hapi_make_hapi_transform(env, &hapi_struct->transform),
         hapi_make_atom_bool(env, (bool) hapi_struct->hasTaper),
@@ -47,7 +48,7 @@ hapi_get_hapi_volumeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInf
     int32_t record_min_y = 0;
     int32_t record_min_z = 0;
     int32_t record_tuple_size = 0;
-    int32_t record_storage = 0;
+    HAPI_StorageType record_storage;
     int32_t record_tile_size = 0;
     HAPI_Transform record_transform;
     bool record_has_taper = false;
@@ -66,7 +67,7 @@ hapi_get_hapi_volumeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInf
         !enif_get_int(env, tuple_record[6], &record_min_y) ||
         !enif_get_int(env, tuple_record[7], &record_min_z) ||
         !enif_get_int(env, tuple_record[8], &record_tuple_size) ||
-        !enif_get_int(env, tuple_record[9], &record_storage) ||
+        !hapi_storagetype_erl_to_c(env, tuple_record[9], &record_storage) ||
         !enif_get_int(env, tuple_record[10], &record_tile_size) ||
         !hapi_get_hapi_transform(env, tuple_record[11], &record_transform) ||
         !hapi_get_atom_bool(env, tuple_record[12], &record_has_taper) ||
@@ -84,7 +85,7 @@ hapi_get_hapi_volumeinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInf
     hapi_struct->minY = record_min_y;
     hapi_struct->minZ = record_min_z;
     hapi_struct->tupleSize = record_tuple_size;
-    hapi_struct->storage = (HAPI_StorageType) record_storage;
+    hapi_struct->storage = record_storage;
     hapi_struct->tileSize = record_tile_size;
     memcpy(&hapi_struct->transform, &record_transform, sizeof(HAPI_Transform));
     hapi_struct->hasTaper = (HAPI_Bool) record_has_taper;

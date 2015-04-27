@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 
@@ -18,7 +19,7 @@ hapi_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct)
         hapi_make_list_float(env, 3, hapi_struct->position),
         hapi_make_list_float(env, 4, hapi_struct->rotationQuaternion),
         hapi_make_list_float(env, 3, hapi_struct->scale),
-        enif_make_int(env, (int32_t) hapi_struct->rstOrder));
+        hapi_rstorder_c_to_erl(env, hapi_struct->rstOrder));
 }
 
 
@@ -32,7 +33,7 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
     float record_position[3];
     float record_rotation_quaternion[4];
     float record_scale[3];
-    int32_t record_rst_order = 0;
+    HAPI_RSTOrder record_rst_order;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
@@ -41,7 +42,7 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
         !hapi_get_list_float(env, tuple_record[1], 3, &record_position[0]) ||
         !hapi_get_list_float(env, tuple_record[2], 4, &record_rotation_quaternion[0]) ||
         !hapi_get_list_float(env, tuple_record[3], 3, &record_scale[0]) ||
-        !enif_get_int(env, tuple_record[4], &record_rst_order))
+        !hapi_rstorder_erl_to_c(env, tuple_record[4], &record_rst_order))
     {
         return false;
     }
@@ -49,7 +50,7 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
     memcpy(&hapi_struct->position, &record_position[0], 3 * sizeof(float));
     memcpy(&hapi_struct->rotationQuaternion, &record_rotation_quaternion[0], 4 * sizeof(float));
     memcpy(&hapi_struct->scale, &record_scale[0], 3 * sizeof(float));
-    hapi_struct->rstOrder = (HAPI_RSTOrder) record_rst_order;
+    hapi_struct->rstOrder = record_rst_order;
 
     return true;
 }

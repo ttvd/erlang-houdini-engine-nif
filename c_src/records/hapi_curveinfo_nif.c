@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 
@@ -15,7 +16,7 @@ hapi_make_hapi_curveinfo(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct)
 {
     return enif_make_tuple(env, 9,
         hapi_make_atom(env, "hapi_curveinfo"),
-        enif_make_int(env, (int32_t) hapi_struct->curveType),
+        hapi_curvetype_c_to_erl(env, hapi_struct->curveType),
         enif_make_int(env, hapi_struct->curveCount),
         enif_make_int(env, hapi_struct->vertexCount),
         enif_make_int(env, hapi_struct->knotCount),
@@ -33,7 +34,7 @@ hapi_get_hapi_curveinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo*
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    int32_t record_curve_type = 0;
+    HAPI_CurveType record_curve_type;
     int32_t record_curve_count = 0;
     int32_t record_vertex_count = 0;
     int32_t record_knot_count = 0;
@@ -46,7 +47,7 @@ hapi_get_hapi_curveinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo*
         (tuple_size != 9) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_curveinfo", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_curve_type) ||
+        !hapi_curvetype_erl_to_c(env, tuple_record[1], &record_curve_type) ||
         !enif_get_int(env, tuple_record[2], &record_curve_count) ||
         !enif_get_int(env, tuple_record[3], &record_vertex_count) ||
         !enif_get_int(env, tuple_record[4], &record_knot_count) ||
@@ -58,7 +59,7 @@ hapi_get_hapi_curveinfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo*
         return false;
     }
 
-    hapi_struct->curveType = (HAPI_CurveType) record_curve_type;
+    hapi_struct->curveType = record_curve_type;
     hapi_struct->curveCount = record_curve_count;
     hapi_struct->vertexCount = record_vertex_count;
     hapi_struct->knotCount = record_knot_count;

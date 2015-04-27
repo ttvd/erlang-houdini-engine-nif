@@ -7,6 +7,7 @@
 
 #include "../hapi_private_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_enums_nif.h"
 #include <string.h>
 
 
@@ -17,9 +18,9 @@ hapi_make_hapi_parminfo(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct)
         hapi_make_atom(env, "hapi_parminfo"),
         enif_make_int(env, (int32_t) hapi_struct->id),
         enif_make_int(env, (int32_t) hapi_struct->parentId),
-        enif_make_int(env, (int32_t) hapi_struct->type),
+        hapi_parmtype_c_to_erl(env, hapi_struct->type),
         enif_make_int(env, (int32_t) hapi_struct->typeInfoSH),
-        enif_make_int(env, (int32_t) hapi_struct->permissions),
+        hapi_permissions_c_to_erl(env, hapi_struct->permissions),
         enif_make_int(env, hapi_struct->size),
         enif_make_int(env, hapi_struct->choiceCount),
         enif_make_int(env, (int32_t) hapi_struct->nameSH),
@@ -48,7 +49,7 @@ hapi_make_hapi_parminfo(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct)
         enif_make_int(env, hapi_struct->instanceLength),
         enif_make_int(env, hapi_struct->instanceCount),
         enif_make_int(env, hapi_struct->instanceStartOffset),
-        enif_make_int(env, (int32_t) hapi_struct->rampType));
+        hapi_ramptype_c_to_erl(env, hapi_struct->rampType));
 }
 
 
@@ -61,9 +62,9 @@ hapi_get_hapi_parminfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* h
 
     int32_t record_id = 0;
     int32_t record_parent_id = 0;
-    int32_t record_type = 0;
+    HAPI_ParmType record_type;
     int32_t record_type_info_sh = 0;
-    int32_t record_permissions = 0;
+    HAPI_Permissions record_permissions;
     int32_t record_size = 0;
     int32_t record_choice_count = 0;
     int32_t record_name_sh = 0;
@@ -92,7 +93,7 @@ hapi_get_hapi_parminfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* h
     int32_t record_instance_length = 0;
     int32_t record_instance_count = 0;
     int32_t record_instance_start_offset = 0;
-    int32_t record_ramp_type = 0;
+    HAPI_RampType record_ramp_type;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 35) ||
@@ -100,9 +101,9 @@ hapi_get_hapi_parminfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* h
         !atom_name_match ||
         !enif_get_int(env, tuple_record[1], &record_id) ||
         !enif_get_int(env, tuple_record[2], &record_parent_id) ||
-        !enif_get_int(env, tuple_record[3], &record_type) ||
+        !hapi_parmtype_erl_to_c(env, tuple_record[3], &record_type) ||
         !enif_get_int(env, tuple_record[4], &record_type_info_sh) ||
-        !enif_get_int(env, tuple_record[5], &record_permissions) ||
+        !hapi_permissions_erl_to_c(env, tuple_record[5], &record_permissions) ||
         !enif_get_int(env, tuple_record[6], &record_size) ||
         !enif_get_int(env, tuple_record[7], &record_choice_count) ||
         !enif_get_int(env, tuple_record[8], &record_name_sh) ||
@@ -131,16 +132,16 @@ hapi_get_hapi_parminfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* h
         !enif_get_int(env, tuple_record[31], &record_instance_length) ||
         !enif_get_int(env, tuple_record[32], &record_instance_count) ||
         !enif_get_int(env, tuple_record[33], &record_instance_start_offset) ||
-        !enif_get_int(env, tuple_record[34], &record_ramp_type))
+        !hapi_ramptype_erl_to_c(env, tuple_record[34], &record_ramp_type))
     {
         return false;
     }
 
     hapi_struct->id = (HAPI_ParmId) record_id;
     hapi_struct->parentId = (HAPI_ParmId) record_parent_id;
-    hapi_struct->type = (HAPI_ParmType) record_type;
+    hapi_struct->type = record_type;
     hapi_struct->typeInfoSH = (HAPI_StringHandle) record_type_info_sh;
-    hapi_struct->permissions = (HAPI_Permissions) record_permissions;
+    hapi_struct->permissions = record_permissions;
     hapi_struct->size = record_size;
     hapi_struct->choiceCount = record_choice_count;
     hapi_struct->nameSH = (HAPI_StringHandle) record_name_sh;
@@ -169,7 +170,7 @@ hapi_get_hapi_parminfo(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* h
     hapi_struct->instanceLength = record_instance_length;
     hapi_struct->instanceCount = record_instance_count;
     hapi_struct->instanceStartOffset = record_instance_start_offset;
-    hapi_struct->rampType = (HAPI_RampType) record_ramp_type;
+    hapi_struct->rampType = record_ramp_type;
 
     return true;
 }

@@ -660,7 +660,7 @@ defmodule HAPI do
     defp create_record_c_stub_field(_types, {field_name, :token_struct}, _cast, from_type) do
         "hapi_make_#{String.downcase(from_type)}(env, &hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(types, {field_name, :token_enum}, _cast, from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_enum}, _cast, from_type) do
         "hapi_make_#{String.downcase(from_type)}(env, hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(types, {field_name, field_type}, _cast, _from_type) do

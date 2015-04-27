@@ -4,6 +4,7 @@
 /// @license MS-RL
 
 #include "hapi_private_nif.h"
+#include <string.h>
 
 
 ERL_NIF_TERM
@@ -50,4 +51,58 @@ hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data)
     }
 
     return list;
+}
+
+
+#define HAPI_STACK_STRING_SIZE_MAX 64
+
+bool
+hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status)
+{
+    bool nif_success = true;
+
+    uint32_t atom_len = 0;
+    char* atom_value = NULL;
+
+    if(!enif_get_atom_length(env, term, &atom_len, ERL_NIF_LATIN1))
+    {
+        nif_success = false;
+        goto label_cleanup;
+    }
+
+    if(atom_len < HAPI_STACK_STRING_SIZE_MAX)
+    {
+        char atom_buffer[HAPI_STACK_STRING_SIZE_MAX];
+        memset(atom_buffer, 0, HAPI_STACK_STRING_SIZE_MAX);
+
+        if(!enif_get_atom(env, term, atom_buffer, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+
+        *status = (bool)(!strcmp(atom_buffer, value));
+    }
+    else
+    {
+        atom_value = malloc(atom_len + 1);
+        memset(atom_value, 0, atom_len + 1);
+
+        if(!enif_get_atom(env, term, atom_value, atom_len + 1, ERL_NIF_LATIN1))
+        {
+            nif_success = false;
+            goto label_cleanup;
+        }
+
+        *status = (bool)(!strcmp(atom_value, value));
+    }
+
+label_cleanup:
+
+    if(atom_value)
+    {
+        free(atom_value);
+    }
+
+    return nif_success;
 }

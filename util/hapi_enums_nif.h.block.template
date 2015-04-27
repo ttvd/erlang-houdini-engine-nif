@@ -1,3 +1,3 @@
 /* Defined in enums/%{HAPI_ENUM_DOWNCASE}%_nif.c */
-bool %{HAPI_ENUM_DOWNCASE}%_erl_to_c(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_ENUM}%* enum_result);
-ERL_NIF_TERM %{HAPI_ENUM_DOWNCASE}%_c_to_erl(ErlNifEnv* env, %{HAPI_ENUM}% enum_value);
+ERL_NIF_TERM hapi_make_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, %{HAPI_ENUM}% enum_value);
+bool hapi_get_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_ENUM}%* enum_result);

@@ -407,29 +407,42 @@ defmodule HAPI do
     #end
 
     # Helper function to check if type is a primitive type.
-    defp is_type_primitive(_env, type) when type == :token_int or type == :token_bool or type == :token_float or
-        type == :token_double, do: true
+    defp is_type_primitive(_env, :token_int), do: true
+    defp is_type_primitive(_env, :token_bool), do: true
+    defp is_type_primitive(_env, :token_float), do: true
+    defp is_type_primitive(_env, :token_double), do: true
+    defp is_type_primitive(_env, :nil), do: false
     defp is_type_primitive(env, type) do
         types = Dict.get(env, :types, :nil)
         if not is_nil(types) do
-            Dict.get(types, type, false)
+            is_type_primitive(env, Dict.get(types, type, :nil))
         else
             false
         end
     end
-    defp is_type_primitive(_env, _type), do: false
 
     # Helper function to check if type is enum.
+    defp is_type_enum(_env, :token_enum), do: true
+    defp is_type_enum(_env, :nil), do: false
     defp is_type_enum(env, type) do
-        enums = Dict.get(env, :enums, :nil)
-        if not is_nil(enums) do
-            Dict.get(enums, type, false)
+        types = Dict.get(env, :types, :nil)
+        if not is_nil(types) do
+            is_type_enum(env, Dict.get(types, type, :nil))
         else
             false
         end
     end
+
+    # Helper function to check if type is a struct.
+    defp is_type_struct(_env, :token_struct), do: true
+    defp is_type_struct(_env, :nil), do: false
     defp is_type_struct(env, type) do
-        false
+        types = Dict.get(env, :types, :nil)
+        if not is_nil(types) do
+            is_type_struct(env, Dict.get(types, type, :nil))
+        else
+            false
+        end
     end
 
     # Helper function to generate hash for a given string.

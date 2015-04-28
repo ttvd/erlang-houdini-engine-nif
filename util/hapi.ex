@@ -406,6 +406,32 @@ defmodule HAPI do
     #    end
     #end
 
+    # Helper function to check if type is a primitive type.
+    defp is_type_primitive(_env, type) when type == :token_int or type == :token_bool or type == :token_float or
+        type == :token_double, do: true
+    defp is_type_primitive(env, type) do
+        types = Dict.get(env, :types, :nil)
+        if not is_nil(types) do
+            Dict.get(types, type, false)
+        else
+            false
+        end
+    end
+    defp is_type_primitive(_env, _type), do: false
+
+    # Helper function to check if type is enum.
+    defp is_type_enum(env, type) do
+        enums = Dict.get(env, :enums, :nil)
+        if not is_nil(enums) do
+            Dict.get(enums, type, false)
+        else
+            false
+        end
+    end
+    defp is_type_struct(env, type) do
+        false
+    end
+
     # Helper function to generate hash for a given string.
     defp hash(string) when is_binary(string) do
         if File.exists?("./util/xxhash") do
@@ -506,25 +532,32 @@ defmodule HAPI do
     end
     defp create_function_c_stub_objects(fname, types, [{:token_int, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "int32_t param_#{param_name} = 0;"
-        opt_p = "enif_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_p = "!enif_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
         opt_c = :nil
 
         create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
     defp create_function_c_stub_objects(fname, types, [{:token_float, param_name, _opts} | rest], {i, p, c}, idx) do
-        opt_i = "float param_#{param_name} = 0.0;"
-        opt_p = "hapi_get_float(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_i = "float param_#{param_name} = 0.0f;"
+        opt_p = "!hapi_get_float(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
         opt_c = :nil
 
         create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
     defp create_function_c_stub_objects(fname, types, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "double param_#{param_name} = 0.0;"
-        opt_p = "enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_p = "!enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
         opt_c = :nil
 
         create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
+    #defp create_function_c_stub_objects(fname, types, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
+        #opt_i = "double param_#{param_name} = 0.0;"
+        #opt_p = "!enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        #opt_c = :nil
+
+        #create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
+    #end
     defp create_function_c_stub_objects(fname, types, [_param | rest], ret, idx) do
         create_function_c_stub_objects(fname, types, rest, ret, idx + 1)
     end

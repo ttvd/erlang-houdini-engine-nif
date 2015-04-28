@@ -488,108 +488,46 @@ defmodule HAPI do
         function_code = String.replace(template_function_c, "%{HAPI_FUNCTION}%", function_name)
             |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", underscore(function_name))
 
-        [params_input, params_output, params_dynamic] = create_function_c_stub_vars(types, parameters, [], [], [])
+        {_p_input, _p_process, _p_cleanup} = create_function_c_stub_objects(function_name, types, parameters)
 
-        case params_input do
-            [] ->
-                function_code = String.replace(function_code, "%{HAPI_FUNCTION_INPUT_VARS}%", "/* No input parameters. */")
-            _ ->
-                function_code = String.replace(function_code, "%{HAPI_FUNCTION_INPUT_VARS}%",
-                    Enum.join(params_input, "\n    "))
-        end
 
-        case params_output do
-            [] ->
-                function_code = String.replace(function_code, "%{HAPI_FUNCTION_OUTPUT_VARS}%", "/* No output parameters. */")
-            _ ->
-                function_code = String.replace(function_code, "%{HAPI_FUNCTION_OUTPUT_VARS}%", "/* Output parameters. */")
-        end
-
-        case params_dynamic do
-            [] ->
-                function_code = String.replace(function_code, "%{HAPI_FUNCTION_CLEANUP}%", "/* No dynamic parameters. */")
-            _ ->
-                function_code = String.replace(function_code, "%{HAPI_FUNCTION_CLEANUP}%",
-                    "/* Dynamic parameter cleanup. */")
-        end
 
         file_name = "c_src/functions/#{underscore(function_name)}_nif.c"
         File.write("./#{file_name}", function_code)
         IO.puts("Generating #{file_name}")
     end
 
-    # Generate variables to read parameters into.
-    defp create_function_c_stub_vars(_types, [], params_input, params_output, params_dynamic) do
-        [params_input, params_output, params_dynamic]
+    # Create objects necessary for c stub function.
+    defp create_function_c_stub_objects(fname, types, params) do
+        create_function_c_stub_objects(fname, types, params, {[], [], []}, 0)
     end
-    defp create_function_c_stub_vars(types, [param | rest], params_input, params_output, params_dynamic) do
-        if function_check_return_parameter(param) do
-            # Output parameter.
-            create_function_c_stub_vars(types, rest, params_input, params_output, params_dynamic)
-        else
-            # Input parameter.
-            [param_string, param_dynamic] = create_function_c_stub_var(types, param)
+    defp create_function_c_stub_objects(_fname, _types, [], ret, _idx) do
+        ret
+    end
+    defp create_function_c_stub_objects(fname, types, [{:token_int, param_name, _opts} | rest], {i, p, c}, idx) do
+        opt_i = "int32_t param_#{param_name} = 0;"
+        opt_p = "enif_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_c = :nil
 
-            if is_nil(param_dynamic) do
-                create_function_c_stub_vars(types, rest, params_input ++
-                    [param_string], params_output, params_dynamic)
-            else
-                create_function_c_stub_vars(types, rest, params_input ++
-                    [param_string], params_output, params_dynamic ++ [param_dynamic])
-            end
-        end
+        create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
+    defp create_function_c_stub_objects(fname, types, [{:token_float, param_name, _opts} | rest], {i, p, c}, idx) do
+        opt_i = "float param_#{param_name} = 0.0;"
+        opt_p = "hapi_get_float(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_c = :nil
 
-    # Generate variable to read parameters into.
-    defp create_function_c_stub_var(_types, {:token_int, param_name, _param_opts}) do
-        ["int32_t param_#{param_name} = 0;", :nil]
+        create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
-    defp create_function_c_stub_var(_types, {:token_float, param_name, _param_opts}) do
-        ["double param_#{param_name} = 0.0;", :nil]
-    end
-    defp create_function_c_stub_var(_types, {:token_double, param_name, _param_opts}) do
-        ["double param_#{param_name} = 0.0;", :nil]
-    end
-    defp create_function_c_stub_var(_types, {:token_bool, param_name, _param_opts}) do
-        ["bool param_#{param_name} = false;", :nil]
-    end
-    defp create_function_c_stub_var(_types, {:token_char, param_name, param_opts}) do
-        if Dict.get(param_opts, :param_const, false) and Dict.get(param_opts, :param_pointer, false) do
-            if Dict.get(param_opts, :param_pointer_pointer, false) do
-                ["char** param_#{param_name} = NULL;", "param_#{param_name}"]
-            else
-                ["char* param_#{param_name} = NULL;", "param_#{param_name}"]
-            end
-        else
-            raise(RuntimeError,
-                description: "Generating function c stubs, non constant character pointer, should be input: #{param_name}.")
-        end
-    end
-    defp create_function_c_stub_var(_types, {"HAPI_CookOptions", param_name, _param_opts}) do
-        ["HAPI_CookOptions param_#{param_name};", :nil]
-    end
-    defp create_function_c_stub_var(types, {param_type, param_name, _param_opts} = param) do
-        native_type = Dict.get(types, param_type)
+    defp create_function_c_stub_objects(fname, types, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
+        opt_i = "double param_#{param_name} = 0.0;"
+        opt_p = "enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_c = :nil
 
-        if not is_nil(native_type) do
-            if function_check_parameter_array(param) do
-                ["#{param_type}* param_#{param_name} = NULL;", "param_#{param_name}"]
-            else
-                case native_type do
-                    :token_int ->
-                        ["#{param_type} param_#{param_name} = -1;", :nil]
-                    :token_bool ->
-                        ["#{param_type} param_#{param_name} = false;", :nil]
-                    _ ->
-                        ["#{param_type} param_#{param_name};", :nil]
-                end
-            end
-        else
-            raise(RuntimeError,
-                description: "Generating function c stubs, do not know how to set custom type: #{param_type}.")
-        end
+        create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
-
+    defp create_function_c_stub_objects(fname, types, [_param | rest], ret, idx) do
+        create_function_c_stub_objects(fname, types, rest, ret, idx + 1)
+    end
 
     # Generate exports c stub containing NIF mapping table.
     defp create_exports_c_stub(funcs, template_exports_c) do

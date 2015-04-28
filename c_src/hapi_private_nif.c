@@ -54,6 +54,13 @@ hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data)
 }
 
 
+ERL_NIF_TERM
+hapi_make_string(ErlNifEnv* env, const char* string)
+{
+    return enif_make_string(env, string, ERL_NIF_LATIN1);
+}
+
+
 #define HAPI_STACK_STRING_SIZE_MAX 64
 
 bool

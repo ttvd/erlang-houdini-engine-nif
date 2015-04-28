@@ -25,6 +25,9 @@ ERL_NIF_TERM hapi_make_atom_bool(ErlNifEnv* env, bool value);
 // Create a list from float array.
 ERL_NIF_TERM hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data);
 
+// Create a string.
+ERL_NIF_TERM hapi_make_string(ErlNifEnv* env, const char* string);
+
 // Check atom's value against passed value. Returns true if succeeds. Returns status of comparison by pointer.
 bool hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);
 

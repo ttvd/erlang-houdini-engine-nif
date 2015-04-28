@@ -406,6 +406,16 @@ defmodule HAPI do
     #    end
     #end
 
+    # Helper function to retrieve mapped primitive type.
+    defp get_type_primitive(env, type) do
+        types = Dict.get(env, :types, :nil)
+        if not is_nil(types) do
+            Dict.get(types, type, :nil)
+        else
+            :nil
+        end
+    end
+
     # Helper function to check if type is a primitive type.
     defp is_type_primitive(_env, :token_int), do: true
     defp is_type_primitive(_env, :token_bool), do: true
@@ -523,12 +533,14 @@ defmodule HAPI do
     # Generate function c stub.
     defp create_function_c_stub(env, function_name, {_return_type, parameters}, template_function_c) do
 
+        {p_input, _p_process, _p_cleanup} = create_function_c_stub_objects(env, function_name, parameters)
+
         function_code = String.replace(template_function_c, "%{HAPI_FUNCTION}%", function_name)
             |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", underscore(function_name))
 
-        {_p_input, _p_process, _p_cleanup} = create_function_c_stub_objects(env, function_name, parameters)
-
-
+        # Create block for input parameters.
+        param_decl = Enum.map_join(p_input, "\n    ", fn(x) -> x end)
+        function_code = String.replace(function_code, "%{HAPI_FUNCTION_BODY}%", param_decl)
 
         file_name = "c_src/functions/#{underscore(function_name)}_nif.c"
         File.write("./#{file_name}", function_code)
@@ -544,32 +556,55 @@ defmodule HAPI do
     end
     defp create_function_c_stub_objects(env, fname, [{:token_int, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "int32_t param_#{param_name} = 0;"
-        opt_p = "!enif_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_p = "!enif_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
         opt_c = :nil
 
         create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
     defp create_function_c_stub_objects(env, fname, [{:token_float, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "float param_#{param_name} = 0.0f;"
-        opt_p = "!hapi_get_float(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_p = "!hapi_get_float(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
         opt_c = :nil
 
         create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
     defp create_function_c_stub_objects(env, fname, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "double param_#{param_name} = 0.0;"
-        opt_p = "!enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
+        opt_p = "!enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
         opt_c = :nil
 
         create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
-    #defp create_function_c_stub_objects(fname, types, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
-        #opt_i = "double param_#{param_name} = 0.0;"
-        #opt_p = "!enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
-        #opt_c = :nil
+    defp create_function_c_stub_objects(env, fname, [{:token_bool, param_name, _opts} | rest], {i, p, c}, idx) do
+        opt_i = "bool param_#{param_name} = false;"
+        opt_p = "!hapi_get_atom_bool(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
+        opt_c = :nil
 
-        #create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
-    #end
+        create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
+    end
+    defp create_function_c_stub_objects(env, fname, [{"HAPI_Bool", param_name, opts} | rest], {i, p, c}, idx) do
+        create_function_c_stub_objects(env, fname, [{:token_bool, param_name, opts} | rest], {i, p, c}, idx)
+    end
+    defp create_function_c_stub_objects(env, fname, [{param_type, param_name, opts} | rest], {i, p, c} = ret, idx) do
+        cond do
+
+            is_type_enum(env, param_type) or is_type_struct(env, param_type) ->
+                opt_i = "#{param_type} param_#{param_name};"
+                opt_p = "!hapi_get_#{underscore(param_type)}(env, argv[#{Integer.to_string(idx)}], &param_#{param_name})"
+                opt_c = :nil
+
+                create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
+
+            #is_type_primitive(env, param_type) ->
+            #    original_type = get_type_primitive(env, param_type)
+
+                #opt_i = "#{original_type} param_#{param_name} = -1;"
+                #opt_p = "!hapi_get_#{underscore(param_type)}(env, argv[#{Integer.to_string(idx)}], &param_#{param_name})"
+                #opt_c = :nil
+            true ->
+                create_function_c_stub_objects(env, fname, rest, ret, idx + 1)
+        end
+    end
     defp create_function_c_stub_objects(env, fname, [_param | rest], ret, idx) do
         create_function_c_stub_objects(env, fname, rest, ret, idx + 1)
     end

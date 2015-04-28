@@ -9,8 +9,53 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_attribute_owner(ErlNifEnv* env, HAPI_AttributeOwner enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_ATTROWNER_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_attrowner_invalid");
+        }
+
+        case HAPI_ATTROWNER_VERTEX:
+        {
+            return hapi_make_atom(env, "hapi_attrowner_vertex");
+        }
+
+        case HAPI_ATTROWNER_POINT:
+        {
+            return hapi_make_atom(env, "hapi_attrowner_point");
+        }
+
+        case HAPI_ATTROWNER_PRIM:
+        {
+            return hapi_make_atom(env, "hapi_attrowner_prim");
+        }
+
+        case HAPI_ATTROWNER_DETAIL:
+        {
+            return hapi_make_atom(env, "hapi_attrowner_detail");
+        }
+
+        case HAPI_ATTROWNER_MAX:
+        {
+            return hapi_make_atom(env, "hapi_attrowner_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_attribute_owner(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeOwner* enum_result)
+hapi_get_hapi_attribute_owner(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeOwner* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -93,49 +138,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_attribute_owner(ErlNifEnv* env, HAPI_AttributeOwner enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_ATTROWNER_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_attrowner_invalid");
-        }
-
-        case HAPI_ATTROWNER_VERTEX:
-        {
-            return hapi_make_atom(env, "hapi_attrowner_vertex");
-        }
-
-        case HAPI_ATTROWNER_POINT:
-        {
-            return hapi_make_atom(env, "hapi_attrowner_point");
-        }
-
-        case HAPI_ATTROWNER_PRIM:
-        {
-            return hapi_make_atom(env, "hapi_attrowner_prim");
-        }
-
-        case HAPI_ATTROWNER_DETAIL:
-        {
-            return hapi_make_atom(env, "hapi_attrowner_detail");
-        }
-
-        case HAPI_ATTROWNER_MAX:
-        {
-            return hapi_make_atom(env, "hapi_attrowner_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

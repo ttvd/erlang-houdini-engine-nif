@@ -9,8 +9,53 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_geo_type(ErlNifEnv* env, HAPI_GeoType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_GEOTYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_geotype_invalid");
+        }
+
+        case HAPI_GEOTYPE_DEFAULT:
+        {
+            return hapi_make_atom(env, "hapi_geotype_default");
+        }
+
+        case HAPI_GEOTYPE_INTERMEDIATE:
+        {
+            return hapi_make_atom(env, "hapi_geotype_intermediate");
+        }
+
+        case HAPI_GEOTYPE_INPUT:
+        {
+            return hapi_make_atom(env, "hapi_geotype_input");
+        }
+
+        case HAPI_GEOTYPE_CURVE:
+        {
+            return hapi_make_atom(env, "hapi_geotype_curve");
+        }
+
+        case HAPI_GEOTYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_geotype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_geo_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoType* enum_result)
+hapi_get_hapi_geo_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -93,49 +138,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_geo_type(ErlNifEnv* env, HAPI_GeoType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_GEOTYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_geotype_invalid");
-        }
-
-        case HAPI_GEOTYPE_DEFAULT:
-        {
-            return hapi_make_atom(env, "hapi_geotype_default");
-        }
-
-        case HAPI_GEOTYPE_INTERMEDIATE:
-        {
-            return hapi_make_atom(env, "hapi_geotype_intermediate");
-        }
-
-        case HAPI_GEOTYPE_INPUT:
-        {
-            return hapi_make_atom(env, "hapi_geotype_input");
-        }
-
-        case HAPI_GEOTYPE_CURVE:
-        {
-            return hapi_make_atom(env, "hapi_geotype_curve");
-        }
-
-        case HAPI_GEOTYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_geotype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

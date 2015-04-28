@@ -9,8 +9,103 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_parm_type(ErlNifEnv* env, HAPI_ParmType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_PARMTYPE_INT:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_int");
+        }
+
+        case HAPI_PARMTYPE_MULTIPARMLIST:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_multiparmlist");
+        }
+
+        case HAPI_PARMTYPE_TOGGLE:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_toggle");
+        }
+
+        case HAPI_PARMTYPE_BUTTON:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_button");
+        }
+
+        case HAPI_PARMTYPE_FLOAT:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_float");
+        }
+
+        case HAPI_PARMTYPE_COLOR:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_color");
+        }
+
+        case HAPI_PARMTYPE_STRING:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_string");
+        }
+
+        case HAPI_PARMTYPE_PATH_FILE:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_path_file");
+        }
+
+        case HAPI_PARMTYPE_PATH_FILE_GEO:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_path_file_geo");
+        }
+
+        case HAPI_PARMTYPE_PATH_FILE_IMAGE:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_path_file_image");
+        }
+
+        case HAPI_PARMTYPE_PATH_NODE:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_path_node");
+        }
+
+        case HAPI_PARMTYPE_FOLDERLIST:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_folderlist");
+        }
+
+        case HAPI_PARMTYPE_FOLDER:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_folder");
+        }
+
+        case HAPI_PARMTYPE_LABEL:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_label");
+        }
+
+        case HAPI_PARMTYPE_SEPARATOR:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_separator");
+        }
+
+        case HAPI_PARMTYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_parmtype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_parm_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* enum_result)
+hapi_get_hapi_parm_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -275,99 +370,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_parm_type(ErlNifEnv* env, HAPI_ParmType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_PARMTYPE_INT:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_int");
-        }
-
-        case HAPI_PARMTYPE_MULTIPARMLIST:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_multiparmlist");
-        }
-
-        case HAPI_PARMTYPE_TOGGLE:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_toggle");
-        }
-
-        case HAPI_PARMTYPE_BUTTON:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_button");
-        }
-
-        case HAPI_PARMTYPE_FLOAT:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_float");
-        }
-
-        case HAPI_PARMTYPE_COLOR:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_color");
-        }
-
-        case HAPI_PARMTYPE_STRING:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_string");
-        }
-
-        case HAPI_PARMTYPE_PATH_FILE:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_path_file");
-        }
-
-        case HAPI_PARMTYPE_PATH_FILE_GEO:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_path_file_geo");
-        }
-
-        case HAPI_PARMTYPE_PATH_FILE_IMAGE:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_path_file_image");
-        }
-
-        case HAPI_PARMTYPE_PATH_NODE:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_path_node");
-        }
-
-        case HAPI_PARMTYPE_FOLDERLIST:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_folderlist");
-        }
-
-        case HAPI_PARMTYPE_FOLDER:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_folder");
-        }
-
-        case HAPI_PARMTYPE_LABEL:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_label");
-        }
-
-        case HAPI_PARMTYPE_SEPARATOR:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_separator");
-        }
-
-        case HAPI_PARMTYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_parmtype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

@@ -9,8 +9,48 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_permissions(ErlNifEnv* env, HAPI_Permissions enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_PERMISSIONS_NON_APPLICABLE:
+        {
+            return hapi_make_atom(env, "hapi_permissions_non_applicable");
+        }
+
+        case HAPI_PERMISSIONS_READ_WRITE:
+        {
+            return hapi_make_atom(env, "hapi_permissions_read_write");
+        }
+
+        case HAPI_PERMISSIONS_READ_ONLY:
+        {
+            return hapi_make_atom(env, "hapi_permissions_read_only");
+        }
+
+        case HAPI_PERMISSIONS_WRITE_ONLY:
+        {
+            return hapi_make_atom(env, "hapi_permissions_write_only");
+        }
+
+        case HAPI_PERMISSIONS_MAX:
+        {
+            return hapi_make_atom(env, "hapi_permissions_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_permissions(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Permissions* enum_result)
+hapi_get_hapi_permissions(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Permissions* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -86,44 +126,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_permissions(ErlNifEnv* env, HAPI_Permissions enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_PERMISSIONS_NON_APPLICABLE:
-        {
-            return hapi_make_atom(env, "hapi_permissions_non_applicable");
-        }
-
-        case HAPI_PERMISSIONS_READ_WRITE:
-        {
-            return hapi_make_atom(env, "hapi_permissions_read_write");
-        }
-
-        case HAPI_PERMISSIONS_READ_ONLY:
-        {
-            return hapi_make_atom(env, "hapi_permissions_read_only");
-        }
-
-        case HAPI_PERMISSIONS_WRITE_ONLY:
-        {
-            return hapi_make_atom(env, "hapi_permissions_write_only");
-        }
-
-        case HAPI_PERMISSIONS_MAX:
-        {
-            return hapi_make_atom(env, "hapi_permissions_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

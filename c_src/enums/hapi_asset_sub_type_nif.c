@@ -9,8 +9,48 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_asset_sub_type(ErlNifEnv* env, HAPI_AssetSubType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_ASSETSUBTYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_assetsubtype_invalid");
+        }
+
+        case HAPI_ASSETSUBTYPE_DEFAULT:
+        {
+            return hapi_make_atom(env, "hapi_assetsubtype_default");
+        }
+
+        case HAPI_ASSETSUBTYPE_CURVE:
+        {
+            return hapi_make_atom(env, "hapi_assetsubtype_curve");
+        }
+
+        case HAPI_ASSETSUBTYPE_INPUT:
+        {
+            return hapi_make_atom(env, "hapi_assetsubtype_input");
+        }
+
+        case HAPI_ASSETSUBTYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_assetsubtype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_asset_sub_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetSubType* enum_result)
+hapi_get_hapi_asset_sub_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetSubType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -86,44 +126,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_asset_sub_type(ErlNifEnv* env, HAPI_AssetSubType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_ASSETSUBTYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_assetsubtype_invalid");
-        }
-
-        case HAPI_ASSETSUBTYPE_DEFAULT:
-        {
-            return hapi_make_atom(env, "hapi_assetsubtype_default");
-        }
-
-        case HAPI_ASSETSUBTYPE_CURVE:
-        {
-            return hapi_make_atom(env, "hapi_assetsubtype_curve");
-        }
-
-        case HAPI_ASSETSUBTYPE_INPUT:
-        {
-            return hapi_make_atom(env, "hapi_assetsubtype_input");
-        }
-
-        case HAPI_ASSETSUBTYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_assetsubtype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

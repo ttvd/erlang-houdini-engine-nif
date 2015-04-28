@@ -9,8 +9,53 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_xyzorder(ErlNifEnv* env, HAPI_XYZOrder enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_XYZ:
+        {
+            return hapi_make_atom(env, "hapi_xyz");
+        }
+
+        case HAPI_XZY:
+        {
+            return hapi_make_atom(env, "hapi_xzy");
+        }
+
+        case HAPI_YXZ:
+        {
+            return hapi_make_atom(env, "hapi_yxz");
+        }
+
+        case HAPI_YZX:
+        {
+            return hapi_make_atom(env, "hapi_yzx");
+        }
+
+        case HAPI_ZXY:
+        {
+            return hapi_make_atom(env, "hapi_zxy");
+        }
+
+        case HAPI_ZYX:
+        {
+            return hapi_make_atom(env, "hapi_zyx");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_xyzorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* enum_result)
+hapi_get_hapi_xyzorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -93,49 +138,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_xyzorder(ErlNifEnv* env, HAPI_XYZOrder enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_XYZ:
-        {
-            return hapi_make_atom(env, "hapi_xyz");
-        }
-
-        case HAPI_XZY:
-        {
-            return hapi_make_atom(env, "hapi_xzy");
-        }
-
-        case HAPI_YXZ:
-        {
-            return hapi_make_atom(env, "hapi_yxz");
-        }
-
-        case HAPI_YZX:
-        {
-            return hapi_make_atom(env, "hapi_yzx");
-        }
-
-        case HAPI_ZXY:
-        {
-            return hapi_make_atom(env, "hapi_zxy");
-        }
-
-        case HAPI_ZYX:
-        {
-            return hapi_make_atom(env, "hapi_zyx");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

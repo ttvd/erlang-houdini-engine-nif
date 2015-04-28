@@ -9,8 +9,43 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_shader_type(ErlNifEnv* env, HAPI_ShaderType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_SHADER_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_shader_invalid");
+        }
+
+        case HAPI_SHADER_OPENGL:
+        {
+            return hapi_make_atom(env, "hapi_shader_opengl");
+        }
+
+        case HAPI_SHADER_MANTRA:
+        {
+            return hapi_make_atom(env, "hapi_shader_mantra");
+        }
+
+        case HAPI_SHADER_MAX:
+        {
+            return hapi_make_atom(env, "hapi_shader_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_shader_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ShaderType* enum_result)
+hapi_get_hapi_shader_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ShaderType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -79,39 +114,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_shader_type(ErlNifEnv* env, HAPI_ShaderType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_SHADER_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_shader_invalid");
-        }
-
-        case HAPI_SHADER_OPENGL:
-        {
-            return hapi_make_atom(env, "hapi_shader_opengl");
-        }
-
-        case HAPI_SHADER_MANTRA:
-        {
-            return hapi_make_atom(env, "hapi_shader_mantra");
-        }
-
-        case HAPI_SHADER_MAX:
-        {
-            return hapi_make_atom(env, "hapi_shader_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

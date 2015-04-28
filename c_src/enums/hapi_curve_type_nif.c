@@ -9,8 +9,48 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_curve_type(ErlNifEnv* env, HAPI_CurveType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_CURVETYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_curvetype_invalid");
+        }
+
+        case HAPI_CURVETYPE_LINEAR:
+        {
+            return hapi_make_atom(env, "hapi_curvetype_linear");
+        }
+
+        case HAPI_CURVETYPE_NURBS:
+        {
+            return hapi_make_atom(env, "hapi_curvetype_nurbs");
+        }
+
+        case HAPI_CURVETYPE_BEZIER:
+        {
+            return hapi_make_atom(env, "hapi_curvetype_bezier");
+        }
+
+        case HAPI_CURVETYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_curvetype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_curve_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveType* enum_result)
+hapi_get_hapi_curve_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -86,44 +126,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_curve_type(ErlNifEnv* env, HAPI_CurveType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_CURVETYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_curvetype_invalid");
-        }
-
-        case HAPI_CURVETYPE_LINEAR:
-        {
-            return hapi_make_atom(env, "hapi_curvetype_linear");
-        }
-
-        case HAPI_CURVETYPE_NURBS:
-        {
-            return hapi_make_atom(env, "hapi_curvetype_nurbs");
-        }
-
-        case HAPI_CURVETYPE_BEZIER:
-        {
-            return hapi_make_atom(env, "hapi_curvetype_bezier");
-        }
-
-        case HAPI_CURVETYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_curvetype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

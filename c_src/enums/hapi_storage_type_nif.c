@@ -9,8 +9,48 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_storage_type(ErlNifEnv* env, HAPI_StorageType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_STORAGETYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_storagetype_invalid");
+        }
+
+        case HAPI_STORAGETYPE_INT:
+        {
+            return hapi_make_atom(env, "hapi_storagetype_int");
+        }
+
+        case HAPI_STORAGETYPE_FLOAT:
+        {
+            return hapi_make_atom(env, "hapi_storagetype_float");
+        }
+
+        case HAPI_STORAGETYPE_STRING:
+        {
+            return hapi_make_atom(env, "hapi_storagetype_string");
+        }
+
+        case HAPI_STORAGETYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_storagetype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_storage_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StorageType* enum_result)
+hapi_get_hapi_storage_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StorageType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -86,44 +126,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_storage_type(ErlNifEnv* env, HAPI_StorageType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_STORAGETYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_storagetype_invalid");
-        }
-
-        case HAPI_STORAGETYPE_INT:
-        {
-            return hapi_make_atom(env, "hapi_storagetype_int");
-        }
-
-        case HAPI_STORAGETYPE_FLOAT:
-        {
-            return hapi_make_atom(env, "hapi_storagetype_float");
-        }
-
-        case HAPI_STORAGETYPE_STRING:
-        {
-            return hapi_make_atom(env, "hapi_storagetype_string");
-        }
-
-        case HAPI_STORAGETYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_storagetype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

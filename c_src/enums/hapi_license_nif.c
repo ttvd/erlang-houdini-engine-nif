@@ -9,8 +9,58 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_license(ErlNifEnv* env, HAPI_License enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_LICENSE_NONE:
+        {
+            return hapi_make_atom(env, "hapi_license_none");
+        }
+
+        case HAPI_LICENSE_HOUDINI_ENGINE:
+        {
+            return hapi_make_atom(env, "hapi_license_houdini_engine");
+        }
+
+        case HAPI_LICENSE_HOUDINI:
+        {
+            return hapi_make_atom(env, "hapi_license_houdini");
+        }
+
+        case HAPI_LICENSE_HOUDINI_FX:
+        {
+            return hapi_make_atom(env, "hapi_license_houdini_fx");
+        }
+
+        case HAPI_LICENSE_HOUDINI_ENGINE_INDIE:
+        {
+            return hapi_make_atom(env, "hapi_license_houdini_engine_indie");
+        }
+
+        case HAPI_LICENSE_HOUDINI_INDIE:
+        {
+            return hapi_make_atom(env, "hapi_license_houdini_indie");
+        }
+
+        case HAPI_LICENSE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_license_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_license(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_License* enum_result)
+hapi_get_hapi_license(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_License* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -100,54 +150,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_license(ErlNifEnv* env, HAPI_License enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_LICENSE_NONE:
-        {
-            return hapi_make_atom(env, "hapi_license_none");
-        }
-
-        case HAPI_LICENSE_HOUDINI_ENGINE:
-        {
-            return hapi_make_atom(env, "hapi_license_houdini_engine");
-        }
-
-        case HAPI_LICENSE_HOUDINI:
-        {
-            return hapi_make_atom(env, "hapi_license_houdini");
-        }
-
-        case HAPI_LICENSE_HOUDINI_FX:
-        {
-            return hapi_make_atom(env, "hapi_license_houdini_fx");
-        }
-
-        case HAPI_LICENSE_HOUDINI_ENGINE_INDIE:
-        {
-            return hapi_make_atom(env, "hapi_license_houdini_engine_indie");
-        }
-
-        case HAPI_LICENSE_HOUDINI_INDIE:
-        {
-            return hapi_make_atom(env, "hapi_license_houdini_indie");
-        }
-
-        case HAPI_LICENSE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_license_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

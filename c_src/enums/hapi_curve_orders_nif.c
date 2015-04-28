@@ -9,8 +9,48 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_curve_orders(ErlNifEnv* env, HAPI_CurveOrders enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_CURVE_ORDER_VARYING:
+        {
+            return hapi_make_atom(env, "hapi_curve_order_varying");
+        }
+
+        case HAPI_CURVE_ORDER_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_curve_order_invalid");
+        }
+
+        case HAPI_CURVE_ORDER_LINEAR:
+        {
+            return hapi_make_atom(env, "hapi_curve_order_linear");
+        }
+
+        case HAPI_CURVE_ORDER_QUADRATIC:
+        {
+            return hapi_make_atom(env, "hapi_curve_order_quadratic");
+        }
+
+        case HAPI_CURVE_ORDER_CUBIC:
+        {
+            return hapi_make_atom(env, "hapi_curve_order_cubic");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_curve_orders(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveOrders* enum_result)
+hapi_get_hapi_curve_orders(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveOrders* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -86,44 +126,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_curve_orders(ErlNifEnv* env, HAPI_CurveOrders enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_CURVE_ORDER_VARYING:
-        {
-            return hapi_make_atom(env, "hapi_curve_order_varying");
-        }
-
-        case HAPI_CURVE_ORDER_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_curve_order_invalid");
-        }
-
-        case HAPI_CURVE_ORDER_LINEAR:
-        {
-            return hapi_make_atom(env, "hapi_curve_order_linear");
-        }
-
-        case HAPI_CURVE_ORDER_QUADRATIC:
-        {
-            return hapi_make_atom(env, "hapi_curve_order_quadratic");
-        }
-
-        case HAPI_CURVE_ORDER_CUBIC:
-        {
-            return hapi_make_atom(env, "hapi_curve_order_cubic");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

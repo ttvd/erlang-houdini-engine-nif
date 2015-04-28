@@ -9,8 +9,43 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_input_type(ErlNifEnv* env, HAPI_InputType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_INPUT_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_input_invalid");
+        }
+
+        case HAPI_INPUT_TRANSFORM:
+        {
+            return hapi_make_atom(env, "hapi_input_transform");
+        }
+
+        case HAPI_INPUT_GEOMETRY:
+        {
+            return hapi_make_atom(env, "hapi_input_geometry");
+        }
+
+        case HAPI_INPUT_MAX:
+        {
+            return hapi_make_atom(env, "hapi_input_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_input_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_InputType* enum_result)
+hapi_get_hapi_input_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_InputType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -79,39 +114,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_input_type(ErlNifEnv* env, HAPI_InputType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_INPUT_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_input_invalid");
-        }
-
-        case HAPI_INPUT_TRANSFORM:
-        {
-            return hapi_make_atom(env, "hapi_input_transform");
-        }
-
-        case HAPI_INPUT_GEOMETRY:
-        {
-            return hapi_make_atom(env, "hapi_input_geometry");
-        }
-
-        case HAPI_INPUT_MAX:
-        {
-            return hapi_make_atom(env, "hapi_input_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

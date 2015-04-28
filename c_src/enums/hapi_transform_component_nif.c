@@ -9,8 +9,88 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_transform_component(ErlNifEnv* env, HAPI_TransformComponent enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_TRANSFORM_TX:
+        {
+            return hapi_make_atom(env, "hapi_transform_tx");
+        }
+
+        case HAPI_TRANSFORM_TY:
+        {
+            return hapi_make_atom(env, "hapi_transform_ty");
+        }
+
+        case HAPI_TRANSFORM_TZ:
+        {
+            return hapi_make_atom(env, "hapi_transform_tz");
+        }
+
+        case HAPI_TRANSFORM_RX:
+        {
+            return hapi_make_atom(env, "hapi_transform_rx");
+        }
+
+        case HAPI_TRANSFORM_RY:
+        {
+            return hapi_make_atom(env, "hapi_transform_ry");
+        }
+
+        case HAPI_TRANSFORM_RZ:
+        {
+            return hapi_make_atom(env, "hapi_transform_rz");
+        }
+
+        case HAPI_TRANSFORM_QX:
+        {
+            return hapi_make_atom(env, "hapi_transform_qx");
+        }
+
+        case HAPI_TRANSFORM_QY:
+        {
+            return hapi_make_atom(env, "hapi_transform_qy");
+        }
+
+        case HAPI_TRANSFORM_QZ:
+        {
+            return hapi_make_atom(env, "hapi_transform_qz");
+        }
+
+        case HAPI_TRANSFORM_QW:
+        {
+            return hapi_make_atom(env, "hapi_transform_qw");
+        }
+
+        case HAPI_TRANSFORM_SX:
+        {
+            return hapi_make_atom(env, "hapi_transform_sx");
+        }
+
+        case HAPI_TRANSFORM_SY:
+        {
+            return hapi_make_atom(env, "hapi_transform_sy");
+        }
+
+        case HAPI_TRANSFORM_SZ:
+        {
+            return hapi_make_atom(env, "hapi_transform_sz");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_transform_component(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* enum_result)
+hapi_get_hapi_transform_component(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -142,84 +222,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_transform_component(ErlNifEnv* env, HAPI_TransformComponent enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_TRANSFORM_TX:
-        {
-            return hapi_make_atom(env, "hapi_transform_tx");
-        }
-
-        case HAPI_TRANSFORM_TY:
-        {
-            return hapi_make_atom(env, "hapi_transform_ty");
-        }
-
-        case HAPI_TRANSFORM_TZ:
-        {
-            return hapi_make_atom(env, "hapi_transform_tz");
-        }
-
-        case HAPI_TRANSFORM_RX:
-        {
-            return hapi_make_atom(env, "hapi_transform_rx");
-        }
-
-        case HAPI_TRANSFORM_RY:
-        {
-            return hapi_make_atom(env, "hapi_transform_ry");
-        }
-
-        case HAPI_TRANSFORM_RZ:
-        {
-            return hapi_make_atom(env, "hapi_transform_rz");
-        }
-
-        case HAPI_TRANSFORM_QX:
-        {
-            return hapi_make_atom(env, "hapi_transform_qx");
-        }
-
-        case HAPI_TRANSFORM_QY:
-        {
-            return hapi_make_atom(env, "hapi_transform_qy");
-        }
-
-        case HAPI_TRANSFORM_QZ:
-        {
-            return hapi_make_atom(env, "hapi_transform_qz");
-        }
-
-        case HAPI_TRANSFORM_QW:
-        {
-            return hapi_make_atom(env, "hapi_transform_qw");
-        }
-
-        case HAPI_TRANSFORM_SX:
-        {
-            return hapi_make_atom(env, "hapi_transform_sx");
-        }
-
-        case HAPI_TRANSFORM_SY:
-        {
-            return hapi_make_atom(env, "hapi_transform_sy");
-        }
-
-        case HAPI_TRANSFORM_SZ:
-        {
-            return hapi_make_atom(env, "hapi_transform_sz");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

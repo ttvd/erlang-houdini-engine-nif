@@ -9,8 +9,43 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_status_type(ErlNifEnv* env, HAPI_StatusType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_STATUS_CALL_RESULT:
+        {
+            return hapi_make_atom(env, "hapi_status_call_result");
+        }
+
+        case HAPI_STATUS_COOK_RESULT:
+        {
+            return hapi_make_atom(env, "hapi_status_cook_result");
+        }
+
+        case HAPI_STATUS_COOK_STATE:
+        {
+            return hapi_make_atom(env, "hapi_status_cook_state");
+        }
+
+        case HAPI_STATUS_MAX:
+        {
+            return hapi_make_atom(env, "hapi_status_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_status_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* enum_result)
+hapi_get_hapi_status_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -79,39 +114,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_status_type(ErlNifEnv* env, HAPI_StatusType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_STATUS_CALL_RESULT:
-        {
-            return hapi_make_atom(env, "hapi_status_call_result");
-        }
-
-        case HAPI_STATUS_COOK_RESULT:
-        {
-            return hapi_make_atom(env, "hapi_status_cook_result");
-        }
-
-        case HAPI_STATUS_COOK_STATE:
-        {
-            return hapi_make_atom(env, "hapi_status_cook_state");
-        }
-
-        case HAPI_STATUS_MAX:
-        {
-            return hapi_make_atom(env, "hapi_status_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

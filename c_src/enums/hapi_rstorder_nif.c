@@ -9,8 +9,53 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_rstorder(ErlNifEnv* env, HAPI_RSTOrder enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_TRS:
+        {
+            return hapi_make_atom(env, "hapi_trs");
+        }
+
+        case HAPI_TSR:
+        {
+            return hapi_make_atom(env, "hapi_tsr");
+        }
+
+        case HAPI_RTS:
+        {
+            return hapi_make_atom(env, "hapi_rts");
+        }
+
+        case HAPI_RST:
+        {
+            return hapi_make_atom(env, "hapi_rst");
+        }
+
+        case HAPI_STR:
+        {
+            return hapi_make_atom(env, "hapi_str");
+        }
+
+        case HAPI_SRT:
+        {
+            return hapi_make_atom(env, "hapi_srt");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_rstorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* enum_result)
+hapi_get_hapi_rstorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -93,49 +138,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_rstorder(ErlNifEnv* env, HAPI_RSTOrder enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_TRS:
-        {
-            return hapi_make_atom(env, "hapi_trs");
-        }
-
-        case HAPI_TSR:
-        {
-            return hapi_make_atom(env, "hapi_tsr");
-        }
-
-        case HAPI_RTS:
-        {
-            return hapi_make_atom(env, "hapi_rts");
-        }
-
-        case HAPI_RST:
-        {
-            return hapi_make_atom(env, "hapi_rst");
-        }
-
-        case HAPI_STR:
-        {
-            return hapi_make_atom(env, "hapi_str");
-        }
-
-        case HAPI_SRT:
-        {
-            return hapi_make_atom(env, "hapi_srt");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

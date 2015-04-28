@@ -9,8 +9,63 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_image_packing(ErlNifEnv* env, HAPI_ImagePacking enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_IMAGE_PACKING_UNKNOWN:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_unknown");
+        }
+
+        case HAPI_IMAGE_PACKING_SINGLE:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_single");
+        }
+
+        case HAPI_IMAGE_PACKING_DUAL:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_dual");
+        }
+
+        case HAPI_IMAGE_PACKING_RGB:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_rgb");
+        }
+
+        case HAPI_IMAGE_PACKING_BGR:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_bgr");
+        }
+
+        case HAPI_IMAGE_PACKING_RGBA:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_rgba");
+        }
+
+        case HAPI_IMAGE_PACKING_ABGR:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_abgr");
+        }
+
+        case HAPI_IMAGE_PACKING_MAX:
+        {
+            return hapi_make_atom(env, "hapi_image_packing_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_image_packing(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result)
+hapi_get_hapi_image_packing(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -121,59 +176,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_image_packing(ErlNifEnv* env, HAPI_ImagePacking enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_IMAGE_PACKING_UNKNOWN:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_unknown");
-        }
-
-        case HAPI_IMAGE_PACKING_SINGLE:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_single");
-        }
-
-        case HAPI_IMAGE_PACKING_DUAL:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_dual");
-        }
-
-        case HAPI_IMAGE_PACKING_RGB:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_rgb");
-        }
-
-        case HAPI_IMAGE_PACKING_BGR:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_bgr");
-        }
-
-        case HAPI_IMAGE_PACKING_RGBA:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_rgba");
-        }
-
-        case HAPI_IMAGE_PACKING_ABGR:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_abgr");
-        }
-
-        case HAPI_IMAGE_PACKING_MAX:
-        {
-            return hapi_make_atom(env, "hapi_image_packing_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

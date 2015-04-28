@@ -9,8 +9,63 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_state(ErlNifEnv* env, HAPI_State enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_STATE_READY:
+        {
+            return hapi_make_atom(env, "hapi_state_ready");
+        }
+
+        case HAPI_STATE_READY_WITH_FATAL_ERRORS:
+        {
+            return hapi_make_atom(env, "hapi_state_ready_with_fatal_errors");
+        }
+
+        case HAPI_STATE_READY_WITH_COOK_ERRORS:
+        {
+            return hapi_make_atom(env, "hapi_state_ready_with_cook_errors");
+        }
+
+        case HAPI_STATE_STARTING_COOK:
+        {
+            return hapi_make_atom(env, "hapi_state_starting_cook");
+        }
+
+        case HAPI_STATE_COOKING:
+        {
+            return hapi_make_atom(env, "hapi_state_cooking");
+        }
+
+        case HAPI_STATE_STARTING_LOAD:
+        {
+            return hapi_make_atom(env, "hapi_state_starting_load");
+        }
+
+        case HAPI_STATE_LOADING:
+        {
+            return hapi_make_atom(env, "hapi_state_loading");
+        }
+
+        case HAPI_STATE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_state_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_state(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_State* enum_result)
+hapi_get_hapi_state(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_State* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -114,59 +169,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_state(ErlNifEnv* env, HAPI_State enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_STATE_READY:
-        {
-            return hapi_make_atom(env, "hapi_state_ready");
-        }
-
-        case HAPI_STATE_READY_WITH_FATAL_ERRORS:
-        {
-            return hapi_make_atom(env, "hapi_state_ready_with_fatal_errors");
-        }
-
-        case HAPI_STATE_READY_WITH_COOK_ERRORS:
-        {
-            return hapi_make_atom(env, "hapi_state_ready_with_cook_errors");
-        }
-
-        case HAPI_STATE_STARTING_COOK:
-        {
-            return hapi_make_atom(env, "hapi_state_starting_cook");
-        }
-
-        case HAPI_STATE_COOKING:
-        {
-            return hapi_make_atom(env, "hapi_state_cooking");
-        }
-
-        case HAPI_STATE_STARTING_LOAD:
-        {
-            return hapi_make_atom(env, "hapi_state_starting_load");
-        }
-
-        case HAPI_STATE_LOADING:
-        {
-            return hapi_make_atom(env, "hapi_state_loading");
-        }
-
-        case HAPI_STATE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_state_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

@@ -9,8 +9,43 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_group_type(ErlNifEnv* env, HAPI_GroupType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_GROUPTYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_grouptype_invalid");
+        }
+
+        case HAPI_GROUPTYPE_POINT:
+        {
+            return hapi_make_atom(env, "hapi_grouptype_point");
+        }
+
+        case HAPI_GROUPTYPE_PRIM:
+        {
+            return hapi_make_atom(env, "hapi_grouptype_prim");
+        }
+
+        case HAPI_GROUPTYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_grouptype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_group_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GroupType* enum_result)
+hapi_get_hapi_group_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GroupType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -79,39 +114,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_group_type(ErlNifEnv* env, HAPI_GroupType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_GROUPTYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_grouptype_invalid");
-        }
-
-        case HAPI_GROUPTYPE_POINT:
-        {
-            return hapi_make_atom(env, "hapi_grouptype_point");
-        }
-
-        case HAPI_GROUPTYPE_PRIM:
-        {
-            return hapi_make_atom(env, "hapi_grouptype_prim");
-        }
-
-        case HAPI_GROUPTYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_grouptype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

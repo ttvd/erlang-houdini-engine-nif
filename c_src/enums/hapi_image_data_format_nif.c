@@ -9,8 +9,58 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_image_data_format(ErlNifEnv* env, HAPI_ImageDataFormat enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_IMAGE_DATA_UNKNOWN:
+        {
+            return hapi_make_atom(env, "hapi_image_data_unknown");
+        }
+
+        case HAPI_IMAGE_DATA_INT8:
+        {
+            return hapi_make_atom(env, "hapi_image_data_int8");
+        }
+
+        case HAPI_IMAGE_DATA_INT16:
+        {
+            return hapi_make_atom(env, "hapi_image_data_int16");
+        }
+
+        case HAPI_IMAGE_DATA_INT32:
+        {
+            return hapi_make_atom(env, "hapi_image_data_int32");
+        }
+
+        case HAPI_IMAGE_DATA_FLOAT16:
+        {
+            return hapi_make_atom(env, "hapi_image_data_float16");
+        }
+
+        case HAPI_IMAGE_DATA_FLOAT32:
+        {
+            return hapi_make_atom(env, "hapi_image_data_float32");
+        }
+
+        case HAPI_IMAGE_DATA_MAX:
+        {
+            return hapi_make_atom(env, "hapi_image_data_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_image_data_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageDataFormat* enum_result)
+hapi_get_hapi_image_data_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageDataFormat* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -107,54 +157,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_image_data_format(ErlNifEnv* env, HAPI_ImageDataFormat enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_IMAGE_DATA_UNKNOWN:
-        {
-            return hapi_make_atom(env, "hapi_image_data_unknown");
-        }
-
-        case HAPI_IMAGE_DATA_INT8:
-        {
-            return hapi_make_atom(env, "hapi_image_data_int8");
-        }
-
-        case HAPI_IMAGE_DATA_INT16:
-        {
-            return hapi_make_atom(env, "hapi_image_data_int16");
-        }
-
-        case HAPI_IMAGE_DATA_INT32:
-        {
-            return hapi_make_atom(env, "hapi_image_data_int32");
-        }
-
-        case HAPI_IMAGE_DATA_FLOAT16:
-        {
-            return hapi_make_atom(env, "hapi_image_data_float16");
-        }
-
-        case HAPI_IMAGE_DATA_FLOAT32:
-        {
-            return hapi_make_atom(env, "hapi_image_data_float32");
-        }
-
-        case HAPI_IMAGE_DATA_MAX:
-        {
-            return hapi_make_atom(env, "hapi_image_data_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

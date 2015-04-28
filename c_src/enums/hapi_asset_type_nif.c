@@ -9,8 +9,108 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_asset_type(ErlNifEnv* env, HAPI_AssetType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_ASSETTYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_assettype_invalid");
+        }
+
+        case HAPI_ASSETTYPE_OBJ:
+        {
+            return hapi_make_atom(env, "hapi_assettype_obj");
+        }
+
+        case HAPI_ASSETTYPE_SOP:
+        {
+            return hapi_make_atom(env, "hapi_assettype_sop");
+        }
+
+        case HAPI_ASSETTYPE_POPNET:
+        {
+            return hapi_make_atom(env, "hapi_assettype_popnet");
+        }
+
+        case HAPI_ASSETTYPE_POP:
+        {
+            return hapi_make_atom(env, "hapi_assettype_pop");
+        }
+
+        case HAPI_ASSETTYPE_CHOPNET:
+        {
+            return hapi_make_atom(env, "hapi_assettype_chopnet");
+        }
+
+        case HAPI_ASSETTYPE_CHOP:
+        {
+            return hapi_make_atom(env, "hapi_assettype_chop");
+        }
+
+        case HAPI_ASSETTYPE_ROP:
+        {
+            return hapi_make_atom(env, "hapi_assettype_rop");
+        }
+
+        case HAPI_ASSETTYPE_SHOP:
+        {
+            return hapi_make_atom(env, "hapi_assettype_shop");
+        }
+
+        case HAPI_ASSETTYPE_COP2:
+        {
+            return hapi_make_atom(env, "hapi_assettype_cop2");
+        }
+
+        case HAPI_ASSETTYPE_COPNET:
+        {
+            return hapi_make_atom(env, "hapi_assettype_copnet");
+        }
+
+        case HAPI_ASSETTYPE_VOP:
+        {
+            return hapi_make_atom(env, "hapi_assettype_vop");
+        }
+
+        case HAPI_ASSETTYPE_VOPNET:
+        {
+            return hapi_make_atom(env, "hapi_assettype_vopnet");
+        }
+
+        case HAPI_ASSETTYPE_DOP:
+        {
+            return hapi_make_atom(env, "hapi_assettype_dop");
+        }
+
+        case HAPI_ASSETTYPE_MGR:
+        {
+            return hapi_make_atom(env, "hapi_assettype_mgr");
+        }
+
+        case HAPI_ASSETTYPE_DIR:
+        {
+            return hapi_make_atom(env, "hapi_assettype_dir");
+        }
+
+        case HAPI_ASSETTYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_assettype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_asset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetType* enum_result)
+hapi_get_hapi_asset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -170,104 +270,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_asset_type(ErlNifEnv* env, HAPI_AssetType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_ASSETTYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_assettype_invalid");
-        }
-
-        case HAPI_ASSETTYPE_OBJ:
-        {
-            return hapi_make_atom(env, "hapi_assettype_obj");
-        }
-
-        case HAPI_ASSETTYPE_SOP:
-        {
-            return hapi_make_atom(env, "hapi_assettype_sop");
-        }
-
-        case HAPI_ASSETTYPE_POPNET:
-        {
-            return hapi_make_atom(env, "hapi_assettype_popnet");
-        }
-
-        case HAPI_ASSETTYPE_POP:
-        {
-            return hapi_make_atom(env, "hapi_assettype_pop");
-        }
-
-        case HAPI_ASSETTYPE_CHOPNET:
-        {
-            return hapi_make_atom(env, "hapi_assettype_chopnet");
-        }
-
-        case HAPI_ASSETTYPE_CHOP:
-        {
-            return hapi_make_atom(env, "hapi_assettype_chop");
-        }
-
-        case HAPI_ASSETTYPE_ROP:
-        {
-            return hapi_make_atom(env, "hapi_assettype_rop");
-        }
-
-        case HAPI_ASSETTYPE_SHOP:
-        {
-            return hapi_make_atom(env, "hapi_assettype_shop");
-        }
-
-        case HAPI_ASSETTYPE_COP2:
-        {
-            return hapi_make_atom(env, "hapi_assettype_cop2");
-        }
-
-        case HAPI_ASSETTYPE_COPNET:
-        {
-            return hapi_make_atom(env, "hapi_assettype_copnet");
-        }
-
-        case HAPI_ASSETTYPE_VOP:
-        {
-            return hapi_make_atom(env, "hapi_assettype_vop");
-        }
-
-        case HAPI_ASSETTYPE_VOPNET:
-        {
-            return hapi_make_atom(env, "hapi_assettype_vopnet");
-        }
-
-        case HAPI_ASSETTYPE_DOP:
-        {
-            return hapi_make_atom(env, "hapi_assettype_dop");
-        }
-
-        case HAPI_ASSETTYPE_MGR:
-        {
-            return hapi_make_atom(env, "hapi_assettype_mgr");
-        }
-
-        case HAPI_ASSETTYPE_DIR:
-        {
-            return hapi_make_atom(env, "hapi_assettype_dir");
-        }
-
-        case HAPI_ASSETTYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_assettype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

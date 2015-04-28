@@ -9,8 +9,43 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_ramp_type(ErlNifEnv* env, HAPI_RampType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_RAMPTYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_ramptype_invalid");
+        }
+
+        case HAPI_RAMPTYPE_FLOAT:
+        {
+            return hapi_make_atom(env, "hapi_ramptype_float");
+        }
+
+        case HAPI_RAMPTYPE_COLOR:
+        {
+            return hapi_make_atom(env, "hapi_ramptype_color");
+        }
+
+        case HAPI_RAMPTYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_ramptype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_ramp_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RampType* enum_result)
+hapi_get_hapi_ramp_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RampType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -79,39 +114,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_ramp_type(ErlNifEnv* env, HAPI_RampType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_RAMPTYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_ramptype_invalid");
-        }
-
-        case HAPI_RAMPTYPE_FLOAT:
-        {
-            return hapi_make_atom(env, "hapi_ramptype_float");
-        }
-
-        case HAPI_RAMPTYPE_COLOR:
-        {
-            return hapi_make_atom(env, "hapi_ramptype_color");
-        }
-
-        case HAPI_RAMPTYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_ramptype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

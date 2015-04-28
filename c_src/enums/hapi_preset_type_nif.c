@@ -9,8 +9,43 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_preset_type(ErlNifEnv* env, HAPI_PresetType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_PRESETTYPE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_presettype_invalid");
+        }
+
+        case HAPI_PRESETTYPE_BINARY:
+        {
+            return hapi_make_atom(env, "hapi_presettype_binary");
+        }
+
+        case HAPI_PRESETTYPE_IDX:
+        {
+            return hapi_make_atom(env, "hapi_presettype_idx");
+        }
+
+        case HAPI_PRESETTYPE_MAX:
+        {
+            return hapi_make_atom(env, "hapi_presettype_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_preset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PresetType* enum_result)
+hapi_get_hapi_preset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PresetType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -79,39 +114,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_preset_type(ErlNifEnv* env, HAPI_PresetType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_PRESETTYPE_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_presettype_invalid");
-        }
-
-        case HAPI_PRESETTYPE_BINARY:
-        {
-            return hapi_make_atom(env, "hapi_presettype_binary");
-        }
-
-        case HAPI_PRESETTYPE_IDX:
-        {
-            return hapi_make_atom(env, "hapi_presettype_idx");
-        }
-
-        case HAPI_PRESETTYPE_MAX:
-        {
-            return hapi_make_atom(env, "hapi_presettype_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

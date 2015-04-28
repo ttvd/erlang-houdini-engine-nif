@@ -9,8 +9,38 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_status_verbosity(ErlNifEnv* env, HAPI_StatusVerbosity enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_STATUSVERBOSITY_0:
+        {
+            return hapi_make_atom(env, "hapi_statusverbosity_0");
+        }
+
+        case HAPI_STATUSVERBOSITY_1:
+        {
+            return hapi_make_atom(env, "hapi_statusverbosity_1");
+        }
+
+        case HAPI_STATUSVERBOSITY_2:
+        {
+            return hapi_make_atom(env, "hapi_statusverbosity_2");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_status_verbosity(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusVerbosity* enum_result)
+hapi_get_hapi_status_verbosity(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusVerbosity* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -100,34 +130,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_status_verbosity(ErlNifEnv* env, HAPI_StatusVerbosity enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_STATUSVERBOSITY_0:
-        {
-            return hapi_make_atom(env, "hapi_statusverbosity_0");
-        }
-
-        case HAPI_STATUSVERBOSITY_1:
-        {
-            return hapi_make_atom(env, "hapi_statusverbosity_1");
-        }
-
-        case HAPI_STATUSVERBOSITY_2:
-        {
-            return hapi_make_atom(env, "hapi_statusverbosity_2");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

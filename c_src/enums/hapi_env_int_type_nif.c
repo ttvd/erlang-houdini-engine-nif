@@ -9,8 +9,93 @@
 #include <string.h>
 
 
+ERL_NIF_TERM
+hapi_make_hapi_env_int_type(ErlNifEnv* env, HAPI_EnvIntType enum_value)
+{
+    switch(enum_value)
+    {
+        case HAPI_ENVINT_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_envint_invalid");
+        }
+
+        case HAPI_ENVINT_VERSION_HOUDINI_MAJOR:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_houdini_major");
+        }
+
+        case HAPI_ENVINT_VERSION_HOUDINI_MINOR:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_houdini_minor");
+        }
+
+        case HAPI_ENVINT_VERSION_HOUDINI_BUILD:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_houdini_build");
+        }
+
+        case HAPI_ENVINT_VERSION_HOUDINI_PATCH:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_houdini_patch");
+        }
+
+        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_MAJOR:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_major");
+        }
+
+        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_MINOR:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_minor");
+        }
+
+        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_BUILD:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_build");
+        }
+
+        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_PATCH:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_patch");
+        }
+
+        case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MAJOR:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_major");
+        }
+
+        case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MINOR:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_minor");
+        }
+
+        case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_API:
+        {
+            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_api");
+        }
+
+        case HAPI_ENVINT_LICENSE:
+        {
+            return hapi_make_atom(env, "hapi_envint_license");
+        }
+
+        case HAPI_ENVINT_MAX:
+        {
+            return hapi_make_atom(env, "hapi_envint_max");
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+
+    return enif_make_badarg(env);
+}
+
+
 bool
-hapi_make_hapi_env_int_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_EnvIntType* enum_result)
+hapi_get_hapi_env_int_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_EnvIntType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -149,89 +234,4 @@ label_cleanup:
     }
 
     return nif_success;
-}
-
-
-ERL_NIF_TERM
-hapi_get_hapi_env_int_type(ErlNifEnv* env, HAPI_EnvIntType enum_value)
-{
-    switch(enum_value)
-    {
-        case HAPI_ENVINT_INVALID:
-        {
-            return hapi_make_atom(env, "hapi_envint_invalid");
-        }
-
-        case HAPI_ENVINT_VERSION_HOUDINI_MAJOR:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_major");
-        }
-
-        case HAPI_ENVINT_VERSION_HOUDINI_MINOR:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_minor");
-        }
-
-        case HAPI_ENVINT_VERSION_HOUDINI_BUILD:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_build");
-        }
-
-        case HAPI_ENVINT_VERSION_HOUDINI_PATCH:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_patch");
-        }
-
-        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_MAJOR:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_major");
-        }
-
-        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_MINOR:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_minor");
-        }
-
-        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_BUILD:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_build");
-        }
-
-        case HAPI_ENVINT_VERSION_ORIG_HOUDINI_PATCH:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_patch");
-        }
-
-        case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MAJOR:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_major");
-        }
-
-        case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MINOR:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_minor");
-        }
-
-        case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_API:
-        {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_api");
-        }
-
-        case HAPI_ENVINT_LICENSE:
-        {
-            return hapi_make_atom(env, "hapi_envint_license");
-        }
-
-        case HAPI_ENVINT_MAX:
-        {
-            return hapi_make_atom(env, "hapi_envint_max");
-        }
-
-        default:
-        {
-            break;
-        }
-    }
-
-    return enif_make_badarg(env);
 }

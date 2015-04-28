@@ -57,7 +57,7 @@ nif_funcs[] =
     {"image_file_format_create", 0, hapi_image_file_format_create},
     {"set_part_info", 4, hapi_set_part_info},
     {"set_vertex_list", 6, hapi_set_vertex_list},
-    {"set_attribute_string_data", 9, hapi_set_attribute_string_data},
+    {"set_attribute_string_data", 8, hapi_set_attribute_string_data},
     {"get_object_transforms", 4, hapi_get_object_transforms},
     {"set_transform_anim_curve", 4, hapi_set_transform_anim_curve},
     {"get_geo_info", 3, hapi_get_geo_info},

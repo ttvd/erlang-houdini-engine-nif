@@ -358,6 +358,11 @@ defmodule HAPI do
         Dict.get(dict, :param_string, false)
     end
 
+    # Helper function to check if parameter is an array.
+    defp function_check_parameter_array({_param_type, _param_name, dict}) do
+        Dict.get(dict, :param_array, false)
+    end
+
     # Print from hapi functions dictionary.
     #defp print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
 
@@ -478,17 +483,26 @@ defmodule HAPI do
     end
 
     # Generate function c stub.
-    defp create_function_c_stub(types, function_name, {return_type, parameters}, template_function_c) do
+    defp create_function_c_stub(types, function_name, {_return_type, parameters}, template_function_c) do
 
         function_code = String.replace(template_function_c, "%{HAPI_FUNCTION}%", function_name)
             |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", underscore(function_name))
 
-        parameters_input = create_function_c_stub_vars(types, parameters, return_type, [])
-        if length(parameters_input) > 0 do
-            function_code = String.replace(function_code, "%{HAPI_FUNCTION_VARS}%",
-                "/* Input parameters. */\n    #{Enum.join(parameters_input, "\n    ")}")
-        else
-            function_code = String.replace(function_code, "%{HAPI_FUNCTION_VARS}%", "/* No input parameters */")
+        [params_input, params_output] = create_function_c_stub_vars(types, parameters, [], [])
+
+        case params_input do
+            [] ->
+                function_code = String.replace(function_code, "%{HAPI_FUNCTION_INPUT_VARS}%", "/* No input parameters. */")
+            _ ->
+                function_code = String.replace(function_code, "%{HAPI_FUNCTION_INPUT_VARS}%",
+                    "/* Input parameters. */\n    #{Enum.join(params_input, "\n    ")}")
+        end
+
+        case params_output do
+            [] ->
+                function_code = String.replace(function_code, "%{HAPI_FUNCTION_OUTPUT_VARS}%", "/* No output parameters. */")
+            _ ->
+                function_code = String.replace(function_code, "%{HAPI_FUNCTION_OUTPUT_VARS}%", "/* Output parameters. */")
         end
 
         file_name = "c_src/functions/#{underscore(function_name)}_nif.c"
@@ -497,31 +511,34 @@ defmodule HAPI do
     end
 
     # Generate variables to read parameters into.
-    defp create_function_c_stub_vars(_types, [], _return_type, params) do
-        params
+    defp create_function_c_stub_vars(_types, [], params_input, params_output) do
+        [params_input, params_output]
     end
-    defp create_function_c_stub_vars(types, [param | rest], return_type, params) do
+    defp create_function_c_stub_vars(types, [param | rest], params_input, params_output) do
         if function_check_return_parameter(param) do
             # Output parameter.
-            create_function_c_stub_vars(types, rest, return_type, params)
+            create_function_c_stub_vars(types, rest, params_input, params_output)
         else
             # Input parameter.
-            create_function_c_stub_vars(types, rest, return_type, params ++
-                [create_function_c_stub_var(types, return_type, param)])
+            create_function_c_stub_vars(types, rest, params_input ++
+                [create_function_c_stub_var(types, param)], params_output)
         end
     end
 
     # Generate variable to read parameters into.
-    defp create_function_c_stub_var(_types, return_type, {:token_int, param_name, param_opts}) do
+    defp create_function_c_stub_var(_types, {:token_int, param_name, _param_opts}) do
         "int32_t param_#{param_name} = 0;"
     end
-    defp create_function_c_stub_var(_types, return_type, {:token_float, param_name, param_opts}) do
+    defp create_function_c_stub_var(_types, {:token_float, param_name, _param_opts}) do
         "double param_#{param_name} = 0.0;"
     end
-    defp create_function_c_stub_var(_types, return_type, {:token_double, param_name, param_opts}) do
+    defp create_function_c_stub_var(_types, {:token_double, param_name, _param_opts}) do
         "double param_#{param_name} = 0.0;"
     end
-    defp create_function_c_stub_var(_types, return_type, {:token_char, param_name, param_opts}) do
+    defp create_function_c_stub_var(_types, {:token_bool, param_name, _param_opts}) do
+        "bool param_#{param_name} = false;"
+    end
+    defp create_function_c_stub_var(_types, {:token_char, param_name, param_opts}) do
         if Dict.get(param_opts, :param_const, false) and Dict.get(param_opts, :param_pointer, false) do
             if Dict.get(param_opts, :param_pointer_pointer, false) do
                 "char** param_#{param_name} = NULL;"
@@ -533,14 +550,24 @@ defmodule HAPI do
                 description: "Generating function c stubs, non constant character pointer, should be input: #{param_name}.")
         end
     end
-    defp create_function_c_stub_var(types, return_type, {param_type, param_name, param_opts}) do
+    defp create_function_c_stub_var(_types, {"HAPI_CookOptions", param_name, _param_opts}) do
+        "HAPI_CookOptions param_#{param_name};"
+    end
+    defp create_function_c_stub_var(types, {param_type, param_name, _param_opts} = param) do
         native_type = Dict.get(types, param_type)
 
         if not is_nil(native_type) do
-            if native_type == :token_int do
-                "#{param_type} param_#{param_name} = -1;"
+            if function_check_parameter_array(param) do
+                "#{param_type}* param_#{param_name} = NULL;"
             else
-                "#{param_type} param_#{param_name};"
+                case native_type do
+                    :token_int ->
+                        "#{param_type} param_#{param_name} = -1;"
+                    :token_bool ->
+                        "#{param_type} param_#{param_name} = false;"
+                    _ ->
+                        "#{param_type} param_#{param_name};"
+                end
             end
         else
             raise(RuntimeError,

@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_StatusType param_status_type;
+    HAPI_StatusVerbosity param_verbosity;
+    int32_t param_buffer_size = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

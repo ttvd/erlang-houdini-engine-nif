@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_parm_choice_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_ParmChoiceInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

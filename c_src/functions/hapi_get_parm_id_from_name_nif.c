@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    int32_t param_index = 0;
+    float param_value = 0.0f;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

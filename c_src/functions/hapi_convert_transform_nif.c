@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_convert_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_TransformEuler param_transform_in_out;
+    HAPI_RSTOrder param_rst_order;
+    HAPI_XYZOrder param_rot_order;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

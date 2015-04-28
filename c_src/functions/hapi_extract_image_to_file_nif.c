@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    int32_t param_destination_file_path = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

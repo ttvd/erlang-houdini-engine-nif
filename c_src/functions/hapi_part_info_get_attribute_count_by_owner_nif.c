@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_part_info_get_attribute_count_by_owner_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_PartInfo param_in;
+    HAPI_AttributeOwner param_owner;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_python_thread_interpreter_lock_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    bool param_locked = false;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

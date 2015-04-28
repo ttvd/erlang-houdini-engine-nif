@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_MaterialInfo param_material_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

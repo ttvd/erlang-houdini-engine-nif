@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_AttributeOwner param_owner;
+    int32_t param_count = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

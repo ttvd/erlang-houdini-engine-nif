@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_get_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_PartInfo param_part_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

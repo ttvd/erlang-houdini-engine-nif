@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_ImageFileFormat param_formats;
+    int32_t param_file_format_count = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

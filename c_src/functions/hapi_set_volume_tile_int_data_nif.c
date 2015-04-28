@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_VolumeTileInfo param_tile;
+    int32_t param_values = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

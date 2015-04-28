@@ -13,7 +13,10 @@
 ERL_NIF_TERM
 hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    float param_mat = 0.0f;
+    HAPI_RSTOrder param_rst_order;
+    HAPI_XYZOrder param_rot_order;
+    HAPI_TransformEuler param_transform_out;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

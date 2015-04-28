@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_CookOptions param_cook_options;
+    bool param_use_cooking_thread = false;
+    int32_t param_cooking_thread_stack_size = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    bool param_cook_on_load = false;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

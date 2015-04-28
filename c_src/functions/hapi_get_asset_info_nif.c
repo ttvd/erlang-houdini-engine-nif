@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_get_asset_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_AssetInfo param_asset_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

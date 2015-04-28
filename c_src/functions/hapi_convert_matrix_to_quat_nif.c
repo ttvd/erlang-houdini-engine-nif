@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    float param_mat = 0.0f;
+    HAPI_RSTOrder param_rst_order;
+    HAPI_Transform param_transform_out;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

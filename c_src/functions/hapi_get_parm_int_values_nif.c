@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    int32_t param_values = 0;
+    int32_t param_start = 0;
+    int32_t param_length = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

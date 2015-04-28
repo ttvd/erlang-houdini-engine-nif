@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_get_global_nodes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_GlobalNodes param_global_nodes;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

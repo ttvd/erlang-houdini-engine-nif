@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    bool param_are_all_the_same = false;
+    int32_t param_start = 0;
+    int32_t param_length = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

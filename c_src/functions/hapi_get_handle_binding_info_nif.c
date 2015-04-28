@@ -13,7 +13,10 @@
 ERL_NIF_TERM
 hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    int32_t param_handle_index = 0;
+    HAPI_HandleBindingInfo param_handle_infos;
+    int32_t param_start = 0;
+    int32_t param_length = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

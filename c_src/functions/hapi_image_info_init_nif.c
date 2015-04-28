@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_image_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_ImageInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

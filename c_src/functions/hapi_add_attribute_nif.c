@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_AttributeInfo param_attr_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

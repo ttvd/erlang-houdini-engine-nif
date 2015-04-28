@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_cook_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_CookOptions param_cook_options;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

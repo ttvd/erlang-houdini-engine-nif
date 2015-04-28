@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_GroupType param_group_type;
+    int32_t param_group_count = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

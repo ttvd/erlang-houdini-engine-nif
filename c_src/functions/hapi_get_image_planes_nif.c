@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    int32_t param_image_plane_count = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

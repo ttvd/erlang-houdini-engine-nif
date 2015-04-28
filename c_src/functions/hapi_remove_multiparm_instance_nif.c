@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_remove_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    int32_t param_instance_position = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

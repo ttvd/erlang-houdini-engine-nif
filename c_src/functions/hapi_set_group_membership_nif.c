@@ -13,7 +13,10 @@
 ERL_NIF_TERM
 hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_GroupType param_group_type;
+    int32_t param_membership = 0;
+    int32_t param_start = 0;
+    int32_t param_length = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_env_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_EnvIntType param_int_type;
+    int32_t param_value = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

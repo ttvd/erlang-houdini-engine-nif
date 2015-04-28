@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    bool param_allow_overwrite = false;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

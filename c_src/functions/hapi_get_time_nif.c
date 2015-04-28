@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_get_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    float param_time = 0.0f;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_TransformComponent param_trans_comp;
+    HAPI_Keyframe param_curve_keyframes;
+    int32_t param_keyframe_count = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

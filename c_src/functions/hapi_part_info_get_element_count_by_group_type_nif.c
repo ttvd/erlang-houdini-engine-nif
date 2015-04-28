@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_part_info_get_element_count_by_group_type_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_PartInfo param_in;
+    HAPI_GroupType param_type;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

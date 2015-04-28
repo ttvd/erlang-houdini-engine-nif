@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_status_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_StatusType param_status_type;
+    int32_t param_status = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_INPUT_VARS}%
+    HAPI_PresetType param_preset_type;
+    int32_t param_buffer_length = 0;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

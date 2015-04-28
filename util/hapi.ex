@@ -272,7 +272,7 @@ defmodule HAPI do
     defp function_map_hapi_collect(dict, []), do: dict
     defp function_map_hapi_collect(dict, [function_type, function_name, :token_bracket_left | rest]) do
         [params, remaining] = function_map_hapi_extract_params([], rest)
-        Dict.put(dict, function_name, [function_type, params]) |> function_map_hapi_collect(remaining)
+        Dict.put(dict, function_name, {function_type, params}) |> function_map_hapi_collect(remaining)
     end
     defp function_map_hapi_collect(dict, [_token | rest]), do: function_map_hapi_collect(dict, rest)
 
@@ -282,30 +282,34 @@ defmodule HAPI do
     defp function_map_hapi_extract_params(list, [:token_bracket_right, :token_semicolon | rest]) do
         [list, rest]
     end
+    defp function_map_hapi_extract_params(list, [:token_const, param_type, :token_pointer, :token_pointer, param_name | rest] = tokens) do
+        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 4))}]
+            |> function_map_hapi_extract_params(rest)
+    end
     defp function_map_hapi_extract_params(list, [:token_const, :token_char, :token_pointer, param_name | rest] = tokens) do
-        list ++ [[:token_char, param_name, HashDict.new
-            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 4))]]
+        list ++ [{:token_char, param_name, HashDict.new
+            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 4))}]
                 |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 4))]]
+        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 4))}]
             |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [:token_const, param_type, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
+        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))}]
             |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [:token_char, :token_pointer, param_name | rest] = tokens) do
-        list ++ [[:token_char, param_name, HashDict.new
-            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
+        list ++ [{:token_char, param_name, HashDict.new
+            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 3))}]
                 |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [param_type, :token_pointer, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))]]
+        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))}]
             |> function_map_hapi_extract_params(rest)
     end
     defp function_map_hapi_extract_params(list, [param_type, param_name | rest] = tokens) do
-        list ++ [[param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 2))]]
+        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 2))}]
             |> function_map_hapi_extract_params(rest)
     end
 
@@ -316,7 +320,11 @@ defmodule HAPI do
             :token_const ->
                 Dict.put(dict, :param_const, true) |> function_map_hapi_param_flags(rest)
             :token_pointer ->
-                Dict.put(dict, :param_pointer, true) |> function_map_hapi_param_flags(rest)
+                if Dict.get(dict, :param_pointer, false) do
+                    Dict.put(dict, :param_pointer_pointer, true) |> function_map_hapi_param_flags(rest)
+                else
+                    Dict.put(dict, :param_pointer, true) |> function_map_hapi_param_flags(rest)
+                end
             _ ->
                 if is_binary(param) do
                     if String.match?(param, ~r/\w+es$/) or String.match?(param, ~r/\w+s$/) do
@@ -331,22 +339,22 @@ defmodule HAPI do
     end
 
     # Given a function structure, return list of parameters which are used for return by pointer.
-    defp function_get_return_parameters([_function_type, function_params]) do
+    defp function_get_return_parameters({_function_type, function_params}) do
         Enum.filter(function_params, &(function_check_return_parameter(&1)))
     end
 
     # Given a function structure, return parameters (ignore parameters returned by pointer).
-    defp function_get_parameters([_function_type, function_params]) do
+    defp function_get_parameters({_function_type, function_params}) do
         Enum.filter(function_params, &(not function_check_return_parameter(&1)))
     end
 
     # Helper function to check if parameter is a return type parameter.
-    defp function_check_return_parameter([_param_type, _param_name, dict]) do
+    defp function_check_return_parameter({_param_type, _param_name, dict}) do
         Dict.get(dict, :param_pointer, false) and not Dict.get(dict, :param_const, false)
     end
 
     # Helper function to check if parameter is a string.
-    defp function_check_parameter_string([_param_type, _param_name, dict]) do
+    defp function_check_parameter_string({_param_type, _param_name, dict}) do
         Dict.get(dict, :param_string, false)
     end
 
@@ -452,10 +460,11 @@ defmodule HAPI do
         IO.puts("Creating function c stubs in c_src/functions")
 
         funcs = Dict.get(env, :funcs, :nil)
-        if not is_nil(funcs) do
+        types = Dict.get(env, :types, :nil)
+        if not is_nil(funcs) and not is_nil(types) do
 
             {:ok, template_function_c} = File.read("./util/hapi_function_nif.c.template")
-            Enum.map(funcs, fn {k, v} -> create_function_c_stub(k, v, template_function_c) end)
+            Enum.map(funcs, fn {k, v} -> create_function_c_stub(types, k, v, template_function_c) end)
 
             {:ok, template_functions_h} = File.read("./util/hapi_functions_nif.h.template")
             {:ok, template_functions_block} = File.read("./util/hapi_functions_nif.h.block.template")
@@ -469,15 +478,76 @@ defmodule HAPI do
     end
 
     # Generate function c stub.
-    defp create_function_c_stub(function_name, function_body, template_function_c) do
+    defp create_function_c_stub(types, function_name, {return_type, parameters}, template_function_c) do
 
         function_code = String.replace(template_function_c, "%{HAPI_FUNCTION}%", function_name)
             |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", underscore(function_name))
+
+        parameters_input = create_function_c_stub_vars(types, parameters, return_type, [])
+        if length(parameters_input) > 0 do
+            function_code = String.replace(function_code, "%{HAPI_FUNCTION_VARS}%",
+                "/* Input parameters. */\n    #{Enum.join(parameters_input, "\n    ")}")
+        else
+            function_code = String.replace(function_code, "%{HAPI_FUNCTION_VARS}%", "/* No input parameters */")
+        end
 
         file_name = "c_src/functions/#{underscore(function_name)}_nif.c"
         File.write("./#{file_name}", function_code)
         IO.puts("Generating #{file_name}")
     end
+
+    # Generate variables to read parameters into.
+    defp create_function_c_stub_vars(_types, [], _return_type, params) do
+        params
+    end
+    defp create_function_c_stub_vars(types, [param | rest], return_type, params) do
+        if function_check_return_parameter(param) do
+            # Output parameter.
+            create_function_c_stub_vars(types, rest, return_type, params)
+        else
+            # Input parameter.
+            create_function_c_stub_vars(types, rest, return_type, params ++
+                [create_function_c_stub_var(types, return_type, param)])
+        end
+    end
+
+    # Generate variable to read parameters into.
+    defp create_function_c_stub_var(_types, return_type, {:token_int, param_name, param_opts}) do
+        "int32_t param_#{param_name} = 0;"
+    end
+    defp create_function_c_stub_var(_types, return_type, {:token_float, param_name, param_opts}) do
+        "double param_#{param_name} = 0.0;"
+    end
+    defp create_function_c_stub_var(_types, return_type, {:token_double, param_name, param_opts}) do
+        "double param_#{param_name} = 0.0;"
+    end
+    defp create_function_c_stub_var(_types, return_type, {:token_char, param_name, param_opts}) do
+        if Dict.get(param_opts, :param_const, false) and Dict.get(param_opts, :param_pointer, false) do
+            if Dict.get(param_opts, :param_pointer_pointer, false) do
+                "char** param_#{param_name} = NULL;"
+            else
+                "char* param_#{param_name} = NULL;"
+            end
+        else
+            raise(RuntimeError,
+                description: "Generating function c stubs, non constant character pointer, should be input: #{param_name}.")
+        end
+    end
+    defp create_function_c_stub_var(types, return_type, {param_type, param_name, param_opts}) do
+        native_type = Dict.get(types, param_type)
+
+        if not is_nil(native_type) do
+            if native_type == :token_int do
+                "#{param_type} param_#{param_name} = -1;"
+            else
+                "#{param_type} param_#{param_name};"
+            end
+        else
+            raise(RuntimeError,
+                description: "Generating function c stubs, do not know how to set custom type: #{param_type}.")
+        end
+    end
+
 
     # Generate exports c stub containing NIF mapping table.
     defp create_exports_c_stub(funcs, template_exports_c) do

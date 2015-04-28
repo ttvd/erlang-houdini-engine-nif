@@ -280,3 +280,32 @@ hapi_get_list_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_
 
     return false;
 }
+
+
+bool
+hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
+{
+    uint32_t length = 0;
+    char* buffer = NULL;
+
+    if(!enif_get_list_length(env, term, &length))
+    {
+        return false;
+    }
+
+    if(length > 0)
+    {
+        buffer = malloc(length + 1);
+        memset(buffer, 0, length + 1);
+
+        if(enif_get_string(env, term, buffer, length + 1, ERL_NIF_LATIN1) < 1)
+        {
+            free(buffer);
+            return false;
+        }
+    }
+
+    *string_length = length;
+    *string = buffer;
+    return true;
+}

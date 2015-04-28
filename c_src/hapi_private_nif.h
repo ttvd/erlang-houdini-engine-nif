@@ -43,5 +43,8 @@ bool hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size
 // Retrieve elements of integer list into int array (by pointer). Return status.
 bool hapi_get_list_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_t* data);
 
+// Return string and length by pointer, caller is responsible for clean up.
+bool hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);
+
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

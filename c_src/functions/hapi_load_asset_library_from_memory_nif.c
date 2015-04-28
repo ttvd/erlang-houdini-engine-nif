@@ -13,7 +13,10 @@
 ERL_NIF_TERM
 hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    char* param_library_buffer = NULL;
+    int32_t param_library_buffer_size = 0;
+    HAPI_Bool param_allow_overwrite;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

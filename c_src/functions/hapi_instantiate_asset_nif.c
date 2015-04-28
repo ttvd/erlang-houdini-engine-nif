@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    char* param_asset_name = NULL;
+    HAPI_Bool param_cook_on_load;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

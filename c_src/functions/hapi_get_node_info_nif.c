@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_node_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    HAPI_NodeId param_node_id = -1;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

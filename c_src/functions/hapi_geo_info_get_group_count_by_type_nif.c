@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_geo_info_get_group_count_by_type_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    HAPI_GroupType param_type;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

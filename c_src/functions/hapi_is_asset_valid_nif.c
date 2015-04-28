@@ -13,7 +13,9 @@
 ERL_NIF_TERM
 hapi_is_asset_valid_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    HAPI_AssetId param_asset_id = -1;
+    int32_t param_asset_validation_id = 0;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

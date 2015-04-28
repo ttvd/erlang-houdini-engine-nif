@@ -13,7 +13,11 @@
 ERL_NIF_TERM
 hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    HAPI_AssetId param_asset_id = -1;
+    HAPI_ObjectId param_object_id = -1;
+    HAPI_GeoId param_geo_id = -1;
+    char* param_group_name = NULL;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

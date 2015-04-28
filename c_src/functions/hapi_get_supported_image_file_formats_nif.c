@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    int32_t param_file_format_count = 0;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

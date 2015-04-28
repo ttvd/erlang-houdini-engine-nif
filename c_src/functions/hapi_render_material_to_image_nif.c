@@ -13,7 +13,10 @@
 ERL_NIF_TERM
 hapi_render_material_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    HAPI_AssetId param_asset_id = -1;
+    HAPI_MaterialId param_material_id = -1;
+    HAPI_ShaderType param_shader_type;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

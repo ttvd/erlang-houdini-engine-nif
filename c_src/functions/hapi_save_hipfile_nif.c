@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    char* param_file_path = NULL;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

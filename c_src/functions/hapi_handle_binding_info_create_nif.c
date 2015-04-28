@@ -13,7 +13,7 @@
 ERL_NIF_TERM
 hapi_handle_binding_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* No input parameters */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

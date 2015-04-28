@@ -13,7 +13,12 @@
 ERL_NIF_TERM
 hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_VARS}%
+    /* Input parameters. */
+    HAPI_NodeId param_node_id = -1;
+    HAPI_PresetType param_preset_type;
+    char* param_preset_name = NULL;
+    char* param_buffer = NULL;
+    int32_t param_buffer_length = 0;
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

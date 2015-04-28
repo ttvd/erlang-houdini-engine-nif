@@ -491,8 +491,7 @@ defmodule HAPI do
         IO.puts("Creating function c stubs in c_src/functions")
 
         funcs = Dict.get(env, :funcs, :nil)
-        types = Dict.get(env, :types, :nil)
-        if not is_nil(funcs) and not is_nil(types) do
+        if not is_nil(funcs) do
 
             {:ok, template_function_c} = File.read("./util/hapi_function_nif.c.template")
             Enum.map(funcs, fn {k, v} -> create_function_c_stub(env, k, v, template_function_c) end)

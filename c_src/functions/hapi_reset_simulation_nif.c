@@ -15,6 +15,7 @@ hapi_reset_simulation_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     /* Input parameters. */
     HAPI_AssetId param_asset_id = -1;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

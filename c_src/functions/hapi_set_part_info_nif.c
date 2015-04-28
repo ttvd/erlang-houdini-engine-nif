@@ -18,6 +18,7 @@ hapi_set_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_ObjectId param_object_id = -1;
     HAPI_GeoId param_geo_id = -1;
     HAPI_PartInfo param_part_info;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

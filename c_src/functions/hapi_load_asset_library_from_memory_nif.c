@@ -16,7 +16,8 @@ hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL
     /* Input parameters. */
     char* param_library_buffer = NULL;
     int32_t param_library_buffer_size = 0;
-    HAPI_Bool param_allow_overwrite;
+    HAPI_Bool param_allow_overwrite = false;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

@@ -17,6 +17,7 @@ hapi_set_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     HAPI_AssetId param_asset_id = -1;
     HAPI_MaterialId param_material_id = -1;
     HAPI_ImageInfo param_image_info;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

@@ -18,6 +18,7 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     char* param_parm_name = NULL;
     int32_t param_index = 0;
     double param_value = 0.0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

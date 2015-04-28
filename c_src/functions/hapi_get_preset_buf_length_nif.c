@@ -17,6 +17,7 @@ hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     HAPI_NodeId param_node_id = -1;
     HAPI_PresetType param_preset_type;
     char* param_preset_name = NULL;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

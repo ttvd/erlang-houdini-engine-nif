@@ -16,6 +16,7 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
     /* Input parameters. */
     HAPI_StatusType param_status_type;
     HAPI_StatusVerbosity param_verbosity;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

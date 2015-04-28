@@ -17,6 +17,7 @@ hapi_insert_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     HAPI_NodeId param_node_id = -1;
     HAPI_ParmId param_parm_id = -1;
     int32_t param_instance_position = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

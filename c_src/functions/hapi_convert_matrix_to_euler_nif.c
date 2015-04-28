@@ -16,6 +16,7 @@ hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /* Input parameters. */
     HAPI_RSTOrder param_rst_order;
     HAPI_XYZOrder param_rot_order;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

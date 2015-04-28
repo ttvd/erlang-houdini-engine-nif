@@ -15,6 +15,7 @@ hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     /* Input parameters. */
     HAPI_RSTOrder param_rst_order;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

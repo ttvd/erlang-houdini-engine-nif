@@ -16,6 +16,7 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /* Input parameters. */
     HAPI_StringHandle param_string_handle = -1;
     int32_t param_buffer_length = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

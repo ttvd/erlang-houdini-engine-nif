@@ -17,7 +17,8 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     HAPI_NodeId param_node_id = -1;
     char* param_parm_name = NULL;
     int32_t param_index = 0;
-    HAPI_Bool param_evaluate;
+    HAPI_Bool param_evaluate = false;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

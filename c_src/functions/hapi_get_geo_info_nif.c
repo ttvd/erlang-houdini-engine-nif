@@ -17,6 +17,7 @@ hapi_get_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_AssetId param_asset_id = -1;
     HAPI_ObjectId param_object_id = -1;
     HAPI_GeoId param_geo_id = -1;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

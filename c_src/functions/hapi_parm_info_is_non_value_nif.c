@@ -15,6 +15,7 @@ hapi_parm_info_is_non_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     /* Input parameters. */
     HAPI_ParmInfo param_in;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

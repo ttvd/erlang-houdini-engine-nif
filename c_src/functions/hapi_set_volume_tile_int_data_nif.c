@@ -19,6 +19,7 @@ hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     HAPI_GeoId param_geo_id = -1;
     HAPI_VolumeTileInfo param_tile;
     int32_t param_values = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

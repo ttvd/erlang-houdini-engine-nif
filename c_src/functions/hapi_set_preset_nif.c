@@ -19,6 +19,7 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     char* param_preset_name = NULL;
     char* param_buffer = NULL;
     int32_t param_buffer_length = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

@@ -17,6 +17,7 @@ hapi_set_object_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     HAPI_AssetId param_asset_id = -1;
     HAPI_ObjectId param_object_id = -1;
     HAPI_TransformEuler param_transform;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

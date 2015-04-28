@@ -15,6 +15,7 @@ hapi_part_info_get_element_count_by_attribute_owner_schedule(ErlNifEnv* env, int
 {
     /* Input parameters. */
     HAPI_AttributeOwner param_owner;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

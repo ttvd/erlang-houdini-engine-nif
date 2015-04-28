@@ -20,6 +20,7 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_PartId param_part_id = -1;
     int32_t param_start = 0;
     int32_t param_length = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

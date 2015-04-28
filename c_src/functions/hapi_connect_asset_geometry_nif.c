@@ -18,6 +18,7 @@ hapi_connect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     HAPI_ObjectId param_object_id_from = -1;
     HAPI_AssetId param_asset_id_to = -1;
     int32_t param_input_idx = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

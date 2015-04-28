@@ -15,6 +15,7 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
 {
     /* Input parameters. */
     int32_t param_file_format_count = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

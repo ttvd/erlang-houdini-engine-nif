@@ -14,7 +14,8 @@ ERL_NIF_TERM
 hapi_set_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     /* Input parameters. */
-    HAPI_TimelineOptions param_timeline_options;
+    HAPI_TimelineOptions* param_timeline_options = NULL;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

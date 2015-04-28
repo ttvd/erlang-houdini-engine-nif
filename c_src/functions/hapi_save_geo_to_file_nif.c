@@ -18,6 +18,7 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_ObjectId param_object_id = -1;
     HAPI_GeoId param_geo_id = -1;
     char* param_file_name = NULL;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

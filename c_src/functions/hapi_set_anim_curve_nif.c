@@ -17,8 +17,9 @@ hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     HAPI_NodeId param_node_id = -1;
     HAPI_ParmId param_parm_id = -1;
     int32_t param_parm_index = 0;
-    HAPI_Keyframe param_curve_keyframes;
+    HAPI_Keyframe* param_curve_keyframes = NULL;
     int32_t param_keyframe_count = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

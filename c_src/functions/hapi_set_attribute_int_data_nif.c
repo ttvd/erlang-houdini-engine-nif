@@ -22,6 +22,7 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     int32_t param_data = 0;
     int32_t param_start = 0;
     int32_t param_length = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

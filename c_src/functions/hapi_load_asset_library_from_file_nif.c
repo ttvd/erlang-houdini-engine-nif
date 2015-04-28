@@ -15,7 +15,8 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
 {
     /* Input parameters. */
     char* param_file_path = NULL;
-    HAPI_Bool param_allow_overwrite;
+    HAPI_Bool param_allow_overwrite = false;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

@@ -20,6 +20,7 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     char* param_image_planes = NULL;
     char* param_destination_folder_path = NULL;
     char* param_destination_file_name = NULL;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

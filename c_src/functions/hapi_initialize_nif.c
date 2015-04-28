@@ -17,8 +17,9 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     char* param_otl_search_path = NULL;
     char* param_dso_search_path = NULL;
     HAPI_CookOptions param_cook_options;
-    HAPI_Bool param_use_cooking_thread;
+    HAPI_Bool param_use_cooking_thread = false;
     int32_t param_cooking_thread_stack_size = 0;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

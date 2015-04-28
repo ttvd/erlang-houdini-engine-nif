@@ -15,6 +15,7 @@ hapi_geo_info_get_group_count_by_type_schedule(ErlNifEnv* env, int argc, const E
 {
     /* Input parameters. */
     HAPI_GroupType param_type;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

@@ -13,7 +13,8 @@
 ERL_NIF_TERM
 hapi_check_for_new_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    /* No input parameters */
+    /* No input parameters. */
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

@@ -18,6 +18,7 @@ hapi_get_material_on_part_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     HAPI_ObjectId param_object_id = -1;
     HAPI_GeoId param_geo_id = -1;
     HAPI_PartId param_part_id = -1;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

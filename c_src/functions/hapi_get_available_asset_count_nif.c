@@ -15,6 +15,7 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     /* Input parameters. */
     HAPI_AssetLibraryId param_library_id = -1;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

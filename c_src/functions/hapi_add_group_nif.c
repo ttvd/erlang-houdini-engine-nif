@@ -19,6 +19,7 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_GeoId param_geo_id = -1;
     HAPI_GroupType param_group_type;
     char* param_group_name = NULL;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

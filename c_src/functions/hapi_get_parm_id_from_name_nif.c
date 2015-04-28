@@ -16,6 +16,7 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /* Input parameters. */
     HAPI_NodeId param_node_id = -1;
     char* param_parm_name = NULL;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

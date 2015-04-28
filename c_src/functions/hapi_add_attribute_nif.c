@@ -19,6 +19,7 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_GeoId param_geo_id = -1;
     char* param_name = NULL;
     HAPI_AttributeInfo param_attr_info;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

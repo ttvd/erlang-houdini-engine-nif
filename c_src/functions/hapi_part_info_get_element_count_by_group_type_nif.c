@@ -15,6 +15,7 @@ hapi_part_info_get_element_count_by_group_type_schedule(ErlNifEnv* env, int argc
 {
     /* Input parameters. */
     HAPI_GroupType param_type;
+    /* No output parameters. */
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

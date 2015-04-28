@@ -495,7 +495,7 @@ defmodule HAPI do
         if not is_nil(funcs) and not is_nil(types) do
 
             {:ok, template_function_c} = File.read("./util/hapi_function_nif.c.template")
-            Enum.map(funcs, fn {k, v} -> create_function_c_stub(types, k, v, template_function_c) end)
+            Enum.map(funcs, fn {k, v} -> create_function_c_stub(env, k, v, template_function_c) end)
 
             {:ok, template_functions_h} = File.read("./util/hapi_functions_nif.h.template")
             {:ok, template_functions_block} = File.read("./util/hapi_functions_nif.h.block.template")
@@ -509,12 +509,12 @@ defmodule HAPI do
     end
 
     # Generate function c stub.
-    defp create_function_c_stub(types, function_name, {_return_type, parameters}, template_function_c) do
+    defp create_function_c_stub(env, function_name, {_return_type, parameters}, template_function_c) do
 
         function_code = String.replace(template_function_c, "%{HAPI_FUNCTION}%", function_name)
             |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", underscore(function_name))
 
-        {_p_input, _p_process, _p_cleanup} = create_function_c_stub_objects(function_name, types, parameters)
+        {_p_input, _p_process, _p_cleanup} = create_function_c_stub_objects(env, function_name, parameters)
 
 
 
@@ -524,32 +524,32 @@ defmodule HAPI do
     end
 
     # Create objects necessary for c stub function.
-    defp create_function_c_stub_objects(fname, types, params) do
-        create_function_c_stub_objects(fname, types, params, {[], [], []}, 0)
+    defp create_function_c_stub_objects(env, fname, params) do
+        create_function_c_stub_objects(env, fname, params, {[], [], []}, 0)
     end
-    defp create_function_c_stub_objects(_fname, _types, [], ret, _idx) do
+    defp create_function_c_stub_objects(_env, _fname, [], ret, _idx) do
         ret
     end
-    defp create_function_c_stub_objects(fname, types, [{:token_int, param_name, _opts} | rest], {i, p, c}, idx) do
+    defp create_function_c_stub_objects(env, fname, [{:token_int, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "int32_t param_#{param_name} = 0;"
         opt_p = "!enif_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
         opt_c = :nil
 
-        create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
+        create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
-    defp create_function_c_stub_objects(fname, types, [{:token_float, param_name, _opts} | rest], {i, p, c}, idx) do
+    defp create_function_c_stub_objects(env, fname, [{:token_float, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "float param_#{param_name} = 0.0f;"
         opt_p = "!hapi_get_float(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
         opt_c = :nil
 
-        create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
+        create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
-    defp create_function_c_stub_objects(fname, types, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
+    defp create_function_c_stub_objects(env, fname, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "double param_#{param_name} = 0.0;"
         opt_p = "!enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name}";
         opt_c = :nil
 
-        create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
+        create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
     #defp create_function_c_stub_objects(fname, types, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
         #opt_i = "double param_#{param_name} = 0.0;"
@@ -558,8 +558,8 @@ defmodule HAPI do
 
         #create_function_c_stub_objects(fname, types, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     #end
-    defp create_function_c_stub_objects(fname, types, [_param | rest], ret, idx) do
-        create_function_c_stub_objects(fname, types, rest, ret, idx + 1)
+    defp create_function_c_stub_objects(env, fname, [_param | rest], ret, idx) do
+        create_function_c_stub_objects(env, fname, rest, ret, idx + 1)
     end
 
     # Generate exports c stub containing NIF mapping table.

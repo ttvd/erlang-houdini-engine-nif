@@ -13,12 +13,11 @@
 ERL_NIF_TERM
 hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    /* Input parameters. */
-    HAPI_AssetId param_asset_id = -1;
-    int32_t param_handle_index = 0;
-    int32_t param_start = 0;
-    int32_t param_length = 0;
-    /* No output parameters. */
+    //%{HAPI_FUNCTION_INPUT_VARS}%
+
+    //%{HAPI_FUNCTION_OUTPUT_VARS}%
+
+    //%{HAPI_FUNCTION_CLEANUP}%
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

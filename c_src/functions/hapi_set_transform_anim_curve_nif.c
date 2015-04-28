@@ -13,12 +13,11 @@
 ERL_NIF_TERM
 hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    /* Input parameters. */
-    HAPI_NodeId param_node_id = -1;
-    HAPI_TransformComponent param_trans_comp;
-    HAPI_Keyframe* param_curve_keyframes = NULL;
-    int32_t param_keyframe_count = 0;
-    /* No output parameters. */
+    //%{HAPI_FUNCTION_INPUT_VARS}%
+
+    //%{HAPI_FUNCTION_OUTPUT_VARS}%
+
+    //%{HAPI_FUNCTION_CLEANUP}%
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

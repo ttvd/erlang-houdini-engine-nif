@@ -13,10 +13,11 @@
 ERL_NIF_TERM
 hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    /* Input parameters. */
-    HAPI_RSTOrder param_rst_order;
-    HAPI_XYZOrder param_rot_order;
-    /* No output parameters. */
+    //%{HAPI_FUNCTION_INPUT_VARS}%
+
+    //%{HAPI_FUNCTION_OUTPUT_VARS}%
+
+    //%{HAPI_FUNCTION_CLEANUP}%
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

@@ -13,12 +13,11 @@
 ERL_NIF_TERM
 hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    /* Input parameters. */
-    HAPI_AssetId param_asset_id = -1;
-    HAPI_MaterialId param_material_id = -1;
-    char* param_image_file_format_name = NULL;
-    char* param_image_planes = NULL;
-    /* No output parameters. */
+    //%{HAPI_FUNCTION_INPUT_VARS}%
+
+    //%{HAPI_FUNCTION_OUTPUT_VARS}%
+
+    //%{HAPI_FUNCTION_CLEANUP}%
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

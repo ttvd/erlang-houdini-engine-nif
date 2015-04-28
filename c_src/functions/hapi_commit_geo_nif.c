@@ -13,11 +13,11 @@
 ERL_NIF_TERM
 hapi_commit_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    /* Input parameters. */
-    HAPI_AssetId param_asset_id = -1;
-    HAPI_ObjectId param_object_id = -1;
-    HAPI_GeoId param_geo_id = -1;
-    /* No output parameters. */
+    //%{HAPI_FUNCTION_INPUT_VARS}%
+
+    //%{HAPI_FUNCTION_OUTPUT_VARS}%
+
+    //%{HAPI_FUNCTION_CLEANUP}%
 
     //return hapi_make_atom_ok(env);
     return enif_make_badarg(env);

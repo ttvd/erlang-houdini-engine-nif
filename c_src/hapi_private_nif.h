@@ -31,6 +31,9 @@ bool hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value,
 // Get value of boolean atom. Return true if succeeds. Returns boolean by pointer.
 bool hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);
 
+// Get value of float. Return true if succeeds. Returns float by pointer.
+bool hapi_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data);
+
 // Retrieve elements of double list into float array (by pointer). Return status.
 bool hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data);
 

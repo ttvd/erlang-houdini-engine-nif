@@ -153,6 +153,21 @@ hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
 
 
 bool
+hapi_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data)
+{
+    double result = 0.0;
+
+    if(enif_get_double(env, term, &result))
+    {
+        *data = (float) result;
+        return true;
+    }
+
+    return false;
+}
+
+
+bool
 hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data)
 {
     uint32_t list_size = 0;

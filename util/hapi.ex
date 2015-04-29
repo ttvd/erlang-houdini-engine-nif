@@ -1,5 +1,90 @@
 defmodule HAPI do
 
+    # Utility module.
+    defmodule Util do
+
+        # Helper function to check if type is enum.
+        def is_type_enum(_env, :token_enum), do: true
+        def is_type_enum(_env, :nil), do: false
+        def is_type_enum(env, type) do
+            types = Dict.get(env, :types, :nil)
+            if not is_nil(types) do
+                is_type_enum(env, Dict.get(types, type, :nil))
+            else
+                false
+            end
+        end
+
+        # Helper function to check if type is a struct.
+        def is_type_struct(_env, :token_struct), do: true
+        def is_type_struct(_env, :nil), do: false
+        def is_type_struct(env, type) do
+            types = Dict.get(env, :types, :nil)
+            if not is_nil(types) do
+                is_type_struct(env, Dict.get(types, type, :nil))
+            else
+                false
+            end
+        end
+
+        # Helper function to check if type name is not typedef'ed.
+        def is_typename_original(_env, "int"), do: true
+        def is_typename_original(_env, "float"), do: true
+        def is_typename_original(_env, "double"), do: true
+        def is_typename_original(_env, "bool"), do: true
+        def is_typename_original(_env, _type), do: false
+
+        # Helper function to check if type is a primitive type.
+        def is_type_primitive(_env, :token_int), do: true
+        def is_type_primitive(_env, :token_bool), do: true
+        def is_type_primitive(_env, :token_float), do: true
+        def is_type_primitive(_env, :token_double), do: true
+        def is_type_primitive(_env, :nil), do: false
+        def is_type_primitive(env, type) do
+            types = Dict.get(env, :types, :nil)
+            if not is_nil(types) do
+                is_type_primitive(env, Dict.get(types, type, :nil))
+            else
+                false
+            end
+        end
+
+        # Helper function to retrieve mapped primitive type.
+        def get_type_primitive(_env, :token_int), do: "int"
+        def get_type_primitive(_env, :token_bool), do: "bool"
+        def get_type_primitive(_env, :token_float), do: "float"
+        def get_type_primitive(_env, :token_double), do: "double"
+        def get_type_primitive(env, type) do
+            types = Dict.get(env, :types, :nil)
+            if not is_nil(types) do
+                get_type_primitive(env, Dict.get(types, type, :nil))
+            else
+                false
+            end
+        end
+
+        # Helper function to translate character to lower case.
+        def to_lower_case(c) when c in ?A..?Z, do: c + 32
+        def to_lower_case(c), do: c
+
+        # Helper function to create underscore version of a given string.
+        def underscore(""), do: ""
+        def underscore(string) when is_binary(string), do: underscore_helper(string)
+        def underscore(_string) do
+            raise(RuntimeError, description: "Can't create underscore version of non-binary parameter")
+        end
+        defp underscore_helper(<<c, rest ::binary>>), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
+        defp underscore_helper(<<c, rest ::binary>>, p) when p == ?_ do
+            <<to_lower_case(c)>> <> underscore_helper(rest, c)
+        end
+        defp underscore_helper(<<c, rest ::binary>>, p) when c in ?A..?Z and not p in ?A..?Z do
+            <<?_, to_lower_case(c)>> <> underscore_helper(rest, c)
+        end
+        defp underscore_helper(<<c, rest ::binary>>, _p), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
+        defp underscore_helper("", _p), do: ""
+
+    end
+
     # Remove preprocessor left overs from data stream.
     defp preprocess(data) do
         String.replace(data, ~r/int main\(\)\s\{\s*.*\s*\}/, "")
@@ -406,54 +491,13 @@ defmodule HAPI do
     #    end
     #end
 
-    # Helper function to retrieve mapped primitive type.
-    defp get_type_primitive(env, type) do
-        types = Dict.get(env, :types, :nil)
-        if not is_nil(types) do
-            Dict.get(types, type, :nil)
-        else
-            :nil
-        end
-    end
 
-    # Helper function to check if type is a primitive type.
-    defp is_type_primitive(_env, :token_int), do: true
-    defp is_type_primitive(_env, :token_bool), do: true
-    defp is_type_primitive(_env, :token_float), do: true
-    defp is_type_primitive(_env, :token_double), do: true
-    defp is_type_primitive(_env, :nil), do: false
-    defp is_type_primitive(env, type) do
-        types = Dict.get(env, :types, :nil)
-        if not is_nil(types) do
-            is_type_primitive(env, Dict.get(types, type, :nil))
-        else
-            false
-        end
-    end
 
-    # Helper function to check if type is enum.
-    defp is_type_enum(_env, :token_enum), do: true
-    defp is_type_enum(_env, :nil), do: false
-    defp is_type_enum(env, type) do
-        types = Dict.get(env, :types, :nil)
-        if not is_nil(types) do
-            is_type_enum(env, Dict.get(types, type, :nil))
-        else
-            false
-        end
-    end
 
-    # Helper function to check if type is a struct.
-    defp is_type_struct(_env, :token_struct), do: true
-    defp is_type_struct(_env, :nil), do: false
-    defp is_type_struct(env, type) do
-        types = Dict.get(env, :types, :nil)
-        if not is_nil(types) do
-            is_type_struct(env, Dict.get(types, type, :nil))
-        else
-            false
-        end
-    end
+
+
+
+
 
     # Helper function to generate hash for a given string.
     defp hash(string) when is_binary(string) do
@@ -467,25 +511,7 @@ defmodule HAPI do
         raise(RuntimeError, description: "Can't create hash of non-binary parameter")
     end
 
-    # Helper function to translate character to lower case.
-    defp to_lower_case(c) when c in ?A..?Z, do: c + 32
-    defp to_lower_case(c), do: c
 
-    # Helper function to create underscore version of a given string.
-    defp underscore(""), do: ""
-    defp underscore(string) when is_binary(string), do: underscore_helper(string)
-    defp underscore(_string) do
-        raise(RuntimeError, description: "Can't create underscore version of non-binary parameter")
-    end
-    defp underscore_helper(<<c, rest ::binary>>), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
-    defp underscore_helper(<<c, rest ::binary>>, p) when p == ?_ do
-        <<to_lower_case(c)>> <> underscore_helper(rest, c)
-    end
-    defp underscore_helper(<<c, rest ::binary>>, p) when c in ?A..?Z and not p in ?A..?Z do
-        <<?_, to_lower_case(c)>> <> underscore_helper(rest, c)
-    end
-    defp underscore_helper(<<c, rest ::binary>>, _p), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
-    defp underscore_helper("", _p), do: ""
 
     # Pre-process hapi.c which includes all hapi headers into something we can parse.
     def generate_hapi_c("clang", hapi_include_path) do
@@ -536,13 +562,13 @@ defmodule HAPI do
         {p_input, _p_process, _p_cleanup} = create_function_c_stub_objects(env, function_name, parameters)
 
         function_code = String.replace(template_function_c, "%{HAPI_FUNCTION}%", function_name)
-            |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", underscore(function_name))
+            |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
 
         # Create block for input parameters.
         param_decl = Enum.map_join(p_input, "\n    ", fn(x) -> x end)
         function_code = String.replace(function_code, "%{HAPI_FUNCTION_BODY}%", param_decl)
 
-        file_name = "c_src/functions/#{underscore(function_name)}_nif.c"
+        file_name = "c_src/functions/#{HAPI.Util.underscore(function_name)}_nif.c"
         File.write("./#{file_name}", function_code)
         IO.puts("Generating #{file_name}")
     end
@@ -556,7 +582,7 @@ defmodule HAPI do
     end
     defp create_function_c_stub_objects(env, fname, [{:token_int, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "int32_t param_#{param_name} = 0;"
-        opt_p = "!enif_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
+        opt_p = "!hapi_get_int(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
         opt_c = :nil
 
         create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
@@ -570,14 +596,14 @@ defmodule HAPI do
     end
     defp create_function_c_stub_objects(env, fname, [{:token_double, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "double param_#{param_name} = 0.0;"
-        opt_p = "!enif_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
+        opt_p = "!hapi_get_double(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
         opt_c = :nil
 
         create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
     end
     defp create_function_c_stub_objects(env, fname, [{:token_bool, param_name, _opts} | rest], {i, p, c}, idx) do
         opt_i = "bool param_#{param_name} = false;"
-        opt_p = "!hapi_get_atom_bool(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
+        opt_p = "!hapi_get_bool(env, argv(#{Integer.to_string(idx)}), &param_#{param_name})";
         opt_c = :nil
 
         create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
@@ -588,9 +614,10 @@ defmodule HAPI do
     defp create_function_c_stub_objects(env, fname, [{param_type, param_name, opts} | rest], {i, p, c} = ret, idx) do
         cond do
 
-            is_type_enum(env, param_type) or is_type_struct(env, param_type) ->
+            HAPI.Util.is_type_enum(env, param_type) or HAPI.Util.is_type_struct(env, param_type) ->
+                param_type_underscore = HAPI.Util.underscore(param_type)
                 opt_i = "#{param_type} param_#{param_name};"
-                opt_p = "!hapi_get_#{underscore(param_type)}(env, argv[#{Integer.to_string(idx)}], &param_#{param_name})"
+                opt_p = "!hapi_get_#{param_type_underscore}(env, argv[#{Integer.to_string(idx)}], &param_#{param_name})"
                 opt_c = :nil
 
                 create_function_c_stub_objects(env, fname, rest, {i ++ [opt_i], p ++ [opt_p], c ++ [opt_c]}, idx + 1)
@@ -613,7 +640,7 @@ defmodule HAPI do
     defp create_exports_c_stub(funcs, template_exports_c) do
         exports = String.replace(template_exports_c, "%{HAPI_NIF_FUNCTIONS}%",
             Enum.map_join(funcs, ",\n    ", fn {k, v} ->
-                create_exports_c_stub_entry(underscore(k), length(function_get_parameters(v))) end))
+                create_exports_c_stub_entry(HAPI.Util.underscore(k), length(function_get_parameters(v))) end))
 
         File.write("./c_src/hapi_exports_nif.c", exports)
         IO.puts("Generating c_src/hapi_exports_nif.c")
@@ -628,11 +655,96 @@ defmodule HAPI do
     defp create_functions_h_stub(funcs, template_functions_h, template_functions_block) do
 
         signature_blocks = Enum.map_join(funcs, "", fn {k, _v} ->
-            String.replace(template_functions_block, "%{HAPI_FUNCTION}%", underscore(k)) end)
+            String.replace(template_functions_block, "%{HAPI_FUNCTION}%", HAPI.Util.underscore(k)) end)
         signatures = String.replace(template_functions_h, "%{HAPI_FUNCTIONS}%", signature_blocks)
 
         File.write("./c_src/hapi_functions_nif.h", signatures)
         IO.puts("Generating c_src/hapi_functions_nif.h")
+    end
+
+    # Type conversion module.
+    defmodule Types do
+
+        # Generate type c stubs containing c <-> erl convertors.
+        def create_c_stubs(env) do
+            IO.puts("Creating type c stubs in c_src")
+
+            if not (Dict.get(env, :types, :nil) |> is_nil()) do
+                create_h_stub(env)
+                create_c_stub(env)
+            end
+
+            env
+        end
+
+        # Generate types header file containing all conversion function signatures.
+        def create_h_stub(env) do
+            types = Dict.get(env, :types, :nil)
+
+            {:ok, template_types_h} = File.read("./util/hapi_types_nif.h.template")
+            {:ok, template_types_h_block} = File.read("./util/hapi_types_nif.h.block.template")
+
+            entries = Enum.map(types, fn {k, v} -> k end)
+                |> Enum.filter(fn(x) -> not HAPI.Util.is_typename_original(env, x) end)
+                |> Enum.map(fn(x) -> create_h_stub_entry(env, x, template_types_h_block) end)
+                |> Enum.filter(fn(x) -> not is_nil(x) end)
+                |> Enum.join("\n")
+
+            entries = String.replace(template_types_h, "%{HAPI_TYPE_FUNCTIONS}%", entries)
+
+            File.write("./c_src/hapi_types_nif.h", entries)
+            IO.puts("Generating c_src/hapi_types_nif.h")
+        end
+
+        # Helper function to create types header file entry.
+        def create_h_stub_entry(env, type_name, template) do
+            if HAPI.Util.is_type_primitive(env, type_name) do
+                String.replace(template, "%{HAPI_TYPE_DOWNCASE}%", HAPI.Util.underscore(type_name))
+                    |> String.replace("%{HAPI_TYPE}%", type_name)
+            else
+                :nil
+            end
+        end
+
+        # Generate types source file containing all conversion functions.
+        defp create_c_stub(env) do
+            types = Dict.get(env, :types, :nil)
+
+            {:ok, template_types_c} = File.read("./util/hapi_types_nif.c.template")
+            {:ok, template_types_c_block} = File.read("./util/hapi_types_nif.c.block.template")
+
+            entries = Enum.map(types, fn {k, v} -> create_c_stub_entry(env, k, v, template_types_c_block) end)
+                |> Enum.filter(fn(x) -> not is_nil(x) end)
+                |> Enum.join("\n")
+
+            entries = String.replace(template_types_c, "%{HAPI_TYPE_FUNCTIONS}%", entries)
+
+            File.write("./c_src/hapi_types_nif.c", entries)
+            IO.puts("Generating c_src/hapi_types_nif.c")
+        end
+
+        # Helper function to create type conversion functions.
+        defp create_c_stub_entry(env, type_name, token_type, template) do
+            if HAPI.Util.is_type_primitive(env, type_name) do
+                String.replace(template, "%{HAPI_TYPE_DOWNCASE}%", HAPI.Util.underscore(type_name))
+                    |> String.replace("%{HAPI_TYPE}%", type_name)
+                    |> create_c_stub_entry_code(env, type_name, token_type)
+            else
+                :nil
+            end
+        end
+
+        # Helper function to generate code for converting type.
+        defp create_c_stub_entry_code(template, env, type_name, token_type) do
+            cond do
+                HAPI.Util.is_typename_original(env, type_name) ->
+                    :nil
+            true ->
+                old_type = HAPI.Util.get_type_primitive(env, type_name)
+                String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_#{old_type}(env, hapi_type);")
+                    |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_#{old_type}(env, term, hapi_type);")
+            end
+        end
     end
 
     # Generate enum c stubs containing c <-> erl convertors.
@@ -664,11 +776,11 @@ defmodule HAPI do
             fn(f) -> create_enum_c_stub_erl_to_c_block(termplate_erl_to_c, elem(f, 0)) end)
 
         enum_code = String.replace(template, "%{HAPI_ENUM}%", enum_name)
-            |> String.replace("%{HAPI_ENUM_DOWNCASE}%", underscore(enum_name))
+            |> String.replace("%{HAPI_ENUM_DOWNCASE}%", HAPI.Util.underscore(enum_name))
             |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", Enum.join(c_to_erl_blocks, "\n"))
             |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", erl_to_c_blocks)
 
-        file_name = "c_src/enums/#{underscore(enum_name)}_nif.c"
+        file_name = "c_src/enums/#{HAPI.Util.underscore(enum_name)}_nif.c"
         File.write("./#{file_name}", enum_code)
         IO.puts("Generating #{file_name}")
     end
@@ -677,12 +789,12 @@ defmodule HAPI do
     defp create_enum_c_stub_c_to_erl_block(_template_c_to_erl, {_field_name, _field_value, _field_original}), do: :nil
     defp create_enum_c_stub_c_to_erl_block(template_c_to_erl, {field_name, _field_value}) do
         [String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", field_name)
-            |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", underscore(field_name))]
+            |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", HAPI.Util.underscore(field_name))]
     end
 
     # Function to generate erl_to_c block for c <-> erl enum c stub.
     defp create_enum_c_stub_erl_to_c_block(template_erl_to_c, field_name) do
-        field_name_downcase = underscore(field_name)
+        field_name_downcase = HAPI.Util.underscore(field_name)
         [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_downcase)
             |> String.replace("%{HAPI_ENUM_HASH}%", hash(field_name_downcase))]
@@ -692,7 +804,7 @@ defmodule HAPI do
     defp create_enums_h_stub(enums, template, template_enums_block) do
         signature_blocks = Enum.map_join(enums, "\n", fn {k, _v} ->
             String.replace(template_enums_block, "%{HAPI_ENUM}%", k)
-                |> String.replace("%{HAPI_ENUM_DOWNCASE}%", underscore(k)) end)
+                |> String.replace("%{HAPI_ENUM_DOWNCASE}%", HAPI.Util.underscore(k)) end)
         signatures = String.replace(template, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)
 
         File.write("./c_src/hapi_enums_nif.h", signatures)
@@ -720,7 +832,7 @@ defmodule HAPI do
 
     # Function to generate c function for generating erl record corresponding to a given struct.
     def create_record_c_stub(types, struct_name, struct_body, template_record_c) do
-        record_name = underscore(struct_name)
+        record_name = HAPI.Util.underscore(struct_name)
 
         stub = String.replace(template_record_c, "%{HAPI_STRUCT_DOWNCASE}%", record_name)
             |> String.replace("%{HAPI_STRUCT_SIZE}%", Integer.to_string(length(struct_body) + 1))
@@ -735,23 +847,23 @@ defmodule HAPI do
             |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%",
                 Enum.map_join(struct_body, "\n    ", fn(f) -> create_record_c_stub_assign(types, f) end))
 
-        file_name = "c_src/records/#{underscore(record_name)}_nif.c"
+        file_name = "c_src/records/#{HAPI.Util.underscore(record_name)}_nif.c"
         File.write("./#{file_name}", stub)
         IO.puts("Generating #{file_name}")
     end
 
     # Function to assign extracted erl record fields to fields of hapi structs.
     defp create_record_c_stub_assign(_types, {field_name, :token_int}) do
-        "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
+        "hapi_struct->#{field_name} = record_#{HAPI.Util.underscore(field_name)};"
     end
     defp create_record_c_stub_assign(_types, {field_name, :token_float}) do
-        "hapi_struct->#{field_name} = (float) record_#{underscore(field_name)};"
+        "hapi_struct->#{field_name} = (float) record_#{HAPI.Util.underscore(field_name)};"
     end
     defp create_record_c_stub_assign(_types, {field_name, :token_double}) do
-        "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
+        "hapi_struct->#{field_name} = record_#{HAPI.Util.underscore(field_name)};"
     end
     defp create_record_c_stub_assign(_types, {field_name, :token_bool}) do
-        "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
+        "hapi_struct->#{field_name} = record_#{HAPI.Util.underscore(field_name)};"
     end
     defp create_record_c_stub_assign(types, {field_name, field_type}) do
         native_type = Dict.get(types, field_type)
@@ -759,11 +871,11 @@ defmodule HAPI do
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    "hapi_struct->#{field_name} = record_#{underscore(field_name)};"
+                    "hapi_struct->#{field_name} = record_#{HAPI.Util.underscore(field_name)};"
                 :token_struct ->
-                    "memcpy(&hapi_struct->#{field_name}, &record_#{underscore(field_name)}, sizeof(#{field_type}));"
+                    "memcpy(&hapi_struct->#{field_name}, &record_#{HAPI.Util.underscore(field_name)}, sizeof(#{field_type}));"
                 _ ->
-                    "hapi_struct->#{field_name} = (#{field_type}) record_#{underscore(field_name)};"
+                    "hapi_struct->#{field_name} = (#{field_type}) record_#{HAPI.Util.underscore(field_name)};"
             end
         else
             raise(RuntimeError,
@@ -771,7 +883,7 @@ defmodule HAPI do
         end
     end
     defp create_record_c_stub_assign(_types, {field_name, :token_float, field_size}) do
-        "memcpy(&hapi_struct->#{field_name}, &record_#{underscore(field_name)}[0], #{field_size} * sizeof(float));"
+        "memcpy(&hapi_struct->#{field_name}, &record_#{HAPI.Util.underscore(field_name)}[0], #{field_size} * sizeof(float));"
     end
     defp create_record_c_stub_assign(_types, {field_name, field_type, _field_size}) do
         raise(RuntimeError,
@@ -780,27 +892,28 @@ defmodule HAPI do
 
     # Function to generate code to extract each erl record field.
     defp create_record_c_stub_extract(_types, {{field_name, :token_int}, index}) do
-        "!enif_get_int(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+        "!hapi_get_int(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{HAPI.Util.underscore(field_name)})"
     end
     defp create_record_c_stub_extract(_types, {{field_name, :token_float}, index}) do
-        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+        "!hapi_get_float(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{HAPI.Util.underscore(field_name)})"
     end
     defp create_record_c_stub_extract(_types, {{field_name, :token_double}, index}) do
-        "!enif_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+        "!hapi_get_double(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{HAPI.Util.underscore(field_name)})"
     end
     defp create_record_c_stub_extract(_types, {{field_name, :token_bool}, index}) do
-        "!hapi_get_atom_bool(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+        "!hapi_get_bool(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{HAPI.Util.underscore(field_name)})"
     end
     defp create_record_c_stub_extract(types, {{field_name, field_type}, index}) do
         native_type = Dict.get(types, field_type)
-        type = underscore(field_type)
+        type = HAPI.Util.underscore(field_type)
 
         if not is_nil(native_type) do
+            field_name_underscore = HAPI.Util.underscore(field_name)
             case native_type do
                 :token_enum ->
-                    "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+                    "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{field_name_underscore})"
                 :token_struct ->
-                    "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{underscore(field_name)})"
+                    "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{field_name_underscore})"
                 _ ->
                     create_record_c_stub_extract(types, {{field_name, native_type}, index})
             end
@@ -810,7 +923,8 @@ defmodule HAPI do
         end
     end
     defp create_record_c_stub_extract(_types, {{field_name, :token_float, fs}, index}) do
-        "!hapi_get_list_float(env, tuple_record[#{Integer.to_string(index + 1)}], #{fs}, &record_#{underscore(field_name)}[0])"
+        field_name_underscore = HAPI.Util.underscore(field_name)
+        "!hapi_get_list_float(env, tuple_record[#{Integer.to_string(index + 1)}], #{fs}, &record_#{field_name_underscore}[0])"
     end
     defp create_record_c_stub_extract(_types, {{field_name, field_type, _field_size}, _index}) do
         raise(RuntimeError,
@@ -819,16 +933,16 @@ defmodule HAPI do
 
     # Function to generate each temporary variable, for erl -> generation.
     defp create_record_c_stub_var(_types, {field_name, :token_int}) do
-        "int32_t record_#{underscore(field_name)} = 0;"
+        "int32_t record_#{HAPI.Util.underscore(field_name)} = 0;"
     end
     defp create_record_c_stub_var(_types, {field_name, :token_bool}) do
-        "bool record_#{underscore(field_name)} = false;"
+        "bool record_#{HAPI.Util.underscore(field_name)} = false;"
     end
     defp create_record_c_stub_var(_types, {field_name, :token_float}) do
-        "double record_#{underscore(field_name)} = 0.0;"
+        "float record_#{HAPI.Util.underscore(field_name)} = 0.0f;"
     end
     defp create_record_c_stub_var(_types, {field_name, :token_double}) do
-        "double record_#{underscore(field_name)} = 0.0;"
+        "double record_#{HAPI.Util.underscore(field_name)} = 0.0;"
     end
     defp create_record_c_stub_var(types, {field_name, field_type}) do
         native_type = Dict.get(types, field_type)
@@ -836,9 +950,9 @@ defmodule HAPI do
         if not is_nil(native_type) do
             case native_type do
                 :token_enum ->
-                    "#{field_type} record_#{underscore(field_name)};"
+                    "#{field_type} record_#{HAPI.Util.underscore(field_name)};"
                 :token_struct ->
-                    "#{field_type} record_#{underscore(field_name)};"
+                    "#{field_type} record_#{HAPI.Util.underscore(field_name)};"
                 _ ->
                     create_record_c_stub_var(types, {field_name, native_type})
             end
@@ -848,7 +962,7 @@ defmodule HAPI do
         end
     end
     defp create_record_c_stub_var(_types, {field_name, :token_float, field_size}) do
-        "float record_#{underscore(field_name)}[#{field_size}];"
+        "float record_#{HAPI.Util.underscore(field_name)}[#{field_size}];"
     end
     defp create_record_c_stub_var(_types, {field_name, field_type, _field_size}) do
         raise(RuntimeError,
@@ -858,25 +972,25 @@ defmodule HAPI do
     # Function to generate each structure field, for c -> erl generation.
     defp create_record_c_stub_field(_types, {field_name, :token_int}, cast, _from_type) do
         if cast do
-            "enif_make_int(env, (int32_t) hapi_struct->#{field_name})"
+            "hapi_make_int(env, (int32_t) hapi_struct->#{field_name})"
         else
-            "enif_make_int(env, hapi_struct->#{field_name})"
+            "hapi_make_int(env, hapi_struct->#{field_name})"
         end
     end
     defp create_record_c_stub_field(_types, {field_name, :token_bool}, _cast, _from_type) do
-        "hapi_make_atom_bool(env, (bool) hapi_struct->#{field_name})"
+        "hapi_make_bool(env, (bool) hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(_types, {field_name, :token_float}, _cast, _from_type) do
-        "enif_make_double(env, (double) hapi_struct->#{field_name})"
+        "hapi_make_float(env, (double) hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(_types, {field_name, :token_double}, _cast, _from_type) do
-        "enif_make_double(env, hapi_struct->#{field_name})"
+        "hapi_make_double(env, hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(_types, {field_name, :token_struct}, _cast, from_type) do
-        "hapi_make_#{underscore(from_type)}(env, &hapi_struct->#{field_name})"
+        "hapi_make_#{HAPI.Util.underscore(from_type)}(env, &hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(_types, {field_name, :token_enum}, _cast, from_type) do
-        "hapi_make_#{underscore(from_type)}(env, hapi_struct->#{field_name})"
+        "hapi_make_#{HAPI.Util.underscore(from_type)}(env, hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(types, {field_name, field_type}, _cast, _from_type) do
         native_type = Dict.get(types, field_type)
@@ -899,7 +1013,7 @@ defmodule HAPI do
     def create_records_h_stub(structs, template_records_h, template_records_block) do
 
         record_function_blocks = Enum.map_join(structs, "\n", fn {k, _v} ->
-            String.replace(template_records_block, "%{HAPI_STRUCT_DOWNCASE}%", underscore(k))
+            String.replace(template_records_block, "%{HAPI_STRUCT_DOWNCASE}%", HAPI.Util.underscore(k))
                 |> String.replace("%{HAPI_STRUCT}%", k) end)
 
         File.write("./c_src/hapi_records_nif.h",
@@ -926,13 +1040,13 @@ defmodule HAPI do
 
     # Function to generate erl record corresponding to a given struct.
     defp create_record_erl_stub(struct_name, struct_body, template_record_erl) do
-        record_name = underscore(struct_name)
-        record_fields = Enum.map_join(struct_body, ",\n", fn(f) -> "    #{underscore(elem(f, 0))}" end)
+        record_name = HAPI.Util.underscore(struct_name)
+        record_fields = Enum.map_join(struct_body, ",\n", fn(f) -> "    #{HAPI.Util.underscore(elem(f, 0))}" end)
         record_block = String.replace(template_record_erl, "%{HAPI_STRUCT}%", struct_name)
                         |> String.replace("%{HAPI_RECORD_NAME}%", record_name)
                         |> String.replace("%{HAPI_RECORD_ENTRIES}%", record_fields)
 
-        file_name = "src/records/#{underscore(record_name)}.hrl"
+        file_name = "src/records/#{HAPI.Util.underscore(record_name)}.hrl"
         File.write("./#{file_name}", record_block)
         IO.puts("Generating #{file_name}")
     end
@@ -940,7 +1054,7 @@ defmodule HAPI do
     # Function to generate main records erl include stub.
     defp create_records_erl_stub(structs, template_records_erl) do
         record_includes = String.replace(template_records_erl, "%{HAPI_RECORDS}%",
-            Enum.map_join(structs, "\n", fn {k, _v} -> "-include(\"records/#{underscore(k)}.hrl\")." end))
+            Enum.map_join(structs, "\n", fn {k, _v} -> "-include(\"records/#{HAPI.Util.underscore(k)}.hrl\")." end))
 
         File.write("./src/hapi_records.hrl", record_includes)
         IO.puts("Generating src/hapi_records.hrl")
@@ -949,6 +1063,7 @@ end
 
 [compiler, hapi_include_path] = System.argv()
 HAPI.generate_hapi_c(compiler, hapi_include_path)
+    |> HAPI.Types.create_c_stubs()
     |> HAPI.create_enum_c_stubs()
     |> HAPI.create_record_c_stubs()
     |> HAPI.create_record_erl_stubs()

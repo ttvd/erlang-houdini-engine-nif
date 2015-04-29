@@ -222,6 +222,7 @@ defmodule HAPI do
             |> Dict.put("int", :token_int)
             |> Dict.put("float", :token_float)
             |> Dict.put("bool", :token_bool)
+            |> Dict.put("char", :token_char)
             |> type_map_hapi_collect(tokens)
     end
 
@@ -1064,7 +1065,7 @@ end
 [compiler, hapi_include_path] = System.argv()
 HAPI.generate_hapi_c(compiler, hapi_include_path)
     |> HAPI.Types.create_c_stubs()
-    |> HAPI.create_enum_c_stubs()
-    |> HAPI.create_record_c_stubs()
-    |> HAPI.create_record_erl_stubs()
-    |> HAPI.create_function_c_stubs()
+    #|> HAPI.create_enum_c_stubs()
+    #|> HAPI.create_record_c_stubs()
+    #|> HAPI.create_record_erl_stubs()
+    #|> HAPI.create_function_c_stubs()

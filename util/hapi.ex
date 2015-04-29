@@ -155,6 +155,12 @@ defmodule HAPI do
                     [token]
             end
         end
+
+        # Function used to print token stream.
+        def print_tokens(tokens) do
+            Enum.map(tokens, fn(x) -> IO.puts("#{x}") end)
+            tokens
+        end
     end
 
     # Syntactic processing.
@@ -163,43 +169,46 @@ defmodule HAPI do
         # Given a list of tokens produce necessary tables.
         def process(tokens) do
             HashDict.new
-                |> Dict.put(:types, process_types(tokens))
+                |> Dict.put(:types, HAPI.Syntactic.Types.process(tokens))
                 #|> Dict.put(:enums, enum_map_hapi(tokens))
                 #|> Dict.put(:structs, struct_map_hapi(tokens))
                 #|> Dict.put(:funcs, function_map_hapi(tokens))
         end
 
-        # Given a list of tokens, produce a mapping table (parsed type -> system type).
-        defp process_types(tokens) do
-            HashDict.new
-                |> Dict.put("void", :type_void)
-                |> Dict.put("int", :type_int)
-                |> Dict.put("float", :type_float)
-                |> Dict.put("double", :type_double)
-                |> Dict.put("bool", :type_bool)
-                |> Dict.put("char", :type_char)
-                |> process_types_collect(tokens)
-        end
+        defmodule Types do
 
-        # Process tokens and collect types.
-        defp process_types_collect(dict, []), do: dict
-        defp process_types_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
-            Dict.put(dict, "HAPI_Bool", :type_bool)
-                |> process_types_collect(rest)
+            # Given a list of tokens, produce a mapping table (parsed type -> system type).
+            def process(tokens) do
+                HashDict.new
+                    |> Dict.put("void", :type_void)
+                    |> Dict.put("int", :type_int)
+                    |> Dict.put("float", :type_float)
+                    |> Dict.put("double", :type_double)
+                    |> Dict.put("bool", :type_bool)
+                    |> Dict.put("char", :type_char)
+                    |> process_collect(tokens)
+            end
+
+            # Process tokens and collect types.
+            defp process_collect(dict, []), do: dict
+            defp process_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
+                Dict.put(dict, "HAPI_Bool", :type_bool)
+                    |> process_collect(rest)
+            end
+            defp process_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
+                Dict.put(dict, type_new, type_origin)
+                    |> process_collect(rest)
+            end
+            defp process_collect(dict, [:token_enum, enum_name | rest]) do
+                Dict.put(dict, enum_name, :type_enum)
+                    |> process_collect(rest)
+            end
+            defp process_collect(dict, [:token_struct, struct_name | rest]) do
+                Dict.put(dict, struct_name, :type_struct)
+                    |> process_collect(rest)
+            end
+            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
         end
-        defp process_types_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
-            Dict.put(dict, type_new, type_origin)
-                |> process_types_collect(rest)
-        end
-        defp process_types_collect(dict, [:token_enum, enum_name | rest]) do
-            Dict.put(dict, enum_name, :type_enum)
-                |> process_types_collect(rest)
-        end
-        defp process_types_collect(dict, [:token_struct, struct_name | rest]) do
-            Dict.put(dict, struct_name, :type_struct)
-                |> process_types_collect(rest)
-        end
-        defp process_types_collect(dict, [_token | rest]), do: process_types_collect(dict, rest)
 
         # Print types.
         def print_types(env) do
@@ -207,6 +216,8 @@ defmodule HAPI do
             if not is_nil(types) do
                 Enum.map(types, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
             end
+
+            env
         end
     end
 
@@ -1118,7 +1129,9 @@ end
 [compiler, hapi_include_path] = System.argv()
 HAPI.generate_hapi_c(compiler, hapi_include_path)
     |> HAPI.Lexical.parse()
+    #|> HAPI.Lexical.print_tokens()
     |> HAPI.Syntactic.process()
+    #|> HAPI.Syntactic.print_types()
 
 
 

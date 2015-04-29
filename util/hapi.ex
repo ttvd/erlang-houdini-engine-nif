@@ -1,5 +1,215 @@
 defmodule HAPI do
 
+    # Pre-process hapi.c which includes all hapi headers into something we can parse.
+    def generate_hapi_c("clang", hapi_include_path) do
+        {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
+        if 0 == result_code do
+            cmd_output
+        else
+            raise(RuntimeError, description: "Unable to expand macros in hapi.c")
+        end
+    end
+    def generate_hapi_c("cpp.exe", hapi_include_path) do
+        if File.exists?("./util/cpp.exe") do
+            to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
+        else
+            raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
+        end
+
+    end
+    def generate_hapi_c(_compiler, _hapi_include_path) do
+        raise(RuntimeError, description: "Unknown compiler, please add options")
+    end
+
+    # Lexical parsing.
+    defmodule Lexical do
+
+        # Create environment consisting of types, enums, structs and functions.
+        def parse(data) do
+            preprocess(data) |> tokenize()
+        end
+
+        # Remove preprocessor left overs from data stream.
+        defp preprocess(data) do
+            String.replace(data, ~r/int main\(\)\s\{\s*.*\s*\}/, "")
+                |> String.replace(~r/#\s*\d+.*\n/, "")
+                |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
+                |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
+                |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
+                |> String.replace("__attribute__((visibility(0)))", "")
+        end
+
+        # Parse given string containing code.
+        defp tokenize([]), do: []
+        defp tokenize(code), do: parse_collect(code, "", [])
+
+        # Parse and collect tokens.
+        defp parse_collect("", _buf, tokens) do
+            tokens
+        end
+        defp parse_collect(<<c>> <> rest, buf, tokens) do
+            cond do
+                is_whitespace(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens)
+                is_comma(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_comma)
+                is_semicolon(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_semicolon)
+                is_pointer(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_pointer)
+                is_bracket_left(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_bracket_left)
+                is_bracket_right(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_bracket_right)
+                is_bracket_curly_left(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_bracket_curly_left)
+                is_bracket_curly_right(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_bracket_curly_right)
+                is_bracket_square_left(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_bracket_square_left)
+                is_bracket_square_right(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_bracket_square_right)
+                is_assignment(<<c>>) ->
+                    parse_collect_submit(rest, buf, tokens, :token_assignment)
+                true ->
+                    parse_collect(rest, buf <> <<c>>, tokens)
+            end
+        end
+
+        # Helper method to collect and avoid empty token submission.
+        defp parse_collect_submit(code, "", tokens), do: parse_collect(code, "", tokens)
+        defp parse_collect_submit(code, buf, tokens), do: parse_collect(code, "", tokens ++ map_token(buf))
+        defp parse_collect_submit(code, "", tokens, extra), do: parse_collect(code, "", tokens ++ [extra])
+        defp parse_collect_submit(code, buf, tokens, extra), do: parse_collect(code, "", tokens ++ map_token(buf) ++ [extra])
+
+        # Return true if current position is whitespace.
+        defp is_whitespace(""), do: false
+        defp is_whitespace(<<c>> <> _rest), do: String.match?(<<c>>, ~r/\s/)
+
+        # Return true if current position is comma.
+        defp is_comma(""), do: false
+        defp is_comma("," <> _rest), do: true
+        defp is_comma(_rest), do: false
+
+        # Return true if current position is assignment.
+        defp is_assignment(""), do: false
+        defp is_assignment("=" <> _rest), do: true
+        defp is_assignment(_rest), do: false
+
+        # Return true if current position is semicolon.
+        defp is_semicolon(""), do: false
+        defp is_semicolon(";" <> _rest), do: true
+        defp is_semicolon(_rest), do: false
+
+        # Return true if current position is left bracket.
+        defp is_bracket_left(""), do: false
+        defp is_bracket_left("(" <> _rest), do: true
+        defp is_bracket_left(_rest), do: false
+
+        # Return true if current position is right bracket.
+        defp is_bracket_right(""), do: false
+        defp is_bracket_right(")" <> _rest), do: true
+        defp is_bracket_right(_rest), do: false
+
+        # Return true if current position is left curly bracket.
+        defp is_bracket_curly_left(""), do: false
+        defp is_bracket_curly_left("{" <> _rest), do: true
+        defp is_bracket_curly_left(_rest), do: false
+
+        # Return true if current position is right curly bracket.
+        defp is_bracket_curly_right(""), do: false
+        defp is_bracket_curly_right("}" <> _rest), do: true
+        defp is_bracket_curly_right(_rest), do: false
+
+        # Return true if current position is left square bracket.
+        defp is_bracket_square_left(""), do: false
+        defp is_bracket_square_left("[" <> _rest), do: true
+        defp is_bracket_square_left(_rest), do: false
+
+        # Return true if current position is right square bracket.
+        defp is_bracket_square_right(""), do: false
+        defp is_bracket_square_right("]" <> _rest), do: true
+        defp is_bracket_square_right(_rest), do: false
+
+        # Return true if current position is a pointer.
+        defp is_pointer(""), do: false
+        defp is_pointer("*"), do: true
+        defp is_pointer(_rest), do: false
+
+        # Map extracted string to a token.
+        defp map_token(""), do: []
+        defp map_token("typedef"), do: [:token_typedecl]
+        defp map_token("enum"), do: [:token_enum]
+        defp map_token("struct"), do: [:token_struct]
+        defp map_token("const"), do: [:token_const]
+        defp map_token("void"), do: [:token_void]
+        defp map_token("float"), do: [:token_float]
+        defp map_token("int"), do: [:token_int]
+        defp map_token("char"), do: [:token_char]
+        defp map_token("double"), do: [:token_double]
+        defp map_token(token) do
+            case Integer.parse(token) do
+                {num, ""} ->
+                    [num]
+                _ ->
+                    [token]
+            end
+        end
+    end
+
+    # Syntactic processing.
+    defmodule Syntactic do
+
+        # Given a list of tokens produce necessary tables.
+        def process(tokens) do
+            HashDict.new
+                |> Dict.put(:types, process_types(tokens))
+                #|> Dict.put(:enums, enum_map_hapi(tokens))
+                #|> Dict.put(:structs, struct_map_hapi(tokens))
+                #|> Dict.put(:funcs, function_map_hapi(tokens))
+        end
+
+        # Given a list of tokens, produce a mapping table (parsed type -> system type).
+        defp process_types(tokens) do
+            HashDict.new
+                |> Dict.put("void", :type_void)
+                |> Dict.put("int", :type_int)
+                |> Dict.put("float", :type_float)
+                |> Dict.put("double", :type_double)
+                |> Dict.put("bool", :type_bool)
+                |> Dict.put("char", :type_char)
+                |> process_types_collect(tokens)
+        end
+
+        # Process tokens and collect types.
+        defp process_types_collect(dict, []), do: dict
+        defp process_types_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
+            Dict.put(dict, "HAPI_Bool", :type_bool)
+                |> process_types_collect(rest)
+        end
+        defp process_types_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
+            Dict.put(dict, type_new, type_origin)
+                |> process_types_collect(rest)
+        end
+        defp process_types_collect(dict, [:token_enum, enum_name | rest]) do
+            Dict.put(dict, enum_name, :type_enum)
+                |> process_types_collect(rest)
+        end
+        defp process_types_collect(dict, [:token_struct, struct_name | rest]) do
+            Dict.put(dict, struct_name, :type_struct)
+                |> process_types_collect(rest)
+        end
+        defp process_types_collect(dict, [_token | rest]), do: process_types_collect(dict, rest)
+
+        # Print types.
+        def print_types(env) do
+            types = Dict.get(env, :types, :nil)
+            if not is_nil(types) do
+                Enum.map(types, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
+            end
+        end
+    end
+
     # Utility module.
     defmodule Util do
 
@@ -85,165 +295,36 @@ defmodule HAPI do
 
     end
 
-    # Remove preprocessor left overs from data stream.
-    defp preprocess(data) do
-        String.replace(data, ~r/int main\(\)\s\{\s*.*\s*\}/, "")
-            |> String.replace(~r/#\s*\d+.*\n/, "")
-            |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
-            |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
-            |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
-            |> String.replace("__attribute__((visibility(0)))", "")
-    end
 
-    # Parse given string containing code.
-    defp tokenize([]), do: []
-    defp tokenize(code), do: parse_collect(code, "", [])
 
-    # Parse and collect tokens.
-    defp parse_collect("", _buf, tokens) do
-        tokens
-    end
-    defp parse_collect(<<c>> <> rest, buf, tokens) do
-        cond do
-            is_whitespace(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens)
-            is_comma(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_comma)
-            is_semicolon(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_semicolon)
-            is_pointer(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_pointer)
-            is_bracket_left(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_bracket_left)
-            is_bracket_right(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_bracket_right)
-            is_bracket_curly_left(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_bracket_curly_left)
-            is_bracket_curly_right(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_bracket_curly_right)
-            is_bracket_square_left(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_bracket_square_left)
-            is_bracket_square_right(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_bracket_square_right)
-            is_assignment(<<c>>) ->
-                parse_collect_submit(rest, buf, tokens, :token_assignment)
-            true ->
-                parse_collect(rest, buf <> <<c>>, tokens)
-        end
-    end
 
-    # Helper method to collect and avoid empty token submission.
-    defp parse_collect_submit(code, "", tokens), do: parse_collect(code, "", tokens)
-    defp parse_collect_submit(code, buf, tokens), do: parse_collect(code, "", tokens ++ map_token(buf))
-    defp parse_collect_submit(code, "", tokens, extra), do: parse_collect(code, "", tokens ++ [extra])
-    defp parse_collect_submit(code, buf, tokens, extra), do: parse_collect(code, "", tokens ++ map_token(buf) ++ [extra])
 
-    # Return true if current position is whitespace.
-    defp is_whitespace(""), do: false
-    defp is_whitespace(<<c>> <> _rest), do: String.match?(<<c>>, ~r/\s/)
 
-    # Return true if current position is comma.
-    defp is_comma(""), do: false
-    defp is_comma("," <> _rest), do: true
-    defp is_comma(_rest), do: false
 
-    # Return true if current position is assignment.
-    defp is_assignment(""), do: false
-    defp is_assignment("=" <> _rest), do: true
-    defp is_assignment(_rest), do: false
 
-    # Return true if current position is semicolon.
-    defp is_semicolon(""), do: false
-    defp is_semicolon(";" <> _rest), do: true
-    defp is_semicolon(_rest), do: false
 
-    # Return true if current position is left bracket.
-    defp is_bracket_left(""), do: false
-    defp is_bracket_left("(" <> _rest), do: true
-    defp is_bracket_left(_rest), do: false
 
-    # Return true if current position is right bracket.
-    defp is_bracket_right(""), do: false
-    defp is_bracket_right(")" <> _rest), do: true
-    defp is_bracket_right(_rest), do: false
 
-    # Return true if current position is left curly bracket.
-    defp is_bracket_curly_left(""), do: false
-    defp is_bracket_curly_left("{" <> _rest), do: true
-    defp is_bracket_curly_left(_rest), do: false
 
-    # Return true if current position is right curly bracket.
-    defp is_bracket_curly_right(""), do: false
-    defp is_bracket_curly_right("}" <> _rest), do: true
-    defp is_bracket_curly_right(_rest), do: false
 
-    # Return true if current position is left square bracket.
-    defp is_bracket_square_left(""), do: false
-    defp is_bracket_square_left("[" <> _rest), do: true
-    defp is_bracket_square_left(_rest), do: false
 
-    # Return true if current position is right square bracket.
-    defp is_bracket_square_right(""), do: false
-    defp is_bracket_square_right("]" <> _rest), do: true
-    defp is_bracket_square_right(_rest), do: false
 
-    # Return true if current position is a pointer.
-    defp is_pointer(""), do: false
-    defp is_pointer("*"), do: true
-    defp is_pointer(_rest), do: false
 
-    # Map extracted string to a token.
-    defp map_token(""), do: []
-    defp map_token("typedef"), do: [:token_typedecl]
-    defp map_token("enum"), do: [:token_enum]
-    defp map_token("struct"), do: [:token_struct]
-    defp map_token("const"), do: [:token_const]
-    defp map_token("void"), do: [:token_void]
-    defp map_token("float"), do: [:token_float]
-    defp map_token("int"), do: [:token_int]
-    defp map_token("char"), do: [:token_char]
-    defp map_token("double"), do: [:token_double]
-    defp map_token(token) do
-        case Integer.parse(token) do
-            {num, ""} ->
-                [num]
-            _ ->
-                [token]
-        end
-    end
 
-    # Print tokens.
-    #defp print_tokens(tokens), do: Enum.map(tokens, fn(token) -> IO.inspect(token) end)
 
-    # Given a list of tokens, produce a mapping table from hapi types.
-    defp type_map_hapi(tokens) do
-        HashDict.new
-            |> Dict.put("void", :token_void)
-            |> Dict.put("int", :token_int)
-            |> Dict.put("float", :token_float)
-            |> Dict.put("bool", :token_bool)
-            |> Dict.put("char", :token_char)
-            |> type_map_hapi_collect(tokens)
-    end
 
-    # Process tokens and collect types.
-    defp type_map_hapi_collect(dict, []), do: dict
-    defp type_map_hapi_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
-        Dict.put(dict, "HAPI_Bool", :token_bool) |> type_map_hapi_collect(rest)
-    end
-    defp type_map_hapi_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
-        Dict.put(dict, type_new, type_origin) |> type_map_hapi_collect(rest)
-    end
-    defp type_map_hapi_collect(dict, [:token_enum, enum_name | rest]) do
-        Dict.put(dict, enum_name, :token_enum) |> type_map_hapi_collect(rest)
-    end
-    defp type_map_hapi_collect(dict, [:token_struct, struct_name | rest]) do
-        Dict.put(dict, struct_name, :token_struct) |> type_map_hapi_collect(rest)
-    end
-    defp type_map_hapi_collect(dict, [_token | rest]), do: type_map_hapi_collect(dict, rest)
 
-    # Print from hapi type dictionary.
-    #defp print_type_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
+
+
+
+
+
+
+
+
+
+
+
 
     # Given a list of tokens, produce a mapping table of hapi enums.
     defp enum_map_hapi(tokens), do: HashDict.new |> enum_map_hapi_collect(tokens)
@@ -468,15 +549,7 @@ defmodule HAPI do
     #    Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
     #end
 
-    # Create environment consisting of types, enums, structs and functions.
-    defp parse(data) do
-        tokens = preprocess(data) |> tokenize()
-        HashDict.new |>
-            Dict.put(:types, type_map_hapi(tokens)) |>
-            Dict.put(:enums, enum_map_hapi(tokens)) |>
-            Dict.put(:structs, struct_map_hapi(tokens)) |>
-            Dict.put(:funcs, function_map_hapi(tokens))
-    end
+
 
     # Helper method to get the name of the system.
     #defp get_os() do
@@ -514,27 +587,7 @@ defmodule HAPI do
 
 
 
-    # Pre-process hapi.c which includes all hapi headers into something we can parse.
-    def generate_hapi_c("clang", hapi_include_path) do
-        {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
-        if 0 == result_code do
-            parse(cmd_output)
-        else
-            raise(RuntimeError, description: "Unable to expand macros in hapi.c")
-        end
-    end
-    def generate_hapi_c("cpp.exe", hapi_include_path) do
-        if File.exists?("./util/cpp.exe") do
-            to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
-                |> parse()
-        else
-            raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
-        end
 
-    end
-    def generate_hapi_c(_compiler, _hapi_include_path) do
-        raise(RuntimeError, description: "Unknown compiler, please add options")
-    end
 
     # Generate c function stubs.
     def create_function_c_stubs(env) do
@@ -1064,7 +1117,13 @@ end
 
 [compiler, hapi_include_path] = System.argv()
 HAPI.generate_hapi_c(compiler, hapi_include_path)
-    |> HAPI.Types.create_c_stubs()
+    |> HAPI.Lexical.parse()
+    |> HAPI.Syntactic.process()
+
+
+
+#HAPI.generate_hapi_c(compiler, hapi_include_path)
+#    |> HAPI.Types.create_c_stubs()
     #|> HAPI.create_enum_c_stubs()
     #|> HAPI.create_record_c_stubs()
     #|> HAPI.create_record_erl_stubs()

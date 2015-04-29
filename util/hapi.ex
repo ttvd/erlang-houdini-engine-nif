@@ -171,7 +171,7 @@ defmodule HAPI do
             HashDict.new
                 |> Dict.put(:types, HAPI.Syntactic.Types.process(tokens))
                 |> Dict.put(:enums, HAPI.Syntactic.Enums.process(tokens))
-                #|> Dict.put(:structs, struct_map_hapi(tokens))
+                |> Dict.put(:structs, HAPI.Syntactic.Structs.process(tokens))
                 #|> Dict.put(:funcs, function_map_hapi(tokens))
         end
 
@@ -265,7 +265,41 @@ defmodule HAPI do
                     process_lookup(rest, values, enum_value)
                 end
             end
+        end
 
+        # Struct extraction into struct table.
+        defmodule Structs do
+
+            # Given a list of tokens, produce a mapping table for structs.
+            def process(tokens) do
+                HashDict.new
+                    |> process_collect(tokens)
+            end
+
+            # Process tokens and collect structures.
+            defp process_collect(dict, []), do: dict
+            defp process_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest]) do
+                [struct_body, remaining] = process_extract([], rest)
+                Dict.put(dict, struct_name, struct_body)
+                    |> process_collect(remaining)
+            end
+            defp process_collect(_dict, [:token_struct | _rest]) do
+                raise(SyntaxError, description: "Invalid struct detected")
+            end
+            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
+
+            # Helper function to extract struct fields from token stream.
+            defp process_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of struct")
+            defp process_extract(list, [:token_bracket_curly_right, :token_semicolon | rest]), do: [list, rest]
+            defp process_extract(list, [field_type, field_name, :token_bracket_square_left, field_size,
+                :token_bracket_square_right, :token_semicolon | rest]) do
+                    list ++ [{field_name, field_type, field_size}]
+                        |> process_extract(rest)
+            end
+            defp process_extract(list, [field_type, field_name, :token_semicolon | rest]) do
+                list ++ [{field_name, field_type}]
+                    |> process_extract(rest)
+            end
         end
 
         # Print types.
@@ -274,7 +308,6 @@ defmodule HAPI do
             if not is_nil(types) do
                 Enum.map(types, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
             end
-
             env
         end
 
@@ -284,7 +317,6 @@ defmodule HAPI do
             if not is_nil(enums) do
                 Enum.map(enums, fn {k, v} -> print_enum(k, v) end)
             end
-
             env
         end
 
@@ -300,6 +332,30 @@ defmodule HAPI do
             IO.puts("    #{field_name} -> #{field_value} -> #{field_original}")
         end
         defp print_enum_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
+
+        # Helper function to print each individual struct.
+        def print_structs(env) do
+            structs = Dict.get(env, :structs, :nil)
+            if not is_nil(structs) do
+                Enum.map(structs, fn {k, v} -> print_struct(k, v) end)
+            end
+            env
+        end
+
+        # Helper function to print each individual struct.
+        defp print_struct(struct_name, struct_body) do
+            IO.puts("#{struct_name}")
+            Enum.map(struct_body, fn(x) -> print_struct_field(x) end)
+            IO.puts("")
+        end
+
+        # Helper function to print each individual struct field.
+        defp print_struct_field({field_name, field_type, field_size}) do
+            IO.puts("    #{field_type} #{field_name}[#{field_size}]")
+        end
+        defp print_struct_field({field_name, field_type}) do
+            IO.puts("    #{field_type} #{field_name}")
+        end
     end
 
 
@@ -425,70 +481,6 @@ defmodule HAPI do
 
 
 
-
-
-
-
-    # Print from hapi enums dictionary.
-    #defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
-
-    # Helper function to print each enum body.
-    #defp print_enum_map_hapi(enum_name, enum_values) do
-    #    IO.puts("#{enum_name}")
-    #    Enum.map(enum_values, fn(x) -> print_enum_map_hapi_field(x) end)
-    #    IO.puts("")
-    #end
-
-    #Helper function to print each enum.
-    #defp print_enum_map_hapi_field({field_name, field_value, field_original}) do
-    #    IO.puts("    #{field_name} -> #{field_original} -> #{field_value}")
-    #end
-    #defp print_enum_map_hapi_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
-
-    # Given a list of tokens, produce a mapping table of structures.
-    defp struct_map_hapi(tokens), do: HashDict.new |> struct_map_hapi_collect(tokens)
-
-    # Process tokens and collect structures.
-    defp struct_map_hapi_collect(dict, []), do: dict
-    defp struct_map_hapi_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest]) do
-        [struct_body, remaining] = struct_map_hapi_extract([], rest)
-        Dict.put(dict, struct_name, struct_body) |> struct_map_hapi_collect(remaining)
-    end
-    defp struct_map_hapi_collect(_dict, [:token_struct | _rest]) do
-        raise(SyntaxError, description: "Invalid struct detected")
-    end
-    defp struct_map_hapi_collect(dict, [_token | rest]), do: struct_map_hapi_collect(dict, rest)
-
-    # Helper function to extract struct fields from token stream.
-    defp struct_map_hapi_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of struct")
-    defp struct_map_hapi_extract(list, [:token_bracket_curly_right, :token_semicolon | rest]) do
-        [list, rest]
-    end
-    defp struct_map_hapi_extract(list, [field_type, field_name, :token_bracket_square_left, field_size,
-        :token_bracket_square_right, :token_semicolon | rest]) do
-            list ++ [{field_name, field_type, field_size}] |> struct_map_hapi_extract(rest)
-    end
-    defp struct_map_hapi_extract(list, [field_type, field_name, :token_semicolon | rest]) do
-        list ++ [{field_name, field_type}] |> struct_map_hapi_extract(rest)
-    end
-
-    # Print from hapi structs dictionary.
-    #defp print_struct_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_struct_map_hapi(k, v) end)
-
-    # Helper function to print each struct.
-    #defp print_struct_map_hapi(struct_name, struct_body) do
-    #    IO.puts("#{struct_name}")
-    #    Enum.map(struct_body, fn(field) -> print_struct_map_hapi_field(field) end)
-    #    IO.puts("")
-    #end
-
-    # Helper function to print each struct field.
-    #defp print_struct_map_hapi_field({field_name, field_type, field_size}) do
-    #    IO.puts("    #{field_type} #{field_name}[#{field_size}]")
-    #end
-    #defp print_struct_map_hapi_field({field_name, field_type}) do
-    #    IO.puts("    #{field_type} #{field_name}")
-    #end
 
     # Given a list of tokens, produce a mapping table of functions.
     defp function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
@@ -1179,7 +1171,8 @@ HAPI.generate_hapi_c(compiler, hapi_include_path)
     #|> HAPI.Lexical.print_tokens()
     |> HAPI.Syntactic.process()
     #|> HAPI.Syntactic.print_types()
-    |> HAPI.Syntactic.print_enums()
+    #|> HAPI.Syntactic.print_enums()
+    |> HAPI.Syntactic.print_structs()
 
 
 

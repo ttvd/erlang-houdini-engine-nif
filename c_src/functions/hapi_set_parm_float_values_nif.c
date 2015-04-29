@@ -8,6 +8,7 @@
 #include "../hapi_private_nif.h"
 #include "../hapi_enums_nif.h"
 #include "../hapi_records_nif.h"
+#include "../hapi_types_nif.h"
 
 
 ERL_NIF_TERM

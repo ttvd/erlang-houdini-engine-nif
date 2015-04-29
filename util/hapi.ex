@@ -170,11 +170,12 @@ defmodule HAPI do
         def process(tokens) do
             HashDict.new
                 |> Dict.put(:types, HAPI.Syntactic.Types.process(tokens))
-                #|> Dict.put(:enums, enum_map_hapi(tokens))
+                |> Dict.put(:enums, HAPI.Syntactic.Enums.process(tokens))
                 #|> Dict.put(:structs, struct_map_hapi(tokens))
                 #|> Dict.put(:funcs, function_map_hapi(tokens))
         end
 
+        # Type extraction into type table.
         defmodule Types do
 
             # Given a list of tokens, produce a mapping table (parsed type -> system type).
@@ -210,6 +211,63 @@ defmodule HAPI do
             defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
         end
 
+        # Enum extraction into enum table.
+        defmodule Enums do
+
+            # Given a list of tokens, produce a mapping table for enums.
+            def process(tokens) do
+                HashDict.new
+                    |> process_collect(tokens)
+            end
+
+            # Process tokens and collect enums.
+            defp process_collect(dict, []), do: dict
+            defp process_collect(dict, [:token_enum, enum_name, :token_bracket_curly_left | rest]) do
+                {enum_values, remaining} = process_extract([], rest, 0)
+                Dict.put(dict, enum_name, enum_values)
+                    |> process_collect(remaining)
+            end
+            defp process_collect(_dict, [:token_enum | _rest]), do: raise(SyntaxError, description: "Invalid enum detected")
+            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
+
+            # Helper function to extract enum values from token stream.
+            defp process_extract(_values, [], _idx), do: raise(SyntaxError, description: "Unexpected end of enum")
+            defp process_extract(values, [:token_comma | rest], idx), do: process_extract(values, rest, idx)
+            defp process_extract(values, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {values, rest}
+            defp process_extract(values, [enum_entry, :token_comma | rest], idx) do
+                values ++ [{enum_entry, idx}]
+                    |> process_extract(rest, idx + 1)
+            end
+            defp process_extract(values, [enum_entry, :token_bracket_curly_right, :token_semicolon | rest], idx) do
+                {values ++ [{enum_entry, idx}], rest}
+            end
+            defp process_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) when is_integer(enum_value) do
+                values ++ [{enum_entry, enum_value}]
+                    |> process_extract(rest, enum_value + 1)
+            end
+            defp process_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) do
+                orig_value = process_lookup(values, values, enum_value)
+                values ++ [{enum_entry, orig_value, enum_value}]
+                    |> process_extract(rest, orig_value + 1)
+            end
+
+            # Helper function used to look up enum value within enum table.
+            defp process_lookup([], _values, _enum_value), do: raise(SyntaxError, description: "Enum value was not found")
+            defp process_lookup([field | rest], values, enum_value) do
+                if elem(field, 0) == enum_value do
+                    field_value = elem(field, 1)
+                    if is_integer(field_value) do
+                        field_value
+                    else
+                        process_lookup(values, values, field_value)
+                    end
+                else
+                    process_lookup(rest, values, enum_value)
+                end
+            end
+
+        end
+
         # Print types.
         def print_types(env) do
             types = Dict.get(env, :types, :nil)
@@ -219,7 +277,39 @@ defmodule HAPI do
 
             env
         end
+
+        # Print enums.
+        def print_enums(env) do
+            enums = Dict.get(env, :enums, :nil)
+            if not is_nil(enums) do
+                Enum.map(enums, fn {k, v} -> print_enum(k, v) end)
+            end
+
+            env
+        end
+
+        # Helper function to print each individual enum.
+        defp print_enum(enum_name, enum_body) do
+            IO.puts("#{enum_name}")
+            Enum.map(enum_body, fn(x) -> print_enum_field(x) end)
+            IO.puts("")
+        end
+
+        # Helper function to print each enum field.
+        defp print_enum_field({field_name, field_value, field_original}) do
+            IO.puts("    #{field_name} -> #{field_value} -> #{field_original}")
+        end
+        defp print_enum_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
     end
+
+
+
+
+
+
+
+
+
 
     # Utility module.
     defmodule Util do
@@ -337,50 +427,7 @@ defmodule HAPI do
 
 
 
-    # Given a list of tokens, produce a mapping table of hapi enums.
-    defp enum_map_hapi(tokens), do: HashDict.new |> enum_map_hapi_collect(tokens)
 
-    # Process tokens and collect enums.
-    defp enum_map_hapi_collect(dict, []), do: dict
-    defp enum_map_hapi_collect(dict, [:token_enum, enum_name, :token_bracket_curly_left | rest]) do
-        {enum_values, remaining} = enum_map_hapi_extract([], rest, 0)
-        Dict.put(dict, enum_name, enum_values) |> enum_map_hapi_collect(remaining)
-    end
-    defp enum_map_hapi_collect(_dict, [:token_enum | _rest]), do: raise(SyntaxError, description: "Invalid enum detected")
-    defp enum_map_hapi_collect(dict, [_token | rest]), do: enum_map_hapi_collect(dict, rest)
-
-    # Helper function to extract enum values from token stream.
-    defp enum_map_hapi_extract(_values, [], _idx), do: raise(SyntaxError, description: "Unexpected end of enum")
-    defp enum_map_hapi_extract(values, [:token_comma | rest], idx), do: enum_map_hapi_extract(values, rest, idx)
-    defp enum_map_hapi_extract(values, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {values, rest}
-    defp enum_map_hapi_extract(values, [enum_entry, :token_comma | rest], idx) do
-        values ++ [{enum_entry, idx}] |> enum_map_hapi_extract(rest, idx + 1)
-    end
-    defp enum_map_hapi_extract(values, [enum_entry, :token_bracket_curly_right, :token_semicolon | rest], idx) do
-        {values ++ [{enum_entry, idx}], rest}
-    end
-    defp enum_map_hapi_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) when is_integer(enum_value) do
-        values ++ [{enum_entry, enum_value}] |> enum_map_hapi_extract(rest, enum_value + 1)
-    end
-    defp enum_map_hapi_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) do
-        orig_value = enum_map_hapi_lookup_value(values, values, enum_value)
-        values ++ [{enum_entry, orig_value, enum_value}] |> enum_map_hapi_extract(rest, orig_value + 1)
-    end
-
-    # Helper function used to look up enum value within enum table.
-    defp enum_map_hapi_lookup_value([], _values, _enum_value), do: raise(SyntaxError, description: "Enum value was not found")
-    defp enum_map_hapi_lookup_value([field | rest], values, enum_value) do
-        if elem(field, 0) == enum_value do
-            field_value = elem(field, 1)
-            if is_integer(field_value) do
-                field_value
-            else
-                enum_map_hapi_lookup_value(values, values, field_value)
-            end
-        else
-            enum_map_hapi_lookup_value(rest, values, enum_value)
-        end
-    end
 
     # Print from hapi enums dictionary.
     #defp print_enum_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_enum_map_hapi(k, v) end)
@@ -1132,6 +1179,7 @@ HAPI.generate_hapi_c(compiler, hapi_include_path)
     #|> HAPI.Lexical.print_tokens()
     |> HAPI.Syntactic.process()
     #|> HAPI.Syntactic.print_types()
+    |> HAPI.Syntactic.print_enums()
 
 
 

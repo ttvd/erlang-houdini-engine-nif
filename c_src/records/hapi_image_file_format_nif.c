@@ -16,9 +16,9 @@ hapi_make_hapi_image_file_format(ErlNifEnv* env, const HAPI_ImageFileFormat* hap
 {
     return enif_make_tuple(env, 4,
         hapi_make_atom(env, "hapi_image_file_format"),
-        enif_make_int(env, (int32_t) hapi_struct->nameSH),
-        enif_make_int(env, (int32_t) hapi_struct->descriptionSH),
-        enif_make_int(env, (int32_t) hapi_struct->defaultExtensionSH));
+        hapi_make_int(env, (int32_t) hapi_struct->nameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->descriptionSH),
+        hapi_make_int(env, (int32_t) hapi_struct->defaultExtensionSH));
 }
 
 
@@ -37,9 +37,9 @@ hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Im
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_image_file_format", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_name_sh) ||
-        !enif_get_int(env, tuple_record[2], &record_description_sh) ||
-        !enif_get_int(env, tuple_record[3], &record_default_extension_sh))
+        !hapi_get_int(env, tuple_record[1], &record_name_sh) ||
+        !hapi_get_int(env, tuple_record[2], &record_description_sh) ||
+        !hapi_get_int(env, tuple_record[3], &record_default_extension_sh))
     {
         return false;
     }

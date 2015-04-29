@@ -16,18 +16,18 @@ hapi_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct)
 {
     return enif_make_tuple(env, 13,
         hapi_make_atom(env, "hapi_geo_info"),
-        enif_make_int(env, (int32_t) hapi_struct->id),
+        hapi_make_int(env, (int32_t) hapi_struct->id),
         hapi_make_hapi_geo_type(env, hapi_struct->type),
-        enif_make_int(env, (int32_t) hapi_struct->nameSH),
-        enif_make_int(env, (int32_t) hapi_struct->nodeId),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isEditable),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isTemplated),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isDisplayGeo),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasGeoChanged),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasMaterialChanged),
-        enif_make_int(env, hapi_struct->pointGroupCount),
-        enif_make_int(env, hapi_struct->primitiveGroupCount),
-        enif_make_int(env, hapi_struct->partCount));
+        hapi_make_int(env, (int32_t) hapi_struct->nameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->nodeId),
+        hapi_make_bool(env, (bool) hapi_struct->isEditable),
+        hapi_make_bool(env, (bool) hapi_struct->isTemplated),
+        hapi_make_bool(env, (bool) hapi_struct->isDisplayGeo),
+        hapi_make_bool(env, (bool) hapi_struct->hasGeoChanged),
+        hapi_make_bool(env, (bool) hapi_struct->hasMaterialChanged),
+        hapi_make_int(env, hapi_struct->pointGroupCount),
+        hapi_make_int(env, hapi_struct->primitiveGroupCount),
+        hapi_make_int(env, hapi_struct->partCount));
 }
 
 
@@ -55,18 +55,18 @@ hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* ha
         (tuple_size != 13) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_geo_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_id) ||
+        !hapi_get_int(env, tuple_record[1], &record_id) ||
         !hapi_get_hapi_geo_type(env, tuple_record[2], &record_type) ||
-        !enif_get_int(env, tuple_record[3], &record_name_sh) ||
-        !enif_get_int(env, tuple_record[4], &record_node_id) ||
-        !hapi_get_atom_bool(env, tuple_record[5], &record_is_editable) ||
-        !hapi_get_atom_bool(env, tuple_record[6], &record_is_templated) ||
-        !hapi_get_atom_bool(env, tuple_record[7], &record_is_display_geo) ||
-        !hapi_get_atom_bool(env, tuple_record[8], &record_has_geo_changed) ||
-        !hapi_get_atom_bool(env, tuple_record[9], &record_has_material_changed) ||
-        !enif_get_int(env, tuple_record[10], &record_point_group_count) ||
-        !enif_get_int(env, tuple_record[11], &record_primitive_group_count) ||
-        !enif_get_int(env, tuple_record[12], &record_part_count))
+        !hapi_get_int(env, tuple_record[3], &record_name_sh) ||
+        !hapi_get_int(env, tuple_record[4], &record_node_id) ||
+        !hapi_get_bool(env, tuple_record[5], &record_is_editable) ||
+        !hapi_get_bool(env, tuple_record[6], &record_is_templated) ||
+        !hapi_get_bool(env, tuple_record[7], &record_is_display_geo) ||
+        !hapi_get_bool(env, tuple_record[8], &record_has_geo_changed) ||
+        !hapi_get_bool(env, tuple_record[9], &record_has_material_changed) ||
+        !hapi_get_int(env, tuple_record[10], &record_point_group_count) ||
+        !hapi_get_int(env, tuple_record[11], &record_primitive_group_count) ||
+        !hapi_get_int(env, tuple_record[12], &record_part_count))
     {
         return false;
     }

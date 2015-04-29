@@ -16,9 +16,9 @@ hapi_make_hapi_parm_choice_info(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_
 {
     return enif_make_tuple(env, 4,
         hapi_make_atom(env, "hapi_parm_choice_info"),
-        enif_make_int(env, (int32_t) hapi_struct->parentParmId),
-        enif_make_int(env, (int32_t) hapi_struct->labelSH),
-        enif_make_int(env, (int32_t) hapi_struct->valueSH));
+        hapi_make_int(env, (int32_t) hapi_struct->parentParmId),
+        hapi_make_int(env, (int32_t) hapi_struct->labelSH),
+        hapi_make_int(env, (int32_t) hapi_struct->valueSH));
 }
 
 
@@ -37,9 +37,9 @@ hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Par
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_parm_choice_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_parent_parm_id) ||
-        !enif_get_int(env, tuple_record[2], &record_label_sh) ||
-        !enif_get_int(env, tuple_record[3], &record_value_sh))
+        !hapi_get_int(env, tuple_record[1], &record_parent_parm_id) ||
+        !hapi_get_int(env, tuple_record[2], &record_label_sh) ||
+        !hapi_get_int(env, tuple_record[3], &record_value_sh))
     {
         return false;
     }

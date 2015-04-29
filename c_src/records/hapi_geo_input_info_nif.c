@@ -16,9 +16,9 @@ hapi_make_hapi_geo_input_info(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_stru
 {
     return enif_make_tuple(env, 4,
         hapi_make_atom(env, "hapi_geo_input_info"),
-        enif_make_int(env, (int32_t) hapi_struct->objectId),
-        enif_make_int(env, (int32_t) hapi_struct->geoId),
-        enif_make_int(env, (int32_t) hapi_struct->objectNodeId));
+        hapi_make_int(env, (int32_t) hapi_struct->objectId),
+        hapi_make_int(env, (int32_t) hapi_struct->geoId),
+        hapi_make_int(env, (int32_t) hapi_struct->objectNodeId));
 }
 
 
@@ -37,9 +37,9 @@ hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoIn
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_geo_input_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_object_id) ||
-        !enif_get_int(env, tuple_record[2], &record_geo_id) ||
-        !enif_get_int(env, tuple_record[3], &record_object_node_id))
+        !hapi_get_int(env, tuple_record[1], &record_object_id) ||
+        !hapi_get_int(env, tuple_record[2], &record_geo_id) ||
+        !hapi_get_int(env, tuple_record[3], &record_object_node_id))
     {
         return false;
     }

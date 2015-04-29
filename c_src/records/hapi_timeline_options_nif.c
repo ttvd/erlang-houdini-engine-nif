@@ -16,9 +16,9 @@ hapi_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* hapi
 {
     return enif_make_tuple(env, 4,
         hapi_make_atom(env, "hapi_timeline_options"),
-        enif_make_double(env, (double) hapi_struct->fps),
-        enif_make_double(env, (double) hapi_struct->startTime),
-        enif_make_double(env, (double) hapi_struct->endTime));
+        hapi_make_float(env, (double) hapi_struct->fps),
+        hapi_make_float(env, (double) hapi_struct->startTime),
+        hapi_make_float(env, (double) hapi_struct->endTime));
 }
 
 
@@ -29,17 +29,17 @@ hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tim
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    double record_fps = 0.0;
-    double record_start_time = 0.0;
-    double record_end_time = 0.0;
+    float record_fps = 0.0f;
+    float record_start_time = 0.0f;
+    float record_end_time = 0.0f;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_timeline_options", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_double(env, tuple_record[1], &record_fps) ||
-        !enif_get_double(env, tuple_record[2], &record_start_time) ||
-        !enif_get_double(env, tuple_record[3], &record_end_time))
+        !hapi_get_float(env, tuple_record[1], &record_fps) ||
+        !hapi_get_float(env, tuple_record[2], &record_start_time) ||
+        !hapi_get_float(env, tuple_record[3], &record_end_time))
     {
         return false;
     }

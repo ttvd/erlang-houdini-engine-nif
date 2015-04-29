@@ -16,10 +16,10 @@ hapi_make_hapi_keyframe(ErlNifEnv* env, const HAPI_Keyframe* hapi_struct)
 {
     return enif_make_tuple(env, 5,
         hapi_make_atom(env, "hapi_keyframe"),
-        enif_make_double(env, (double) hapi_struct->time),
-        enif_make_double(env, (double) hapi_struct->value),
-        enif_make_double(env, (double) hapi_struct->inTangent),
-        enif_make_double(env, (double) hapi_struct->outTangent));
+        hapi_make_float(env, (double) hapi_struct->time),
+        hapi_make_float(env, (double) hapi_struct->value),
+        hapi_make_float(env, (double) hapi_struct->inTangent),
+        hapi_make_float(env, (double) hapi_struct->outTangent));
 }
 
 
@@ -30,19 +30,19 @@ hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* h
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    double record_time = 0.0;
-    double record_value = 0.0;
-    double record_in_tangent = 0.0;
-    double record_out_tangent = 0.0;
+    float record_time = 0.0f;
+    float record_value = 0.0f;
+    float record_in_tangent = 0.0f;
+    float record_out_tangent = 0.0f;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_keyframe", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_double(env, tuple_record[1], &record_time) ||
-        !enif_get_double(env, tuple_record[2], &record_value) ||
-        !enif_get_double(env, tuple_record[3], &record_in_tangent) ||
-        !enif_get_double(env, tuple_record[4], &record_out_tangent))
+        !hapi_get_float(env, tuple_record[1], &record_time) ||
+        !hapi_get_float(env, tuple_record[2], &record_value) ||
+        !hapi_get_float(env, tuple_record[3], &record_in_tangent) ||
+        !hapi_get_float(env, tuple_record[4], &record_out_tangent))
     {
         return false;
     }

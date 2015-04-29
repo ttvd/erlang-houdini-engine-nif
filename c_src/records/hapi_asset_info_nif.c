@@ -16,25 +16,25 @@ hapi_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct)
 {
     return enif_make_tuple(env, 20,
         hapi_make_atom(env, "hapi_asset_info"),
-        enif_make_int(env, (int32_t) hapi_struct->id),
+        hapi_make_int(env, (int32_t) hapi_struct->id),
         hapi_make_hapi_asset_type(env, hapi_struct->type),
         hapi_make_hapi_asset_sub_type(env, hapi_struct->subType),
-        enif_make_int(env, hapi_struct->validationId),
-        enif_make_int(env, (int32_t) hapi_struct->nodeId),
-        enif_make_int(env, (int32_t) hapi_struct->objectNodeId),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasEverCooked),
-        enif_make_int(env, (int32_t) hapi_struct->nameSH),
-        enif_make_int(env, (int32_t) hapi_struct->labelSH),
-        enif_make_int(env, (int32_t) hapi_struct->filePathSH),
-        enif_make_int(env, (int32_t) hapi_struct->versionSH),
-        enif_make_int(env, (int32_t) hapi_struct->fullOpNameSH),
-        enif_make_int(env, (int32_t) hapi_struct->helpTextSH),
-        enif_make_int(env, hapi_struct->objectCount),
-        enif_make_int(env, hapi_struct->handleCount),
-        enif_make_int(env, hapi_struct->transformInputCount),
-        enif_make_int(env, hapi_struct->geoInputCount),
-        hapi_make_atom_bool(env, (bool) hapi_struct->haveObjectsChanged),
-        hapi_make_atom_bool(env, (bool) hapi_struct->haveMaterialsChanged));
+        hapi_make_int(env, hapi_struct->validationId),
+        hapi_make_int(env, (int32_t) hapi_struct->nodeId),
+        hapi_make_int(env, (int32_t) hapi_struct->objectNodeId),
+        hapi_make_bool(env, (bool) hapi_struct->hasEverCooked),
+        hapi_make_int(env, (int32_t) hapi_struct->nameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->labelSH),
+        hapi_make_int(env, (int32_t) hapi_struct->filePathSH),
+        hapi_make_int(env, (int32_t) hapi_struct->versionSH),
+        hapi_make_int(env, (int32_t) hapi_struct->fullOpNameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->helpTextSH),
+        hapi_make_int(env, hapi_struct->objectCount),
+        hapi_make_int(env, hapi_struct->handleCount),
+        hapi_make_int(env, hapi_struct->transformInputCount),
+        hapi_make_int(env, hapi_struct->geoInputCount),
+        hapi_make_bool(env, (bool) hapi_struct->haveObjectsChanged),
+        hapi_make_bool(env, (bool) hapi_struct->haveMaterialsChanged));
 }
 
 
@@ -69,25 +69,25 @@ hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo
         (tuple_size != 20) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_asset_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_id) ||
+        !hapi_get_int(env, tuple_record[1], &record_id) ||
         !hapi_get_hapi_asset_type(env, tuple_record[2], &record_type) ||
         !hapi_get_hapi_asset_sub_type(env, tuple_record[3], &record_sub_type) ||
-        !enif_get_int(env, tuple_record[4], &record_validation_id) ||
-        !enif_get_int(env, tuple_record[5], &record_node_id) ||
-        !enif_get_int(env, tuple_record[6], &record_object_node_id) ||
-        !hapi_get_atom_bool(env, tuple_record[7], &record_has_ever_cooked) ||
-        !enif_get_int(env, tuple_record[8], &record_name_sh) ||
-        !enif_get_int(env, tuple_record[9], &record_label_sh) ||
-        !enif_get_int(env, tuple_record[10], &record_file_path_sh) ||
-        !enif_get_int(env, tuple_record[11], &record_version_sh) ||
-        !enif_get_int(env, tuple_record[12], &record_full_op_name_sh) ||
-        !enif_get_int(env, tuple_record[13], &record_help_text_sh) ||
-        !enif_get_int(env, tuple_record[14], &record_object_count) ||
-        !enif_get_int(env, tuple_record[15], &record_handle_count) ||
-        !enif_get_int(env, tuple_record[16], &record_transform_input_count) ||
-        !enif_get_int(env, tuple_record[17], &record_geo_input_count) ||
-        !hapi_get_atom_bool(env, tuple_record[18], &record_have_objects_changed) ||
-        !hapi_get_atom_bool(env, tuple_record[19], &record_have_materials_changed))
+        !hapi_get_int(env, tuple_record[4], &record_validation_id) ||
+        !hapi_get_int(env, tuple_record[5], &record_node_id) ||
+        !hapi_get_int(env, tuple_record[6], &record_object_node_id) ||
+        !hapi_get_bool(env, tuple_record[7], &record_has_ever_cooked) ||
+        !hapi_get_int(env, tuple_record[8], &record_name_sh) ||
+        !hapi_get_int(env, tuple_record[9], &record_label_sh) ||
+        !hapi_get_int(env, tuple_record[10], &record_file_path_sh) ||
+        !hapi_get_int(env, tuple_record[11], &record_version_sh) ||
+        !hapi_get_int(env, tuple_record[12], &record_full_op_name_sh) ||
+        !hapi_get_int(env, tuple_record[13], &record_help_text_sh) ||
+        !hapi_get_int(env, tuple_record[14], &record_object_count) ||
+        !hapi_get_int(env, tuple_record[15], &record_handle_count) ||
+        !hapi_get_int(env, tuple_record[16], &record_transform_input_count) ||
+        !hapi_get_int(env, tuple_record[17], &record_geo_input_count) ||
+        !hapi_get_bool(env, tuple_record[18], &record_have_objects_changed) ||
+        !hapi_get_bool(env, tuple_record[19], &record_have_materials_changed))
     {
         return false;
     }

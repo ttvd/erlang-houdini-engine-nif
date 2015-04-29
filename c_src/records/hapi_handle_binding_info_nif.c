@@ -16,9 +16,9 @@ hapi_make_hapi_handle_binding_info(ErlNifEnv* env, const HAPI_HandleBindingInfo*
 {
     return enif_make_tuple(env, 4,
         hapi_make_atom(env, "hapi_handle_binding_info"),
-        enif_make_int(env, (int32_t) hapi_struct->handleParmNameSH),
-        enif_make_int(env, (int32_t) hapi_struct->assetParmNameSH),
-        enif_make_int(env, (int32_t) hapi_struct->assetParmId));
+        hapi_make_int(env, (int32_t) hapi_struct->handleParmNameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->assetParmNameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->assetParmId));
 }
 
 
@@ -37,9 +37,9 @@ hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_handle_binding_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_handle_parm_name_sh) ||
-        !enif_get_int(env, tuple_record[2], &record_asset_parm_name_sh) ||
-        !enif_get_int(env, tuple_record[3], &record_asset_parm_id))
+        !hapi_get_int(env, tuple_record[1], &record_handle_parm_name_sh) ||
+        !hapi_get_int(env, tuple_record[2], &record_asset_parm_name_sh) ||
+        !hapi_get_int(env, tuple_record[3], &record_asset_parm_id))
     {
         return false;
     }

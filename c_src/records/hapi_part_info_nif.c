@@ -16,17 +16,17 @@ hapi_make_hapi_part_info(ErlNifEnv* env, const HAPI_PartInfo* hapi_struct)
 {
     return enif_make_tuple(env, 12,
         hapi_make_atom(env, "hapi_part_info"),
-        enif_make_int(env, (int32_t) hapi_struct->id),
-        enif_make_int(env, (int32_t) hapi_struct->nameSH),
-        enif_make_int(env, hapi_struct->faceCount),
-        enif_make_int(env, hapi_struct->vertexCount),
-        enif_make_int(env, hapi_struct->pointCount),
-        enif_make_int(env, hapi_struct->pointAttributeCount),
-        enif_make_int(env, hapi_struct->faceAttributeCount),
-        enif_make_int(env, hapi_struct->vertexAttributeCount),
-        enif_make_int(env, hapi_struct->detailAttributeCount),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasVolume),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isCurve));
+        hapi_make_int(env, (int32_t) hapi_struct->id),
+        hapi_make_int(env, (int32_t) hapi_struct->nameSH),
+        hapi_make_int(env, hapi_struct->faceCount),
+        hapi_make_int(env, hapi_struct->vertexCount),
+        hapi_make_int(env, hapi_struct->pointCount),
+        hapi_make_int(env, hapi_struct->pointAttributeCount),
+        hapi_make_int(env, hapi_struct->faceAttributeCount),
+        hapi_make_int(env, hapi_struct->vertexAttributeCount),
+        hapi_make_int(env, hapi_struct->detailAttributeCount),
+        hapi_make_bool(env, (bool) hapi_struct->hasVolume),
+        hapi_make_bool(env, (bool) hapi_struct->isCurve));
 }
 
 
@@ -53,17 +53,17 @@ hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* 
         (tuple_size != 12) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_part_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_id) ||
-        !enif_get_int(env, tuple_record[2], &record_name_sh) ||
-        !enif_get_int(env, tuple_record[3], &record_face_count) ||
-        !enif_get_int(env, tuple_record[4], &record_vertex_count) ||
-        !enif_get_int(env, tuple_record[5], &record_point_count) ||
-        !enif_get_int(env, tuple_record[6], &record_point_attribute_count) ||
-        !enif_get_int(env, tuple_record[7], &record_face_attribute_count) ||
-        !enif_get_int(env, tuple_record[8], &record_vertex_attribute_count) ||
-        !enif_get_int(env, tuple_record[9], &record_detail_attribute_count) ||
-        !hapi_get_atom_bool(env, tuple_record[10], &record_has_volume) ||
-        !hapi_get_atom_bool(env, tuple_record[11], &record_is_curve))
+        !hapi_get_int(env, tuple_record[1], &record_id) ||
+        !hapi_get_int(env, tuple_record[2], &record_name_sh) ||
+        !hapi_get_int(env, tuple_record[3], &record_face_count) ||
+        !hapi_get_int(env, tuple_record[4], &record_vertex_count) ||
+        !hapi_get_int(env, tuple_record[5], &record_point_count) ||
+        !hapi_get_int(env, tuple_record[6], &record_point_attribute_count) ||
+        !hapi_get_int(env, tuple_record[7], &record_face_attribute_count) ||
+        !hapi_get_int(env, tuple_record[8], &record_vertex_attribute_count) ||
+        !hapi_get_int(env, tuple_record[9], &record_detail_attribute_count) ||
+        !hapi_get_bool(env, tuple_record[10], &record_has_volume) ||
+        !hapi_get_bool(env, tuple_record[11], &record_is_curve))
     {
         return false;
     }

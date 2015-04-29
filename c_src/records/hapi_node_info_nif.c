@@ -16,17 +16,17 @@ hapi_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* hapi_struct)
 {
     return enif_make_tuple(env, 12,
         hapi_make_atom(env, "hapi_node_info"),
-        enif_make_int(env, (int32_t) hapi_struct->id),
-        enif_make_int(env, (int32_t) hapi_struct->assetId),
-        enif_make_int(env, (int32_t) hapi_struct->nameSH),
-        enif_make_int(env, hapi_struct->totalCookCount),
-        enif_make_int(env, hapi_struct->uniqueHoudiniNodeId),
-        enif_make_int(env, (int32_t) hapi_struct->internalNodePathSH),
-        enif_make_int(env, hapi_struct->parmCount),
-        enif_make_int(env, hapi_struct->parmIntValueCount),
-        enif_make_int(env, hapi_struct->parmFloatValueCount),
-        enif_make_int(env, hapi_struct->parmStringValueCount),
-        enif_make_int(env, hapi_struct->parmChoiceCount));
+        hapi_make_int(env, (int32_t) hapi_struct->id),
+        hapi_make_int(env, (int32_t) hapi_struct->assetId),
+        hapi_make_int(env, (int32_t) hapi_struct->nameSH),
+        hapi_make_int(env, hapi_struct->totalCookCount),
+        hapi_make_int(env, hapi_struct->uniqueHoudiniNodeId),
+        hapi_make_int(env, (int32_t) hapi_struct->internalNodePathSH),
+        hapi_make_int(env, hapi_struct->parmCount),
+        hapi_make_int(env, hapi_struct->parmIntValueCount),
+        hapi_make_int(env, hapi_struct->parmFloatValueCount),
+        hapi_make_int(env, hapi_struct->parmStringValueCount),
+        hapi_make_int(env, hapi_struct->parmChoiceCount));
 }
 
 
@@ -53,17 +53,17 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
         (tuple_size != 12) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_node_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_id) ||
-        !enif_get_int(env, tuple_record[2], &record_asset_id) ||
-        !enif_get_int(env, tuple_record[3], &record_name_sh) ||
-        !enif_get_int(env, tuple_record[4], &record_total_cook_count) ||
-        !enif_get_int(env, tuple_record[5], &record_unique_houdini_node_id) ||
-        !enif_get_int(env, tuple_record[6], &record_internal_node_path_sh) ||
-        !enif_get_int(env, tuple_record[7], &record_parm_count) ||
-        !enif_get_int(env, tuple_record[8], &record_parm_int_value_count) ||
-        !enif_get_int(env, tuple_record[9], &record_parm_float_value_count) ||
-        !enif_get_int(env, tuple_record[10], &record_parm_string_value_count) ||
-        !enif_get_int(env, tuple_record[11], &record_parm_choice_count))
+        !hapi_get_int(env, tuple_record[1], &record_id) ||
+        !hapi_get_int(env, tuple_record[2], &record_asset_id) ||
+        !hapi_get_int(env, tuple_record[3], &record_name_sh) ||
+        !hapi_get_int(env, tuple_record[4], &record_total_cook_count) ||
+        !hapi_get_int(env, tuple_record[5], &record_unique_houdini_node_id) ||
+        !hapi_get_int(env, tuple_record[6], &record_internal_node_path_sh) ||
+        !hapi_get_int(env, tuple_record[7], &record_parm_count) ||
+        !hapi_get_int(env, tuple_record[8], &record_parm_int_value_count) ||
+        !hapi_get_int(env, tuple_record[9], &record_parm_float_value_count) ||
+        !hapi_get_int(env, tuple_record[10], &record_parm_string_value_count) ||
+        !hapi_get_int(env, tuple_record[11], &record_parm_choice_count))
     {
         return false;
     }

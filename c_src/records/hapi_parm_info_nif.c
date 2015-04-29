@@ -16,39 +16,39 @@ hapi_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct)
 {
     return enif_make_tuple(env, 35,
         hapi_make_atom(env, "hapi_parm_info"),
-        enif_make_int(env, (int32_t) hapi_struct->id),
-        enif_make_int(env, (int32_t) hapi_struct->parentId),
+        hapi_make_int(env, (int32_t) hapi_struct->id),
+        hapi_make_int(env, (int32_t) hapi_struct->parentId),
         hapi_make_hapi_parm_type(env, hapi_struct->type),
-        enif_make_int(env, (int32_t) hapi_struct->typeInfoSH),
+        hapi_make_int(env, (int32_t) hapi_struct->typeInfoSH),
         hapi_make_hapi_permissions(env, hapi_struct->permissions),
-        enif_make_int(env, hapi_struct->size),
-        enif_make_int(env, hapi_struct->choiceCount),
-        enif_make_int(env, (int32_t) hapi_struct->nameSH),
-        enif_make_int(env, (int32_t) hapi_struct->labelSH),
-        enif_make_int(env, (int32_t) hapi_struct->templateNameSH),
-        enif_make_int(env, (int32_t) hapi_struct->helpSH),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasMin),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasMax),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasUIMin),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasUIMax),
-        enif_make_double(env, (double) hapi_struct->min),
-        enif_make_double(env, (double) hapi_struct->max),
-        enif_make_double(env, (double) hapi_struct->UIMin),
-        enif_make_double(env, (double) hapi_struct->UIMax),
-        hapi_make_atom_bool(env, (bool) hapi_struct->invisible),
-        hapi_make_atom_bool(env, (bool) hapi_struct->disabled),
-        hapi_make_atom_bool(env, (bool) hapi_struct->spare),
-        hapi_make_atom_bool(env, (bool) hapi_struct->joinNext),
-        hapi_make_atom_bool(env, (bool) hapi_struct->labelNone),
-        enif_make_int(env, hapi_struct->intValuesIndex),
-        enif_make_int(env, hapi_struct->floatValuesIndex),
-        enif_make_int(env, hapi_struct->stringValuesIndex),
-        enif_make_int(env, hapi_struct->choiceIndex),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isChildOfMultiParm),
-        enif_make_int(env, hapi_struct->instanceNum),
-        enif_make_int(env, hapi_struct->instanceLength),
-        enif_make_int(env, hapi_struct->instanceCount),
-        enif_make_int(env, hapi_struct->instanceStartOffset),
+        hapi_make_int(env, hapi_struct->size),
+        hapi_make_int(env, hapi_struct->choiceCount),
+        hapi_make_int(env, (int32_t) hapi_struct->nameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->labelSH),
+        hapi_make_int(env, (int32_t) hapi_struct->templateNameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->helpSH),
+        hapi_make_bool(env, (bool) hapi_struct->hasMin),
+        hapi_make_bool(env, (bool) hapi_struct->hasMax),
+        hapi_make_bool(env, (bool) hapi_struct->hasUIMin),
+        hapi_make_bool(env, (bool) hapi_struct->hasUIMax),
+        hapi_make_float(env, (double) hapi_struct->min),
+        hapi_make_float(env, (double) hapi_struct->max),
+        hapi_make_float(env, (double) hapi_struct->UIMin),
+        hapi_make_float(env, (double) hapi_struct->UIMax),
+        hapi_make_bool(env, (bool) hapi_struct->invisible),
+        hapi_make_bool(env, (bool) hapi_struct->disabled),
+        hapi_make_bool(env, (bool) hapi_struct->spare),
+        hapi_make_bool(env, (bool) hapi_struct->joinNext),
+        hapi_make_bool(env, (bool) hapi_struct->labelNone),
+        hapi_make_int(env, hapi_struct->intValuesIndex),
+        hapi_make_int(env, hapi_struct->floatValuesIndex),
+        hapi_make_int(env, hapi_struct->stringValuesIndex),
+        hapi_make_int(env, hapi_struct->choiceIndex),
+        hapi_make_bool(env, (bool) hapi_struct->isChildOfMultiParm),
+        hapi_make_int(env, hapi_struct->instanceNum),
+        hapi_make_int(env, hapi_struct->instanceLength),
+        hapi_make_int(env, hapi_struct->instanceCount),
+        hapi_make_int(env, hapi_struct->instanceStartOffset),
         hapi_make_hapi_ramp_type(env, hapi_struct->rampType));
 }
 
@@ -75,10 +75,10 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
     bool record_has_max = false;
     bool record_has_uimin = false;
     bool record_has_uimax = false;
-    double record_min = 0.0;
-    double record_max = 0.0;
-    double record_uimin = 0.0;
-    double record_uimax = 0.0;
+    float record_min = 0.0f;
+    float record_max = 0.0f;
+    float record_uimin = 0.0f;
+    float record_uimax = 0.0f;
     bool record_invisible = false;
     bool record_disabled = false;
     bool record_spare = false;
@@ -99,39 +99,39 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
         (tuple_size != 35) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_parm_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_id) ||
-        !enif_get_int(env, tuple_record[2], &record_parent_id) ||
+        !hapi_get_int(env, tuple_record[1], &record_id) ||
+        !hapi_get_int(env, tuple_record[2], &record_parent_id) ||
         !hapi_get_hapi_parm_type(env, tuple_record[3], &record_type) ||
-        !enif_get_int(env, tuple_record[4], &record_type_info_sh) ||
+        !hapi_get_int(env, tuple_record[4], &record_type_info_sh) ||
         !hapi_get_hapi_permissions(env, tuple_record[5], &record_permissions) ||
-        !enif_get_int(env, tuple_record[6], &record_size) ||
-        !enif_get_int(env, tuple_record[7], &record_choice_count) ||
-        !enif_get_int(env, tuple_record[8], &record_name_sh) ||
-        !enif_get_int(env, tuple_record[9], &record_label_sh) ||
-        !enif_get_int(env, tuple_record[10], &record_template_name_sh) ||
-        !enif_get_int(env, tuple_record[11], &record_help_sh) ||
-        !hapi_get_atom_bool(env, tuple_record[12], &record_has_min) ||
-        !hapi_get_atom_bool(env, tuple_record[13], &record_has_max) ||
-        !hapi_get_atom_bool(env, tuple_record[14], &record_has_uimin) ||
-        !hapi_get_atom_bool(env, tuple_record[15], &record_has_uimax) ||
-        !enif_get_double(env, tuple_record[16], &record_min) ||
-        !enif_get_double(env, tuple_record[17], &record_max) ||
-        !enif_get_double(env, tuple_record[18], &record_uimin) ||
-        !enif_get_double(env, tuple_record[19], &record_uimax) ||
-        !hapi_get_atom_bool(env, tuple_record[20], &record_invisible) ||
-        !hapi_get_atom_bool(env, tuple_record[21], &record_disabled) ||
-        !hapi_get_atom_bool(env, tuple_record[22], &record_spare) ||
-        !hapi_get_atom_bool(env, tuple_record[23], &record_join_next) ||
-        !hapi_get_atom_bool(env, tuple_record[24], &record_label_none) ||
-        !enif_get_int(env, tuple_record[25], &record_int_values_index) ||
-        !enif_get_int(env, tuple_record[26], &record_float_values_index) ||
-        !enif_get_int(env, tuple_record[27], &record_string_values_index) ||
-        !enif_get_int(env, tuple_record[28], &record_choice_index) ||
-        !hapi_get_atom_bool(env, tuple_record[29], &record_is_child_of_multi_parm) ||
-        !enif_get_int(env, tuple_record[30], &record_instance_num) ||
-        !enif_get_int(env, tuple_record[31], &record_instance_length) ||
-        !enif_get_int(env, tuple_record[32], &record_instance_count) ||
-        !enif_get_int(env, tuple_record[33], &record_instance_start_offset) ||
+        !hapi_get_int(env, tuple_record[6], &record_size) ||
+        !hapi_get_int(env, tuple_record[7], &record_choice_count) ||
+        !hapi_get_int(env, tuple_record[8], &record_name_sh) ||
+        !hapi_get_int(env, tuple_record[9], &record_label_sh) ||
+        !hapi_get_int(env, tuple_record[10], &record_template_name_sh) ||
+        !hapi_get_int(env, tuple_record[11], &record_help_sh) ||
+        !hapi_get_bool(env, tuple_record[12], &record_has_min) ||
+        !hapi_get_bool(env, tuple_record[13], &record_has_max) ||
+        !hapi_get_bool(env, tuple_record[14], &record_has_uimin) ||
+        !hapi_get_bool(env, tuple_record[15], &record_has_uimax) ||
+        !hapi_get_float(env, tuple_record[16], &record_min) ||
+        !hapi_get_float(env, tuple_record[17], &record_max) ||
+        !hapi_get_float(env, tuple_record[18], &record_uimin) ||
+        !hapi_get_float(env, tuple_record[19], &record_uimax) ||
+        !hapi_get_bool(env, tuple_record[20], &record_invisible) ||
+        !hapi_get_bool(env, tuple_record[21], &record_disabled) ||
+        !hapi_get_bool(env, tuple_record[22], &record_spare) ||
+        !hapi_get_bool(env, tuple_record[23], &record_join_next) ||
+        !hapi_get_bool(env, tuple_record[24], &record_label_none) ||
+        !hapi_get_int(env, tuple_record[25], &record_int_values_index) ||
+        !hapi_get_int(env, tuple_record[26], &record_float_values_index) ||
+        !hapi_get_int(env, tuple_record[27], &record_string_values_index) ||
+        !hapi_get_int(env, tuple_record[28], &record_choice_index) ||
+        !hapi_get_bool(env, tuple_record[29], &record_is_child_of_multi_parm) ||
+        !hapi_get_int(env, tuple_record[30], &record_instance_num) ||
+        !hapi_get_int(env, tuple_record[31], &record_instance_length) ||
+        !hapi_get_int(env, tuple_record[32], &record_instance_count) ||
+        !hapi_get_int(env, tuple_record[33], &record_instance_start_offset) ||
         !hapi_get_hapi_ramp_type(env, tuple_record[34], &record_ramp_type))
     {
         return false;

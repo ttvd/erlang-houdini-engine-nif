@@ -16,16 +16,16 @@ hapi_make_hapi_object_info(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_struct)
 {
     return enif_make_tuple(env, 11,
         hapi_make_atom(env, "hapi_object_info"),
-        enif_make_int(env, (int32_t) hapi_struct->id),
-        enif_make_int(env, (int32_t) hapi_struct->nameSH),
-        enif_make_int(env, (int32_t) hapi_struct->objectInstancePathSH),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasTransformChanged),
-        hapi_make_atom_bool(env, (bool) hapi_struct->haveGeosChanged),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isVisible),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isInstancer),
-        enif_make_int(env, hapi_struct->geoCount),
-        enif_make_int(env, (int32_t) hapi_struct->nodeId),
-        enif_make_int(env, (int32_t) hapi_struct->objectToInstanceId));
+        hapi_make_int(env, (int32_t) hapi_struct->id),
+        hapi_make_int(env, (int32_t) hapi_struct->nameSH),
+        hapi_make_int(env, (int32_t) hapi_struct->objectInstancePathSH),
+        hapi_make_bool(env, (bool) hapi_struct->hasTransformChanged),
+        hapi_make_bool(env, (bool) hapi_struct->haveGeosChanged),
+        hapi_make_bool(env, (bool) hapi_struct->isVisible),
+        hapi_make_bool(env, (bool) hapi_struct->isInstancer),
+        hapi_make_int(env, hapi_struct->geoCount),
+        hapi_make_int(env, (int32_t) hapi_struct->nodeId),
+        hapi_make_int(env, (int32_t) hapi_struct->objectToInstanceId));
 }
 
 
@@ -51,16 +51,16 @@ hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectIn
         (tuple_size != 11) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_object_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_id) ||
-        !enif_get_int(env, tuple_record[2], &record_name_sh) ||
-        !enif_get_int(env, tuple_record[3], &record_object_instance_path_sh) ||
-        !hapi_get_atom_bool(env, tuple_record[4], &record_has_transform_changed) ||
-        !hapi_get_atom_bool(env, tuple_record[5], &record_have_geos_changed) ||
-        !hapi_get_atom_bool(env, tuple_record[6], &record_is_visible) ||
-        !hapi_get_atom_bool(env, tuple_record[7], &record_is_instancer) ||
-        !enif_get_int(env, tuple_record[8], &record_geo_count) ||
-        !enif_get_int(env, tuple_record[9], &record_node_id) ||
-        !enif_get_int(env, tuple_record[10], &record_object_to_instance_id))
+        !hapi_get_int(env, tuple_record[1], &record_id) ||
+        !hapi_get_int(env, tuple_record[2], &record_name_sh) ||
+        !hapi_get_int(env, tuple_record[3], &record_object_instance_path_sh) ||
+        !hapi_get_bool(env, tuple_record[4], &record_has_transform_changed) ||
+        !hapi_get_bool(env, tuple_record[5], &record_have_geos_changed) ||
+        !hapi_get_bool(env, tuple_record[6], &record_is_visible) ||
+        !hapi_get_bool(env, tuple_record[7], &record_is_instancer) ||
+        !hapi_get_int(env, tuple_record[8], &record_geo_count) ||
+        !hapi_get_int(env, tuple_record[9], &record_node_id) ||
+        !hapi_get_int(env, tuple_record[10], &record_object_to_instance_id))
     {
         return false;
     }

@@ -16,12 +16,12 @@ hapi_make_hapi_attribute_info(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_str
 {
     return enif_make_tuple(env, 7,
         hapi_make_atom(env, "hapi_attribute_info"),
-        hapi_make_atom_bool(env, (bool) hapi_struct->exists),
+        hapi_make_bool(env, (bool) hapi_struct->exists),
         hapi_make_hapi_attribute_owner(env, hapi_struct->owner),
         hapi_make_hapi_storage_type(env, hapi_struct->storage),
         hapi_make_hapi_attribute_owner(env, hapi_struct->originalOwner),
-        enif_make_int(env, hapi_struct->count),
-        enif_make_int(env, hapi_struct->tupleSize));
+        hapi_make_int(env, hapi_struct->count),
+        hapi_make_int(env, hapi_struct->tupleSize));
 }
 
 
@@ -43,12 +43,12 @@ hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attri
         (tuple_size != 7) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_attribute_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_atom_bool(env, tuple_record[1], &record_exists) ||
+        !hapi_get_bool(env, tuple_record[1], &record_exists) ||
         !hapi_get_hapi_attribute_owner(env, tuple_record[2], &record_owner) ||
         !hapi_get_hapi_storage_type(env, tuple_record[3], &record_storage) ||
         !hapi_get_hapi_attribute_owner(env, tuple_record[4], &record_original_owner) ||
-        !enif_get_int(env, tuple_record[5], &record_count) ||
-        !enif_get_int(env, tuple_record[6], &record_tuple_size))
+        !hapi_get_int(env, tuple_record[5], &record_count) ||
+        !hapi_get_int(env, tuple_record[6], &record_tuple_size))
     {
         return false;
     }

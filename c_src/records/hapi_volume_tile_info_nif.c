@@ -16,10 +16,10 @@ hapi_make_hapi_volume_tile_info(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_
 {
     return enif_make_tuple(env, 5,
         hapi_make_atom(env, "hapi_volume_tile_info"),
-        enif_make_int(env, hapi_struct->minX),
-        enif_make_int(env, hapi_struct->minY),
-        enif_make_int(env, hapi_struct->minZ),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isValid));
+        hapi_make_int(env, hapi_struct->minX),
+        hapi_make_int(env, hapi_struct->minY),
+        hapi_make_int(env, hapi_struct->minZ),
+        hapi_make_bool(env, (bool) hapi_struct->isValid));
 }
 
 
@@ -39,10 +39,10 @@ hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
         (tuple_size != 5) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_volume_tile_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_min_x) ||
-        !enif_get_int(env, tuple_record[2], &record_min_y) ||
-        !enif_get_int(env, tuple_record[3], &record_min_z) ||
-        !hapi_get_atom_bool(env, tuple_record[4], &record_is_valid))
+        !hapi_get_int(env, tuple_record[1], &record_min_x) ||
+        !hapi_get_int(env, tuple_record[2], &record_min_y) ||
+        !hapi_get_int(env, tuple_record[3], &record_min_z) ||
+        !hapi_get_bool(env, tuple_record[4], &record_is_valid))
     {
         return false;
     }

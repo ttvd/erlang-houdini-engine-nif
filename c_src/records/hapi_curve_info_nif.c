@@ -17,13 +17,13 @@ hapi_make_hapi_curve_info(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct)
     return enif_make_tuple(env, 9,
         hapi_make_atom(env, "hapi_curve_info"),
         hapi_make_hapi_curve_type(env, hapi_struct->curveType),
-        enif_make_int(env, hapi_struct->curveCount),
-        enif_make_int(env, hapi_struct->vertexCount),
-        enif_make_int(env, hapi_struct->knotCount),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isPeriodic),
-        hapi_make_atom_bool(env, (bool) hapi_struct->isRational),
-        enif_make_int(env, hapi_struct->order),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasKnots));
+        hapi_make_int(env, hapi_struct->curveCount),
+        hapi_make_int(env, hapi_struct->vertexCount),
+        hapi_make_int(env, hapi_struct->knotCount),
+        hapi_make_bool(env, (bool) hapi_struct->isPeriodic),
+        hapi_make_bool(env, (bool) hapi_struct->isRational),
+        hapi_make_int(env, hapi_struct->order),
+        hapi_make_bool(env, (bool) hapi_struct->hasKnots));
 }
 
 
@@ -48,13 +48,13 @@ hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo
         !hapi_check_atom(env, tuple_record[0], "hapi_curve_info", &atom_name_match) ||
         !atom_name_match ||
         !hapi_get_hapi_curve_type(env, tuple_record[1], &record_curve_type) ||
-        !enif_get_int(env, tuple_record[2], &record_curve_count) ||
-        !enif_get_int(env, tuple_record[3], &record_vertex_count) ||
-        !enif_get_int(env, tuple_record[4], &record_knot_count) ||
-        !hapi_get_atom_bool(env, tuple_record[5], &record_is_periodic) ||
-        !hapi_get_atom_bool(env, tuple_record[6], &record_is_rational) ||
-        !enif_get_int(env, tuple_record[7], &record_order) ||
-        !hapi_get_atom_bool(env, tuple_record[8], &record_has_knots))
+        !hapi_get_int(env, tuple_record[2], &record_curve_count) ||
+        !hapi_get_int(env, tuple_record[3], &record_vertex_count) ||
+        !hapi_get_int(env, tuple_record[4], &record_knot_count) ||
+        !hapi_get_bool(env, tuple_record[5], &record_is_periodic) ||
+        !hapi_get_bool(env, tuple_record[6], &record_is_rational) ||
+        !hapi_get_int(env, tuple_record[7], &record_order) ||
+        !hapi_get_bool(env, tuple_record[8], &record_has_knots))
     {
         return false;
     }

@@ -16,11 +16,11 @@ hapi_make_hapi_material_info(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_struc
 {
     return enif_make_tuple(env, 6,
         hapi_make_atom(env, "hapi_material_info"),
-        enif_make_int(env, (int32_t) hapi_struct->id),
-        enif_make_int(env, (int32_t) hapi_struct->assetId),
-        enif_make_int(env, (int32_t) hapi_struct->nodeId),
-        hapi_make_atom_bool(env, (bool) hapi_struct->exists),
-        hapi_make_atom_bool(env, (bool) hapi_struct->hasChanged));
+        hapi_make_int(env, (int32_t) hapi_struct->id),
+        hapi_make_int(env, (int32_t) hapi_struct->assetId),
+        hapi_make_int(env, (int32_t) hapi_struct->nodeId),
+        hapi_make_bool(env, (bool) hapi_struct->exists),
+        hapi_make_bool(env, (bool) hapi_struct->hasChanged));
 }
 
 
@@ -41,11 +41,11 @@ hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Materi
         (tuple_size != 6) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_material_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_id) ||
-        !enif_get_int(env, tuple_record[2], &record_asset_id) ||
-        !enif_get_int(env, tuple_record[3], &record_node_id) ||
-        !hapi_get_atom_bool(env, tuple_record[4], &record_exists) ||
-        !hapi_get_atom_bool(env, tuple_record[5], &record_has_changed))
+        !hapi_get_int(env, tuple_record[1], &record_id) ||
+        !hapi_get_int(env, tuple_record[2], &record_asset_id) ||
+        !hapi_get_int(env, tuple_record[3], &record_node_id) ||
+        !hapi_get_bool(env, tuple_record[4], &record_exists) ||
+        !hapi_get_bool(env, tuple_record[5], &record_has_changed))
     {
         return false;
     }

@@ -16,13 +16,13 @@ hapi_make_hapi_image_info(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct)
 {
     return enif_make_tuple(env, 8,
         hapi_make_atom(env, "hapi_image_info"),
-        enif_make_int(env, (int32_t) hapi_struct->imageFileFormatNameSH),
-        enif_make_int(env, hapi_struct->xRes),
-        enif_make_int(env, hapi_struct->yRes),
+        hapi_make_int(env, (int32_t) hapi_struct->imageFileFormatNameSH),
+        hapi_make_int(env, hapi_struct->xRes),
+        hapi_make_int(env, hapi_struct->yRes),
         hapi_make_hapi_image_data_format(env, hapi_struct->dataFormat),
-        hapi_make_atom_bool(env, (bool) hapi_struct->interleaved),
+        hapi_make_bool(env, (bool) hapi_struct->interleaved),
         hapi_make_hapi_image_packing(env, hapi_struct->packing),
-        enif_make_double(env, hapi_struct->gamma));
+        hapi_make_double(env, hapi_struct->gamma));
 }
 
 
@@ -45,13 +45,13 @@ hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo
         (tuple_size != 8) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_image_info", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_image_file_format_name_sh) ||
-        !enif_get_int(env, tuple_record[2], &record_x_res) ||
-        !enif_get_int(env, tuple_record[3], &record_y_res) ||
+        !hapi_get_int(env, tuple_record[1], &record_image_file_format_name_sh) ||
+        !hapi_get_int(env, tuple_record[2], &record_x_res) ||
+        !hapi_get_int(env, tuple_record[3], &record_y_res) ||
         !hapi_get_hapi_image_data_format(env, tuple_record[4], &record_data_format) ||
-        !hapi_get_atom_bool(env, tuple_record[5], &record_interleaved) ||
+        !hapi_get_bool(env, tuple_record[5], &record_interleaved) ||
         !hapi_get_hapi_image_packing(env, tuple_record[6], &record_packing) ||
-        !enif_get_double(env, tuple_record[7], &record_gamma))
+        !hapi_get_double(env, tuple_record[7], &record_gamma))
     {
         return false;
     }

@@ -16,9 +16,9 @@ hapi_make_hapi_global_nodes(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_struct)
 {
     return enif_make_tuple(env, 4,
         hapi_make_atom(env, "hapi_global_nodes"),
-        enif_make_int(env, (int32_t) hapi_struct->defaultCamera),
-        enif_make_int(env, (int32_t) hapi_struct->defaultLight),
-        enif_make_int(env, (int32_t) hapi_struct->mantraRenderer));
+        hapi_make_int(env, (int32_t) hapi_struct->defaultCamera),
+        hapi_make_int(env, (int32_t) hapi_struct->defaultLight),
+        hapi_make_int(env, (int32_t) hapi_struct->mantraRenderer));
 }
 
 
@@ -37,9 +37,9 @@ hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalN
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_global_nodes", &atom_name_match) ||
         !atom_name_match ||
-        !enif_get_int(env, tuple_record[1], &record_default_camera) ||
-        !enif_get_int(env, tuple_record[2], &record_default_light) ||
-        !enif_get_int(env, tuple_record[3], &record_mantra_renderer))
+        !hapi_get_int(env, tuple_record[1], &record_default_camera) ||
+        !hapi_get_int(env, tuple_record[2], &record_default_light) ||
+        !hapi_get_int(env, tuple_record[3], &record_mantra_renderer))
     {
         return false;
     }

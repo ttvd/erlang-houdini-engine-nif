@@ -440,13 +440,22 @@ defmodule HAPI do
         def print_functions(env) do
             funcs = Dict.get(env, :functions, :nil)
             if not is_nil(funcs) do
-                Enum.map(funcs, fn {k, v} -> print_func(k, v) end)
+                Enum.map(funcs, fn {k, v} -> print_function(k, v) end)
             end
             env
         end
 
         # Helper function to print each individual function.
-        defp print_func(function_name, function_body) do
+        defp print_function(function_name, {function_type, function_params}) do
+            IO.puts("#{function_name} -> #{function_type}")
+            Enum.map(function_params, fn(param) -> print_function_param(param) end)
+            IO.puts("")
+        end
+
+        # Helper function to print each individual function parameter.
+        defp print_function_param({param_type, param_name, param_opts}) do
+            IO.puts("    #{param_type} #{param_name}")
+            Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
         end
     end
 
@@ -604,26 +613,6 @@ defmodule HAPI do
     defp function_check_parameter_array({_param_type, _param_name, dict}) do
         Dict.get(dict, :param_array, false)
     end
-
-    # Print from hapi functions dictionary.
-    #defp print_function_map_hapi(dict), do: Enum.map(dict, fn {k, v} -> print_function_map_hapi(k, v) end)
-
-    # Helper function to print each function.
-    #defp print_function_map_hapi(function_name, [function_type, function_params]) do
-    #    IO.puts("#{function_name} -> #{function_type}")
-    #    Enum.map(function_params, fn(param) -> print_function_map_hapi_param(param) end)
-    #    IO.puts("")
-    #end
-
-    # Helper function to print each param.
-    #defp print_function_map_hapi_param([param_type, param_name]) do
-    #    IO.puts("    #{param_type} #{param_name}")
-    #end
-    #defp print_function_map_hapi_param([param_type, param_name, param_opts]) do
-    #    IO.puts("    #{param_type} #{param_name}")
-    #    Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
-    #end
-
 
 
     # Helper method to get the name of the system.
@@ -1198,7 +1187,7 @@ HAPI.generate_hapi_c(compiler, hapi_include_path)
     #|> HAPI.Syntactic.print_types()
     #|> HAPI.Syntactic.print_enums()
     #|> HAPI.Syntactic.print_structs()
-    |> HAPI.Syntactic.print_functions()
+    #|> HAPI.Syntactic.print_functions()
 
 
 #HAPI.generate_hapi_c(compiler, hapi_include_path)

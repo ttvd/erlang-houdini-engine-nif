@@ -20,7 +20,7 @@ ERL_NIF_TERM hapi_make_atom(ErlNifEnv* env, const char* atom_name);
 ERL_NIF_TERM hapi_make_atom_ok(ErlNifEnv* env);
 
 // Create a boolean atom.
-ERL_NIF_TERM hapi_make_atom_bool(ErlNifEnv* env, bool value);
+ERL_NIF_TERM hapi_make_bool(ErlNifEnv* env, bool value);
 
 // Create a list from float array.
 ERL_NIF_TERM hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data);
@@ -28,14 +28,29 @@ ERL_NIF_TERM hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* da
 // Create a string.
 ERL_NIF_TERM hapi_make_string(ErlNifEnv* env, const char* string);
 
+// Create a float.
+ERL_NIF_TERM hapi_make_float(ErlNifEnv* env, float value);
+
+// Create a double
+ERL_NIF_TERM hapi_make_double(ErlNifEnv* env, double value);
+
+// Create an integer
+ERL_NIF_TERM hapi_make_int(ErlNifEnv* env, int32_t value);
+
 // Check atom's value against passed value. Returns true if succeeds. Returns status of comparison by pointer.
 bool hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);
 
 // Get value of boolean atom. Return true if succeeds. Returns boolean by pointer.
-bool hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);
+bool hapi_get_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);
 
 // Get value of float. Return true if succeeds. Returns float by pointer.
 bool hapi_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data);
+
+// Get value of double. Return true if succeeds. Returns float by pointer.
+bool hapi_get_double(ErlNifEnv* env, const ERL_NIF_TERM term, double* data);
+
+// Get value of int. Return true if succeeds. Returns float by pointer.
+bool hapi_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int* data);
 
 // Retrieve elements of double list into float array (by pointer). Return status.
 bool hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data);

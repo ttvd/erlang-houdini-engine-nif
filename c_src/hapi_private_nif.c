@@ -61,6 +61,27 @@ hapi_make_string(ErlNifEnv* env, const char* string)
 }
 
 
+ERL_NIF_TERM
+hapi_make_float(ErlNifEnv* env, float value)
+{
+    return enif_make_double(env, (double) value);
+}
+
+
+ERL_NIF_TERM
+hapi_make_double(ErlNifEnv* env, double value)
+{
+    return enif_make_double(env, value);
+}
+
+
+ERL_NIF_TERM
+hapi_make_int(ErlNifEnv* env, int32_t value)
+{
+    return enif_make_int(env, value);
+}
+
+
 #define HAPI_STACK_STRING_SIZE_MAX 64
 
 bool
@@ -171,6 +192,20 @@ hapi_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data)
     }
 
     return false;
+}
+
+
+bool
+hapi_get_double(ErlNifEnv* env, const ERL_NIF_TERM term, double* data)
+{
+    return enif_get_double(env, term, data);
+}
+
+
+bool
+hapi_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int* data)
+{
+    return enif_get_int(env, term, data);
 }
 
 

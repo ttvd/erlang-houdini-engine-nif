@@ -1,0 +1,13 @@
+/* Converting %{HAPI_TYPE}% */
+ERL_NIF_TERM
+hapi_make_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, %{HAPI_TYPE}% hapi_type)
+{
+    %{HAPI_TYPE_CONVERT_MAKE}%
+}
+
+
+bool
+hapi_get_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_TYPE}%* hapi_type)
+{
+    %{HAPI_TYPE_CONVERT_GET}%
+}

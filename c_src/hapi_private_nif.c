@@ -82,6 +82,13 @@ hapi_make_int(ErlNifEnv* env, int32_t value)
 }
 
 
+ERL_NIF_TERM
+hapi_make_char(ErlNifEnv* env, char value)
+{
+    return enif_make_int(env, (int) value);
+}
+
+
 #define HAPI_STACK_STRING_SIZE_MAX 64
 
 bool
@@ -206,6 +213,21 @@ bool
 hapi_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int* data)
 {
     return enif_get_int(env, term, data);
+}
+
+
+bool
+hapi_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
+{
+    int result = 0;
+
+    if(enif_get_int(env, term, &result))
+    {
+        *data = (char) result;
+        return true;
+    }
+
+    return false;
 }
 
 

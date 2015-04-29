@@ -172,7 +172,7 @@ defmodule HAPI do
                 |> Dict.put(:types, HAPI.Syntactic.Types.process(tokens))
                 |> Dict.put(:enums, HAPI.Syntactic.Enums.process(tokens))
                 |> Dict.put(:structs, HAPI.Syntactic.Structs.process(tokens))
-                #|> Dict.put(:funcs, function_map_hapi(tokens))
+                |> Dict.put(:functions, HAPI.Syntactic.Functions.process(tokens))
         end
 
         # Type extraction into type table.
@@ -302,6 +302,85 @@ defmodule HAPI do
             end
         end
 
+        # Function extraction into function table.
+        defmodule Functions do
+
+            # Given a list of tokens, produce a mapping table for functions.
+            def process(tokens) do
+                HashDict.new
+                    |> process_collect(tokens)
+            end
+
+            # Process tokens and collect functions.
+            defp process_collect(dict, []), do: dict
+            defp process_collect(dict, [function_type, function_name, :token_bracket_left | rest]) do
+                [params, remaining] = process_extract([], rest)
+                Dict.put(dict, function_name, {function_type, params})
+                    |> process_collect(remaining)
+            end
+            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
+
+            # Helper function to extract function parameters.
+            defp process_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of function")
+            defp process_extract(list, [:token_comma | rest]), do: process_extract(list, rest)
+            defp process_extract(list, [:token_bracket_right, :token_semicolon | rest]), do: [list, rest]
+            defp process_extract(list, [:token_const, param_type, :token_pointer, :token_pointer, param_name | rest] = tokens) do
+                list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 4))}]
+                        |> process_extract(rest)
+            end
+            defp process_extract(list, [:token_const, :token_char, :token_pointer, param_name | rest] = tokens) do
+                list ++ [{:token_char, param_name,
+                            process_flags(HashDict.new |> Dict.put(:param_string, true), Enum.take(tokens, 4))}]
+                    |> process_extract(rest)
+            end
+            defp process_extract(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
+                list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 4))}]
+                    |> process_extract(rest)
+            end
+            defp process_extract(list, [:token_const, param_type, param_name | rest] = tokens) do
+                list ++ [{param_type, param_name, HashDict.new |> process_flags(Enum.take(tokens, 3))}]
+                    |> process_extract(rest)
+            end
+            defp process_extract(list, [:token_char, :token_pointer, param_name | rest] = tokens) do
+                list ++ [{:token_char, param_name,
+                            process_flags(HashDict.new |> Dict.put(:param_string, true), Enum.take(tokens, 3))}]
+                    |> process_extract(rest)
+            end
+            defp process_extract(list, [param_type, :token_pointer, param_name | rest] = tokens) do
+                list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 3))}]
+                    |> process_extract(rest)
+            end
+            defp process_extract(list, [param_type, param_name | rest] = tokens) do
+                list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 2))}]
+                    |> process_extract(rest)
+            end
+
+            # Helper function used add flags.
+            defp process_flags(dict, []), do: dict
+            defp process_flags(dict, [:token_const | rest]) do
+                Dict.put(dict, :param_const, true)
+                    |> process_flags(rest)
+            end
+            defp process_flags(dict, [:token_pointer | rest]) do
+                if Dict.get(dict, :param_pointer, false) do
+                    Dict.put(dict, :param_pointer_pointer, true)
+                        |> process_flags(rest)
+                else
+                    Dict.put(dict, :param_pointer, true)
+                        |> process_flags(rest)
+                end
+            end
+            defp process_flags(dict, [param | rest]) when is_binary(param) do
+                if String.match?(param, ~r/\w+es$/) or String.match?(param, ~r/\w+s$/) do
+                    Dict.put(dict, :param_array, true)
+                        |> process_flags(rest)
+                else
+                    process_flags(dict, rest)
+                end
+            end
+            defp process_flags(dict, [_param | rest]), do: process_flags(dict, rest)
+        end
+
         # Print types.
         def print_types(env) do
             types = Dict.get(env, :types, :nil)
@@ -356,7 +435,24 @@ defmodule HAPI do
         defp print_struct_field({field_name, field_type}) do
             IO.puts("    #{field_type} #{field_name}")
         end
+
+        # Print functions.
+        def print_functions(env) do
+            funcs = Dict.get(env, :functions, :nil)
+            if not is_nil(funcs) do
+                Enum.map(funcs, fn {k, v} -> print_func(k, v) end)
+            end
+            env
+        end
+
+        # Helper function to print each individual function.
+        defp print_func(function_name, function_body) do
+        end
     end
+
+
+
+
 
 
 
@@ -482,78 +578,7 @@ defmodule HAPI do
 
 
 
-    # Given a list of tokens, produce a mapping table of functions.
-    defp function_map_hapi(tokens), do: HashDict.new |> function_map_hapi_collect(tokens)
 
-    # Process tokens and collect functions.
-    defp function_map_hapi_collect(dict, []), do: dict
-    defp function_map_hapi_collect(dict, [function_type, function_name, :token_bracket_left | rest]) do
-        [params, remaining] = function_map_hapi_extract_params([], rest)
-        Dict.put(dict, function_name, {function_type, params}) |> function_map_hapi_collect(remaining)
-    end
-    defp function_map_hapi_collect(dict, [_token | rest]), do: function_map_hapi_collect(dict, rest)
-
-    # Helper function to extract function parameters.
-    defp function_map_hapi_extract_params(_list, []), do: raise(SyntaxError, description: "Unexpected end of function")
-    defp function_map_hapi_extract_params(list, [:token_comma | rest]), do: function_map_hapi_extract_params(list, rest)
-    defp function_map_hapi_extract_params(list, [:token_bracket_right, :token_semicolon | rest]) do
-        [list, rest]
-    end
-    defp function_map_hapi_extract_params(list, [:token_const, param_type, :token_pointer, :token_pointer, param_name | rest] = tokens) do
-        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 4))}]
-            |> function_map_hapi_extract_params(rest)
-    end
-    defp function_map_hapi_extract_params(list, [:token_const, :token_char, :token_pointer, param_name | rest] = tokens) do
-        list ++ [{:token_char, param_name, HashDict.new
-            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 4))}]
-                |> function_map_hapi_extract_params(rest)
-    end
-    defp function_map_hapi_extract_params(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
-        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 4))}]
-            |> function_map_hapi_extract_params(rest)
-    end
-    defp function_map_hapi_extract_params(list, [:token_const, param_type, param_name | rest] = tokens) do
-        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))}]
-            |> function_map_hapi_extract_params(rest)
-    end
-    defp function_map_hapi_extract_params(list, [:token_char, :token_pointer, param_name | rest] = tokens) do
-        list ++ [{:token_char, param_name, HashDict.new
-            |> Dict.put(:param_string, true) |> function_map_hapi_param_flags(Enum.take(tokens, 3))}]
-                |> function_map_hapi_extract_params(rest)
-    end
-    defp function_map_hapi_extract_params(list, [param_type, :token_pointer, param_name | rest] = tokens) do
-        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 3))}]
-            |> function_map_hapi_extract_params(rest)
-    end
-    defp function_map_hapi_extract_params(list, [param_type, param_name | rest] = tokens) do
-        list ++ [{param_type, param_name, HashDict.new |> function_map_hapi_param_flags(Enum.take(tokens, 2))}]
-            |> function_map_hapi_extract_params(rest)
-    end
-
-    # Helper function used add flags.
-    defp function_map_hapi_param_flags(dict, []), do: dict
-    defp function_map_hapi_param_flags(dict, [param | rest]) do
-        case param do
-            :token_const ->
-                Dict.put(dict, :param_const, true) |> function_map_hapi_param_flags(rest)
-            :token_pointer ->
-                if Dict.get(dict, :param_pointer, false) do
-                    Dict.put(dict, :param_pointer_pointer, true) |> function_map_hapi_param_flags(rest)
-                else
-                    Dict.put(dict, :param_pointer, true) |> function_map_hapi_param_flags(rest)
-                end
-            _ ->
-                if is_binary(param) do
-                    if String.match?(param, ~r/\w+es$/) or String.match?(param, ~r/\w+s$/) do
-                        Dict.put(dict, :param_array, true) |> function_map_hapi_param_flags(rest)
-                    else
-                        function_map_hapi_param_flags(dict, rest)
-                    end
-                else
-                    function_map_hapi_param_flags(dict, rest)
-                end
-        end
-    end
 
     # Given a function structure, return list of parameters which are used for return by pointer.
     defp function_get_return_parameters({_function_type, function_params}) do
@@ -1172,8 +1197,8 @@ HAPI.generate_hapi_c(compiler, hapi_include_path)
     |> HAPI.Syntactic.process()
     #|> HAPI.Syntactic.print_types()
     #|> HAPI.Syntactic.print_enums()
-    |> HAPI.Syntactic.print_structs()
-
+    #|> HAPI.Syntactic.print_structs()
+    |> HAPI.Syntactic.print_functions()
 
 
 #HAPI.generate_hapi_c(compiler, hapi_include_path)

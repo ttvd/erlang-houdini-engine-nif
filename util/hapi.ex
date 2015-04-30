@@ -184,15 +184,24 @@ defmodule HAPI do
 
             # Given a list of tokens, produce a mapping table (parsed type -> system type).
             def process(tokens) do
+                add_entry = &(Dict.put(&1, &2, HAPI.Util.get_builtin_type(&2)))
                 HashDict.new
-                    |> Dict.put("void", :type_void)
-                    |> Dict.put("int", :type_int)
-                    |> Dict.put("float", :type_float)
-                    |> Dict.put("double", :type_double)
-                    |> Dict.put("bool", :type_bool)
-                    |> Dict.put("char", :type_char)
+                    |> add_entry.("void")
+                    |> add_entry.("int")
+                    |> add_entry.("float")
+                    |> add_entry.("double")
+                    |> add_entry.("bool")
+                    |> add_entry.("char")
                     |> process_collect(tokens)
             end
+
+            # Helper function used to map tokens to types.
+            defp get_type_from_token(:token_int), do: :type_int
+            defp get_type_from_token(:token_char), do: :type_char
+            defp get_type_from_token(:token_float), do: :type_float
+            defp get_type_from_token(:token_double), do: :type_double
+            defp get_type_from_token(:token_bool), do: :type_bool
+            defp get_type_from_token(other), do: other
 
             # Process tokens and collect types.
             defp process_collect(dict, []), do: dict
@@ -201,7 +210,7 @@ defmodule HAPI do
                     |> process_collect(rest)
             end
             defp process_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
-                Dict.put(dict, type_new, type_origin)
+                Dict.put(dict, type_new, get_type_from_token(type_origin))
                     |> process_collect(rest)
             end
             defp process_collect(dict, [:token_enum, enum_name | rest]) do
@@ -463,24 +472,28 @@ defmodule HAPI do
         end
     end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     # Utility module.
     defmodule Util do
 
+        # Helper function to map type names to types.
+        def get_builtin_type("void"), do: :type_void
+        def get_builtin_type("int"), do: :type_int
+        def get_builtin_type("float"), do: :type_float
+        def get_builtin_type("double"), do: :type_double
+        def get_builtin_type("bool"), do: :type_bool
+        def get_builtin_type("char"), do: :type_char
+        def get_builtin_type(_type), do: :nil
+
+        # Helper function to check if type name is not typedef'ed.
+        def is_type_builtin(_env, "int"), do: true
+        def is_type_builtin(_env, "float"), do: true
+        def is_type_builtin(_env, "double"), do: true
+        def is_type_builtin(_env, "char"), do: true
+        def is_type_builtin(_env, "bool"), do: true
+        def is_type_builtin(_env, _type), do: false
+
         # Helper function to check if type is enum.
-        def is_type_enum(_env, :token_enum), do: true
+        def is_type_enum(_env, :type_enum), do: true
         def is_type_enum(_env, :nil), do: false
         def is_type_enum(env, type) do
             types = Dict.get(env, :types, :nil)
@@ -492,7 +505,7 @@ defmodule HAPI do
         end
 
         # Helper function to check if type is a struct.
-        def is_type_struct(_env, :token_struct), do: true
+        def is_type_struct(_env, :type_struct), do: true
         def is_type_struct(_env, :nil), do: false
         def is_type_struct(env, type) do
             types = Dict.get(env, :types, :nil)
@@ -503,37 +516,17 @@ defmodule HAPI do
             end
         end
 
-        # Helper function to check if type name is not typedef'ed.
-        def is_typename_original(_env, "int"), do: true
-        def is_typename_original(_env, "float"), do: true
-        def is_typename_original(_env, "double"), do: true
-        def is_typename_original(_env, "bool"), do: true
-        def is_typename_original(_env, _type), do: false
-
         # Helper function to check if type is a primitive type.
-        def is_type_primitive(_env, :token_int), do: true
-        def is_type_primitive(_env, :token_bool), do: true
-        def is_type_primitive(_env, :token_float), do: true
-        def is_type_primitive(_env, :token_double), do: true
+        def is_type_primitive(_env, :type_int), do: true
+        def is_type_primitive(_env, :type_bool), do: true
+        def is_type_primitive(_env, :type_float), do: true
+        def is_type_primitive(_env, :type_char), do: true
+        def is_type_primitive(_env, :type_double), do: true
         def is_type_primitive(_env, :nil), do: false
         def is_type_primitive(env, type) do
             types = Dict.get(env, :types, :nil)
             if not is_nil(types) do
                 is_type_primitive(env, Dict.get(types, type, :nil))
-            else
-                false
-            end
-        end
-
-        # Helper function to retrieve mapped primitive type.
-        def get_type_primitive(_env, :token_int), do: "int"
-        def get_type_primitive(_env, :token_bool), do: "bool"
-        def get_type_primitive(_env, :token_float), do: "float"
-        def get_type_primitive(_env, :token_double), do: "double"
-        def get_type_primitive(env, type) do
-            types = Dict.get(env, :types, :nil)
-            if not is_nil(types) do
-                get_type_primitive(env, Dict.get(types, type, :nil))
             else
                 false
             end
@@ -558,19 +551,53 @@ defmodule HAPI do
         end
         defp underscore_helper(<<c, rest ::binary>>, _p), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
         defp underscore_helper("", _p), do: ""
-
     end
 
+    # Module responsible for generating type related stubs.
+    defmodule Types do
 
+        # Create type related stubs.
+        def create(env) do
+            if not (Dict.get(env, :types, :nil) |> is_nil()) do
+                create_stub_h(env)
+                create_stub_c(env)
+            end
+            env
+        end
 
+        # Create header stub for types.
+        defp create_stub_h(env) do
+            types = Dict.get(env, :types, :nil)
 
+            {:ok, template_types_h} = File.read("./util/hapi_types_nif.h.template")
+            {:ok, template_types_h_block} = File.read("./util/hapi_types_nif.h.block.template")
 
+            entries = Enum.map(types, fn {k, v} -> k end)
+                |> Enum.filter(fn(x) -> not HAPI.Util.is_type_builtin(env, x) end)
+                |> Enum.map(fn(x) -> create_stub_h_entry(env, x, template_types_h_block) end)
+                |> Enum.filter(fn(x) -> not is_nil(x) end)
+                |> Enum.join("\n")
 
+            entries = String.replace(template_types_h, "%{HAPI_TYPE_FUNCTIONS}%", entries)
 
+            File.write("./c_src/hapi_types_nif.h", entries)
+            IO.puts("Generating c_src/hapi_types_nif.h")
+        end
 
+        # Helper function to create types header file entry.
+        def create_stub_h_entry(env, type_name, template) do
+            if HAPI.Util.is_type_primitive(env, type_name) do
+                String.replace(template, "%{HAPI_TYPE_DOWNCASE}%", HAPI.Util.underscore(type_name))
+                    |> String.replace("%{HAPI_TYPE}%", type_name)
+            else
+                :nil
+            end
+        end
 
-
-
+        # Create source file stub for types.
+        defp create_stub_c(env) do
+        end
+    end
 
 
 
@@ -784,90 +811,7 @@ defmodule HAPI do
         IO.puts("Generating c_src/hapi_functions_nif.h")
     end
 
-    # Type conversion module.
-    defmodule Types do
 
-        # Generate type c stubs containing c <-> erl convertors.
-        def create_c_stubs(env) do
-            IO.puts("Creating type c stubs in c_src")
-
-            if not (Dict.get(env, :types, :nil) |> is_nil()) do
-                create_h_stub(env)
-                create_c_stub(env)
-            end
-
-            env
-        end
-
-        # Generate types header file containing all conversion function signatures.
-        def create_h_stub(env) do
-            types = Dict.get(env, :types, :nil)
-
-            {:ok, template_types_h} = File.read("./util/hapi_types_nif.h.template")
-            {:ok, template_types_h_block} = File.read("./util/hapi_types_nif.h.block.template")
-
-            entries = Enum.map(types, fn {k, v} -> k end)
-                |> Enum.filter(fn(x) -> not HAPI.Util.is_typename_original(env, x) end)
-                |> Enum.map(fn(x) -> create_h_stub_entry(env, x, template_types_h_block) end)
-                |> Enum.filter(fn(x) -> not is_nil(x) end)
-                |> Enum.join("\n")
-
-            entries = String.replace(template_types_h, "%{HAPI_TYPE_FUNCTIONS}%", entries)
-
-            File.write("./c_src/hapi_types_nif.h", entries)
-            IO.puts("Generating c_src/hapi_types_nif.h")
-        end
-
-        # Helper function to create types header file entry.
-        def create_h_stub_entry(env, type_name, template) do
-            if HAPI.Util.is_type_primitive(env, type_name) do
-                String.replace(template, "%{HAPI_TYPE_DOWNCASE}%", HAPI.Util.underscore(type_name))
-                    |> String.replace("%{HAPI_TYPE}%", type_name)
-            else
-                :nil
-            end
-        end
-
-        # Generate types source file containing all conversion functions.
-        defp create_c_stub(env) do
-            types = Dict.get(env, :types, :nil)
-
-            {:ok, template_types_c} = File.read("./util/hapi_types_nif.c.template")
-            {:ok, template_types_c_block} = File.read("./util/hapi_types_nif.c.block.template")
-
-            entries = Enum.map(types, fn {k, v} -> create_c_stub_entry(env, k, v, template_types_c_block) end)
-                |> Enum.filter(fn(x) -> not is_nil(x) end)
-                |> Enum.join("\n")
-
-            entries = String.replace(template_types_c, "%{HAPI_TYPE_FUNCTIONS}%", entries)
-
-            File.write("./c_src/hapi_types_nif.c", entries)
-            IO.puts("Generating c_src/hapi_types_nif.c")
-        end
-
-        # Helper function to create type conversion functions.
-        defp create_c_stub_entry(env, type_name, token_type, template) do
-            if HAPI.Util.is_type_primitive(env, type_name) do
-                String.replace(template, "%{HAPI_TYPE_DOWNCASE}%", HAPI.Util.underscore(type_name))
-                    |> String.replace("%{HAPI_TYPE}%", type_name)
-                    |> create_c_stub_entry_code(env, type_name, token_type)
-            else
-                :nil
-            end
-        end
-
-        # Helper function to generate code for converting type.
-        defp create_c_stub_entry_code(template, env, type_name, token_type) do
-            cond do
-                HAPI.Util.is_typename_original(env, type_name) ->
-                    :nil
-            true ->
-                old_type = HAPI.Util.get_type_primitive(env, type_name)
-                String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_#{old_type}(env, hapi_type);")
-                    |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_#{old_type}(env, term, hapi_type);")
-            end
-        end
-    end
 
     # Generate enum c stubs containing c <-> erl convertors.
     def create_enum_c_stubs(env) do
@@ -1192,7 +1136,7 @@ HAPI.C.generate(compiler, hapi_include_path)
     #|> HAPI.Syntactic.print_enums()
     #|> HAPI.Syntactic.print_structs()
     #|> HAPI.Syntactic.print_functions()
-
+    |> HAPI.Types.create()
 
 #HAPI.generate_hapi_c(compiler, hapi_include_path)
 #    |> HAPI.Types.create_c_stubs()

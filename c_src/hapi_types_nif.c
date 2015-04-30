@@ -12,14 +12,14 @@
 ERL_NIF_TERM
 hapi_make_hapi_object_id(ErlNifEnv* env, HAPI_ObjectId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -27,14 +27,14 @@ hapi_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* 
 ERL_NIF_TERM
 hapi_make_hapi_parm_id(ErlNifEnv* env, HAPI_ParmId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -42,14 +42,14 @@ hapi_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi
 ERL_NIF_TERM
 hapi_make_hapi_asset_library_id(ErlNifEnv* env, HAPI_AssetLibraryId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -72,14 +72,14 @@ hapi_get_hapi_bool(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_type
 ERL_NIF_TERM
 hapi_make_hapi_node_id(ErlNifEnv* env, HAPI_NodeId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -87,14 +87,14 @@ hapi_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi
 ERL_NIF_TERM
 hapi_make_hapi_geo_id(ErlNifEnv* env, HAPI_GeoId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -102,14 +102,14 @@ hapi_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_t
 ERL_NIF_TERM
 hapi_make_hapi_string_handle(ErlNifEnv* env, HAPI_StringHandle hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StringHandle* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -117,14 +117,14 @@ hapi_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_String
 ERL_NIF_TERM
 hapi_make_hapi_asset_id(ErlNifEnv* env, HAPI_AssetId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -132,14 +132,14 @@ hapi_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* ha
 ERL_NIF_TERM
 hapi_make_hapi_part_id(ErlNifEnv* env, HAPI_PartId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 
 
@@ -147,13 +147,13 @@ hapi_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi
 ERL_NIF_TERM
 hapi_make_hapi_material_id(ErlNifEnv* env, HAPI_MaterialId hapi_type)
 {
-    return hapi_make_int(env, hapi_type);
+    return hapi_make_int(env, (int) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_material_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialId* hapi_type)
 {
-    return hapi_get_int(env, term, hapi_type);
+    return hapi_get_int(env, term, (int*) hapi_type);
 }
 

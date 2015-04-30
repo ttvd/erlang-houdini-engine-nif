@@ -8,7 +8,7 @@
 #include "hapi_types_nif.h"
 
 
-/* Converting HAPI_ObjectId */
+/* Converting HAPI_ObjectId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_object_id(ErlNifEnv* env, HAPI_ObjectId hapi_type)
 {
@@ -16,6 +16,7 @@ hapi_make_hapi_object_id(ErlNifEnv* env, HAPI_ObjectId hapi_type)
 }
 
 
+/* Converting HAPI_ObjectId from erl to c. */
 bool
 hapi_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* hapi_type)
 {
@@ -23,7 +24,7 @@ hapi_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* 
 }
 
 
-/* Converting HAPI_ParmId */
+/* Converting HAPI_ParmId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_parm_id(ErlNifEnv* env, HAPI_ParmId hapi_type)
 {
@@ -31,6 +32,7 @@ hapi_make_hapi_parm_id(ErlNifEnv* env, HAPI_ParmId hapi_type)
 }
 
 
+/* Converting HAPI_ParmId from erl to c. */
 bool
 hapi_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi_type)
 {
@@ -38,7 +40,7 @@ hapi_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi
 }
 
 
-/* Converting HAPI_AssetLibraryId */
+/* Converting HAPI_AssetLibraryId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_asset_library_id(ErlNifEnv* env, HAPI_AssetLibraryId hapi_type)
 {
@@ -46,6 +48,7 @@ hapi_make_hapi_asset_library_id(ErlNifEnv* env, HAPI_AssetLibraryId hapi_type)
 }
 
 
+/* Converting HAPI_AssetLibraryId from erl to c. */
 bool
 hapi_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* hapi_type)
 {
@@ -53,7 +56,7 @@ hapi_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Ass
 }
 
 
-/* Converting HAPI_Bool */
+/* Converting HAPI_Bool from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_bool(ErlNifEnv* env, HAPI_Bool hapi_type)
 {
@@ -61,6 +64,7 @@ hapi_make_hapi_bool(ErlNifEnv* env, HAPI_Bool hapi_type)
 }
 
 
+/* Converting HAPI_Bool from erl to c. */
 bool
 hapi_get_hapi_bool(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_type)
 {
@@ -68,7 +72,7 @@ hapi_get_hapi_bool(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_type
 }
 
 
-/* Converting HAPI_NodeId */
+/* Converting HAPI_NodeId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_node_id(ErlNifEnv* env, HAPI_NodeId hapi_type)
 {
@@ -76,6 +80,7 @@ hapi_make_hapi_node_id(ErlNifEnv* env, HAPI_NodeId hapi_type)
 }
 
 
+/* Converting HAPI_NodeId from erl to c. */
 bool
 hapi_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi_type)
 {
@@ -83,7 +88,7 @@ hapi_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi
 }
 
 
-/* Converting HAPI_GeoId */
+/* Converting HAPI_GeoId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_geo_id(ErlNifEnv* env, HAPI_GeoId hapi_type)
 {
@@ -91,6 +96,7 @@ hapi_make_hapi_geo_id(ErlNifEnv* env, HAPI_GeoId hapi_type)
 }
 
 
+/* Converting HAPI_GeoId from erl to c. */
 bool
 hapi_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_type)
 {
@@ -98,7 +104,7 @@ hapi_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_t
 }
 
 
-/* Converting HAPI_StringHandle */
+/* Converting HAPI_StringHandle from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_string_handle(ErlNifEnv* env, HAPI_StringHandle hapi_type)
 {
@@ -106,6 +112,7 @@ hapi_make_hapi_string_handle(ErlNifEnv* env, HAPI_StringHandle hapi_type)
 }
 
 
+/* Converting HAPI_StringHandle from erl to c. */
 bool
 hapi_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StringHandle* hapi_type)
 {
@@ -113,7 +120,7 @@ hapi_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_String
 }
 
 
-/* Converting HAPI_AssetId */
+/* Converting HAPI_AssetId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_asset_id(ErlNifEnv* env, HAPI_AssetId hapi_type)
 {
@@ -121,6 +128,7 @@ hapi_make_hapi_asset_id(ErlNifEnv* env, HAPI_AssetId hapi_type)
 }
 
 
+/* Converting HAPI_AssetId from erl to c. */
 bool
 hapi_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* hapi_type)
 {
@@ -128,7 +136,7 @@ hapi_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* ha
 }
 
 
-/* Converting HAPI_PartId */
+/* Converting HAPI_PartId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_part_id(ErlNifEnv* env, HAPI_PartId hapi_type)
 {
@@ -136,6 +144,7 @@ hapi_make_hapi_part_id(ErlNifEnv* env, HAPI_PartId hapi_type)
 }
 
 
+/* Converting HAPI_PartId from erl to c. */
 bool
 hapi_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi_type)
 {
@@ -143,7 +152,7 @@ hapi_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi
 }
 
 
-/* Converting HAPI_MaterialId */
+/* Converting HAPI_MaterialId from c to erl. */
 ERL_NIF_TERM
 hapi_make_hapi_material_id(ErlNifEnv* env, HAPI_MaterialId hapi_type)
 {
@@ -151,6 +160,7 @@ hapi_make_hapi_material_id(ErlNifEnv* env, HAPI_MaterialId hapi_type)
 }
 
 
+/* Converting HAPI_MaterialId from erl to c. */
 bool
 hapi_get_hapi_material_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialId* hapi_type)
 {

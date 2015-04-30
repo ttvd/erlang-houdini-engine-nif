@@ -475,6 +475,18 @@ defmodule HAPI do
     # Utility module.
     defmodule Util do
 
+        # Helper function to generate hash for a given string.
+        defp hash(string) when is_binary(string) do
+            if File.exists?("./util/xxhash") do
+                to_string(:os.cmd './util/xxhash #{string}')
+            else
+                raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
+            end
+        end
+        defp hash(_string) do
+            raise(RuntimeError, description: "Can't create hash of non-binary parameter")
+        end
+
         # Helper function to map type names to types.
         def get_builtin_type("void"), do: :type_void
         def get_builtin_type("int"), do: :type_int
@@ -725,17 +737,7 @@ defmodule HAPI do
 
 
 
-    # Helper function to generate hash for a given string.
-    defp hash(string) when is_binary(string) do
-        if File.exists?("./util/xxhash") do
-            to_string(:os.cmd './util/xxhash #{string}')
-        else
-            raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
-        end
-    end
-    defp hash(_string) do
-        raise(RuntimeError, description: "Can't create hash of non-binary parameter")
-    end
+
 
 
 
@@ -920,7 +922,7 @@ defmodule HAPI do
         field_name_downcase = HAPI.Util.underscore(field_name)
         [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
             |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_downcase)
-            |> String.replace("%{HAPI_ENUM_HASH}%", hash(field_name_downcase))]
+            |> String.replace("%{HAPI_ENUM_HASH}%", HAPI.Util.hash(field_name_downcase))]
     end
 
     # Function to generate header containing signatures for all enum conversion functions.

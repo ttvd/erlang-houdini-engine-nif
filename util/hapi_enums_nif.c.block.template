@@ -1,5 +1,4 @@
 /* Converting %{HAPI_ENUM}% from c to erl. */
-
 ERL_NIF_TERM
 hapi_make_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, %{HAPI_ENUM}% enum_value)
 {

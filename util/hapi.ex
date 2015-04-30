@@ -701,6 +701,16 @@ defmodule HAPI do
 
         # Create source stub for enums.
         defp create_stub_c(env) do
+            enums = Dict.get(env, :enums, :nil)
+            if not is_nil(enums) do
+                {:ok, template_enums_c} = File.read("./util/hapi_enums_nif.c.template")
+                {:ok, template_enums_c_block} = File.read("./util/hapi_enums_nif.c.block.template")
+                {:ok, template_enums_c_erl_to_c_block} = File.read("./util/hapi_enums_nif.c.erl_to_c.block.template")
+                {:ok, template_enums_c_c_to_erl_block} = File.read("./util/hapi_enums_nif.c.c_to_erl.block.template")
+
+                
+                #Enum.map(enums, fn {k, v} -> create_stub_c_e(k, v, template_enums_c, template_c_to_erl, termplate_erl_to_c) end)
+            end
         end
 
     end

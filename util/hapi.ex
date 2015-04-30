@@ -662,8 +662,10 @@ defmodule HAPI do
                         |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_bool(env, term, (bool*) hapi_type);")
                 true ->
                     old_type = HAPI.Util.get_reverse_builtin_type(HAPI.Util.get_original_type(env, type_name))
-                    String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_#{old_type}(env, hapi_type);")
-                        |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_#{old_type}(env, term, hapi_type);")
+                    String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%",
+                        "return hapi_make_#{old_type}(env, (#{old_type}) hapi_type);")
+                        |> String.replace("%{HAPI_TYPE_CONVERT_GET}%",
+                            "return hapi_get_#{old_type}(env, term, (#{old_type}*) hapi_type);")
             end
         end
     end

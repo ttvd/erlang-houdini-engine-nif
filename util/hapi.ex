@@ -676,10 +676,31 @@ defmodule HAPI do
         # Create enum related stubs.
         def create(env) do
             if not (Dict.get(env, :enums, :nil) |> is_nil()) do
-                #create_stub_h(env)
-                #create_stub_c(env)
+                create_stub_h(env)
+                create_stub_c(env)
             end
             env
+        end
+
+        # Create header stub for enums.
+        defp create_stub_h(env) do
+            enums = Dict.get(env, :enums, :nil)
+            if not is_nil(enums) do
+                {:ok, template_enums_h} = File.read("./util/hapi_enums_nif.h.template")
+                {:ok, template_enums_block} = File.read("./util/hapi_enums_nif.h.block.template")
+
+                signature_blocks = Enum.map_join(enums, "\n", fn {k, _v} ->
+                    String.replace(template_enums_block, "%{HAPI_ENUM}%", k)
+                        |> String.replace("%{HAPI_ENUM_DOWNCASE}%", HAPI.Util.underscore(k)) end)
+                signatures = String.replace(template_enums_h, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)
+
+                File.write("./c_src/hapi_enums_nif.h", signatures)
+                IO.puts("Generating c_src/hapi_enums_nif.h")
+            end
+        end
+
+        # Create source stub for enums.
+        defp create_stub_c(env) do
         end
 
     end

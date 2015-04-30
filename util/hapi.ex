@@ -484,6 +484,24 @@ defmodule HAPI do
         def get_builtin_type("char"), do: :type_char
         def get_builtin_type(_type), do: :nil
 
+        # Helper function to reverse map type names to types.
+        def get_reverse_builtin_type(:type_void), do: "void"
+        def get_reverse_builtin_type(:type_int), do: "int"
+        def get_reverse_builtin_type(:type_float), do: "float"
+        def get_reverse_builtin_type(:type_double), do: "double"
+        def get_reverse_builtin_type(:type_bool), do: "bool"
+        def get_reverse_builtin_type(:type_char), do: "char"
+
+        # Helper function to return original type.
+        def get_original_type(env, type) do
+            types = Dict.get(env, :types, :nil)
+            if not is_nil(types) do
+                Dict.get(types, type, :nil)
+            else
+                :nil
+            end
+        end
+
         # Helper function to check if type name is not typedef'ed.
         def is_type_builtin(_env, "int"), do: true
         def is_type_builtin(_env, "float"), do: true
@@ -596,6 +614,45 @@ defmodule HAPI do
 
         # Create source file stub for types.
         defp create_stub_c(env) do
+            types = Dict.get(env, :types, :nil)
+
+            {:ok, template_types_c} = File.read("./util/hapi_types_nif.c.template")
+            {:ok, template_types_c_block} = File.read("./util/hapi_types_nif.c.block.template")
+
+            entries = Enum.map(types, fn {k, v} -> create_stub_c_entry(env, k, v, template_types_c_block) end)
+                |> Enum.filter(fn(x) -> not is_nil(x) end)
+                |> Enum.join("\n")
+
+            entries = String.replace(template_types_c, "%{HAPI_TYPE_FUNCTIONS}%", entries)
+
+            File.write("./c_src/hapi_types_nif.c", entries)
+            IO.puts("Generating c_src/hapi_types_nif.c")
+        end
+
+        # Helper function to create type conversion functions.
+        defp create_stub_c_entry(env, type_name, token_type, template) do
+            if HAPI.Util.is_type_primitive(env, type_name) do
+                String.replace(template, "%{HAPI_TYPE_DOWNCASE}%", HAPI.Util.underscore(type_name))
+                    |> String.replace("%{HAPI_TYPE}%", type_name)
+                    |> create_stub_c_entry_code(env, type_name, token_type)
+            else
+                :nil
+            end
+        end
+
+        # Helper function to generate code for converting type.
+        defp create_stub_c_entry_code(template, env, type_name, token_type) do
+            cond do
+                HAPI.Util.is_type_builtin(env, type_name) ->
+                    :nil
+                type_name == "HAPI_Bool" ->
+                    String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_bool(env, (bool) hapi_type);")
+                        |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_bool(env, term, (bool*) hapi_type);")
+                true ->
+                    old_type = HAPI.Util.get_reverse_builtin_type(HAPI.Util.get_original_type(env, type_name))
+                    String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_#{old_type}(env, hapi_type);")
+                        |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_#{old_type}(env, term, hapi_type);")
+            end
         end
     end
 

@@ -7,5 +7,4 @@
 #include "hapi_private_nif.h"
 #include "hapi_types_nif.h"
 
-
 %{HAPI_TYPE_FUNCTIONS}%

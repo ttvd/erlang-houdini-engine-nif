@@ -670,8 +670,19 @@ defmodule HAPI do
         end
     end
 
+    # Module responsible for generating enum related stubs.
+    defmodule Enums do
 
+        # Create enum related stubs.
+        def create(env) do
+            if not (Dict.get(env, :enums, :nil) |> is_nil()) do
+                #create_stub_h(env)
+                #create_stub_c(env)
+            end
+            env
+        end
 
+    end
 
 
 
@@ -1198,6 +1209,7 @@ HAPI.C.generate(compiler, hapi_include_path)
     #|> HAPI.Syntactic.print_structs()
     #|> HAPI.Syntactic.print_functions()
     |> HAPI.Types.create()
+    |> HAPI.Enums.create()
 
 #HAPI.generate_hapi_c(compiler, hapi_include_path)
 #    |> HAPI.Types.create_c_stubs()

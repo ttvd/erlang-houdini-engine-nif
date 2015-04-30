@@ -22,6 +22,7 @@ hapi_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* 
     return hapi_get_int(env, term, hapi_type);
 }
 
+
 /* Converting HAPI_ParmId */
 ERL_NIF_TERM
 hapi_make_hapi_parm_id(ErlNifEnv* env, HAPI_ParmId hapi_type)
@@ -35,6 +36,7 @@ hapi_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi
 {
     return hapi_get_int(env, term, hapi_type);
 }
+
 
 /* Converting HAPI_AssetLibraryId */
 ERL_NIF_TERM
@@ -50,19 +52,21 @@ hapi_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Ass
     return hapi_get_int(env, term, hapi_type);
 }
 
+
 /* Converting HAPI_Bool */
 ERL_NIF_TERM
 hapi_make_hapi_bool(ErlNifEnv* env, HAPI_Bool hapi_type)
 {
-    return hapi_make_bool(env, hapi_type);
+    return hapi_make_bool(env, (bool) hapi_type);
 }
 
 
 bool
 hapi_get_hapi_bool(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_type)
 {
-    return hapi_get_bool(env, term, hapi_type);
+    return hapi_get_bool(env, term, (bool*) hapi_type);
 }
+
 
 /* Converting HAPI_NodeId */
 ERL_NIF_TERM
@@ -78,6 +82,7 @@ hapi_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi
     return hapi_get_int(env, term, hapi_type);
 }
 
+
 /* Converting HAPI_GeoId */
 ERL_NIF_TERM
 hapi_make_hapi_geo_id(ErlNifEnv* env, HAPI_GeoId hapi_type)
@@ -91,6 +96,7 @@ hapi_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_t
 {
     return hapi_get_int(env, term, hapi_type);
 }
+
 
 /* Converting HAPI_StringHandle */
 ERL_NIF_TERM
@@ -106,6 +112,7 @@ hapi_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_String
     return hapi_get_int(env, term, hapi_type);
 }
 
+
 /* Converting HAPI_AssetId */
 ERL_NIF_TERM
 hapi_make_hapi_asset_id(ErlNifEnv* env, HAPI_AssetId hapi_type)
@@ -120,6 +127,7 @@ hapi_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* ha
     return hapi_get_int(env, term, hapi_type);
 }
 
+
 /* Converting HAPI_PartId */
 ERL_NIF_TERM
 hapi_make_hapi_part_id(ErlNifEnv* env, HAPI_PartId hapi_type)
@@ -133,6 +141,7 @@ hapi_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi
 {
     return hapi_get_int(env, term, hapi_type);
 }
+
 
 /* Converting HAPI_MaterialId */
 ERL_NIF_TERM

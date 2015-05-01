@@ -1086,9 +1086,10 @@ defmodule HAPI do
                 |> String.replace("%{HAPI_FUNCTION_PARAMS}%",
                     Enum.map_join(get_parameters(function_body), ", ", fn(p) -> create_stub_erl_entry_param(p) end))
                 |> String.replace("%{HAPI_FUNCTION_RETURN}%",
-                    [HAPI.Util.get_erlang_type(env, function_return_type)] ++
-                    Enum.map(get_return_parameters(function_body), fn(p) -> create_stub_erl_entry_return_param(env, p) end)
-                        |> Enum.join(", "))
+                    [HAPI.Util.get_erlang_type(env, function_return_type)]
+                        ++ Enum.map(get_return_parameters(function_body),
+                            fn(p) -> create_stub_erl_entry_return_param(env, p) end)
+                                |> Enum.join(", "))
         end
 
         # Helper function to get a list of parameter names for erl function stub generation.
@@ -1098,7 +1099,6 @@ defmodule HAPI do
 
         # Helper function to get a list of return names for erl function stub generation.
         defp create_stub_erl_entry_return_param(env, {param_type, _param_name, _param_opts} = param) do
-            #"_#{HAPI.Util.camelcase(param_name)}"
             if not is_array_parameter(param) do
                 HAPI.Util.get_erlang_type(env, param_type)
             else
@@ -1125,6 +1125,20 @@ defmodule HAPI do
         defp create_stub_c_entry(env, function_name, function_body, template_block) do
             String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
                 |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
+                |> String.replace("%{HAPI_FUNCTION_BODY}%",
+                    ["// ERL_NIF_TERM result;"]
+                        ++ Enum.map(get_parameters(function_body), fn(p) -> create_stub_c_entry_param_input(env, p) end)
+                        ++ Enum.map(get_return_parameters(function_body), fn(p) -> create_stub_c_entry_param_output(env, p) end)
+                    |> Enum.join("\n    "))
+        end
+
+        # Helper function to create c stub input parameter variable.
+        defp create_stub_c_entry_param_input(env, {param_type, param_name, _param_opts}) do
+            "// #{param_type} #{param_name}"
+        end
+
+        defp create_stub_c_entry_param_output(env, {param_type, param_name, _param_opts}) do
+            "// #{param_type} #{param_name}"
         end
     end
 

@@ -80,7 +80,7 @@ bool hapi_get_double_list(ErlNifEnv* env, const ERL_NIF_TERM term, double* data,
 bool hapi_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32_t size);
 
 // Return string and length by pointer, caller is responsible for clean up.
-bool hapi_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);
+//bool hapi_get_string_list(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);
 
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

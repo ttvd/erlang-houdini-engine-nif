@@ -387,9 +387,9 @@ hapi_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32
     return false;
 }
 
-
+/*
 bool
-hapi_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
+hapi_get_string_list(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
 {
     uint32_t length = 0;
     char* buffer = NULL;
@@ -415,3 +415,4 @@ hapi_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t
     *string = buffer;
     return true;
 }
+*/

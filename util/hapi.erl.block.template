@@ -1,0 +1,4 @@
+% Corresponds to %{HAPI_FUNCTION}% function.
+%-spec %{HAPI_FUNCTION_DOWNCASE}%(%{HAPI_FUNCTION_PARAMS}%) -> {%{HAPI_FUNCTION_RETURN}%}.
+%{HAPI_FUNCTION_DOWNCASE}%(%{HAPI_FUNCTION_PARAMS}%) ->
+    ?nif_stub.

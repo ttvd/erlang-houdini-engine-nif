@@ -513,12 +513,7 @@ defmodule HAPI do
         end
 
         # Helper function to check if type name is not typedef'ed.
-        def is_type_builtin(_env, "int"), do: true
-        def is_type_builtin(_env, "float"), do: true
-        def is_type_builtin(_env, "double"), do: true
-        def is_type_builtin(_env, "char"), do: true
-        def is_type_builtin(_env, "bool"), do: true
-        def is_type_builtin(_env, _type), do: false
+        def is_type_builtin(_env, type), do: not is_nil(get_builtin_type(type))
 
         # Helper function to check if type is enum.
         def is_type_enum(_env, :token_enum), do: true

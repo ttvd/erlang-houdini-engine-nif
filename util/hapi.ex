@@ -1005,6 +1005,23 @@ defmodule HAPI do
 
         # Function used to generate c stub.
         defp create_stub_c(env) do
+            functions = Dict.get(env, :functions, :nil)
+            if not is_nil(functions) do
+                {:ok, template_functions_c} = File.read("./util/hapi_functions_nif.c.template")
+                {:ok, template_functions_c_block} = File.read("./util/hapi_functions_nif.c.block.template")
+
+                entries = String.replace(template_functions_c, "%{HAPI_FUNCTIONS}%",
+                    Enum.map_join(functions, "\n\n", fn{k, v} -> create_stub_c_entry(env, k, v, template_functions_c_block) end))
+
+                File.write("./c_src/hapi_functions_nif.c", entries)
+                IO.puts("Generating c_src/hapi_functions_nif.c")
+            end
+        end
+
+        # Helper function used to generate c stub entries.
+        defp create_stub_c_entry(env, function_name, function_body, template_block) do
+            String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
+                |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
         end
     end
 

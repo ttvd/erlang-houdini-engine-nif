@@ -831,8 +831,10 @@ defmodule HAPI do
                 |> String.replace("%{HAPI_STRUCT_TO_ERL_MAP}",
                     Enum.map_join(struct_body, ",\n        ",
                         fn(f) -> create_stub_c_entry_c_to_erl(env, f) end))
+                |> String.replace("%{HAPI_STRUCT_TO_C_VARS}%",
+                    Enum.map_join(struct_body, "\n    ",
+                        fn(f) -> create_stub_c_entry_erl_to_c_var(env, f) end))
 
-            # %{HAPI_STRUCT_TO_C_VARS}%
             # %{HAPI_STRUCT_TO_C_MAP}%
             # %{HAPI_STRUCT_TO_C_ASSIGN}%
         end
@@ -861,7 +863,25 @@ defmodule HAPI do
             end
         end
 
-
+        # Helper function to create variable declarations in erl to c conversion functions.
+        defp create_stub_c_entry_erl_to_c_var(env, {field_name, field_type}) do
+            builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
+            cond do
+                not is_nil(builtin_type) ->
+                    "#{builtin_type} var_#{HAPI.Util.underscore(field_name)};"
+                true ->
+                    "#{field_type} var_#{HAPI.Util.underscore(field_name)};"
+            end
+        end
+        defp create_stub_c_entry_erl_to_c_var(env, {field_name, field_type, field_size}) do
+            builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
+            cond do
+                not is_nil(builtin_type) ->
+                    "#{builtin_type} var_#{HAPI.Util.underscore(field_name)}[#{field_size}];"
+                true ->
+                    "#{field_type} var_#{HAPI.Util.underscore(field_name)}[#{field_size}];"
+            end
+        end
     end
 
 

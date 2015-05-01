@@ -41,7 +41,35 @@ hapi_make_atom_bool(ErlNifEnv* env, bool value)
 
 
 ERL_NIF_TERM
-hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data)
+hapi_make_float_list(ErlNifEnv* env, const float* data, uint32_t size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = 0; idx < size; ++idx)
+    {
+        list = enif_make_list_cell(env, enif_make_double(env, (double) *(data + idx)), list);
+    }
+
+    return list;
+}
+
+
+ERL_NIF_TERM
+hapi_make_double_list(ErlNifEnv* env, const double* data, uint32_t size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = 0; idx < size; ++idx)
+    {
+        list = enif_make_list_cell(env, enif_make_double(env, *(data + idx)), list);
+    }
+
+    return list;
+}
+
+
+ERL_NIF_TERM
+hapi_make_int_list(ErlNifEnv* env, const int32_t* data, uint32_t size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -144,7 +172,7 @@ label_cleanup:
 
 
 bool
-hapi_get_atom_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
+hapi_get_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
 {
     bool nif_success = true;
     uint32_t atom_len = 0;
@@ -232,7 +260,7 @@ hapi_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
 
 
 bool
-hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data)
+hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -272,7 +300,7 @@ hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, floa
 
 
 bool
-hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data)
+hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, double* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -312,7 +340,7 @@ hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, dou
 
 
 bool
-hapi_get_list_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_t* data)
+hapi_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -347,7 +375,7 @@ hapi_get_list_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_
 
 
 bool
-hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
+hapi_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
 {
     uint32_t length = 0;
     char* buffer = NULL;

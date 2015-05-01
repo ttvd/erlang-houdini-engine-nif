@@ -23,7 +23,13 @@ ERL_NIF_TERM hapi_make_atom_ok(ErlNifEnv* env);
 ERL_NIF_TERM hapi_make_bool(ErlNifEnv* env, bool value);
 
 // Create a list from float array.
-ERL_NIF_TERM hapi_make_list_float(ErlNifEnv* env, uint32_t size, const float* data);
+ERL_NIF_TERM hapi_make_float_list(ErlNifEnv* env, const float* data, uint32_t size);
+
+// Create a list from double array.
+ERL_NIF_TERM hapi_make_double_list(ErlNifEnv* env, const double* data, uint32_t size);
+
+// Create a list from int array.
+ERL_NIF_TERM hapi_make_int_list(ErlNifEnv* env, const int32_t* data, uint32_t size);
 
 // Create a string.
 ERL_NIF_TERM hapi_make_string(ErlNifEnv* env, const char* string);
@@ -53,22 +59,22 @@ bool hapi_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data);
 bool hapi_get_double(ErlNifEnv* env, const ERL_NIF_TERM term, double* data);
 
 // Get value of int. Return true if succeeds. Returns int by pointer.
-bool hapi_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int* data);
+bool hapi_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data);
 
 // Get value of char. Return true if succeeds. Returns char by pointer.
 bool hapi_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data);
 
 // Retrieve elements of double list into float array (by pointer). Return status.
-bool hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, float* data);
+bool hapi_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size);
 
 // Retrieve elements of double list into double array (by pointer). Return status.
-bool hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, double* data);
+bool hapi_get_double_list(ErlNifEnv* env, const ERL_NIF_TERM term, double* data, uint32_t size);
 
 // Retrieve elements of integer list into int array (by pointer). Return status.
-bool hapi_get_list_int(ErlNifEnv* env, const ERL_NIF_TERM term, uint32_t size, int32_t* data);
+bool hapi_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32_t size);
 
 // Return string and length by pointer, caller is responsible for clean up.
-bool hapi_private_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);
+bool hapi_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);
 
 
 #endif //!defined(HAPI_PRIVATE_NIF_H)

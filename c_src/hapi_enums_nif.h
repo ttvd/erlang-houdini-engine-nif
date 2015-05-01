@@ -13,104 +13,154 @@
 #include "HAPI.h"
 
 
-/* Defined in enums/hapi_ramp_type_nif.c */
+/* Conversion of HAPI_RampType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_ramp_type(ErlNifEnv* env, HAPI_RampType enum_value);
+
+/* Conversion of HAPI_RampType enumeration erl to c. */
 bool hapi_get_hapi_ramp_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RampType* enum_result);
 
-/* Defined in enums/hapi_xyzorder_nif.c */
+/* Conversion of HAPI_XYZOrder enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_xyzorder(ErlNifEnv* env, HAPI_XYZOrder enum_value);
+
+/* Conversion of HAPI_XYZOrder enumeration erl to c. */
 bool hapi_get_hapi_xyzorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* enum_result);
 
-/* Defined in enums/hapi_image_data_format_nif.c */
+/* Conversion of HAPI_ImageDataFormat enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_image_data_format(ErlNifEnv* env, HAPI_ImageDataFormat enum_value);
+
+/* Conversion of HAPI_ImageDataFormat enumeration erl to c. */
 bool hapi_get_hapi_image_data_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageDataFormat* enum_result);
 
-/* Defined in enums/hapi_license_nif.c */
+/* Conversion of HAPI_License enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_license(ErlNifEnv* env, HAPI_License enum_value);
+
+/* Conversion of HAPI_License enumeration erl to c. */
 bool hapi_get_hapi_license(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_License* enum_result);
 
-/* Defined in enums/hapi_geo_type_nif.c */
+/* Conversion of HAPI_GeoType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_geo_type(ErlNifEnv* env, HAPI_GeoType enum_value);
+
+/* Conversion of HAPI_GeoType enumeration erl to c. */
 bool hapi_get_hapi_geo_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoType* enum_result);
 
-/* Defined in enums/hapi_input_type_nif.c */
+/* Conversion of HAPI_InputType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_input_type(ErlNifEnv* env, HAPI_InputType enum_value);
+
+/* Conversion of HAPI_InputType enumeration erl to c. */
 bool hapi_get_hapi_input_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_InputType* enum_result);
 
-/* Defined in enums/hapi_asset_type_nif.c */
+/* Conversion of HAPI_AssetType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_asset_type(ErlNifEnv* env, HAPI_AssetType enum_value);
+
+/* Conversion of HAPI_AssetType enumeration erl to c. */
 bool hapi_get_hapi_asset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetType* enum_result);
 
-/* Defined in enums/hapi_rstorder_nif.c */
+/* Conversion of HAPI_RSTOrder enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_rstorder(ErlNifEnv* env, HAPI_RSTOrder enum_value);
+
+/* Conversion of HAPI_RSTOrder enumeration erl to c. */
 bool hapi_get_hapi_rstorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* enum_result);
 
-/* Defined in enums/hapi_attribute_owner_nif.c */
+/* Conversion of HAPI_AttributeOwner enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_attribute_owner(ErlNifEnv* env, HAPI_AttributeOwner enum_value);
+
+/* Conversion of HAPI_AttributeOwner enumeration erl to c. */
 bool hapi_get_hapi_attribute_owner(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeOwner* enum_result);
 
-/* Defined in enums/hapi_shader_type_nif.c */
+/* Conversion of HAPI_ShaderType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_shader_type(ErlNifEnv* env, HAPI_ShaderType enum_value);
+
+/* Conversion of HAPI_ShaderType enumeration erl to c. */
 bool hapi_get_hapi_shader_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ShaderType* enum_result);
 
-/* Defined in enums/hapi_image_packing_nif.c */
+/* Conversion of HAPI_ImagePacking enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_image_packing(ErlNifEnv* env, HAPI_ImagePacking enum_value);
+
+/* Conversion of HAPI_ImagePacking enumeration erl to c. */
 bool hapi_get_hapi_image_packing(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result);
 
-/* Defined in enums/hapi_result_nif.c */
+/* Conversion of HAPI_Result enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_result(ErlNifEnv* env, HAPI_Result enum_value);
+
+/* Conversion of HAPI_Result enumeration erl to c. */
 bool hapi_get_hapi_result(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* enum_result);
 
-/* Defined in enums/hapi_curve_type_nif.c */
+/* Conversion of HAPI_CurveType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_curve_type(ErlNifEnv* env, HAPI_CurveType enum_value);
+
+/* Conversion of HAPI_CurveType enumeration erl to c. */
 bool hapi_get_hapi_curve_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveType* enum_result);
 
-/* Defined in enums/hapi_status_verbosity_nif.c */
+/* Conversion of HAPI_StatusVerbosity enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_status_verbosity(ErlNifEnv* env, HAPI_StatusVerbosity enum_value);
+
+/* Conversion of HAPI_StatusVerbosity enumeration erl to c. */
 bool hapi_get_hapi_status_verbosity(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusVerbosity* enum_result);
 
-/* Defined in enums/hapi_permissions_nif.c */
+/* Conversion of HAPI_Permissions enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_permissions(ErlNifEnv* env, HAPI_Permissions enum_value);
+
+/* Conversion of HAPI_Permissions enumeration erl to c. */
 bool hapi_get_hapi_permissions(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Permissions* enum_result);
 
-/* Defined in enums/hapi_env_int_type_nif.c */
+/* Conversion of HAPI_EnvIntType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_env_int_type(ErlNifEnv* env, HAPI_EnvIntType enum_value);
+
+/* Conversion of HAPI_EnvIntType enumeration erl to c. */
 bool hapi_get_hapi_env_int_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_EnvIntType* enum_result);
 
-/* Defined in enums/hapi_asset_sub_type_nif.c */
+/* Conversion of HAPI_AssetSubType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_asset_sub_type(ErlNifEnv* env, HAPI_AssetSubType enum_value);
+
+/* Conversion of HAPI_AssetSubType enumeration erl to c. */
 bool hapi_get_hapi_asset_sub_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetSubType* enum_result);
 
-/* Defined in enums/hapi_group_type_nif.c */
+/* Conversion of HAPI_GroupType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_group_type(ErlNifEnv* env, HAPI_GroupType enum_value);
+
+/* Conversion of HAPI_GroupType enumeration erl to c. */
 bool hapi_get_hapi_group_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GroupType* enum_result);
 
-/* Defined in enums/hapi_transform_component_nif.c */
+/* Conversion of HAPI_TransformComponent enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_transform_component(ErlNifEnv* env, HAPI_TransformComponent enum_value);
+
+/* Conversion of HAPI_TransformComponent enumeration erl to c. */
 bool hapi_get_hapi_transform_component(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* enum_result);
 
-/* Defined in enums/hapi_status_type_nif.c */
+/* Conversion of HAPI_StatusType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_status_type(ErlNifEnv* env, HAPI_StatusType enum_value);
+
+/* Conversion of HAPI_StatusType enumeration erl to c. */
 bool hapi_get_hapi_status_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* enum_result);
 
-/* Defined in enums/hapi_state_nif.c */
+/* Conversion of HAPI_State enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_state(ErlNifEnv* env, HAPI_State enum_value);
+
+/* Conversion of HAPI_State enumeration erl to c. */
 bool hapi_get_hapi_state(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_State* enum_result);
 
-/* Defined in enums/hapi_curve_orders_nif.c */
+/* Conversion of HAPI_CurveOrders enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_curve_orders(ErlNifEnv* env, HAPI_CurveOrders enum_value);
+
+/* Conversion of HAPI_CurveOrders enumeration erl to c. */
 bool hapi_get_hapi_curve_orders(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveOrders* enum_result);
 
-/* Defined in enums/hapi_preset_type_nif.c */
+/* Conversion of HAPI_PresetType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_preset_type(ErlNifEnv* env, HAPI_PresetType enum_value);
+
+/* Conversion of HAPI_PresetType enumeration erl to c. */
 bool hapi_get_hapi_preset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PresetType* enum_result);
 
-/* Defined in enums/hapi_parm_type_nif.c */
+/* Conversion of HAPI_ParmType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_parm_type(ErlNifEnv* env, HAPI_ParmType enum_value);
+
+/* Conversion of HAPI_ParmType enumeration erl to c. */
 bool hapi_get_hapi_parm_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* enum_result);
 
-/* Defined in enums/hapi_storage_type_nif.c */
+/* Conversion of HAPI_StorageType enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_storage_type(ErlNifEnv* env, HAPI_StorageType enum_value);
+
+/* Conversion of HAPI_StorageType enumeration erl to c. */
 bool hapi_get_hapi_storage_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StorageType* enum_result);
 
 

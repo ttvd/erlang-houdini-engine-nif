@@ -1,5 +1,5 @@
-% %{HAPI_STRUCT}% structure from HAPI_Common.h
+% Corresponds to %{HAPI_STRUCT}% structure.
 -record(%{HAPI_RECORD_NAME}%,
 {
-%{HAPI_RECORD_ENTRIES}%
+    %{HAPI_RECORD_ENTRIES}%
 }).

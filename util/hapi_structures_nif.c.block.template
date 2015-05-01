@@ -35,7 +35,7 @@ hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAP
 
 /* Converting array of %{HAPI_STRUCT}% objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_structs, int32_t list_size)
+hapi_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -51,7 +51,7 @@ hapi_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* h
 
 /* Converting list of %{HAPI_STRUCT}% objects from erl to c. */
 bool
-hapi_get_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_structs, int32_t list_size)
+hapi_get_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;

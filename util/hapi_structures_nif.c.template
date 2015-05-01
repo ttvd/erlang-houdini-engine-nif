@@ -8,6 +8,7 @@
 #include "hapi_enums_nif.h"
 #include "hapi_types_nif.h"
 #include "hapi_structures_nif.h"
+#include <string.h>
 
 
 %{HAPI_STRUCT_FUNCTIONS}%

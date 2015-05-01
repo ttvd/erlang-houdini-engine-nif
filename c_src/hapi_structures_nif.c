@@ -45,7 +45,12 @@ hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOpt
         (tuple_size != 7) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_cook_options", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_bool(env, tuple_record[1], &field_split_geos_by_group)||
+        !hapi_get_int(env, tuple_record[2], &field_max_vertices_per_primitive)||
+        !hapi_get_hapi_bool(env, tuple_record[3], &field_refine_curve_to_linear)||
+        !hapi_get_float(env, tuple_record[4], &field_curve_refine_lod)||
+        !hapi_get_hapi_bool(env, tuple_record[5], &field_clear_errors_and_warnings)||
+        !hapi_get_hapi_bool(env, tuple_record[6], &field_cook_templated_geos))
     {
         return false;
     }
@@ -138,7 +143,10 @@ hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* h
         (tuple_size != 5) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_keyframe", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_float(env, tuple_record[1], &field_time)||
+        !hapi_get_float(env, tuple_record[2], &field_value)||
+        !hapi_get_float(env, tuple_record[3], &field_in_tangent)||
+        !hapi_get_float(env, tuple_record[4], &field_out_tangent))
     {
         return false;
     }
@@ -243,7 +251,17 @@ hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* 
         (tuple_size != 12) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_part_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_part_id(env, tuple_record[1], &field_id)||
+        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_name_sh)||
+        !hapi_get_int(env, tuple_record[3], &field_face_count)||
+        !hapi_get_int(env, tuple_record[4], &field_vertex_count)||
+        !hapi_get_int(env, tuple_record[5], &field_point_count)||
+        !hapi_get_int(env, tuple_record[6], &field_point_attribute_count)||
+        !hapi_get_int(env, tuple_record[7], &field_face_attribute_count)||
+        !hapi_get_int(env, tuple_record[8], &field_vertex_attribute_count)||
+        !hapi_get_int(env, tuple_record[9], &field_detail_attribute_count)||
+        !hapi_get_hapi_bool(env, tuple_record[10], &field_has_volume)||
+        !hapi_get_hapi_bool(env, tuple_record[11], &field_is_curve))
     {
         return false;
     }
@@ -343,7 +361,11 @@ hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Materi
         (tuple_size != 6) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_material_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_material_id(env, tuple_record[1], &field_id)||
+        !hapi_get_hapi_asset_id(env, tuple_record[2], &field_asset_id)||
+        !hapi_get_hapi_node_id(env, tuple_record[3], &field_node_id)||
+        !hapi_get_hapi_bool(env, tuple_record[4], &field_exists)||
+        !hapi_get_hapi_bool(env, tuple_record[5], &field_has_changed))
     {
         return false;
     }
@@ -433,7 +455,9 @@ hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalN
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_global_nodes", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_node_id(env, tuple_record[1], &field_default_camera)||
+        !hapi_get_hapi_node_id(env, tuple_record[2], &field_default_light)||
+        !hapi_get_hapi_node_id(env, tuple_record[3], &field_mantra_renderer))
     {
         return false;
     }
@@ -521,7 +545,9 @@ hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_handle_binding_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_handle_parm_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_asset_parm_name_sh)||
+        !hapi_get_hapi_parm_id(env, tuple_record[3], &field_asset_parm_id))
     {
         return false;
     }
@@ -617,7 +643,13 @@ hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo
         (tuple_size != 8) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_image_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_image_file_format_name_sh)||
+        !hapi_get_int(env, tuple_record[2], &field_x_res)||
+        !hapi_get_int(env, tuple_record[3], &field_y_res)||
+        !hapi_get_hapi_image_data_format(env, tuple_record[4], &field_data_format)||
+        !hapi_get_hapi_bool(env, tuple_record[5], &field_interleaved)||
+        !hapi_get_hapi_image_packing(env, tuple_record[6], &field_packing)||
+        !hapi_get_double(env, tuple_record[7], &field_gamma))
     {
         return false;
     }
@@ -731,7 +763,20 @@ hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeIn
         (tuple_size != 15) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_volume_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
+        !hapi_get_int(env, tuple_record[2], &field_x_length)||
+        !hapi_get_int(env, tuple_record[3], &field_y_length)||
+        !hapi_get_int(env, tuple_record[4], &field_z_length)||
+        !hapi_get_int(env, tuple_record[5], &field_min_x)||
+        !hapi_get_int(env, tuple_record[6], &field_min_y)||
+        !hapi_get_int(env, tuple_record[7], &field_min_z)||
+        !hapi_get_int(env, tuple_record[8], &field_tuple_size)||
+        !hapi_get_hapi_storage_type(env, tuple_record[9], &field_storage)||
+        !hapi_get_int(env, tuple_record[10], &field_tile_size)||
+        !hapi_get_hapi_transform(env, tuple_record[11], &field_transform)||
+        !hapi_get_hapi_bool(env, tuple_record[12], &field_has_taper)||
+        !hapi_get_float(env, tuple_record[13], &field_x_taper)||
+        !hapi_get_float(env, tuple_record[14], &field_y_taper))
     {
         return false;
     }
@@ -830,7 +875,9 @@ hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoIn
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_geo_input_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_object_id(env, tuple_record[1], &field_object_id)||
+        !hapi_get_hapi_geo_id(env, tuple_record[2], &field_geo_id)||
+        !hapi_get_hapi_node_id(env, tuple_record[3], &field_object_node_id))
     {
         return false;
     }
@@ -920,7 +967,10 @@ hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
         (tuple_size != 5) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_volume_tile_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_int(env, tuple_record[1], &field_min_x)||
+        !hapi_get_int(env, tuple_record[2], &field_min_y)||
+        !hapi_get_int(env, tuple_record[3], &field_min_z)||
+        !hapi_get_hapi_bool(env, tuple_record[4], &field_is_valid))
     {
         return false;
     }
@@ -1019,7 +1069,14 @@ hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo
         (tuple_size != 9) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_curve_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_curve_type(env, tuple_record[1], &field_curve_type)||
+        !hapi_get_int(env, tuple_record[2], &field_curve_count)||
+        !hapi_get_int(env, tuple_record[3], &field_vertex_count)||
+        !hapi_get_int(env, tuple_record[4], &field_knot_count)||
+        !hapi_get_hapi_bool(env, tuple_record[5], &field_is_periodic)||
+        !hapi_get_hapi_bool(env, tuple_record[6], &field_is_rational)||
+        !hapi_get_int(env, tuple_record[7], &field_order)||
+        !hapi_get_hapi_bool(env, tuple_record[8], &field_has_knots))
     {
         return false;
     }
@@ -1114,7 +1171,10 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
         (tuple_size != 5) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_transform", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        hapi_get_float_list(env, tuple_record[1], &hapi_struct->position[0], 3)||
+        hapi_get_float_list(env, tuple_record[2], &hapi_struct->rotationQuaternion[0], 4)||
+        hapi_get_float_list(env, tuple_record[3], &hapi_struct->scale[0], 3)||
+        !hapi_get_hapi_rstorder(env, tuple_record[4], &field_rst_order))
     {
         return false;
     }
@@ -1203,7 +1263,9 @@ hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Im
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_image_file_format", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_description_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_default_extension_sh))
     {
         return false;
     }
@@ -1295,7 +1357,11 @@ hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tran
         (tuple_size != 6) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_transform_euler", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        hapi_get_float_list(env, tuple_record[1], &hapi_struct->position[0], 3)||
+        hapi_get_float_list(env, tuple_record[2], &hapi_struct->rotationEuler[0], 3)||
+        hapi_get_float_list(env, tuple_record[3], &hapi_struct->scale[0], 3)||
+        !hapi_get_hapi_xyzorder(env, tuple_record[4], &field_rotation_order)||
+        !hapi_get_hapi_rstorder(env, tuple_record[5], &field_rst_order))
     {
         return false;
     }
@@ -1391,7 +1457,12 @@ hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attri
         (tuple_size != 7) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_attribute_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_bool(env, tuple_record[1], &field_exists)||
+        !hapi_get_hapi_attribute_owner(env, tuple_record[2], &field_owner)||
+        !hapi_get_hapi_storage_type(env, tuple_record[3], &field_storage)||
+        !hapi_get_hapi_attribute_owner(env, tuple_record[4], &field_original_owner)||
+        !hapi_get_int(env, tuple_record[5], &field_count)||
+        !hapi_get_int(env, tuple_record[6], &field_tuple_size))
     {
         return false;
     }
@@ -1500,7 +1571,18 @@ hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* ha
         (tuple_size != 13) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_geo_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_geo_id(env, tuple_record[1], &field_id)||
+        !hapi_get_hapi_geo_type(env, tuple_record[2], &field_type)||
+        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_name_sh)||
+        !hapi_get_hapi_node_id(env, tuple_record[4], &field_node_id)||
+        !hapi_get_hapi_bool(env, tuple_record[5], &field_is_editable)||
+        !hapi_get_hapi_bool(env, tuple_record[6], &field_is_templated)||
+        !hapi_get_hapi_bool(env, tuple_record[7], &field_is_display_geo)||
+        !hapi_get_hapi_bool(env, tuple_record[8], &field_has_geo_changed)||
+        !hapi_get_hapi_bool(env, tuple_record[9], &field_has_material_changed)||
+        !hapi_get_int(env, tuple_record[10], &field_point_group_count)||
+        !hapi_get_int(env, tuple_record[11], &field_primitive_group_count)||
+        !hapi_get_int(env, tuple_record[12], &field_part_count))
     {
         return false;
     }
@@ -1629,7 +1711,25 @@ hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo
         (tuple_size != 20) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_asset_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_asset_id(env, tuple_record[1], &field_id)||
+        !hapi_get_hapi_asset_type(env, tuple_record[2], &field_type)||
+        !hapi_get_hapi_asset_sub_type(env, tuple_record[3], &field_sub_type)||
+        !hapi_get_int(env, tuple_record[4], &field_validation_id)||
+        !hapi_get_hapi_node_id(env, tuple_record[5], &field_node_id)||
+        !hapi_get_hapi_node_id(env, tuple_record[6], &field_object_node_id)||
+        !hapi_get_hapi_bool(env, tuple_record[7], &field_has_ever_cooked)||
+        !hapi_get_hapi_string_handle(env, tuple_record[8], &field_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[9], &field_label_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[10], &field_file_path_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[11], &field_version_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[12], &field_full_op_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[13], &field_help_text_sh)||
+        !hapi_get_int(env, tuple_record[14], &field_object_count)||
+        !hapi_get_int(env, tuple_record[15], &field_handle_count)||
+        !hapi_get_int(env, tuple_record[16], &field_transform_input_count)||
+        !hapi_get_int(env, tuple_record[17], &field_geo_input_count)||
+        !hapi_get_hapi_bool(env, tuple_record[18], &field_have_objects_changed)||
+        !hapi_get_hapi_bool(env, tuple_record[19], &field_have_materials_changed))
     {
         return false;
     }
@@ -1733,7 +1833,9 @@ hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Par
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_parm_choice_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_parm_id(env, tuple_record[1], &field_parent_parm_id)||
+        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_label_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_value_sh))
     {
         return false;
     }
@@ -1835,7 +1937,16 @@ hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectIn
         (tuple_size != 11) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_object_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_object_id(env, tuple_record[1], &field_id)||
+        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_object_instance_path_sh)||
+        !hapi_get_hapi_bool(env, tuple_record[4], &field_has_transform_changed)||
+        !hapi_get_hapi_bool(env, tuple_record[5], &field_have_geos_changed)||
+        !hapi_get_hapi_bool(env, tuple_record[6], &field_is_visible)||
+        !hapi_get_hapi_bool(env, tuple_record[7], &field_is_instancer)||
+        !hapi_get_int(env, tuple_record[8], &field_geo_count)||
+        !hapi_get_hapi_node_id(env, tuple_record[9], &field_node_id)||
+        !hapi_get_hapi_object_id(env, tuple_record[10], &field_object_to_instance_id))
     {
         return false;
     }
@@ -1930,7 +2041,9 @@ hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleIn
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_handle_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_type_name_sh)||
+        !hapi_get_int(env, tuple_record[3], &field_bindings_count))
     {
         return false;
     }
@@ -2018,7 +2131,9 @@ hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tim
         (tuple_size != 4) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_timeline_options", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_float(env, tuple_record[1], &field_fps)||
+        !hapi_get_float(env, tuple_record[2], &field_start_time)||
+        !hapi_get_float(env, tuple_record[3], &field_end_time))
     {
         return false;
     }
@@ -2122,7 +2237,17 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
         (tuple_size != 12) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_node_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_node_id(env, tuple_record[1], &field_id)||
+        !hapi_get_hapi_asset_id(env, tuple_record[2], &field_asset_id)||
+        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_name_sh)||
+        !hapi_get_int(env, tuple_record[4], &field_total_cook_count)||
+        !hapi_get_int(env, tuple_record[5], &field_unique_houdini_node_id)||
+        !hapi_get_hapi_string_handle(env, tuple_record[6], &field_internal_node_path_sh)||
+        !hapi_get_int(env, tuple_record[7], &field_parm_count)||
+        !hapi_get_int(env, tuple_record[8], &field_parm_int_value_count)||
+        !hapi_get_int(env, tuple_record[9], &field_parm_float_value_count)||
+        !hapi_get_int(env, tuple_record[10], &field_parm_string_value_count)||
+        !hapi_get_int(env, tuple_record[11], &field_parm_choice_count))
     {
         return false;
     }
@@ -2280,7 +2405,40 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
         (tuple_size != 35) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_parm_info", &atom_name_match) ||
         !atom_name_match ||
-        %{HAPI_STRUCT_TO_C_MAP}%)
+        !hapi_get_hapi_parm_id(env, tuple_record[1], &field_id)||
+        !hapi_get_hapi_parm_id(env, tuple_record[2], &field_parent_id)||
+        !hapi_get_hapi_parm_type(env, tuple_record[3], &field_type)||
+        !hapi_get_hapi_string_handle(env, tuple_record[4], &field_type_info_sh)||
+        !hapi_get_hapi_permissions(env, tuple_record[5], &field_permissions)||
+        !hapi_get_int(env, tuple_record[6], &field_size)||
+        !hapi_get_int(env, tuple_record[7], &field_choice_count)||
+        !hapi_get_hapi_string_handle(env, tuple_record[8], &field_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[9], &field_label_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[10], &field_template_name_sh)||
+        !hapi_get_hapi_string_handle(env, tuple_record[11], &field_help_sh)||
+        !hapi_get_hapi_bool(env, tuple_record[12], &field_has_min)||
+        !hapi_get_hapi_bool(env, tuple_record[13], &field_has_max)||
+        !hapi_get_hapi_bool(env, tuple_record[14], &field_has_uimin)||
+        !hapi_get_hapi_bool(env, tuple_record[15], &field_has_uimax)||
+        !hapi_get_float(env, tuple_record[16], &field_min)||
+        !hapi_get_float(env, tuple_record[17], &field_max)||
+        !hapi_get_float(env, tuple_record[18], &field_uimin)||
+        !hapi_get_float(env, tuple_record[19], &field_uimax)||
+        !hapi_get_hapi_bool(env, tuple_record[20], &field_invisible)||
+        !hapi_get_hapi_bool(env, tuple_record[21], &field_disabled)||
+        !hapi_get_hapi_bool(env, tuple_record[22], &field_spare)||
+        !hapi_get_hapi_bool(env, tuple_record[23], &field_join_next)||
+        !hapi_get_hapi_bool(env, tuple_record[24], &field_label_none)||
+        !hapi_get_int(env, tuple_record[25], &field_int_values_index)||
+        !hapi_get_int(env, tuple_record[26], &field_float_values_index)||
+        !hapi_get_int(env, tuple_record[27], &field_string_values_index)||
+        !hapi_get_int(env, tuple_record[28], &field_choice_index)||
+        !hapi_get_hapi_bool(env, tuple_record[29], &field_is_child_of_multi_parm)||
+        !hapi_get_int(env, tuple_record[30], &field_instance_num)||
+        !hapi_get_int(env, tuple_record[31], &field_instance_length)||
+        !hapi_get_int(env, tuple_record[32], &field_instance_count)||
+        !hapi_get_int(env, tuple_record[33], &field_instance_start_offset)||
+        !hapi_get_hapi_ramp_type(env, tuple_record[34], &field_ramp_type))
     {
         return false;
     }

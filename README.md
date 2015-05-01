@@ -26,7 +26,7 @@
 - [x] Generation of HAPI struct c translation stubs.
 - [x] Generation of Erlang records corresponding to HAPI structs.
 - [ ] Generation of HAPI function c stubs - Work in progress.
-- [ ] Generation of Erlang function stubs - Work in progress.
+- [x] Generation of Erlang function stubs - Work in progress.
 - [x] Generation of NIF Export c table.
 - [ ] Adding tests.
 - [x] Working Mac OS X port.

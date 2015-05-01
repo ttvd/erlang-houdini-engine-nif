@@ -13,96 +13,142 @@
 #include "HAPI.h"
 
 
-/* Defined in records/hapi_cook_options_nif.c */
+/* Conversion of HAPI_CookOptions structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_cook_options(ErlNifEnv* env, const HAPI_CookOptions* hapi_struct);
+
+/* Conversion of HAPI_CookOptions structure from erl to c. */
 bool hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_struct);
 
-/* Defined in records/hapi_keyframe_nif.c */
+/* Conversion of HAPI_Keyframe structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_keyframe(ErlNifEnv* env, const HAPI_Keyframe* hapi_struct);
+
+/* Conversion of HAPI_Keyframe structure from erl to c. */
 bool hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_struct);
 
-/* Defined in records/hapi_part_info_nif.c */
+/* Conversion of HAPI_PartInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_part_info(ErlNifEnv* env, const HAPI_PartInfo* hapi_struct);
+
+/* Conversion of HAPI_PartInfo structure from erl to c. */
 bool hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_struct);
 
-/* Defined in records/hapi_material_info_nif.c */
+/* Conversion of HAPI_MaterialInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_material_info(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_struct);
+
+/* Conversion of HAPI_MaterialInfo structure from erl to c. */
 bool hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_struct);
 
-/* Defined in records/hapi_global_nodes_nif.c */
+/* Conversion of HAPI_GlobalNodes structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_global_nodes(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_struct);
+
+/* Conversion of HAPI_GlobalNodes structure from erl to c. */
 bool hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_struct);
 
-/* Defined in records/hapi_handle_binding_info_nif.c */
+/* Conversion of HAPI_HandleBindingInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_handle_binding_info(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_struct);
+
+/* Conversion of HAPI_HandleBindingInfo structure from erl to c. */
 bool hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_struct);
 
-/* Defined in records/hapi_image_info_nif.c */
+/* Conversion of HAPI_ImageInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_image_info(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct);
+
+/* Conversion of HAPI_ImageInfo structure from erl to c. */
 bool hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_struct);
 
-/* Defined in records/hapi_volume_info_nif.c */
+/* Conversion of HAPI_VolumeInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_volume_info(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_struct);
+
+/* Conversion of HAPI_VolumeInfo structure from erl to c. */
 bool hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_struct);
 
-/* Defined in records/hapi_geo_input_info_nif.c */
+/* Conversion of HAPI_GeoInputInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_geo_input_info(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_struct);
+
+/* Conversion of HAPI_GeoInputInfo structure from erl to c. */
 bool hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_struct);
 
-/* Defined in records/hapi_volume_tile_info_nif.c */
+/* Conversion of HAPI_VolumeTileInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_volume_tile_info(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_struct);
+
+/* Conversion of HAPI_VolumeTileInfo structure from erl to c. */
 bool hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_struct);
 
-/* Defined in records/hapi_curve_info_nif.c */
+/* Conversion of HAPI_CurveInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_curve_info(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct);
+
+/* Conversion of HAPI_CurveInfo structure from erl to c. */
 bool hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_struct);
 
-/* Defined in records/hapi_transform_nif.c */
+/* Conversion of HAPI_Transform structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct);
+
+/* Conversion of HAPI_Transform structure from erl to c. */
 bool hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_struct);
 
-/* Defined in records/hapi_image_file_format_nif.c */
+/* Conversion of HAPI_ImageFileFormat structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_image_file_format(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_struct);
+
+/* Conversion of HAPI_ImageFileFormat structure from erl to c. */
 bool hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_struct);
 
-/* Defined in records/hapi_transform_euler_nif.c */
+/* Conversion of HAPI_TransformEuler structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_transform_euler(ErlNifEnv* env, const HAPI_TransformEuler* hapi_struct);
+
+/* Conversion of HAPI_TransformEuler structure from erl to c. */
 bool hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_struct);
 
-/* Defined in records/hapi_attribute_info_nif.c */
+/* Conversion of HAPI_AttributeInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_attribute_info(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_struct);
+
+/* Conversion of HAPI_AttributeInfo structure from erl to c. */
 bool hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_struct);
 
-/* Defined in records/hapi_geo_info_nif.c */
+/* Conversion of HAPI_GeoInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct);
+
+/* Conversion of HAPI_GeoInfo structure from erl to c. */
 bool hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_struct);
 
-/* Defined in records/hapi_asset_info_nif.c */
+/* Conversion of HAPI_AssetInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct);
+
+/* Conversion of HAPI_AssetInfo structure from erl to c. */
 bool hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_struct);
 
-/* Defined in records/hapi_parm_choice_info_nif.c */
+/* Conversion of HAPI_ParmChoiceInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_parm_choice_info(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_struct);
+
+/* Conversion of HAPI_ParmChoiceInfo structure from erl to c. */
 bool hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_struct);
 
-/* Defined in records/hapi_object_info_nif.c */
+/* Conversion of HAPI_ObjectInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_object_info(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_struct);
+
+/* Conversion of HAPI_ObjectInfo structure from erl to c. */
 bool hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_struct);
 
-/* Defined in records/hapi_handle_info_nif.c */
+/* Conversion of HAPI_HandleInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_handle_info(ErlNifEnv* env, const HAPI_HandleInfo* hapi_struct);
+
+/* Conversion of HAPI_HandleInfo structure from erl to c. */
 bool hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_struct);
 
-/* Defined in records/hapi_timeline_options_nif.c */
+/* Conversion of HAPI_TimelineOptions structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_struct);
+
+/* Conversion of HAPI_TimelineOptions structure from erl to c. */
 bool hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_struct);
 
-/* Defined in records/hapi_node_info_nif.c */
+/* Conversion of HAPI_NodeInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* hapi_struct);
+
+/* Conversion of HAPI_NodeInfo structure from erl to c. */
 bool hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_struct);
 
-/* Defined in records/hapi_parm_info_nif.c */
+/* Conversion of HAPI_ParmInfo structure from c to erl. */
 ERL_NIF_TERM hapi_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct);
+
+/* Conversion of HAPI_ParmInfo structure from erl to c. */
 bool hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_struct);
 
 

@@ -834,9 +834,11 @@ defmodule HAPI do
                 |> String.replace("%{HAPI_STRUCT_TO_C_VARS}%",
                     Enum.map_join(struct_body, "\n    ",
                         fn(f) -> create_stub_c_entry_erl_to_c_var(env, f) end))
+                |> String.replace("%{HAPI_STRUCT_TO_C_ASSIGN}%",
+                    Enum.map_join(struct_body, "\n    ",
+                        fn(f) -> create_stub_c_entry_erl_to_c_assign(env, f) end))
 
             # %{HAPI_STRUCT_TO_C_MAP}%
-            # %{HAPI_STRUCT_TO_C_ASSIGN}%
         end
 
         # Helper function to create calls necessary to produce erl record.
@@ -866,20 +868,43 @@ defmodule HAPI do
         # Helper function to create variable declarations in erl to c conversion functions.
         defp create_stub_c_entry_erl_to_c_var(env, {field_name, field_type}) do
             builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
+            field_name_underscore = "field_#{HAPI.Util.underscore(field_name)}"
             cond do
                 not is_nil(builtin_type) ->
-                    "#{builtin_type} var_#{HAPI.Util.underscore(field_name)};"
+                    "#{builtin_type} #{field_name_underscore};"
                 true ->
-                    "#{field_type} var_#{HAPI.Util.underscore(field_name)};"
+                    "#{field_type} #{field_name_underscore};"
             end
         end
         defp create_stub_c_entry_erl_to_c_var(env, {field_name, field_type, field_size}) do
             builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
+            field_name_underscore = "field_#{HAPI.Util.underscore(field_name)}[#{field_size}]"
             cond do
                 not is_nil(builtin_type) ->
-                    "#{builtin_type} var_#{HAPI.Util.underscore(field_name)}[#{field_size}];"
+                    "#{builtin_type} #{field_name_underscore};"
                 true ->
-                    "#{field_type} var_#{HAPI.Util.underscore(field_name)}[#{field_size}];"
+                    "#{field_type} #{field_name_underscore};"
+            end
+        end
+
+        # Helper function to create variable assignment.
+        defp create_stub_c_entry_erl_to_c_assign(env, {field_name, field_type}) do
+            field_name_underscore = "field_#{HAPI.Util.underscore(field_name)}"
+            if HAPI.Util.is_type_structure(env, field_type) do
+                "memcpy(&hapi_struct->#{field_name}, &#{field_name_underscore}, sizeof(#{field_type}));"
+            else
+                "hapi_struct->#{field_name} = #{field_name_underscore};"
+            end
+        end
+        defp create_stub_c_entry_erl_to_c_assign(env, {field_name, field_type, field_size}) do
+            builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
+            field_from = "hapi_struct->#{field_name}[0]"
+            field_name_underscore = "field_#{HAPI.Util.underscore(field_name)}[0]"
+            cond do
+                not is_nil(builtin_type) ->
+                    "memcpy(&#{field_from}, &#{field_name_underscore}, #{field_size} * sizeof(#{builtin_type}));"
+                true ->
+                    "memcpy(&#{field_from}, &#{field_name_underscore}, #{field_size} * sizeof(#{field_type}));"
             end
         end
     end

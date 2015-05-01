@@ -1,3 +1,5 @@
-/* Defined in enums/%{HAPI_ENUM_DOWNCASE}%_nif.c */
+/* Conversion of %{HAPI_ENUM}% enumeration from c to erl. */
 ERL_NIF_TERM hapi_make_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, %{HAPI_ENUM}% enum_value);
+
+/* Conversion of %{HAPI_ENUM}% enumeration erl to c. */
 bool hapi_get_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_ENUM}%* enum_result);

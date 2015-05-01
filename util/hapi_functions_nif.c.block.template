@@ -1,0 +1,21 @@
+/* Delegate for %{HAPI_FUNCTION}% scheduler function. */
+ERL_NIF_TERM
+%{HAPI_FUNCTION_DOWNCASE}%_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    //%{HAPI_FUNCTION_BODY}%
+
+    //%{HAPI_FUNCTION_OUTPUT_VARS}%
+
+    //%{HAPI_FUNCTION_CLEANUP}%
+
+    //return hapi_make_atom_ok(env);
+    return enif_make_badarg(env);
+}
+
+
+/* Handler for %{HAPI_FUNCTION}% function. */
+ERL_NIF_TERM
+%{HAPI_FUNCTION_DOWNCASE}%(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "%{HAPI_FUNCTION_DOWNCASE}%_schedule", 0, %{HAPI_FUNCTION_DOWNCASE}%_schedule, argc, argv);
+}

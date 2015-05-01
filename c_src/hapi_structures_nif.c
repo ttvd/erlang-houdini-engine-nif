@@ -8,6 +8,7 @@
 #include "hapi_enums_nif.h"
 #include "hapi_types_nif.h"
 #include "hapi_structures_nif.h"
+#include <string.h>
 
 
 /* Converting HAPI_CookOptions from c to erl. */
@@ -33,12 +34,12 @@ hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOpt
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_Bool var_split_geos_by_group;
-    int var_max_vertices_per_primitive;
-    HAPI_Bool var_refine_curve_to_linear;
-    float var_curve_refine_lod;
-    HAPI_Bool var_clear_errors_and_warnings;
-    HAPI_Bool var_cook_templated_geos;
+    HAPI_Bool field_split_geos_by_group;
+    int field_max_vertices_per_primitive;
+    HAPI_Bool field_refine_curve_to_linear;
+    float field_curve_refine_lod;
+    HAPI_Bool field_clear_errors_and_warnings;
+    HAPI_Bool field_cook_templated_geos;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 7) ||
@@ -49,7 +50,12 @@ hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOpt
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->splitGeosByGroup = field_split_geos_by_group;
+    hapi_struct->maxVerticesPerPrimitive = field_max_vertices_per_primitive;
+    hapi_struct->refineCurveToLinear = field_refine_curve_to_linear;
+    hapi_struct->curveRefineLOD = field_curve_refine_lod;
+    hapi_struct->clearErrorsAndWarnings = field_clear_errors_and_warnings;
+    hapi_struct->cookTemplatedGeos = field_cook_templated_geos;
 
     return true;
 }
@@ -123,10 +129,10 @@ hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* h
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    float var_time;
-    float var_value;
-    float var_in_tangent;
-    float var_out_tangent;
+    float field_time;
+    float field_value;
+    float field_in_tangent;
+    float field_out_tangent;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
@@ -137,7 +143,10 @@ hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* h
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->time = field_time;
+    hapi_struct->value = field_value;
+    hapi_struct->inTangent = field_in_tangent;
+    hapi_struct->outTangent = field_out_tangent;
 
     return true;
 }
@@ -218,17 +227,17 @@ hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* 
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_PartId var_id;
-    HAPI_StringHandle var_name_sh;
-    int var_face_count;
-    int var_vertex_count;
-    int var_point_count;
-    int var_point_attribute_count;
-    int var_face_attribute_count;
-    int var_vertex_attribute_count;
-    int var_detail_attribute_count;
-    HAPI_Bool var_has_volume;
-    HAPI_Bool var_is_curve;
+    HAPI_PartId field_id;
+    HAPI_StringHandle field_name_sh;
+    int field_face_count;
+    int field_vertex_count;
+    int field_point_count;
+    int field_point_attribute_count;
+    int field_face_attribute_count;
+    int field_vertex_attribute_count;
+    int field_detail_attribute_count;
+    HAPI_Bool field_has_volume;
+    HAPI_Bool field_is_curve;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 12) ||
@@ -239,7 +248,17 @@ hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* 
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->id = field_id;
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->faceCount = field_face_count;
+    hapi_struct->vertexCount = field_vertex_count;
+    hapi_struct->pointCount = field_point_count;
+    hapi_struct->pointAttributeCount = field_point_attribute_count;
+    hapi_struct->faceAttributeCount = field_face_attribute_count;
+    hapi_struct->vertexAttributeCount = field_vertex_attribute_count;
+    hapi_struct->detailAttributeCount = field_detail_attribute_count;
+    hapi_struct->hasVolume = field_has_volume;
+    hapi_struct->isCurve = field_is_curve;
 
     return true;
 }
@@ -314,11 +333,11 @@ hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Materi
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_MaterialId var_id;
-    HAPI_AssetId var_asset_id;
-    HAPI_NodeId var_node_id;
-    HAPI_Bool var_exists;
-    HAPI_Bool var_has_changed;
+    HAPI_MaterialId field_id;
+    HAPI_AssetId field_asset_id;
+    HAPI_NodeId field_node_id;
+    HAPI_Bool field_exists;
+    HAPI_Bool field_has_changed;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 6) ||
@@ -329,7 +348,11 @@ hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Materi
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->id = field_id;
+    hapi_struct->assetId = field_asset_id;
+    hapi_struct->nodeId = field_node_id;
+    hapi_struct->exists = field_exists;
+    hapi_struct->hasChanged = field_has_changed;
 
     return true;
 }
@@ -402,9 +425,9 @@ hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalN
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_NodeId var_default_camera;
-    HAPI_NodeId var_default_light;
-    HAPI_NodeId var_mantra_renderer;
+    HAPI_NodeId field_default_camera;
+    HAPI_NodeId field_default_light;
+    HAPI_NodeId field_mantra_renderer;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
@@ -415,7 +438,9 @@ hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalN
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->defaultCamera = field_default_camera;
+    hapi_struct->defaultLight = field_default_light;
+    hapi_struct->mantraRenderer = field_mantra_renderer;
 
     return true;
 }
@@ -488,9 +513,9 @@ hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_StringHandle var_handle_parm_name_sh;
-    HAPI_StringHandle var_asset_parm_name_sh;
-    HAPI_ParmId var_asset_parm_id;
+    HAPI_StringHandle field_handle_parm_name_sh;
+    HAPI_StringHandle field_asset_parm_name_sh;
+    HAPI_ParmId field_asset_parm_id;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
@@ -501,7 +526,9 @@ hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->handleParmNameSH = field_handle_parm_name_sh;
+    hapi_struct->assetParmNameSH = field_asset_parm_name_sh;
+    hapi_struct->assetParmId = field_asset_parm_id;
 
     return true;
 }
@@ -578,13 +605,13 @@ hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_StringHandle var_image_file_format_name_sh;
-    int var_x_res;
-    int var_y_res;
-    HAPI_ImageDataFormat var_data_format;
-    HAPI_Bool var_interleaved;
-    HAPI_ImagePacking var_packing;
-    double var_gamma;
+    HAPI_StringHandle field_image_file_format_name_sh;
+    int field_x_res;
+    int field_y_res;
+    HAPI_ImageDataFormat field_data_format;
+    HAPI_Bool field_interleaved;
+    HAPI_ImagePacking field_packing;
+    double field_gamma;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 8) ||
@@ -595,7 +622,13 @@ hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->imageFileFormatNameSH = field_image_file_format_name_sh;
+    hapi_struct->xRes = field_x_res;
+    hapi_struct->yRes = field_y_res;
+    hapi_struct->dataFormat = field_data_format;
+    hapi_struct->interleaved = field_interleaved;
+    hapi_struct->packing = field_packing;
+    hapi_struct->gamma = field_gamma;
 
     return true;
 }
@@ -679,20 +712,20 @@ hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeIn
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_StringHandle var_name_sh;
-    int var_x_length;
-    int var_y_length;
-    int var_z_length;
-    int var_min_x;
-    int var_min_y;
-    int var_min_z;
-    int var_tuple_size;
-    HAPI_StorageType var_storage;
-    int var_tile_size;
-    HAPI_Transform var_transform;
-    HAPI_Bool var_has_taper;
-    float var_x_taper;
-    float var_y_taper;
+    HAPI_StringHandle field_name_sh;
+    int field_x_length;
+    int field_y_length;
+    int field_z_length;
+    int field_min_x;
+    int field_min_y;
+    int field_min_z;
+    int field_tuple_size;
+    HAPI_StorageType field_storage;
+    int field_tile_size;
+    HAPI_Transform field_transform;
+    HAPI_Bool field_has_taper;
+    float field_x_taper;
+    float field_y_taper;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 15) ||
@@ -703,7 +736,20 @@ hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeIn
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->xLength = field_x_length;
+    hapi_struct->yLength = field_y_length;
+    hapi_struct->zLength = field_z_length;
+    hapi_struct->minX = field_min_x;
+    hapi_struct->minY = field_min_y;
+    hapi_struct->minZ = field_min_z;
+    hapi_struct->tupleSize = field_tuple_size;
+    hapi_struct->storage = field_storage;
+    hapi_struct->tileSize = field_tile_size;
+    memcpy(&hapi_struct->transform, &field_transform, sizeof(HAPI_Transform));
+    hapi_struct->hasTaper = field_has_taper;
+    hapi_struct->xTaper = field_x_taper;
+    hapi_struct->yTaper = field_y_taper;
 
     return true;
 }
@@ -776,9 +822,9 @@ hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoIn
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_ObjectId var_object_id;
-    HAPI_GeoId var_geo_id;
-    HAPI_NodeId var_object_node_id;
+    HAPI_ObjectId field_object_id;
+    HAPI_GeoId field_geo_id;
+    HAPI_NodeId field_object_node_id;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
@@ -789,7 +835,9 @@ hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoIn
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->objectId = field_object_id;
+    hapi_struct->geoId = field_geo_id;
+    hapi_struct->objectNodeId = field_object_node_id;
 
     return true;
 }
@@ -863,10 +911,10 @@ hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    int var_min_x;
-    int var_min_y;
-    int var_min_z;
-    HAPI_Bool var_is_valid;
+    int field_min_x;
+    int field_min_y;
+    int field_min_z;
+    HAPI_Bool field_is_valid;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
@@ -877,7 +925,10 @@ hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->minX = field_min_x;
+    hapi_struct->minY = field_min_y;
+    hapi_struct->minZ = field_min_z;
+    hapi_struct->isValid = field_is_valid;
 
     return true;
 }
@@ -955,14 +1006,14 @@ hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_CurveType var_curve_type;
-    int var_curve_count;
-    int var_vertex_count;
-    int var_knot_count;
-    HAPI_Bool var_is_periodic;
-    HAPI_Bool var_is_rational;
-    int var_order;
-    HAPI_Bool var_has_knots;
+    HAPI_CurveType field_curve_type;
+    int field_curve_count;
+    int field_vertex_count;
+    int field_knot_count;
+    HAPI_Bool field_is_periodic;
+    HAPI_Bool field_is_rational;
+    int field_order;
+    HAPI_Bool field_has_knots;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 9) ||
@@ -973,7 +1024,14 @@ hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->curveType = field_curve_type;
+    hapi_struct->curveCount = field_curve_count;
+    hapi_struct->vertexCount = field_vertex_count;
+    hapi_struct->knotCount = field_knot_count;
+    hapi_struct->isPeriodic = field_is_periodic;
+    hapi_struct->isRational = field_is_rational;
+    hapi_struct->order = field_order;
+    hapi_struct->hasKnots = field_has_knots;
 
     return true;
 }
@@ -1047,10 +1105,10 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    float var_position[3];
-    float var_rotation_quaternion[4];
-    float var_scale[3];
-    HAPI_RSTOrder var_rst_order;
+    float field_position[3];
+    float field_rotation_quaternion[4];
+    float field_scale[3];
+    HAPI_RSTOrder field_rst_order;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
@@ -1061,7 +1119,10 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    memcpy(&hapi_struct->position[0], &field_position[0], 3 * sizeof(float));
+    memcpy(&hapi_struct->rotationQuaternion[0], &field_rotation_quaternion[0], 4 * sizeof(float));
+    memcpy(&hapi_struct->scale[0], &field_scale[0], 3 * sizeof(float));
+    hapi_struct->rstOrder = field_rst_order;
 
     return true;
 }
@@ -1134,9 +1195,9 @@ hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Im
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_StringHandle var_name_sh;
-    HAPI_StringHandle var_description_sh;
-    HAPI_StringHandle var_default_extension_sh;
+    HAPI_StringHandle field_name_sh;
+    HAPI_StringHandle field_description_sh;
+    HAPI_StringHandle field_default_extension_sh;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
@@ -1147,7 +1208,9 @@ hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Im
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->descriptionSH = field_description_sh;
+    hapi_struct->defaultExtensionSH = field_default_extension_sh;
 
     return true;
 }
@@ -1222,11 +1285,11 @@ hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tran
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    float var_position[3];
-    float var_rotation_euler[3];
-    float var_scale[3];
-    HAPI_XYZOrder var_rotation_order;
-    HAPI_RSTOrder var_rst_order;
+    float field_position[3];
+    float field_rotation_euler[3];
+    float field_scale[3];
+    HAPI_XYZOrder field_rotation_order;
+    HAPI_RSTOrder field_rst_order;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 6) ||
@@ -1237,7 +1300,11 @@ hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tran
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    memcpy(&hapi_struct->position[0], &field_position[0], 3 * sizeof(float));
+    memcpy(&hapi_struct->rotationEuler[0], &field_rotation_euler[0], 3 * sizeof(float));
+    memcpy(&hapi_struct->scale[0], &field_scale[0], 3 * sizeof(float));
+    hapi_struct->rotationOrder = field_rotation_order;
+    hapi_struct->rstOrder = field_rst_order;
 
     return true;
 }
@@ -1313,12 +1380,12 @@ hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attri
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_Bool var_exists;
-    HAPI_AttributeOwner var_owner;
-    HAPI_StorageType var_storage;
-    HAPI_AttributeOwner var_original_owner;
-    int var_count;
-    int var_tuple_size;
+    HAPI_Bool field_exists;
+    HAPI_AttributeOwner field_owner;
+    HAPI_StorageType field_storage;
+    HAPI_AttributeOwner field_original_owner;
+    int field_count;
+    int field_tuple_size;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 7) ||
@@ -1329,7 +1396,12 @@ hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attri
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->exists = field_exists;
+    hapi_struct->owner = field_owner;
+    hapi_struct->storage = field_storage;
+    hapi_struct->originalOwner = field_original_owner;
+    hapi_struct->count = field_count;
+    hapi_struct->tupleSize = field_tuple_size;
 
     return true;
 }
@@ -1411,18 +1483,18 @@ hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* ha
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_GeoId var_id;
-    HAPI_GeoType var_type;
-    HAPI_StringHandle var_name_sh;
-    HAPI_NodeId var_node_id;
-    HAPI_Bool var_is_editable;
-    HAPI_Bool var_is_templated;
-    HAPI_Bool var_is_display_geo;
-    HAPI_Bool var_has_geo_changed;
-    HAPI_Bool var_has_material_changed;
-    int var_point_group_count;
-    int var_primitive_group_count;
-    int var_part_count;
+    HAPI_GeoId field_id;
+    HAPI_GeoType field_type;
+    HAPI_StringHandle field_name_sh;
+    HAPI_NodeId field_node_id;
+    HAPI_Bool field_is_editable;
+    HAPI_Bool field_is_templated;
+    HAPI_Bool field_is_display_geo;
+    HAPI_Bool field_has_geo_changed;
+    HAPI_Bool field_has_material_changed;
+    int field_point_group_count;
+    int field_primitive_group_count;
+    int field_part_count;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 13) ||
@@ -1433,7 +1505,18 @@ hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* ha
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->id = field_id;
+    hapi_struct->type = field_type;
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->nodeId = field_node_id;
+    hapi_struct->isEditable = field_is_editable;
+    hapi_struct->isTemplated = field_is_templated;
+    hapi_struct->isDisplayGeo = field_is_display_geo;
+    hapi_struct->hasGeoChanged = field_has_geo_changed;
+    hapi_struct->hasMaterialChanged = field_has_material_changed;
+    hapi_struct->pointGroupCount = field_point_group_count;
+    hapi_struct->primitiveGroupCount = field_primitive_group_count;
+    hapi_struct->partCount = field_part_count;
 
     return true;
 }
@@ -1522,25 +1605,25 @@ hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_AssetId var_id;
-    HAPI_AssetType var_type;
-    HAPI_AssetSubType var_sub_type;
-    int var_validation_id;
-    HAPI_NodeId var_node_id;
-    HAPI_NodeId var_object_node_id;
-    HAPI_Bool var_has_ever_cooked;
-    HAPI_StringHandle var_name_sh;
-    HAPI_StringHandle var_label_sh;
-    HAPI_StringHandle var_file_path_sh;
-    HAPI_StringHandle var_version_sh;
-    HAPI_StringHandle var_full_op_name_sh;
-    HAPI_StringHandle var_help_text_sh;
-    int var_object_count;
-    int var_handle_count;
-    int var_transform_input_count;
-    int var_geo_input_count;
-    HAPI_Bool var_have_objects_changed;
-    HAPI_Bool var_have_materials_changed;
+    HAPI_AssetId field_id;
+    HAPI_AssetType field_type;
+    HAPI_AssetSubType field_sub_type;
+    int field_validation_id;
+    HAPI_NodeId field_node_id;
+    HAPI_NodeId field_object_node_id;
+    HAPI_Bool field_has_ever_cooked;
+    HAPI_StringHandle field_name_sh;
+    HAPI_StringHandle field_label_sh;
+    HAPI_StringHandle field_file_path_sh;
+    HAPI_StringHandle field_version_sh;
+    HAPI_StringHandle field_full_op_name_sh;
+    HAPI_StringHandle field_help_text_sh;
+    int field_object_count;
+    int field_handle_count;
+    int field_transform_input_count;
+    int field_geo_input_count;
+    HAPI_Bool field_have_objects_changed;
+    HAPI_Bool field_have_materials_changed;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 20) ||
@@ -1551,7 +1634,25 @@ hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->id = field_id;
+    hapi_struct->type = field_type;
+    hapi_struct->subType = field_sub_type;
+    hapi_struct->validationId = field_validation_id;
+    hapi_struct->nodeId = field_node_id;
+    hapi_struct->objectNodeId = field_object_node_id;
+    hapi_struct->hasEverCooked = field_has_ever_cooked;
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->labelSH = field_label_sh;
+    hapi_struct->filePathSH = field_file_path_sh;
+    hapi_struct->versionSH = field_version_sh;
+    hapi_struct->fullOpNameSH = field_full_op_name_sh;
+    hapi_struct->helpTextSH = field_help_text_sh;
+    hapi_struct->objectCount = field_object_count;
+    hapi_struct->handleCount = field_handle_count;
+    hapi_struct->transformInputCount = field_transform_input_count;
+    hapi_struct->geoInputCount = field_geo_input_count;
+    hapi_struct->haveObjectsChanged = field_have_objects_changed;
+    hapi_struct->haveMaterialsChanged = field_have_materials_changed;
 
     return true;
 }
@@ -1624,9 +1725,9 @@ hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Par
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_ParmId var_parent_parm_id;
-    HAPI_StringHandle var_label_sh;
-    HAPI_StringHandle var_value_sh;
+    HAPI_ParmId field_parent_parm_id;
+    HAPI_StringHandle field_label_sh;
+    HAPI_StringHandle field_value_sh;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
@@ -1637,7 +1738,9 @@ hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Par
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->parentParmId = field_parent_parm_id;
+    hapi_struct->labelSH = field_label_sh;
+    hapi_struct->valueSH = field_value_sh;
 
     return true;
 }
@@ -1717,16 +1820,16 @@ hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectIn
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_ObjectId var_id;
-    HAPI_StringHandle var_name_sh;
-    HAPI_StringHandle var_object_instance_path_sh;
-    HAPI_Bool var_has_transform_changed;
-    HAPI_Bool var_have_geos_changed;
-    HAPI_Bool var_is_visible;
-    HAPI_Bool var_is_instancer;
-    int var_geo_count;
-    HAPI_NodeId var_node_id;
-    HAPI_ObjectId var_object_to_instance_id;
+    HAPI_ObjectId field_id;
+    HAPI_StringHandle field_name_sh;
+    HAPI_StringHandle field_object_instance_path_sh;
+    HAPI_Bool field_has_transform_changed;
+    HAPI_Bool field_have_geos_changed;
+    HAPI_Bool field_is_visible;
+    HAPI_Bool field_is_instancer;
+    int field_geo_count;
+    HAPI_NodeId field_node_id;
+    HAPI_ObjectId field_object_to_instance_id;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 11) ||
@@ -1737,7 +1840,16 @@ hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectIn
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->id = field_id;
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->objectInstancePathSH = field_object_instance_path_sh;
+    hapi_struct->hasTransformChanged = field_has_transform_changed;
+    hapi_struct->haveGeosChanged = field_have_geos_changed;
+    hapi_struct->isVisible = field_is_visible;
+    hapi_struct->isInstancer = field_is_instancer;
+    hapi_struct->geoCount = field_geo_count;
+    hapi_struct->nodeId = field_node_id;
+    hapi_struct->objectToInstanceId = field_object_to_instance_id;
 
     return true;
 }
@@ -1810,9 +1922,9 @@ hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleIn
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_StringHandle var_name_sh;
-    HAPI_StringHandle var_type_name_sh;
-    int var_bindings_count;
+    HAPI_StringHandle field_name_sh;
+    HAPI_StringHandle field_type_name_sh;
+    int field_bindings_count;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
@@ -1823,7 +1935,9 @@ hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleIn
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->typeNameSH = field_type_name_sh;
+    hapi_struct->bindingsCount = field_bindings_count;
 
     return true;
 }
@@ -1896,9 +2010,9 @@ hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tim
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    float var_fps;
-    float var_start_time;
-    float var_end_time;
+    float field_fps;
+    float field_start_time;
+    float field_end_time;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
@@ -1909,7 +2023,9 @@ hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tim
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->fps = field_fps;
+    hapi_struct->startTime = field_start_time;
+    hapi_struct->endTime = field_end_time;
 
     return true;
 }
@@ -1990,17 +2106,17 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_NodeId var_id;
-    HAPI_AssetId var_asset_id;
-    HAPI_StringHandle var_name_sh;
-    int var_total_cook_count;
-    int var_unique_houdini_node_id;
-    HAPI_StringHandle var_internal_node_path_sh;
-    int var_parm_count;
-    int var_parm_int_value_count;
-    int var_parm_float_value_count;
-    int var_parm_string_value_count;
-    int var_parm_choice_count;
+    HAPI_NodeId field_id;
+    HAPI_AssetId field_asset_id;
+    HAPI_StringHandle field_name_sh;
+    int field_total_cook_count;
+    int field_unique_houdini_node_id;
+    HAPI_StringHandle field_internal_node_path_sh;
+    int field_parm_count;
+    int field_parm_int_value_count;
+    int field_parm_float_value_count;
+    int field_parm_string_value_count;
+    int field_parm_choice_count;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 12) ||
@@ -2011,7 +2127,17 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->id = field_id;
+    hapi_struct->assetId = field_asset_id;
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->totalCookCount = field_total_cook_count;
+    hapi_struct->uniqueHoudiniNodeId = field_unique_houdini_node_id;
+    hapi_struct->internalNodePathSH = field_internal_node_path_sh;
+    hapi_struct->parmCount = field_parm_count;
+    hapi_struct->parmIntValueCount = field_parm_int_value_count;
+    hapi_struct->parmFloatValueCount = field_parm_float_value_count;
+    hapi_struct->parmStringValueCount = field_parm_string_value_count;
+    hapi_struct->parmChoiceCount = field_parm_choice_count;
 
     return true;
 }
@@ -2115,40 +2241,40 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
     const ERL_NIF_TERM* tuple_record = NULL;
     bool atom_name_match = false;
 
-    HAPI_ParmId var_id;
-    HAPI_ParmId var_parent_id;
-    HAPI_ParmType var_type;
-    HAPI_StringHandle var_type_info_sh;
-    HAPI_Permissions var_permissions;
-    int var_size;
-    int var_choice_count;
-    HAPI_StringHandle var_name_sh;
-    HAPI_StringHandle var_label_sh;
-    HAPI_StringHandle var_template_name_sh;
-    HAPI_StringHandle var_help_sh;
-    HAPI_Bool var_has_min;
-    HAPI_Bool var_has_max;
-    HAPI_Bool var_has_uimin;
-    HAPI_Bool var_has_uimax;
-    float var_min;
-    float var_max;
-    float var_uimin;
-    float var_uimax;
-    HAPI_Bool var_invisible;
-    HAPI_Bool var_disabled;
-    HAPI_Bool var_spare;
-    HAPI_Bool var_join_next;
-    HAPI_Bool var_label_none;
-    int var_int_values_index;
-    int var_float_values_index;
-    int var_string_values_index;
-    int var_choice_index;
-    HAPI_Bool var_is_child_of_multi_parm;
-    int var_instance_num;
-    int var_instance_length;
-    int var_instance_count;
-    int var_instance_start_offset;
-    HAPI_RampType var_ramp_type;
+    HAPI_ParmId field_id;
+    HAPI_ParmId field_parent_id;
+    HAPI_ParmType field_type;
+    HAPI_StringHandle field_type_info_sh;
+    HAPI_Permissions field_permissions;
+    int field_size;
+    int field_choice_count;
+    HAPI_StringHandle field_name_sh;
+    HAPI_StringHandle field_label_sh;
+    HAPI_StringHandle field_template_name_sh;
+    HAPI_StringHandle field_help_sh;
+    HAPI_Bool field_has_min;
+    HAPI_Bool field_has_max;
+    HAPI_Bool field_has_uimin;
+    HAPI_Bool field_has_uimax;
+    float field_min;
+    float field_max;
+    float field_uimin;
+    float field_uimax;
+    HAPI_Bool field_invisible;
+    HAPI_Bool field_disabled;
+    HAPI_Bool field_spare;
+    HAPI_Bool field_join_next;
+    HAPI_Bool field_label_none;
+    int field_int_values_index;
+    int field_float_values_index;
+    int field_string_values_index;
+    int field_choice_index;
+    HAPI_Bool field_is_child_of_multi_parm;
+    int field_instance_num;
+    int field_instance_length;
+    int field_instance_count;
+    int field_instance_start_offset;
+    HAPI_RampType field_ramp_type;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 35) ||
@@ -2159,7 +2285,40 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
         return false;
     }
 
-    %{HAPI_STRUCT_TO_C_ASSIGN}%
+    hapi_struct->id = field_id;
+    hapi_struct->parentId = field_parent_id;
+    hapi_struct->type = field_type;
+    hapi_struct->typeInfoSH = field_type_info_sh;
+    hapi_struct->permissions = field_permissions;
+    hapi_struct->size = field_size;
+    hapi_struct->choiceCount = field_choice_count;
+    hapi_struct->nameSH = field_name_sh;
+    hapi_struct->labelSH = field_label_sh;
+    hapi_struct->templateNameSH = field_template_name_sh;
+    hapi_struct->helpSH = field_help_sh;
+    hapi_struct->hasMin = field_has_min;
+    hapi_struct->hasMax = field_has_max;
+    hapi_struct->hasUIMin = field_has_uimin;
+    hapi_struct->hasUIMax = field_has_uimax;
+    hapi_struct->min = field_min;
+    hapi_struct->max = field_max;
+    hapi_struct->UIMin = field_uimin;
+    hapi_struct->UIMax = field_uimax;
+    hapi_struct->invisible = field_invisible;
+    hapi_struct->disabled = field_disabled;
+    hapi_struct->spare = field_spare;
+    hapi_struct->joinNext = field_join_next;
+    hapi_struct->labelNone = field_label_none;
+    hapi_struct->intValuesIndex = field_int_values_index;
+    hapi_struct->floatValuesIndex = field_float_values_index;
+    hapi_struct->stringValuesIndex = field_string_values_index;
+    hapi_struct->choiceIndex = field_choice_index;
+    hapi_struct->isChildOfMultiParm = field_is_child_of_multi_parm;
+    hapi_struct->instanceNum = field_instance_num;
+    hapi_struct->instanceLength = field_instance_length;
+    hapi_struct->instanceCount = field_instance_count;
+    hapi_struct->instanceStartOffset = field_instance_start_offset;
+    hapi_struct->rampType = field_ramp_type;
 
     return true;
 }

@@ -762,6 +762,24 @@ defmodule HAPI do
 
         # Function used to generate header stub for structures.
         defp create_stub_h(env) do
+            structures = Dict.get(env, :structures, :nil)
+            if not is_nil(structures) do
+                {:ok, template_structures_h} = File.read("./util/hapi_structures_nif.h.template")
+                {:ok, template_structures_block} = File.read("./util/hapi_structures_nif.h.block.template")
+
+                signatures = String.replace(template_structures_h, "%{HAPI_STRUCT_FUNCTIONS}%",
+                    Enum.map_join(structures, "\n", fn {k, _v} -> create_stub_h_entry(k, template_structures_block) end))
+
+                File.write("./c_src/hapi_structures_nif.h", signatures)
+                IO.puts("Generating c_src/hapi_structures_nif.h")
+            end
+        end
+
+        # Helper function to produce header stub entry.
+        defp create_stub_h_entry(structure_name, template_block) do
+            structure_name_underscore = HAPI.Util.underscore(structure_name)
+            String.replace(template_block, "%{HAPI_STRUCT_DOWNCASE}%", structure_name_underscore)
+                |> String.replace("%{HAPI_STRUCT}%", structure_name)
         end
 
         # Function used to generate source file stub for structures.
@@ -774,6 +792,15 @@ defmodule HAPI do
 
 
     end
+
+
+
+
+
+
+
+
+
 
 
 

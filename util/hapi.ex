@@ -753,11 +753,34 @@ defmodule HAPI do
         # Create structure related stubs.
         def create(env) do
             if not (Dict.get(env, :structures, :nil) |> is_nil()) do
+                create_stub_hrl(env)
                 create_stub_h(env)
                 create_stub_c(env)
-                create_stub_hrl(env)
             end
             env
+        end
+
+        # Function used to generate erl hrl stub for structures.
+        defp create_stub_hrl(env) do
+            structures = Dict.get(env, :structures, :nil)
+            if not is_nil(structures) do
+                {:ok, template_structs_hrl} = File.read("./util/hapi_records.hrl.template")
+                {:ok, template_structs_hrl_block} = File.read("./util/hapi_records.hrl.block.template")
+
+                records = String.replace(template_structs_hrl, "%{HAPI_RECORDS}%",
+                    Enum.map_join(structures, "\n\n", fn{k, v} -> create_stub_hrl_entry(k, v, template_structs_hrl_block) end))
+
+                File.write("./src/hapi_records.hrl", records)
+                IO.puts("Generating src/hapi_records.hrl")
+            end
+        end
+
+        # Helper function to produce hrl record entry.
+        defp create_stub_hrl_entry(structure_name, structure_body, template_block) do
+            String.replace(template_block, "%{HAPI_STRUCT}%", structure_name)
+                |> String.replace("%{HAPI_RECORD_NAME}%", HAPI.Util.underscore(structure_name))
+                |> String.replace("%{HAPI_RECORD_ENTRIES}%",
+                    Enum.map_join(structure_body, ",\n    ", fn(f) -> "#{HAPI.Util.underscore(elem(f, 0))}" end))
         end
 
         # Function used to generate header stub for structures.
@@ -765,10 +788,10 @@ defmodule HAPI do
             structures = Dict.get(env, :structures, :nil)
             if not is_nil(structures) do
                 {:ok, template_structures_h} = File.read("./util/hapi_structures_nif.h.template")
-                {:ok, template_structures_block} = File.read("./util/hapi_structures_nif.h.block.template")
+                {:ok, template_structures_h_block} = File.read("./util/hapi_structures_nif.h.block.template")
 
                 signatures = String.replace(template_structures_h, "%{HAPI_STRUCT_FUNCTIONS}%",
-                    Enum.map_join(structures, "\n", fn {k, _v} -> create_stub_h_entry(k, template_structures_block) end))
+                    Enum.map_join(structures, "\n", fn{k, _v} -> create_stub_h_entry(k, template_structures_h_block) end))
 
                 File.write("./c_src/hapi_structures_nif.h", signatures)
                 IO.puts("Generating c_src/hapi_structures_nif.h")
@@ -786,9 +809,7 @@ defmodule HAPI do
         defp create_stub_c(env) do
         end
 
-        # Function used to generate erl hrl stub for structures.
-        defp create_stub_hrl(env) do
-        end
+
 
 
     end

@@ -939,7 +939,74 @@ defmodule HAPI do
         end
     end
 
+    # Module responsible for generating function related stubs.
+    defmodule Functions do
 
+        # Create structure related stubs.
+        def create(env) do
+            if not (Dict.get(env, :structures, :nil) |> is_nil()) do
+                create_stub_exports(env)
+                create_stub_h(env)
+                create_stub_c(env)
+            end
+            env
+        end
+
+        # Helper function, given a function structure, return parameters (ignore parameters returned by pointer).
+        defp get_parameters({_function_type, function_params}) do
+            Enum.filter(function_params, &(not is_return_parameter(&1)))
+        end
+
+        # Helper function to check if parameter is a return type parameter.
+        defp is_return_parameter({_param_type, _param_name, dict}) do
+            Dict.get(dict, :param_pointer, false) and not Dict.get(dict, :param_const, false)
+        end
+
+        # Function used to generate export table.
+        defp create_stub_exports(env) do
+            functions = Dict.get(env, :functions, :nil)
+            if not is_nil(functions) do
+                {:ok, template_exports_c} = File.read("./util/hapi_exports_nif.c.template")
+
+                exports = String.replace(template_exports_c, "%{HAPI_NIF_FUNCTIONS}%",
+                    Enum.map_join(functions, ",\n    ",
+                        fn{k, v} -> create_stub_exports_entry(k, length(get_parameters(v))) end))
+
+                File.write("./c_src/hapi_exports_nif.c", exports)
+                IO.puts("Generating c_src/hapi_exports_nif.c")
+            end
+        end
+
+        # Helper function used to generate each export entry.
+        defp create_stub_exports_entry("HAPI_" <> function_name, arity) do
+            function_name_underscore = HAPI.Util.underscore(function_name)
+            "{\"#{function_name_underscore}\", #{Integer.to_string(arity)}, hapi_#{function_name_underscore}}"
+        end
+
+        # Function used to generate h stub.
+        defp create_stub_h(env) do
+            functions = Dict.get(env, :functions, :nil)
+            if not is_nil(functions) do
+                {:ok, template_functions_h} = File.read("./util/hapi_functions_nif.h.template")
+                {:ok, template_functions_h_block} = File.read("./util/hapi_functions_nif.h.block.template")
+
+                signatures = String.replace(template_functions_h, "%{HAPI_FUNCTIONS}%",
+                    Enum.map_join(functions, "\n", fn{k, _v} -> create_stub_h_entry(k, template_functions_h_block) end))
+
+                File.write("./c_src/hapi_functions_nif.h", signatures)
+                IO.puts("Generating c_src/hapi_functions_nif.h")
+            end
+        end
+
+        # Helper function to create h stub entries.
+        defp create_stub_h_entry(function_name, template_block) do
+            String.replace(template_block, "%{HAPI_FUNCTION}%", HAPI.Util.underscore(function_name))
+        end
+
+        # Function used to generate c stub.
+        defp create_stub_c(env) do
+        end
+    end
 
 
 
@@ -1033,13 +1100,6 @@ defmodule HAPI do
 
             {:ok, template_function_c} = File.read("./util/hapi_function_nif.c.template")
             Enum.map(funcs, fn {k, v} -> create_function_c_stub(env, k, v, template_function_c) end)
-
-            {:ok, template_functions_h} = File.read("./util/hapi_functions_nif.h.template")
-            {:ok, template_functions_block} = File.read("./util/hapi_functions_nif.h.block.template")
-            create_functions_h_stub(funcs, template_functions_h, template_functions_block)
-
-            {:ok, template_exports_c} = File.read("./util/hapi_exports_nif.c.template")
-            create_exports_c_stub(funcs, template_exports_c)
         end
 
         env
@@ -1139,17 +1199,6 @@ defmodule HAPI do
     defp create_exports_c_stub_entry("hapi_" <> rest, arity) do
         "{\"#{rest}\", #{Integer.to_string(arity)}, hapi_#{rest}}"
     end
-
-    # Generate header file containing all c function signatures.
-    defp create_functions_h_stub(funcs, template_functions_h, template_functions_block) do
-
-        signature_blocks = Enum.map_join(funcs, "", fn {k, _v} ->
-            String.replace(template_functions_block, "%{HAPI_FUNCTION}%", HAPI.Util.underscore(k)) end)
-        signatures = String.replace(template_functions_h, "%{HAPI_FUNCTIONS}%", signature_blocks)
-
-        File.write("./c_src/hapi_functions_nif.h", signatures)
-        IO.puts("Generating c_src/hapi_functions_nif.h")
-    end
 end
 
 [compiler, hapi_include_path] = System.argv()
@@ -1164,3 +1213,4 @@ HAPI.C.generate(compiler, hapi_include_path)
     |> HAPI.Types.create()
     |> HAPI.Enums.create()
     |> HAPI.Structures.create()
+    |> HAPI.Functions.create()

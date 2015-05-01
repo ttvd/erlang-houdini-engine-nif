@@ -52,7 +52,7 @@ hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOpt
 
 /* Converting array of HAPI_CookOptions objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_structs, int32_t list_size)
+hapi_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -68,7 +68,7 @@ hapi_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_st
 
 /* Converting list of HAPI_CookOptions objects from erl to c. */
 bool
-hapi_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_structs, int32_t list_size)
+hapi_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -137,7 +137,7 @@ hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* h
 
 /* Converting array of HAPI_Keyframe objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, int32_t list_size)
+hapi_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -153,7 +153,7 @@ hapi_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, 
 
 /* Converting list of HAPI_Keyframe objects from erl to c. */
 bool
-hapi_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_structs, int32_t list_size)
+hapi_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -229,7 +229,7 @@ hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* 
 
 /* Converting array of HAPI_PartInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -245,7 +245,7 @@ hapi_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs,
 
 /* Converting list of HAPI_PartInfo objects from erl to c. */
 bool
-hapi_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -315,7 +315,7 @@ hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Materi
 
 /* Converting array of HAPI_MaterialInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -331,7 +331,7 @@ hapi_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_
 
 /* Converting list of HAPI_MaterialInfo objects from erl to c. */
 bool
-hapi_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -399,7 +399,7 @@ hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalN
 
 /* Converting array of HAPI_GlobalNodes objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_structs, int32_t list_size)
+hapi_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -415,7 +415,7 @@ hapi_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_st
 
 /* Converting list of HAPI_GlobalNodes objects from erl to c. */
 bool
-hapi_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_structs, int32_t list_size)
+hapi_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -483,7 +483,7 @@ hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 
 /* Converting array of HAPI_HandleBindingInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -499,7 +499,7 @@ hapi_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBinding
 
 /* Converting list of HAPI_HandleBindingInfo objects from erl to c. */
 bool
-hapi_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -571,7 +571,7 @@ hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo
 
 /* Converting array of HAPI_ImageInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -587,7 +587,7 @@ hapi_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct
 
 /* Converting list of HAPI_ImageInfo objects from erl to c. */
 bool
-hapi_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -666,7 +666,7 @@ hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeIn
 
 /* Converting array of HAPI_VolumeInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -682,7 +682,7 @@ hapi_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_stru
 
 /* Converting list of HAPI_VolumeInfo objects from erl to c. */
 bool
-hapi_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -750,7 +750,7 @@ hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoIn
 
 /* Converting array of HAPI_GeoInputInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -766,7 +766,7 @@ hapi_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi
 
 /* Converting list of HAPI_GeoInputInfo objects from erl to c. */
 bool
-hapi_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -835,7 +835,7 @@ hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
 
 /* Converting array of HAPI_VolumeTileInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -851,7 +851,7 @@ hapi_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* 
 
 /* Converting list of HAPI_VolumeTileInfo objects from erl to c. */
 bool
-hapi_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -924,7 +924,7 @@ hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo
 
 /* Converting array of HAPI_CurveInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -940,7 +940,7 @@ hapi_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct
 
 /* Converting list of HAPI_CurveInfo objects from erl to c. */
 bool
-hapi_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1009,7 +1009,7 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
 
 /* Converting array of HAPI_Transform objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs, int32_t list_size)
+hapi_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1025,7 +1025,7 @@ hapi_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs
 
 /* Converting list of HAPI_Transform objects from erl to c. */
 bool
-hapi_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_structs, int32_t list_size)
+hapi_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1093,7 +1093,7 @@ hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Im
 
 /* Converting array of HAPI_ImageFileFormat objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_structs, int32_t list_size)
+hapi_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1109,7 +1109,7 @@ hapi_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat
 
 /* Converting list of HAPI_ImageFileFormat objects from erl to c. */
 bool
-hapi_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_structs, int32_t list_size)
+hapi_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1179,7 +1179,7 @@ hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tran
 
 /* Converting array of HAPI_TransformEuler objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* hapi_structs, int32_t list_size)
+hapi_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1195,7 +1195,7 @@ hapi_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* h
 
 /* Converting list of HAPI_TransformEuler objects from erl to c. */
 bool
-hapi_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_structs, int32_t list_size)
+hapi_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1266,7 +1266,7 @@ hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attri
 
 /* Converting array of HAPI_AttributeInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1282,7 +1282,7 @@ hapi_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hap
 
 /* Converting list of HAPI_AttributeInfo objects from erl to c. */
 bool
-hapi_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1359,7 +1359,7 @@ hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* ha
 
 /* Converting array of HAPI_GeoInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1375,7 +1375,7 @@ hapi_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, i
 
 /* Converting list of HAPI_GeoInfo objects from erl to c. */
 bool
-hapi_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1459,7 +1459,7 @@ hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo
 
 /* Converting array of HAPI_AssetInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1475,7 +1475,7 @@ hapi_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct
 
 /* Converting list of HAPI_AssetInfo objects from erl to c. */
 bool
-hapi_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1543,7 +1543,7 @@ hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Par
 
 /* Converting array of HAPI_ParmChoiceInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1559,7 +1559,7 @@ hapi_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* 
 
 /* Converting list of HAPI_ParmChoiceInfo objects from erl to c. */
 bool
-hapi_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1634,7 +1634,7 @@ hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectIn
 
 /* Converting array of HAPI_ObjectInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1650,7 +1650,7 @@ hapi_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_stru
 
 /* Converting list of HAPI_ObjectInfo objects from erl to c. */
 bool
-hapi_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1718,7 +1718,7 @@ hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleIn
 
 /* Converting array of HAPI_HandleInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1734,7 +1734,7 @@ hapi_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_stru
 
 /* Converting list of HAPI_HandleInfo objects from erl to c. */
 bool
-hapi_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1802,7 +1802,7 @@ hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tim
 
 /* Converting array of HAPI_TimelineOptions objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_structs, int32_t list_size)
+hapi_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1818,7 +1818,7 @@ hapi_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions*
 
 /* Converting list of HAPI_TimelineOptions objects from erl to c. */
 bool
-hapi_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_structs, int32_t list_size)
+hapi_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1894,7 +1894,7 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
 
 /* Converting array of HAPI_NodeInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -1910,7 +1910,7 @@ hapi_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs,
 
 /* Converting list of HAPI_NodeInfo objects from erl to c. */
 bool
-hapi_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -2009,7 +2009,7 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
 
 /* Converting array of HAPI_ParmInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs, int32_t list_size)
+hapi_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -2025,7 +2025,7 @@ hapi_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs,
 
 /* Converting list of HAPI_ParmInfo objects from erl to c. */
 bool
-hapi_get_hapi_parm_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_structs, int32_t list_size)
+hapi_get_hapi_parm_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;

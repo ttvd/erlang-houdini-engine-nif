@@ -175,7 +175,7 @@ defmodule HAPI do
             HashDict.new
                 |> Dict.put(:types, HAPI.Syntactic.Types.process(tokens))
                 |> Dict.put(:enums, HAPI.Syntactic.Enums.process(tokens))
-                |> Dict.put(:structs, HAPI.Syntactic.Structs.process(tokens))
+                |> Dict.put(:structures, HAPI.Syntactic.Structs.process(tokens))
                 |> Dict.put(:functions, HAPI.Syntactic.Functions.process(tokens))
         end
 
@@ -747,6 +747,38 @@ defmodule HAPI do
         end
     end
 
+    # Module responsible for generating structure related stubs.
+    defmodule Structures do
+
+        # Create structure related stubs.
+        def create(env) do
+            if not (Dict.get(env, :structures, :nil) |> is_nil()) do
+                create_stub_h(env)
+                create_stub_c(env)
+                create_stub_hrl(env)
+            end
+            env
+        end
+
+        # Function used to generate header stub for structures.
+        defp create_stub_h(env) do
+        end
+
+        # Function used to generate source file stub for structures.
+        defp create_stub_c(env) do
+        end
+
+        # Function used to generate erl hrl stub for structures.
+        defp create_stub_hrl(env) do
+        end
+
+
+    end
+
+
+
+
+
 
 
 
@@ -945,6 +977,19 @@ defmodule HAPI do
         File.write("./c_src/hapi_functions_nif.h", signatures)
         IO.puts("Generating c_src/hapi_functions_nif.h")
     end
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     # Generate c record generating and parsing functions.
@@ -1208,6 +1253,7 @@ HAPI.C.generate(compiler, hapi_include_path)
     #|> HAPI.Syntactic.print_functions()
     |> HAPI.Types.create()
     |> HAPI.Enums.create()
+    |> HAPI.Structures.create()
 
 #HAPI.generate_hapi_c(compiler, hapi_include_path)
 #    |> HAPI.Types.create_c_stubs()

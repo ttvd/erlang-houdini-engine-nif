@@ -975,9 +975,9 @@ hapi_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct)
 {
     return enif_make_tuple(env, 5,
         hapi_make_atom(env, "hapi_transform"),
-        ,
-        ,
-        ,
+        hapi_make_float_list(env, &hapi_struct->position[0], 3),
+        hapi_make_float_list(env, &hapi_struct->rotationQuaternion[0], 4),
+        hapi_make_float_list(env, &hapi_struct->scale[0], 3),
         hapi_make_hapi_rstorder(env, hapi_struct->rstOrder));
 }
 
@@ -1144,9 +1144,9 @@ hapi_make_hapi_transform_euler(ErlNifEnv* env, const HAPI_TransformEuler* hapi_s
 {
     return enif_make_tuple(env, 6,
         hapi_make_atom(env, "hapi_transform_euler"),
-        ,
-        ,
-        ,
+        hapi_make_float_list(env, &hapi_struct->position[0], 3),
+        hapi_make_float_list(env, &hapi_struct->rotationEuler[0], 3),
+        hapi_make_float_list(env, &hapi_struct->scale[0], 3),
         hapi_make_hapi_xyzorder(env, hapi_struct->rotationOrder),
         hapi_make_hapi_rstorder(env, hapi_struct->rstOrder));
 }

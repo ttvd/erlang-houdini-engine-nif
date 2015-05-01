@@ -831,6 +831,10 @@ defmodule HAPI do
                 |> String.replace("%{HAPI_STRUCT_TO_ERL_MAP}",
                     Enum.map_join(struct_body, ",\n        ",
                         fn(f) -> create_stub_c_entry_c_to_erl(env, f) end))
+
+            # %{HAPI_STRUCT_TO_C_VARS}%
+            # %{HAPI_STRUCT_TO_C_MAP}%
+            # %{HAPI_STRUCT_TO_C_ASSIGN}%
         end
 
         # Helper function to create calls necessary to produce erl record.
@@ -846,8 +850,15 @@ defmodule HAPI do
             end
         end
         defp create_stub_c_entry_c_to_erl(env, {field_name, field_type, field_size}) do
-            #"hapi_make_#{HAPI.Util.underscore(field_type)}(env, hapi_struct->#{field_name})"
-            ""
+            builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
+            cond do
+                not is_nil(builtin_type) ->
+                    "hapi_make_#{HAPI.Util.underscore(builtin_type)}_list(env, &hapi_struct->#{field_name}[0], #{field_size})"
+                HAPI.Util.is_type_structure(env, field_type) ->
+                    "hapi_make_#{HAPI.Util.underscore(field_type)}_list(env, &hapi_struct->#{field_name}[0], #{field_size})"
+                true ->
+                    "hapi_make_#{HAPI.Util.underscore(field_type)}_list(env, &hapi_struct->#{field_name}[0], #{field_size})"
+            end
         end
 
 

@@ -991,7 +991,7 @@ defmodule HAPI do
                 {:ok, template_functions_h_block} = File.read("./util/hapi_functions_nif.h.block.template")
 
                 signatures = String.replace(template_functions_h, "%{HAPI_FUNCTIONS}%",
-                    Enum.map_join(functions, "\n", fn{k, _v} -> create_stub_h_entry(k, template_functions_h_block) end))
+                    Enum.map_join(functions, "", fn{k, _v} -> create_stub_h_entry(k, template_functions_h_block) end))
 
                 File.write("./c_src/hapi_functions_nif.h", signatures)
                 IO.puts("Generating c_src/hapi_functions_nif.h")

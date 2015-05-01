@@ -948,6 +948,7 @@ defmodule HAPI do
                 create_stub_exports(env)
                 create_stub_h(env)
                 create_stub_c(env)
+                create_stub_erl(env)
             end
             env
         end
@@ -1020,6 +1021,30 @@ defmodule HAPI do
 
         # Helper function used to generate c stub entries.
         defp create_stub_c_entry(env, function_name, function_body, template_block) do
+            String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
+                |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
+        end
+
+        # Function to generate erl function stubs.
+        defp create_stub_erl(env) do
+            functions = Dict.get(env, :functions, :nil)
+            if not is_nil(functions) do
+                {:ok, template_hapi_erl} = File.read("./util/hapi.erl.template")
+                {:ok, template_hapi_erl_block} = File.read("./util/hapi.erl.block.template")
+
+                entries = String.replace(template_hapi_erl, "%{HAPI_ERL_FUNCTIONS}%",
+                    Enum.map_join(functions, "\n\n", fn{k, v} -> create_stub_erl_entry(env, k, v, template_hapi_erl_block) end))
+                        |> String.replace("%{HAPI_ERL_EXPORTS}%",
+                            Enum.map_join(functions, ",\n    ", fn{k, v} ->
+                                "#{HAPI.Util.underscore(k)}/#{length(get_parameters(v))}" end))
+
+                File.write("./src/hapi.erl", entries)
+                IO.puts("Generating src/hapi.erl")
+            end
+        end
+
+        # Helper function to generate erl function stub entries.
+        defp create_stub_erl_entry(env, function_name, function_body, template_block) do
             String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
                 |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
         end

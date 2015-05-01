@@ -484,6 +484,31 @@ defmodule HAPI do
             raise(RuntimeError, description: "Can't create hash of non-binary parameter")
         end
 
+        # Helper function to map type names to erlang types.
+        def get_erlang_type(_env, :token_void), do: "atom()"
+        def get_erlang_type(_env, :token_int), do: "integer()"
+        def get_erlang_type(_env, :token_float), do: "float()"
+        def get_erlang_type(_env, :token_double), do: "float()"
+        def get_erlang_type(_env, :token_char), do: "byte()"
+        def get_erlang_type(_env, :token_bool), do: "boolean()"
+        def get_erlang_type(_env, "HAPI_Bool"), do: "boolean()"
+        def get_erlang_type(_env, "HAPI_Result"), do: "atom()"
+        def get_erlang_type(env, type) do
+            cond do
+                is_type_enum(env, type) ->
+                    "atom()"
+                is_type_structure(env, type) ->
+                    "#{HAPI.Util.underscore(type)}()"
+                true ->
+                    orig_type = get_original_type(env, type)
+                    if not is_nil(orig_type) do
+                        get_erlang_type(env, orig_type)
+                    else
+                        "atom()"
+                    end
+            end
+        end
+
         # Helper function to map type names to types.
         def get_builtin_type("void"), do: :token_void
         def get_builtin_type("int"), do: :token_int
@@ -566,8 +591,12 @@ defmodule HAPI do
         end
 
         # Helper function to translate character to lower case.
-        def to_lower_case(c) when c in ?A..?Z, do: c + 32
-        def to_lower_case(c), do: c
+        defp to_lower_case(c) when c in ?A..?Z, do: c + 32
+        defp to_lower_case(c), do: c
+
+        # Helper function to translate character to upper case.
+        defp to_upper_case(c) when c in ?a..?z, do: c - 32
+        defp to_upper_case(c), do: c
 
         # Helper function to create underscore version of a given string.
         def underscore(""), do: ""
@@ -584,6 +613,23 @@ defmodule HAPI do
         end
         defp underscore_helper(<<c, rest ::binary>>, _p), do: <<to_lower_case(c)>> <> underscore_helper(rest, c)
         defp underscore_helper("", _p), do: ""
+
+        # Helper function to create camel case version of a given string.
+        def camelcase(""), do: ""
+        def camelcase(string) when is_binary(string), do: camelcase_helper(string)
+        def camelcase(_string) do
+            raise(RuntimeError, description: "Can't create camelcase version of non-binary parameter")
+        end
+        defp camelcase_helper(<<c, rest ::binary>>) when c == ?_, do: camelcase_helper(rest)
+        defp camelcase_helper(<<c, rest ::binary>>), do: <<to_upper_case(c)>> <> camelcase_helper(rest, c)
+        defp camelcase_helper(<<c, rest ::binary>>, _p) when c == ?_, do: camelcase_helper(rest, ?_)
+        defp camelcase_helper(<<c, rest ::binary>>, p) when p == ?_ do
+            <<to_upper_case(c)>> <> camelcase_helper(rest, to_upper_case(c))
+        end
+        defp camelcase_helper(<<c, rest ::binary>>, _p) do
+            <<c>> <> camelcase_helper(rest, c)
+        end
+        defp camelcase_helper("", _p), do: ""
     end
 
     # Module responsible for generating type related stubs.
@@ -958,9 +1004,19 @@ defmodule HAPI do
             Enum.filter(function_params, &(not is_return_parameter(&1)))
         end
 
+        # Helper function, given a function signature, return return parameters (those returned by pointer).
+        defp get_return_parameters({_function_type, function_params}) do
+            Enum.filter(function_params, &(is_return_parameter(&1)))
+        end
+
         # Helper function to check if parameter is a return type parameter.
         defp is_return_parameter({_param_type, _param_name, dict}) do
             Dict.get(dict, :param_pointer, false) and not Dict.get(dict, :param_const, false)
+        end
+
+        # Helper function to check if parameter is an array.
+        defp is_array_parameter({_param_type, _param_name, dict}) do
+            Dict.get(dict, :param_array, false)
         end
 
         # Function used to generate export table.
@@ -1004,27 +1060,6 @@ defmodule HAPI do
             String.replace(template_block, "%{HAPI_FUNCTION}%", HAPI.Util.underscore(function_name))
         end
 
-        # Function used to generate c stub.
-        defp create_stub_c(env) do
-            functions = Dict.get(env, :functions, :nil)
-            if not is_nil(functions) do
-                {:ok, template_functions_c} = File.read("./util/hapi_functions_nif.c.template")
-                {:ok, template_functions_c_block} = File.read("./util/hapi_functions_nif.c.block.template")
-
-                entries = String.replace(template_functions_c, "%{HAPI_FUNCTIONS}%",
-                    Enum.map_join(functions, "\n\n", fn{k, v} -> create_stub_c_entry(env, k, v, template_functions_c_block) end))
-
-                File.write("./c_src/hapi_functions_nif.c", entries)
-                IO.puts("Generating c_src/hapi_functions_nif.c")
-            end
-        end
-
-        # Helper function used to generate c stub entries.
-        defp create_stub_c_entry(env, function_name, function_body, template_block) do
-            String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
-                |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
-        end
-
         # Function to generate erl function stubs.
         defp create_stub_erl(env) do
             functions = Dict.get(env, :functions, :nil)
@@ -1045,6 +1080,49 @@ defmodule HAPI do
 
         # Helper function to generate erl function stub entries.
         defp create_stub_erl_entry(env, function_name, function_body, template_block) do
+            {function_return_type, _params} = function_body
+            String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
+                |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
+                |> String.replace("%{HAPI_FUNCTION_PARAMS}%",
+                    Enum.map_join(get_parameters(function_body), ", ", fn(p) -> create_stub_erl_entry_param(p) end))
+                |> String.replace("%{HAPI_FUNCTION_RETURN}%",
+                    [HAPI.Util.get_erlang_type(env, function_return_type)] ++
+                    Enum.map(get_return_parameters(function_body), fn(p) -> create_stub_erl_entry_return_param(env, p) end)
+                        |> Enum.join(", "))
+        end
+
+        # Helper function to get a list of parameter names for erl function stub generation.
+        defp create_stub_erl_entry_param({_param_type, param_name, _param_opts}) do
+            "_#{HAPI.Util.camelcase(param_name)}"
+        end
+
+        # Helper function to get a list of return names for erl function stub generation.
+        defp create_stub_erl_entry_return_param(env, {param_type, _param_name, _param_opts} = param) do
+            #"_#{HAPI.Util.camelcase(param_name)}"
+            if not is_array_parameter(param) do
+                HAPI.Util.get_erlang_type(env, param_type)
+            else
+                "list()"
+            end
+        end
+
+        # Function used to generate c stub.
+        defp create_stub_c(env) do
+            functions = Dict.get(env, :functions, :nil)
+            if not is_nil(functions) do
+                {:ok, template_functions_c} = File.read("./util/hapi_functions_nif.c.template")
+                {:ok, template_functions_c_block} = File.read("./util/hapi_functions_nif.c.block.template")
+
+                entries = String.replace(template_functions_c, "%{HAPI_FUNCTIONS}%",
+                    Enum.map_join(functions, "\n\n", fn{k, v} -> create_stub_c_entry(env, k, v, template_functions_c_block) end))
+
+                File.write("./c_src/hapi_functions_nif.c", entries)
+                IO.puts("Generating c_src/hapi_functions_nif.c")
+            end
+        end
+
+        # Helper function used to generate c stub entries.
+        defp create_stub_c_entry(env, function_name, function_body, template_block) do
             String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
                 |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
         end

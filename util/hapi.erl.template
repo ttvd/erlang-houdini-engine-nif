@@ -14,13 +14,11 @@
 -include("hapi_records.hrl").
 
 % Generated enum types and translation functions.
--include("hapi_enums.hrl").
+%-include("hapi_enums.hrl").
 
 % Generated exports.
 -export([
-%{HAPI_EXPORT_FUNCTIONS}%,
-    hash_enum_value/1,
-    check_enum_value_hash/2
+    %{HAPI_ERL_EXPORTS}%
     ]).
 
 %
@@ -40,12 +38,4 @@ init() ->
         end,
     erlang:load_nif(filename:join(PrivDir, hapi_nif), 0).
 
-% Helper function which returns hash of an atom.
-hash_enum_value(_Atom) ->
-    ?nif_stub.
-
-% Helper function which checks whether atom has a given hash.
-check_enum_value_hash(_Atom, _Hash) ->
-    ?nif_stub.
-
-%{HAPI_IMPL_FUNCTIONS}%
+%{HAPI_ERL_FUNCTIONS}%

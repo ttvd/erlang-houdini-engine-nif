@@ -1,3 +1,5 @@
-/* Defined in records/%{HAPI_STRUCT_DOWNCASE}%_nif.c */
+/* Conversion of %{HAPI_STRUCT}% structure from c to erl. */
 ERL_NIF_TERM hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct);
+
+/* Conversion of %{HAPI_STRUCT}% structure from erl to c. */
 bool hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct);

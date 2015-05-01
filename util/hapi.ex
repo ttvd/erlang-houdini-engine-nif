@@ -144,7 +144,7 @@ defmodule HAPI do
         defp map_token(""), do: []
         defp map_token("typedef"), do: [:token_typedecl]
         defp map_token("enum"), do: [:token_enum]
-        defp map_token("struct"), do: [:token_struct]
+        defp map_token("struct"), do: [:token_structure]
         defp map_token("const"), do: [:token_const]
         defp map_token("void"), do: [:token_void]
         defp map_token("float"), do: [:token_float]
@@ -195,30 +195,22 @@ defmodule HAPI do
                     |> process_collect(tokens)
             end
 
-            # Helper function used to map tokens to types.
-            defp get_type_from_token(:token_int), do: :type_int
-            defp get_type_from_token(:token_char), do: :type_char
-            defp get_type_from_token(:token_float), do: :type_float
-            defp get_type_from_token(:token_double), do: :type_double
-            defp get_type_from_token(:token_bool), do: :type_bool
-            defp get_type_from_token(other), do: other
-
             # Process tokens and collect types.
             defp process_collect(dict, []), do: dict
             defp process_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
-                Dict.put(dict, "HAPI_Bool", :type_bool)
+                Dict.put(dict, "HAPI_Bool", :token_bool)
                     |> process_collect(rest)
             end
             defp process_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
-                Dict.put(dict, type_new, get_type_from_token(type_origin))
+                Dict.put(dict, type_new, type_origin)
                     |> process_collect(rest)
             end
             defp process_collect(dict, [:token_enum, enum_name | rest]) do
-                Dict.put(dict, enum_name, :type_enum)
+                Dict.put(dict, enum_name, :token_enum)
                     |> process_collect(rest)
             end
-            defp process_collect(dict, [:token_struct, struct_name | rest]) do
-                Dict.put(dict, struct_name, :type_struct)
+            defp process_collect(dict, [:token_structure, struct_name | rest]) do
+                Dict.put(dict, struct_name, :token_structure)
                     |> process_collect(rest)
             end
             defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
@@ -291,12 +283,12 @@ defmodule HAPI do
 
             # Process tokens and collect structures.
             defp process_collect(dict, []), do: dict
-            defp process_collect(dict, [:token_struct, struct_name, :token_bracket_curly_left | rest]) do
+            defp process_collect(dict, [:token_structure, struct_name, :token_bracket_curly_left | rest]) do
                 [struct_body, remaining] = process_extract([], rest)
                 Dict.put(dict, struct_name, struct_body)
                     |> process_collect(remaining)
             end
-            defp process_collect(_dict, [:token_struct | _rest]) do
+            defp process_collect(_dict, [:token_structure | _rest]) do
                 raise(SyntaxError, description: "Invalid struct detected")
             end
             defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
@@ -475,6 +467,11 @@ defmodule HAPI do
     # Utility module.
     defmodule Util do
 
+        # Helper function to retrieve number of fields in a given structure.
+        def get_struct_field_count(_struct_name, struct_body) do
+            Integer.to_string(length(struct_body) + 1)
+        end
+
         # Helper function to generate hash for a given string.
         def hash(string) when is_binary(string) do
             if File.exists?("./util/xxhash") do
@@ -488,21 +485,22 @@ defmodule HAPI do
         end
 
         # Helper function to map type names to types.
-        def get_builtin_type("void"), do: :type_void
-        def get_builtin_type("int"), do: :type_int
-        def get_builtin_type("float"), do: :type_float
-        def get_builtin_type("double"), do: :type_double
-        def get_builtin_type("bool"), do: :type_bool
-        def get_builtin_type("char"), do: :type_char
+        def get_builtin_type("void"), do: :token_void
+        def get_builtin_type("int"), do: :token_int
+        def get_builtin_type("float"), do: :token_float
+        def get_builtin_type("double"), do: :token_double
+        def get_builtin_type("bool"), do: :token_bool
+        def get_builtin_type("char"), do: :token_char
         def get_builtin_type(_type), do: :nil
 
         # Helper function to reverse map type names to types.
-        def get_reverse_builtin_type(:type_void), do: "void"
-        def get_reverse_builtin_type(:type_int), do: "int"
-        def get_reverse_builtin_type(:type_float), do: "float"
-        def get_reverse_builtin_type(:type_double), do: "double"
-        def get_reverse_builtin_type(:type_bool), do: "bool"
-        def get_reverse_builtin_type(:type_char), do: "char"
+        def get_reverse_builtin_type(_env, :token_void), do: "void"
+        def get_reverse_builtin_type(_env, :token_int), do: "int"
+        def get_reverse_builtin_type(_env, :token_float), do: "float"
+        def get_reverse_builtin_type(_env, :token_double), do: "double"
+        def get_reverse_builtin_type(_env, :token_bool), do: "bool"
+        def get_reverse_builtin_type(_env, :token_char), do: "char"
+        def get_reverse_builtin_type(_env, _type), do: :nil
 
         # Helper function to return original type.
         def get_original_type(env, type) do
@@ -523,7 +521,7 @@ defmodule HAPI do
         def is_type_builtin(_env, _type), do: false
 
         # Helper function to check if type is enum.
-        def is_type_enum(_env, :type_enum), do: true
+        def is_type_enum(_env, :token_enum), do: true
         def is_type_enum(_env, :nil), do: false
         def is_type_enum(env, type) do
             types = Dict.get(env, :types, :nil)
@@ -535,23 +533,23 @@ defmodule HAPI do
         end
 
         # Helper function to check if type is a struct.
-        def is_type_struct(_env, :type_struct), do: true
-        def is_type_struct(_env, :nil), do: false
-        def is_type_struct(env, type) do
+        def is_type_structure(_env, :token_structure), do: true
+        def is_type_structure(_env, :nil), do: false
+        def is_type_structure(env, type) do
             types = Dict.get(env, :types, :nil)
             if not is_nil(types) do
-                is_type_struct(env, Dict.get(types, type, :nil))
+                is_type_structure(env, Dict.get(types, type, :nil))
             else
                 false
             end
         end
 
         # Helper function to check if type is a primitive type.
-        def is_type_primitive(_env, :type_int), do: true
-        def is_type_primitive(_env, :type_bool), do: true
-        def is_type_primitive(_env, :type_float), do: true
-        def is_type_primitive(_env, :type_char), do: true
-        def is_type_primitive(_env, :type_double), do: true
+        def is_type_primitive(_env, :token_int), do: true
+        def is_type_primitive(_env, :token_bool), do: true
+        def is_type_primitive(_env, :token_float), do: true
+        def is_type_primitive(_env, :token_char), do: true
+        def is_type_primitive(_env, :token_double), do: true
         def is_type_primitive(_env, :nil), do: false
         def is_type_primitive(env, type) do
             types = Dict.get(env, :types, :nil)
@@ -559,6 +557,16 @@ defmodule HAPI do
                 is_type_primitive(env, Dict.get(types, type, :nil))
             else
                 false
+            end
+        end
+
+        # Helper function to look up a type.
+        def type_lookup(env, type) do
+            types = Dict.get(env, :types, :nil)
+            if not is_nil(types) do
+                Dict.get(types, type, type)
+            else
+                type
             end
         end
 
@@ -661,7 +669,7 @@ defmodule HAPI do
                     String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_bool(env, (bool) hapi_type);")
                         |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_bool(env, term, (bool*) hapi_type);")
                 true ->
-                    old_type = HAPI.Util.get_reverse_builtin_type(HAPI.Util.get_original_type(env, type_name))
+                    old_type = HAPI.Util.get_reverse_builtin_type(env, HAPI.Util.get_original_type(env, type_name))
                     String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%",
                         "return hapi_make_#{old_type}(env, (#{old_type}) hapi_type);")
                         |> String.replace("%{HAPI_TYPE_CONVERT_GET}%",
@@ -812,16 +820,40 @@ defmodule HAPI do
                 {:ok, template_structures_c} = File.read("./util/hapi_structures_nif.c.template")
                 {:ok, template_structures_c_block} = File.read("./util/hapi_structures_nif.c.block.template")
 
-                struct_entries = ""
-                #signatures = String.replace(template_structures_h, "%{HAPI_STRUCT_FUNCTIONS}%",
-                #    Enum.map_join(structures, "\n", fn{k, _v} -> create_stub_h_entry(k, template_structures_h_block) end))
+                struct_entries = String.replace(template_structures_c, "%{HAPI_STRUCT_FUNCTIONS}%",
+                    Enum.map_join(structures, "\n", fn{k, v} -> create_stub_c_entry(env, k, v, template_structures_c_block) end))
 
                 File.write("./c_src/hapi_structures_nif.c", struct_entries)
                 IO.puts("Generating c_src/hapi_structures_nif.c")
             end
         end
 
+        # Helper function to create structure c stub entry.
+        defp create_stub_c_entry(env, struct_name, struct_body, template) do
+            String.replace(template, "%{HAPI_STRUCT}%", struct_name)
+                |> String.replace("%{HAPI_STRUCT_DOWNCASE}%", HAPI.Util.underscore(struct_name))
+                |> String.replace("%{HAPI_STRUCT_SIZE}%", HAPI.Util.get_struct_field_count(struct_name, struct_body))
+                |> String.replace("%{HAPI_STRUCT_TO_ERL_MAP}",
+                    Enum.map_join(struct_body, ",\n        ",
+                        fn(f) -> create_stub_c_entry_c_to_erl(env, f) end))
+        end
 
+        # Helper function to create calls necessary to produce erl record.
+        defp create_stub_c_entry_c_to_erl(env, {field_name, field_type}) do
+            builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
+            cond do
+                not is_nil(builtin_type) ->
+                    "hapi_make_#{HAPI.Util.underscore(builtin_type)}(env, hapi_struct->#{field_name})"
+                HAPI.Util.is_type_structure(env, field_type) ->
+                    "hapi_make_#{HAPI.Util.underscore(field_type)}(env, &hapi_struct->#{field_name})"
+                true ->
+                    "hapi_make_#{HAPI.Util.underscore(field_type)}(env, hapi_struct->#{field_name})"
+            end
+        end
+        defp create_stub_c_entry_c_to_erl(env, {field_name, field_type, field_size}) do
+            #"hapi_make_#{HAPI.Util.underscore(field_type)}(env, hapi_struct->#{field_name})"
+            ""
+        end
 
 
     end
@@ -990,7 +1022,7 @@ defmodule HAPI do
     defp create_function_c_stub_objects(env, fname, [{param_type, param_name, opts} | rest], {i, p, c} = ret, idx) do
         cond do
 
-            HAPI.Util.is_type_enum(env, param_type) or HAPI.Util.is_type_struct(env, param_type) ->
+            HAPI.Util.is_type_enum(env, param_type) or HAPI.Util.is_type_structure(env, param_type) ->
                 param_type_underscore = HAPI.Util.underscore(param_type)
                 opt_i = "#{param_type} param_#{param_name};"
                 opt_p = "!hapi_get_#{param_type_underscore}(env, argv[#{Integer.to_string(idx)}], &param_#{param_name})"
@@ -1113,7 +1145,7 @@ defmodule HAPI do
             case native_type do
                 :token_enum ->
                     "hapi_struct->#{field_name} = record_#{HAPI.Util.underscore(field_name)};"
-                :token_struct ->
+                :token_structure ->
                     "memcpy(&hapi_struct->#{field_name}, &record_#{HAPI.Util.underscore(field_name)}, sizeof(#{field_type}));"
                 _ ->
                     "hapi_struct->#{field_name} = (#{field_type}) record_#{HAPI.Util.underscore(field_name)};"
@@ -1153,7 +1185,7 @@ defmodule HAPI do
             case native_type do
                 :token_enum ->
                     "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{field_name_underscore})"
-                :token_struct ->
+                :token_structure ->
                     "!hapi_get_#{type}(env, tuple_record[#{Integer.to_string(index + 1)}], &record_#{field_name_underscore})"
                 _ ->
                     create_record_c_stub_extract(types, {{field_name, native_type}, index})
@@ -1192,7 +1224,7 @@ defmodule HAPI do
             case native_type do
                 :token_enum ->
                     "#{field_type} record_#{HAPI.Util.underscore(field_name)};"
-                :token_struct ->
+                :token_structure ->
                     "#{field_type} record_#{HAPI.Util.underscore(field_name)};"
                 _ ->
                     create_record_c_stub_var(types, {field_name, native_type})
@@ -1227,7 +1259,7 @@ defmodule HAPI do
     defp create_record_c_stub_field(_types, {field_name, :token_double}, _cast, _from_type) do
         "hapi_make_double(env, hapi_struct->#{field_name})"
     end
-    defp create_record_c_stub_field(_types, {field_name, :token_struct}, _cast, from_type) do
+    defp create_record_c_stub_field(_types, {field_name, :token_structure}, _cast, from_type) do
         "hapi_make_#{HAPI.Util.underscore(from_type)}(env, &hapi_struct->#{field_name})"
     end
     defp create_record_c_stub_field(_types, {field_name, :token_enum}, _cast, from_type) do

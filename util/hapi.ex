@@ -602,7 +602,7 @@ defmodule HAPI do
             {:ok, template_types_h} = File.read("./util/hapi_types_nif.h.template")
             {:ok, template_types_h_block} = File.read("./util/hapi_types_nif.h.block.template")
 
-            entries = Enum.map(types, fn {k, v} -> k end)
+            entries = Enum.map(types, fn {k, _v} -> k end)
                 |> Enum.filter(fn(x) -> not HAPI.Util.is_type_builtin(env, x) end)
                 |> Enum.map(fn(x) -> create_stub_h_entry(env, x, template_types_h_block) end)
                 |> Enum.filter(fn(x) -> not is_nil(x) end)
@@ -653,7 +653,7 @@ defmodule HAPI do
         end
 
         # Helper function to generate code for converting type.
-        defp create_stub_c_entry_code(template, env, type_name, token_type) do
+        defp create_stub_c_entry_code(template, env, type_name, _token_type) do
             cond do
                 HAPI.Util.is_type_builtin(env, type_name) ->
                     :nil
@@ -807,6 +807,18 @@ defmodule HAPI do
 
         # Function used to generate source file stub for structures.
         defp create_stub_c(env) do
+            structures = Dict.get(env, :structures, :nil)
+            if not is_nil(structures) do
+                {:ok, template_structures_c} = File.read("./util/hapi_structures_nif.c.template")
+                {:ok, template_structures_c_block} = File.read("./util/hapi_structures_nif.c.block.template")
+
+                struct_entries = ""
+                #signatures = String.replace(template_structures_h, "%{HAPI_STRUCT_FUNCTIONS}%",
+                #    Enum.map_join(structures, "\n", fn{k, _v} -> create_stub_h_entry(k, template_structures_h_block) end))
+
+                File.write("./c_src/hapi_structures_nif.c", struct_entries)
+                IO.puts("Generating c_src/hapi_structures_nif.c")
+            end
         end
 
 

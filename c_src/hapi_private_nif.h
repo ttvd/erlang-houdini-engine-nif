@@ -19,6 +19,9 @@ ERL_NIF_TERM hapi_make_atom(ErlNifEnv* env, const char* atom_name);
 // Create ok atom.
 ERL_NIF_TERM hapi_make_atom_ok(ErlNifEnv* env);
 
+// Create nil atom.
+ERL_NIF_TERM hapi_make_atom_nil(ErlNifEnv* env);
+
 // Create a boolean atom.
 ERL_NIF_TERM hapi_make_bool(ErlNifEnv* env, bool value);
 
@@ -48,6 +51,9 @@ ERL_NIF_TERM hapi_make_char(ErlNifEnv* env, char value);
 
 // Check atom's value against passed value. Returns true if succeeds. Returns status of comparison by pointer.
 bool hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status);
+
+// Return true or false by pointer if atom is nil.
+bool hapi_get_nil(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);
 
 // Get value of boolean atom. Return true if succeeds. Returns boolean by pointer.
 bool hapi_get_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status);

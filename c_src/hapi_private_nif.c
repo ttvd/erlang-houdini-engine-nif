@@ -29,6 +29,13 @@ hapi_make_atom_ok(ErlNifEnv* env)
 
 
 ERL_NIF_TERM
+hapi_make_atom_nil(ErlNifEnv* env)
+{
+    return hapi_make_atom(env, "nil");
+}
+
+
+ERL_NIF_TERM
 hapi_make_atom_bool(ErlNifEnv* env, bool value)
 {
     if(value)
@@ -212,6 +219,13 @@ hapi_get_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
     }
 
     return nif_success;
+}
+
+
+bool
+hapi_get_nil(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
+{
+    return hapi_check_atom(env, term, "nil", status);
 }
 
 

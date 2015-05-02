@@ -1169,96 +1169,60 @@ defmodule HAPI do
         # Helper function used to generate c stub entries.
         defp create_stub_c_entry(env, function_name, function_body, template_block) do
 
-            #{_function_type, function_params} = function_body
-            #parameters = create_stub_c_entry_params_input(env, function_params, [])
+            {function_type, function_params} = function_body
+            parameters = create_stub_c_entry_objects([], env, function_name, function_type, function_params)
 
             String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
                 |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
-                #|> String.replace("%{HAPI_FUNCTION_BODY}%",
-                #    Enum.map_join(parameters, "\n    ", fn(x) -> elem(x, 0) end))
-
-                #|> String.replace("%{HAPI_FUNCTION_BODY}%",
-                    #["// ERL_NIF_TERM result;"] ++ parameters_input
-                    # ++ Enum.map(parameters_input, fn(p) -> create_stub_c_entry_param_input(env, p) end)
-                    #    ++ Enum.map(get_return_parameters(function_body), fn(p) -> create_stub_c_entry_param_output(env, p) end)
-                    #|> Enum.join("\n    "))
+                |> String.replace("%{HAPI_FUNCTION_BODY}%",
+                    Enum.map_join(parameters, "\n    ", fn(x) -> "#{elem(x, 0)} #{elem(x, 2)};" end))
         end
 
-        # how to create variable.
-        # how to read and fill variable from erl.
-        # how to send variable to HAPI
-        # how to create resulting tuple
-        # how to clean up
-        # [ var decl, name, type, size, clean ]
+        # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INPUT/OUTPUT, VAR_DECL_SIZE IF ARRAY/0, FALSE/TRUE IF NEEDS CLEAN UP}
 
-        # everything list coming from erlang will have size.
+        #
+        defp create_stub_c_entry_object(env, function_name, function_type, {param_type, param_name, _param_opts}) do
+            resolved_type = HAPI.Util.type_resolve(env, param_type)
+            {"#{resolved_type}", "EXTRACT_CODE", "param_#{param_name}", :nil, false}
+        end
+        defp create_stub_c_entry_objects(collect, env, function_name, function_type, []) do
+            collect
+        end
+        defp create_stub_c_entry_objects(collect, env, function_name, function_type, [param]) do
+            collect ++ [create_stub_c_entry_object(env, function_name, function_type, param)]
+        end
+        defp create_stub_c_entry_objects(collect, env, function_name, function_type,
+            [{param_0_type, param_0_name, _param_0_opts} = param_0,
+                {:token_int, "start", _param_1_opts} = param_1,
+                {:token_int, "length", _param_2_opts} = param_2 | rest] = params) do
 
-        # Helper function used to process input parameters for c stub function entries.
-        defp create_stub_c_entry_params_input(env, [], params_out), do: params_out
-        defp create_stub_c_entry_params_input(env, [{param_type, param_name, _param_opts} = param], params_out) do
-            if is_pointer_parameter(param) do
-                if is_const_parameter(param) do
-                    if :token_char == param_type do
-                        param_decl = "char* param_#{param_name} = NULL; // const char* input type param"
-                    else
-                        param_decl = "// #{param_type} #{param_name} const ptr param, non char"
-                    end
+                if is_pointer_parameter(param_0) do
+                    resolved_type = HAPI.Util.type_resolve(env, param_0_type)
+
+                    #if is_const_parameter(param_0) do
+                    #    resolved_type = "const #{resolved_type}"
+                    #end
+
+                    collect
+                        ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}", "param_length", true}]
+                        ++ [{"int", "EXTRACT_CODE", "param_start", :nil, false}]
+                        ++ [{"int", "EXTRACT_CODE", "param_length", :nil, false}]
+                        |> create_stub_c_entry_objects(env, function_name, function_type, rest)
                 else
-                    param_decl = "#{HAPI.Util.type_resolve(env, param_type)} param_#{param_name}; // non const ptr param for input."
+                    raise(RuntimeError, description: "Illegal sequence of parameters, pointer, size, length.")
                 end
-            else
-                param_decl = "#{HAPI.Util.type_resolve(env, param_type)} param_#{param_name}; //non ptr param"
-            end
-
-            result = {param_decl, param_name, param_type, false}
-            create_stub_c_entry_params_input(env, [], params_out ++ [result])
         end
-        defp create_stub_c_entry_params_input(env, [param_0, param_1], params_out) do
-            IO.puts "skip 0"
-            create_stub_c_entry_params_input(env, [param_1], params_out)
+        defp create_stub_c_entry_objects(collect, env, function_name, function_type, [params | rest]) do
+            create_stub_c_entry_objects(collect, env, function_name, function_type, rest)
         end
-        defp create_stub_c_entry_params_input(env, [param_0, param_1, param_2 | rest], params_out) do
-            {param_type_0, param_name_0, _param_opts_0} = param_0
-            {param_type_1, param_name_1, _param_opts_1} = param_1
-            {param_type_2, param_name_2, _param_opts_2} = param_2
 
-            params_rest = [param_1, param_2 | rest]
-
-            cond do
-                is_pointer_pointer_parameter(param_0) ->
-                    IO.puts "skip 1 #{param_type_0} #{param_name_0} PTR-PTR"
-                    create_stub_c_entry_params_input(env, params_rest, params_out)
-                is_pointer_parameter(param_0) ->
-                    if is_const_parameter(param_0) do
-                        if :token_char == param_type_0 do
-                            create_stub_c_entry_params_input(env, params_rest,
-                                params_out ++ create_stub_c_entry_params_input(env, [param_0], []))
-                        else
-                            #if :token_int == param_type_1 and
-                            IO.puts "skip 2 #{param_type_0} #{param_name_0} PTR const, not char"
-                            create_stub_c_entry_params_input(env, params_rest, params_out)
-                        end
-                    else
-                        IO.puts "skip 1 #{param_type_0} #{param_name_0} PTR not const"
-                        create_stub_c_entry_params_input(env, params_rest, params_out)
-                    end
-                true ->
-                    create_stub_c_entry_params_input(env, params_rest,
-                        params_out ++ create_stub_c_entry_params_input(env, [param_0], []))
-            end
-        end
     end
 end
 
 [compiler, hapi_include_path] = System.argv()
 HAPI.C.generate(compiler, hapi_include_path)
-    |> HAPI.Lexical.parse()
-    #|> HAPI.Lexical.print_tokens()
-    |> HAPI.Syntactic.process()
-    #|> HAPI.Syntactic.print_types()
-    #|> HAPI.Syntactic.print_enums()
-    #|> HAPI.Syntactic.print_structs()
-    #|> HAPI.Syntactic.print_functions()
+    |> HAPI.Lexical.parse() #|> HAPI.Lexical.print_tokens()
+    |> HAPI.Syntactic.process() #|> HAPI.Syntactic.print_types() |> HAPI.Syntactic.print_enums() |> HAPI.Syntactic.print_structs() |> HAPI.Syntactic.print_functions()
     |> HAPI.Types.create()
     |> HAPI.Enums.create()
     |> HAPI.Structures.create()

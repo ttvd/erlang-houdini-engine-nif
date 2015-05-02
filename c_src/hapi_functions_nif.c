@@ -14,7 +14,7 @@
 ERL_NIF_TERM
 hapi_timeline_options_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -37,7 +37,7 @@ hapi_timeline_options_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -60,7 +60,7 @@ hapi_get_string_buf_length(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_is_float_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -83,7 +83,7 @@ hapi_parm_info_is_float(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -106,7 +106,7 @@ hapi_get_preset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_attribute_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AttributeInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -129,7 +129,7 @@ hapi_attribute_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_handle_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_HandleInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -152,7 +152,7 @@ hapi_handle_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_part_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -175,7 +175,9 @@ hapi_part_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_data;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -198,7 +200,7 @@ hapi_get_attribute_string_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_cooking_current_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -221,7 +223,7 @@ hapi_get_cooking_current_count(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_value;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -244,7 +246,7 @@ hapi_get_parm_float_value(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_geo_info_get_group_count_by_type_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GroupType param_type;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -267,7 +269,7 @@ hapi_geo_info_get_group_count_by_type(ErlNifEnv* env, int argc, const ERL_NIF_TE
 ERL_NIF_TERM
 hapi_curve_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -290,7 +292,7 @@ hapi_curve_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_cleanup_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -313,7 +315,7 @@ hapi_cleanup(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_env_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_value;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -336,7 +338,7 @@ hapi_get_env_int(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -359,7 +361,7 @@ hapi_get_status_string(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_is_non_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -382,7 +384,7 @@ hapi_parm_info_is_non_value(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_get_float_value_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -405,7 +407,9 @@ hapi_parm_info_get_float_value_count(ErlNifEnv* env, int argc, const ERL_NIF_TER
 ERL_NIF_TERM
 hapi_set_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_face_counts;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -428,7 +432,7 @@ hapi_set_face_counts(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_node_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -451,7 +455,9 @@ hapi_node_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_HandleInfo* param_handle_infos;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -474,7 +480,7 @@ hapi_get_handle_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_node_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_NodeInfo param_node_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -497,7 +503,7 @@ hapi_get_node_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_is_asset_valid_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_answer;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -520,7 +526,9 @@ hapi_is_asset_valid(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_Transform* param_transforms;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -543,7 +551,7 @@ hapi_get_instance_transforms(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -566,7 +574,7 @@ hapi_get_attribute_names(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_choice_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -589,7 +597,7 @@ hapi_parm_choice_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_global_nodes_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GlobalNodes param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -612,7 +620,7 @@ hapi_global_nodes_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_volume_tile_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -635,7 +643,7 @@ hapi_volume_tile_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AttributeInfo param_attr_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -658,7 +666,7 @@ hapi_get_attribute_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetLibraryId param_library_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -681,7 +689,7 @@ hapi_load_asset_library_from_file(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 ERL_NIF_TERM
 hapi_geo_input_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GeoInputInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -704,7 +712,7 @@ hapi_geo_input_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_TransformEuler param_transform;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -727,7 +735,9 @@ hapi_set_asset_transform(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_counts;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -750,7 +760,9 @@ hapi_get_curve_counts(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float* param_values;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -773,7 +785,7 @@ hapi_set_parm_float_values(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_PartInfo param_part_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -796,7 +808,7 @@ hapi_get_part_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_geo_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -819,7 +831,7 @@ hapi_geo_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //char param_file_path;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -842,7 +854,7 @@ hapi_save_hipfile(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_material_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -865,7 +877,9 @@ hapi_material_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_data;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -888,7 +902,7 @@ hapi_set_attribute_int_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_part_info_get_element_count_by_attribute_owner_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AttributeOwner param_owner;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -911,7 +925,7 @@ hapi_part_info_get_element_count_by_attribute_owner(ErlNifEnv* env, int argc, co
 ERL_NIF_TERM
 hapi_get_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_TransformEuler param_transform;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -934,7 +948,7 @@ hapi_get_asset_transform(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_insert_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_instance_position;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -957,7 +971,7 @@ hapi_insert_multiparm_instance(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -980,7 +994,7 @@ hapi_get_preset_buf_length(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_size;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1003,7 +1017,7 @@ hapi_extract_image_to_memory(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_disconnect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_input_idx;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1026,7 +1040,7 @@ hapi_disconnect_asset_geometry(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_image_file_format_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1049,7 +1063,7 @@ hapi_image_file_format_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_set_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_PartInfo param_part_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1072,7 +1086,9 @@ hapi_set_part_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_vertex_list;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1095,7 +1111,9 @@ hapi_set_vertex_list(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //char* param_data;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1118,7 +1136,9 @@ hapi_set_attribute_string_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_Transform* param_transforms;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1141,7 +1161,7 @@ hapi_get_object_transforms(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_keyframe_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1164,7 +1184,7 @@ hapi_set_transform_anim_curve(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_get_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GeoInfo param_geo_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1187,7 +1207,7 @@ hapi_get_geo_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1210,7 +1230,7 @@ hapi_parm_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_image_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ImageInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1233,7 +1253,7 @@ hapi_image_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_is_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1256,7 +1276,9 @@ hapi_parm_info_is_string(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_data;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1279,7 +1301,9 @@ hapi_get_attribute_int_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_membership;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1302,7 +1326,7 @@ hapi_get_group_membership(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_time;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1325,7 +1349,7 @@ hapi_get_time(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_parm_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1348,7 +1372,9 @@ hapi_get_parm_info_from_name(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_face_counts;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1371,7 +1397,9 @@ hapi_get_face_counts(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_counts;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1394,7 +1422,7 @@ hapi_set_curve_counts(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_attribute_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1417,7 +1445,7 @@ hapi_attribute_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetLibraryId param_library_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1440,7 +1468,7 @@ hapi_load_asset_library_from_memory(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 ERL_NIF_TERM
 hapi_get_new_asset_ids_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetId param_asset_ids;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1463,7 +1491,7 @@ hapi_get_new_asset_ids(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_object_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_TransformEuler param_transform;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1486,7 +1514,7 @@ hapi_set_object_transform(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_handle_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1509,7 +1537,9 @@ hapi_handle_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ObjectInfo* param_object_infos;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1532,7 +1562,7 @@ hapi_get_objects(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_values;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1555,7 +1585,7 @@ hapi_set_volume_tile_float_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ImageFileFormat param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1578,7 +1608,7 @@ hapi_image_file_format_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_asset_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetInfo param_asset_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1601,7 +1631,7 @@ hapi_get_asset_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_render_material_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ShaderType param_shader_type;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1624,7 +1654,7 @@ hapi_render_material_to_image(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_part_info_get_attribute_count_by_owner_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AttributeOwner param_owner;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1647,7 +1677,7 @@ hapi_part_info_get_attribute_count_by_owner(ErlNifEnv* env, int argc, const ERL_
 ERL_NIF_TERM
 hapi_connect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_input_idx;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1670,7 +1700,7 @@ hapi_connect_asset_transform(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_volume_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1693,7 +1723,7 @@ hapi_volume_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_global_nodes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GlobalNodes param_global_nodes;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1716,7 +1746,9 @@ hapi_get_global_nodes(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_HandleBindingInfo* param_handle_infos;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1739,7 +1771,7 @@ hapi_get_handle_binding_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_get_material_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_MaterialInfo param_material_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1762,7 +1794,7 @@ hapi_get_material_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_VolumeInfo param_volume_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1785,7 +1817,7 @@ hapi_get_volume_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_timeline_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_TimelineOptions param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1808,7 +1840,7 @@ hapi_timeline_options_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_global_nodes_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1831,7 +1863,7 @@ hapi_global_nodes_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_image_plane_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1854,7 +1886,7 @@ hapi_get_image_planes(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_handle_binding_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1877,7 +1909,7 @@ hapi_handle_binding_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_index;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1900,7 +1932,7 @@ hapi_set_parm_string_value(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_value;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1923,7 +1955,7 @@ hapi_set_parm_int_value(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_cooking_total_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1946,7 +1978,7 @@ hapi_get_cooking_total_count(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_render_texture_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmId param_parm_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1969,7 +2001,7 @@ hapi_render_texture_to_image(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -1992,7 +2024,7 @@ hapi_get_string(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_image_plane_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2015,7 +2047,7 @@ hapi_get_image_plane_count(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_TransformEuler param_transform_out;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2038,7 +2070,9 @@ hapi_convert_matrix_to_euler(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmChoiceInfo* param_parm_choices;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2061,7 +2095,7 @@ hapi_get_parm_choice_lists(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_part_info_get_element_count_by_group_type_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GroupType param_type;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2084,7 +2118,7 @@ hapi_part_info_get_element_count_by_group_type(ErlNifEnv* env, int argc, const E
 ERL_NIF_TERM
 hapi_remove_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_instance_position;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2107,7 +2141,9 @@ hapi_remove_multiparm_instance(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_vertex_list;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2130,7 +2166,7 @@ hapi_get_vertex_list(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_asset_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2153,7 +2189,7 @@ hapi_get_available_asset_count(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_next_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_VolumeTileInfo param_tile;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2176,7 +2212,7 @@ hapi_get_next_volume_tile(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ImageInfo param_image_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2199,7 +2235,7 @@ hapi_set_image_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_node_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_NodeInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2222,7 +2258,7 @@ hapi_node_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_get_string_value_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2245,7 +2281,7 @@ hapi_parm_info_get_string_value_count(ErlNifEnv* env, int argc, const ERL_NIF_TE
 ERL_NIF_TERM
 hapi_destroy_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetId param_asset_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2268,7 +2304,7 @@ hapi_destroy_asset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_input_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_StringHandle param_name;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2291,7 +2327,9 @@ hapi_get_input_name(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_values;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2314,7 +2352,9 @@ hapi_get_parm_int_values(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_values;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2337,7 +2377,7 @@ hapi_set_parm_int_values(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_cook_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_CookOptions param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2360,7 +2400,7 @@ hapi_cook_options_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_StringHandle param_value;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2383,7 +2423,7 @@ hapi_get_parm_string_value(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_keyframe_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2406,7 +2446,7 @@ hapi_set_anim_curve(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_parm_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2429,7 +2469,9 @@ hapi_get_parm_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float* param_knots;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2452,7 +2494,7 @@ hapi_set_curve_knots(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_reset_simulation_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetId param_asset_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2475,7 +2517,7 @@ hapi_reset_simulation(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2498,7 +2540,7 @@ hapi_set_preset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_keyframe_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_Keyframe param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2521,7 +2563,7 @@ hapi_keyframe_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_interrupt_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2544,7 +2586,7 @@ hapi_interrupt(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_size;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2567,7 +2609,7 @@ hapi_get_image_memory_buffer(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 ERL_NIF_TERM
 hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_Transform param_transform_out;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2590,7 +2632,9 @@ hapi_convert_matrix_to_quat(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo* param_parm_infos;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2613,7 +2657,7 @@ hapi_get_parameters(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_convert_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_XYZOrder param_rot_order;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2636,7 +2680,7 @@ hapi_convert_transform(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_create_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetId param_asset_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2659,7 +2703,7 @@ hapi_create_curve(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_is_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2682,7 +2726,7 @@ hapi_parm_info_is_int(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_convert_transform_quat_to_matrix_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_matrix;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2705,7 +2749,7 @@ hapi_convert_transform_quat_to_matrix(ErlNifEnv* env, int argc, const ERL_NIF_TE
 ERL_NIF_TERM
 hapi_parm_info_get_int_value_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2728,7 +2772,7 @@ hapi_parm_info_get_int_value_count(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 ERL_NIF_TERM
 hapi_volume_tile_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_VolumeTileInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2751,7 +2795,7 @@ hapi_volume_tile_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_size;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2774,7 +2818,7 @@ hapi_save_geo_to_memory(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetId param_asset_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2797,7 +2841,7 @@ hapi_instantiate_asset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_supported_image_file_format_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_file_format_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2820,7 +2864,7 @@ hapi_get_supported_image_file_format_count(ErlNifEnv* env, int argc, const ERL_N
 ERL_NIF_TERM
 hapi_set_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_VolumeInfo param_volume_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2843,7 +2887,7 @@ hapi_set_volume_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //char param_file_name;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2866,7 +2910,9 @@ hapi_save_geo_to_file(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_orders;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2889,7 +2935,7 @@ hapi_get_curve_orders(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_asset_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2912,7 +2958,7 @@ hapi_asset_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_CurveInfo param_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2935,7 +2981,7 @@ hapi_get_curve_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_is_initialized_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2958,7 +3004,7 @@ hapi_is_initialized(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_disconnect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_input_idx;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -2981,7 +3027,7 @@ hapi_disconnect_asset_transform(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_set_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_CurveInfo param_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3004,7 +3050,7 @@ hapi_set_curve_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_cooking_thread_stack_size;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3027,7 +3073,7 @@ hapi_initialize(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_part_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_PartInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3050,7 +3096,9 @@ hapi_part_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float* param_values;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3073,7 +3121,7 @@ hapi_get_parm_float_values(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_handle_binding_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_HandleBindingInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3096,7 +3144,7 @@ hapi_handle_binding_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_get_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_values;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3119,7 +3167,7 @@ hapi_get_volume_tile_int_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_object_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ObjectInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3142,7 +3190,7 @@ hapi_object_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_TimelineOptions param_timeline_options;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3165,7 +3213,7 @@ hapi_get_timeline_options(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_commit_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GeoId param_geo_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3188,7 +3236,7 @@ hapi_commit_geo(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_choice_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmChoiceInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3211,7 +3259,7 @@ hapi_parm_choice_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_image_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3234,7 +3282,7 @@ hapi_image_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_cook_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_CookOptions param_cook_options;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3257,7 +3305,7 @@ hapi_cook_asset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_Bool param_cook_on_load;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3280,7 +3328,7 @@ hapi_load_hipfile(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_geo_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GeoInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3303,7 +3351,7 @@ hapi_geo_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_volume_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_VolumeInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3326,7 +3374,7 @@ hapi_volume_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_value;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3349,7 +3397,7 @@ hapi_get_parm_int_value(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AttributeInfo param_attr_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3372,7 +3420,7 @@ hapi_add_attribute(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //char param_group_name;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3395,7 +3443,7 @@ hapi_add_group(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_convert_transform_euler_to_matrix_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_matrix;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3418,7 +3466,9 @@ hapi_convert_transform_euler_to_matrix(ErlNifEnv* env, int argc, const ERL_NIF_T
 ERL_NIF_TERM
 hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float* param_data;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3441,7 +3491,7 @@ hapi_set_attribute_float_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmId param_parm_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3464,7 +3514,9 @@ hapi_get_parm_id_from_name(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_membership;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3487,7 +3539,7 @@ hapi_set_group_membership(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_values;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3510,7 +3562,7 @@ hapi_set_volume_tile_int_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_get_status_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_status;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3533,7 +3585,9 @@ hapi_get_status(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_MaterialId* param_material_ids;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3556,7 +3610,7 @@ hapi_get_material_ids_on_faces(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 ERL_NIF_TERM
 hapi_get_geo_size_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_size;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3579,7 +3633,9 @@ hapi_get_geo_size(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int* param_orders;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3602,7 +3658,7 @@ hapi_set_curve_orders(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_buffer_size;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3625,7 +3681,9 @@ hapi_get_status_string_buf_length(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 ERL_NIF_TERM
 hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float* param_knots;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3648,7 +3706,7 @@ hapi_get_curve_knots(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_first_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_VolumeTileInfo param_tile;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3671,7 +3729,7 @@ hapi_get_first_volume_tile(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_group_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3694,7 +3752,7 @@ hapi_get_group_names(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //char param_file_name;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3717,7 +3775,7 @@ hapi_load_geo_from_file(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_revert_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GeoId param_geo_id;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3740,7 +3798,7 @@ hapi_revert_geo(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_asset_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_AssetInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3763,7 +3821,7 @@ hapi_asset_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_is_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3786,7 +3844,7 @@ hapi_parm_info_is_path(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //char param_name;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3809,7 +3867,7 @@ hapi_create_input_asset(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_value;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3832,7 +3890,7 @@ hapi_set_parm_float_value(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_size;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3855,7 +3913,7 @@ hapi_load_geo_from_memory(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_is_file_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3878,7 +3936,7 @@ hapi_parm_info_is_file_path(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_keyframe_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3901,7 +3959,7 @@ hapi_keyframe_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_GeoInfo param_geo_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3924,7 +3982,7 @@ hapi_set_geo_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_geo_input_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3947,7 +4005,7 @@ hapi_geo_input_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_material_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_MaterialInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3970,7 +4028,7 @@ hapi_material_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -3993,7 +4051,7 @@ hapi_parm_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_asset_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4016,7 +4074,7 @@ hapi_get_available_assets(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_material_on_part_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_MaterialInfo param_material_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4039,7 +4097,7 @@ hapi_get_material_on_part(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_curve_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_CurveInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4062,7 +4120,7 @@ hapi_curve_info_init(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_parm_info_is_node_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ParmInfo param_in;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4085,7 +4143,7 @@ hapi_parm_info_is_node_path(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_cook_options_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4108,7 +4166,7 @@ hapi_cook_options_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_destination_file_path;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4131,7 +4189,7 @@ hapi_extract_image_to_file(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_time;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4154,7 +4212,7 @@ hapi_set_time(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_ImageInfo param_image_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4177,7 +4235,9 @@ hapi_get_image_info(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_StringHandle* param_values;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4200,7 +4260,7 @@ hapi_get_parm_string_values(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_MaterialInfo param_material_info;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4223,7 +4283,7 @@ hapi_get_material_on_group(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_python_thread_interpreter_lock_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_Bool param_locked;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4246,7 +4306,7 @@ hapi_python_thread_interpreter_lock(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 ERL_NIF_TERM
 hapi_set_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //HAPI_TimelineOptions param_timeline_options;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4269,7 +4329,7 @@ hapi_set_timeline_options(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float param_values;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4292,7 +4352,9 @@ hapi_get_volume_tile_float_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 ERL_NIF_TERM
 hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //float* param_data;
+    int param_start;
+    int param_length;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4315,7 +4377,7 @@ hapi_get_attribute_float_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 ERL_NIF_TERM
 hapi_connect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_input_idx;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4338,7 +4400,7 @@ hapi_connect_asset_geometry(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_object_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4361,7 +4423,7 @@ hapi_object_info_create(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_file_format_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
@@ -4384,7 +4446,7 @@ hapi_get_supported_image_file_formats(ErlNifEnv* env, int argc, const ERL_NIF_TE
 ERL_NIF_TERM
 hapi_check_for_new_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    //int param_new_asset_count;
 
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 

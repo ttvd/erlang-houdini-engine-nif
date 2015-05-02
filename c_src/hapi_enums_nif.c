@@ -1698,6 +1698,21 @@ hapi_make_hapi_result(ErlNifEnv* env, HAPI_Result enum_value)
             return hapi_make_atom(env, "hapi_result_disallowed_lc_asset_with_c_license");
         }
 
+        case HAPI_RESULT_ASSET_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_result_asset_invalid");
+        }
+
+        case HAPI_RESULT_NODE_INVALID:
+        {
+            return hapi_make_atom(env, "hapi_result_node_invalid");
+        }
+
+        case HAPI_RESULT_USER_INTERRUPTED:
+        {
+            return hapi_make_atom(env, "hapi_result_user_interrupted");
+        }
+
         default:
         {
             break;
@@ -1845,6 +1860,27 @@ hapi_get_hapi_result(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* enum_
         case 2858294338:
         {
             *enum_result = HAPI_RESULT_DISALLOWED_LC_ASSET_WITH_C_LICENSE;
+            break;
+        }
+
+        /* hapi_result_asset_invalid */
+        case 1983271890:
+        {
+            *enum_result = HAPI_RESULT_ASSET_INVALID;
+            break;
+        }
+
+        /* hapi_result_node_invalid */
+        case 4243724069:
+        {
+            *enum_result = HAPI_RESULT_NODE_INVALID;
+            break;
+        }
+
+        /* hapi_result_user_interrupted */
+        case 1317959935:
+        {
+            *enum_result = HAPI_RESULT_USER_INTERRUPTED;
             break;
         }
 

@@ -2,8 +2,14 @@
 ERL_NIF_TERM
 %{HAPI_FUNCTION_DOWNCASE}%_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    //%{HAPI_FUNCTION_BODY}%
+    /*
+    %{HAPI_DEBUG_TOKENS}%
+    */
 
+    /*
+    %{HAPI_FUNCTION_BODY}%
+    */
+    
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
     //%{HAPI_FUNCTION_CLEANUP}%

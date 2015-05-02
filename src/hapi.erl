@@ -32,7 +32,7 @@
     hapi_curve_info_create/0,
     hapi_cleanup/0,
     hapi_get_env_int/1,
-    hapi_get_status_string/1,
+    hapi_get_status_string/2,
     hapi_parm_info_is_non_value/1,
     hapi_parm_info_get_float_value_count/1,
     hapi_set_face_counts/6,
@@ -105,7 +105,7 @@
     hapi_render_texture_to_image/3,
     hapi_get_string/2,
     hapi_get_image_plane_count/2,
-    hapi_convert_matrix_to_euler/2,
+    hapi_convert_matrix_to_euler/3,
     hapi_get_parm_choice_lists/3,
     hapi_part_info_get_element_count_by_group_type/1,
     hapi_remove_multiparm_instance/3,
@@ -129,7 +129,7 @@
     hapi_keyframe_init/0,
     hapi_interrupt/0,
     hapi_get_image_memory_buffer/3,
-    hapi_convert_matrix_to_quat/1,
+    hapi_convert_matrix_to_quat/2,
     hapi_get_parameters/3,
     hapi_convert_transform/2,
     hapi_create_curve/0,
@@ -313,8 +313,8 @@ hapi_get_env_int(_IntType) ->
 
 
 % Corresponds to HAPI_GetStatusString function.
-%-spec hapi_get_status_string(_StatusType) -> {atom(), byte()}.
-hapi_get_status_string(_StatusType) ->
+%-spec hapi_get_status_string(_StatusType, _BufferLength) -> {atom(), byte()}.
+hapi_get_status_string(_StatusType, _BufferLength) ->
     ?nif_stub.
 
 
@@ -751,8 +751,8 @@ hapi_get_image_plane_count(_AssetId, _MaterialId) ->
 
 
 % Corresponds to HAPI_ConvertMatrixToEuler function.
-%-spec hapi_convert_matrix_to_euler(_RstOrder, _RotOrder) -> {atom(), float(), hapi_transform_euler()}.
-hapi_convert_matrix_to_euler(_RstOrder, _RotOrder) ->
+%-spec hapi_convert_matrix_to_euler(_Mat, _RstOrder, _RotOrder) -> {atom(), hapi_transform_euler()}.
+hapi_convert_matrix_to_euler(_Mat, _RstOrder, _RotOrder) ->
     ?nif_stub.
 
 
@@ -895,8 +895,8 @@ hapi_get_image_memory_buffer(_AssetId, _MaterialId, _BufferSize) ->
 
 
 % Corresponds to HAPI_ConvertMatrixToQuat function.
-%-spec hapi_convert_matrix_to_quat(_RstOrder) -> {atom(), float(), hapi_transform()}.
-hapi_convert_matrix_to_quat(_RstOrder) ->
+%-spec hapi_convert_matrix_to_quat(_Mat, _RstOrder) -> {atom(), hapi_transform()}.
+hapi_convert_matrix_to_quat(_Mat, _RstOrder) ->
     ?nif_stub.
 
 

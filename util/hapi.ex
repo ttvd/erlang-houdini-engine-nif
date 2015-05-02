@@ -1177,7 +1177,7 @@ defmodule HAPI do
                 |> String.replace("%{HAPI_DEBUG_TOKENS}%",
                     Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
                 |> String.replace("%{HAPI_FUNCTION_BODY}%",
-                    Enum.map_join(parameters, "\n    ", fn(x) -> "#{elem(x, 0)} #{elem(x, 2)};" end))
+                    Enum.map_join(parameters, "\n    ", fn(p) -> create_stub_c_entry_var(p) end))
         end
 
         # DEBUG FUNCTION
@@ -1187,41 +1187,46 @@ defmodule HAPI do
                 fn(x) -> "#{elem(x, 0)} #{elem(x, 1)} #{Enum.map_join(elem(x, 2), " | ", fn{k,v} -> "OPT #{k}->#{v}" end)}" end)
         end
 
-        # {VAR_DECL, VAR_EXTRACT, VAR_NAME, FALSE-INPUT/TRUE-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, FALSE/TRUE IF NEEDS CLEAN UP}
+        # Helper function to generate variable declaration for parameter.
+        defp create_stub_c_entry_var({type, extract, name, init_code, is_output, decl_size, needs_cleanup}) do
+
+            if not is_nil(decl_size) do
+                add_size = " | SIZE: #{decl_size}"
+            else
+                add_size = ""
+            end
+
+            if not is_nil(init_code) do
+                add_init = " = #{init_code}"
+            else
+                add_init = ""
+            end
+
+            if is_output do
+                add_inout = "OUTPUT"
+            else
+                add_inout = "INPUT"
+            end
+
+            "#{type} #{name}#{add_init}; // #{add_inout}#{add_size}"
+        end
+
+        # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, FALSE-INPUT/TRUE-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, FALSE/TRUE IF NEEDS CLEAN UP}
 
         #
         defp create_stub_c_entry_object(env, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
-            {"char*", "EXTRACT_CODE", "param_#{param_name}", not is_const_parameter(param), :nil, true}
+            {"char*", "EXTRACT_CODE", "param_#{param_name}", :nil, not is_const_parameter(param), :nil, true}
         end
         defp create_stub_c_entry_object(env, function_name, function_type, {param_type, param_name, _param_opts}) do
             resolved_type = HAPI.Util.type_resolve(env, param_type)
             # FIX INPUT OUTPUT FLAG HERE
-            {"#{resolved_type}", "EXTRACT_CODE", "param_#{param_name}", false, :nil, false}
+            {"#{resolved_type}", "EXTRACT_CODE", "param_#{param_name}", :nil, false, :nil, false}
         end
         defp create_stub_c_entry_objects(collect, env, function_name, function_type, []) do
             collect
         end
         defp create_stub_c_entry_objects(collect, env, function_name, function_type, [param]) do
             collect ++ [create_stub_c_entry_object(env, function_name, function_type, param)]
-        end
-        defp create_stub_c_entry_objects(collect, env, function_name, function_type,
-            [{:token_char, param_0_name, _param_0_opts} = param_0,
-                {:token_int, param_1_name, _param_1_opts} = param_1 | rest]) do
-                    if String.match?(param_1_name, ~r/_length$/) or
-                        String.match?(param_1_name, ~r/_count$/) or
-                        String.match?(param_1_name, ~r/_size$/) or
-                        param_1_name == "size" do
-
-                        collect
-                            ++ [{"char*", "EXTRACT_CODE", "param_#{param_0_name}", not is_const_parameter(param_0),
-                                    "param_#{param_1_name}", true}]
-                            ++ [{"int", "EXTRACT_CODE", "param_#{param_1_name}", false, :nil, false}]
-                        |> create_stub_c_entry_objects(env, function_name, function_type, rest)
-                    else
-                        collect ++
-                            [create_stub_c_entry_object(env, function_name, function_type, param_0)]
-                            |> create_stub_c_entry_objects(env, function_name, function_type, [param_1 | rest])
-                    end
         end
         defp create_stub_c_entry_objects(collect, env, function_name, function_type,
             [{param_0_type, param_0_name, _param_0_opts} = param_0,
@@ -1237,13 +1242,35 @@ defmodule HAPI do
                     #end
 
                     collect
-                        ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}", parm_const, "param_length", true}]
-                        ++ [{"int", "EXTRACT_CODE", "param_start", false, :nil, false}]
-                        ++ [{"int", "EXTRACT_CODE", "param_length", false, :nil, false}]
+                        ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}",
+                                :nil, parm_const, "param_length", true}]
+                        ++ [{"int", "EXTRACT_CODE", "param_start", :nil, false, :nil, false}]
+                        ++ [{"int", "EXTRACT_CODE", "param_length", :nil, false, :nil, false}]
                         |> create_stub_c_entry_objects(env, function_name, function_type, rest)
                 else
                     raise(RuntimeError, description: "Illegal sequence of parameters, pointer, size, length.")
                 end
+        end
+        defp create_stub_c_entry_objects(collect, env, function_name, function_type,
+            [{param_0_type, param_0_name, _param_0_opts} = param_0,
+                {:token_int, param_1_name, _param_1_opts} = param_1 | rest]) do
+                    if String.match?(param_1_name, ~r/_length$/) or
+                        String.match?(param_1_name, ~r/_count$/) or
+                        String.match?(param_1_name, ~r/_size$/) or
+                        param_1_name == "size" do
+
+                        resolved_type = HAPI.Util.type_resolve(env, param_0_type)
+
+                        collect
+                            ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}", :nil,
+                                    not is_const_parameter(param_0), "param_#{param_1_name}", true}]
+                            ++ [{"int", "EXTRACT_CODE", "param_#{param_1_name}", :nil, false, :nil, false}]
+                        |> create_stub_c_entry_objects(env, function_name, function_type, rest)
+                    else
+                        collect ++
+                            [create_stub_c_entry_object(env, function_name, function_type, param_0)]
+                            |> create_stub_c_entry_objects(env, function_name, function_type, [param_1 | rest])
+                    end
         end
         defp create_stub_c_entry_objects(collect, env, function_name, function_type, [param | rest]) do
             collect ++ [create_stub_c_entry_object(env, function_name, function_type, param)]

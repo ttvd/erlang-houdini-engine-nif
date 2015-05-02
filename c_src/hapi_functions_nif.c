@@ -52,7 +52,7 @@ hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    HAPI_StringHandle* param_string_handle; // OUTPUT | SIZE: param_buffer_length
+    HAPI_StringHandle* param_string_handle = NULL; // OUTPUT | SIZE: param_buffer_length
     int param_buffer_length; // INPUT
     */
     
@@ -118,7 +118,7 @@ hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_buffer; // OUTPUT | SIZE: param_buffer_length
+    char* param_buffer = NULL; // OUTPUT | SIZE: param_buffer_length
     int param_buffer_length; // INPUT
     */
     
@@ -254,9 +254,9 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
-    int* param_data; // OUTPUT | SIZE: param_length
+    int* param_data = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -324,7 +324,7 @@ hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_parm_name; // INPUT
+    char* param_parm_name = NULL; // INPUT
     int param_index; // INPUT
     float param_value; // INPUT
     */
@@ -486,7 +486,7 @@ hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 
     /*
     HAPI_StatusType param_status_type; // INPUT
-    char* param_buffer; // OUTPUT | SIZE: param_buffer_length
+    char* param_buffer = NULL; // OUTPUT | SIZE: param_buffer_length
     int param_buffer_length; // INPUT
     */
     
@@ -588,7 +588,7 @@ hapi_set_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    int* param_face_counts; // INPUT | SIZE: param_length
+    int* param_face_counts = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -655,7 +655,7 @@ hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 
     /*
     HAPI_AssetId param_asset_id; // INPUT
-    HAPI_HandleInfo* param_handle_infos; // OUTPUT | SIZE: param_length
+    HAPI_HandleInfo* param_handle_infos = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -766,7 +766,7 @@ hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_RSTOrder param_rst_order; // INPUT
-    HAPI_Transform* param_transforms; // OUTPUT | SIZE: param_length
+    HAPI_Transform* param_transforms = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -943,7 +943,7 @@ hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeOwner param_owner; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
     */
@@ -978,7 +978,7 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
     */
 
     /*
-    char* param_file_path; // INPUT
+    char* param_file_path = NULL; // INPUT
     HAPI_Bool param_allow_overwrite; // INPUT
     HAPI_AssetLibraryId param_library_id; // INPUT
     */
@@ -1085,7 +1085,7 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    int* param_counts; // OUTPUT | SIZE: param_length
+    int* param_counts = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -1122,7 +1122,7 @@ hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    float* param_values; // INPUT | SIZE: param_length
+    float* param_values = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -1224,7 +1224,7 @@ hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    char* param_file_path; // INPUT
+    char* param_file_path = NULL; // INPUT
     */
     
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
@@ -1295,9 +1295,9 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
-    int* param_data; // INPUT | SIZE: param_length
+    int* param_data = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -1440,7 +1440,7 @@ hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     HAPI_NodeId param_node_id; // INPUT
     HAPI_PresetType param_preset_type; // INPUT
-    char* param_preset_name; // INPUT | SIZE: param_buffer_length
+    char* param_preset_name = NULL; // INPUT | SIZE: param_buffer_length
     int param_buffer_length; // INPUT
     */
     
@@ -1478,8 +1478,8 @@ hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_MaterialId param_material_id; // INPUT
-    char* param_image_file_format_name; // INPUT
-    char* param_image_planes; // INPUT | SIZE: param_buffer_size
+    char* param_image_file_format_name = NULL; // INPUT
+    char* param_image_planes = NULL; // INPUT | SIZE: param_buffer_size
     int param_buffer_size; // INPUT
     */
     
@@ -1619,7 +1619,7 @@ hapi_set_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    int* param_vertex_list; // INPUT | SIZE: param_length
+    int* param_vertex_list = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -1662,9 +1662,9 @@ hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
-    char* param_data; // INPUT | SIZE: param_length
+    char* param_data = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -1703,7 +1703,7 @@ hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_RSTOrder param_rst_order; // INPUT
-    HAPI_Transform* param_transforms; // OUTPUT | SIZE: param_length
+    HAPI_Transform* param_transforms = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -1741,7 +1741,7 @@ hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     HAPI_NodeId param_node_id; // INPUT
     HAPI_TransformComponent param_trans_comp; // INPUT
-    HAPI_Keyframe* param_curve_keyframes; // INPUT | SIZE: param_keyframe_count
+    HAPI_Keyframe* param_curve_keyframes = NULL; // INPUT | SIZE: param_keyframe_count
     int param_keyframe_count; // INPUT
     */
     
@@ -1914,9 +1914,9 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
-    int* param_data; // OUTPUT | SIZE: param_length
+    int* param_data = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -1962,8 +1962,8 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
     HAPI_GroupType param_group_type; // INPUT
-    char* param_group_name; // INPUT
-    int* param_membership; // OUTPUT | SIZE: param_length
+    char* param_group_name = NULL; // INPUT
+    int* param_membership = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -2030,7 +2030,7 @@ hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_parm_name; // INPUT
+    char* param_parm_name = NULL; // INPUT
     HAPI_ParmInfo param_parm_info; // INPUT
     */
     
@@ -2072,7 +2072,7 @@ hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    int* param_face_counts; // OUTPUT | SIZE: param_length
+    int* param_face_counts = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -2115,7 +2115,7 @@ hapi_set_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    int* param_counts; // INPUT | SIZE: param_length
+    int* param_counts = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -2181,7 +2181,7 @@ hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL
     */
 
     /*
-    char* param_library_buffer; // INPUT | SIZE: param_library_buffer_size
+    char* param_library_buffer = NULL; // INPUT | SIZE: param_library_buffer_size
     int param_library_buffer_size; // INPUT
     HAPI_Bool param_allow_overwrite; // INPUT
     HAPI_AssetLibraryId param_library_id; // INPUT
@@ -2315,7 +2315,7 @@ hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     /*
     HAPI_AssetId param_asset_id; // INPUT
-    HAPI_ObjectInfo* param_object_infos; // OUTPUT | SIZE: param_length
+    HAPI_ObjectInfo* param_object_infos = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -2621,7 +2621,7 @@ hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     HAPI_AssetId param_asset_id; // INPUT
     int param_handle_index; // INPUT
-    HAPI_HandleBindingInfo* param_handle_infos; // OUTPUT | SIZE: param_length
+    HAPI_HandleBindingInfo* param_handle_infos = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -2794,7 +2794,7 @@ hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_MaterialId param_material_id; // INPUT
-    HAPI_StringHandle* param_image_planes; // OUTPUT | SIZE: param_image_plane_count
+    HAPI_StringHandle* param_image_planes = NULL; // OUTPUT | SIZE: param_image_plane_count
     int param_image_plane_count; // INPUT
     */
     
@@ -2860,7 +2860,7 @@ hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_value; // INPUT
+    char* param_value = NULL; // INPUT
     HAPI_ParmId param_parm_id; // INPUT
     int param_index; // INPUT
     */
@@ -2897,7 +2897,7 @@ hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_parm_name; // INPUT
+    char* param_parm_name = NULL; // INPUT
     int param_index; // INPUT
     int param_value; // INPUT
     */
@@ -2999,7 +2999,7 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     /*
     HAPI_StringHandle param_string_handle; // INPUT
-    char* param_string_value; // OUTPUT | SIZE: param_buffer_length
+    char* param_string_value = NULL; // OUTPUT | SIZE: param_buffer_length
     int param_buffer_length; // INPUT
     */
     
@@ -3034,7 +3034,7 @@ hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     /*
     HAPI_AssetId param_asset_id; // INPUT
-    HAPI_MaterialId* param_material_id; // OUTPUT | SIZE: param_image_plane_count
+    HAPI_MaterialId* param_material_id = NULL; // OUTPUT | SIZE: param_image_plane_count
     int param_image_plane_count; // INPUT
     */
     
@@ -3107,7 +3107,7 @@ hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    HAPI_ParmChoiceInfo* param_parm_choices; // OUTPUT | SIZE: param_length
+    HAPI_ParmChoiceInfo* param_parm_choices = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -3218,7 +3218,7 @@ hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    int* param_vertex_list; // OUTPUT | SIZE: param_length
+    int* param_vertex_list = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -3252,7 +3252,7 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     */
 
     /*
-    HAPI_AssetLibraryId* param_library_id; // OUTPUT | SIZE: param_asset_count
+    HAPI_AssetLibraryId* param_library_id = NULL; // OUTPUT | SIZE: param_asset_count
     int param_asset_count; // INPUT
     */
     
@@ -3492,7 +3492,7 @@ hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    int* param_values; // OUTPUT | SIZE: param_length
+    int* param_values = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -3529,7 +3529,7 @@ hapi_set_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    int* param_values; // INPUT | SIZE: param_length
+    int* param_values = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -3598,7 +3598,7 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_parm_name; // INPUT
+    char* param_parm_name = NULL; // INPUT
     int param_index; // INPUT
     HAPI_Bool param_evaluate; // INPUT
     HAPI_StringHandle param_value; // INPUT
@@ -3639,7 +3639,7 @@ hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     HAPI_NodeId param_node_id; // INPUT
     HAPI_ParmId param_parm_id; // INPUT
     int param_parm_index; // INPUT
-    HAPI_Keyframe* param_curve_keyframes; // INPUT | SIZE: param_keyframe_count
+    HAPI_Keyframe* param_curve_keyframes = NULL; // INPUT | SIZE: param_keyframe_count
     int param_keyframe_count; // INPUT
     */
     
@@ -3716,7 +3716,7 @@ hapi_set_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    float* param_knots; // INPUT | SIZE: param_length
+    float* param_knots = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -3786,8 +3786,8 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     HAPI_NodeId param_node_id; // INPUT
     HAPI_PresetType param_preset_type; // INPUT
-    char* param_preset_name; // INPUT
-    char* param_buffer; // INPUT | SIZE: param_buffer_length
+    char* param_preset_name = NULL; // INPUT
+    char* param_buffer = NULL; // INPUT | SIZE: param_buffer_length
     int param_buffer_length; // INPUT
     */
     
@@ -3885,7 +3885,7 @@ hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_MaterialId param_material_id; // INPUT
-    char* param_buffer; // OUTPUT | SIZE: param_buffer_size
+    char* param_buffer = NULL; // OUTPUT | SIZE: param_buffer_size
     int param_buffer_size; // INPUT
     */
     
@@ -3956,7 +3956,7 @@ hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    HAPI_ParmInfo* param_parm_infos; // OUTPUT | SIZE: param_length
+    HAPI_ParmInfo* param_parm_infos = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -4188,7 +4188,7 @@ hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_buffer; // OUTPUT | SIZE: param_size
+    char* param_buffer = NULL; // OUTPUT | SIZE: param_size
     int param_size; // INPUT
     */
     
@@ -4222,7 +4222,7 @@ hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     */
 
     /*
-    char* param_asset_name; // INPUT
+    char* param_asset_name = NULL; // INPUT
     HAPI_Bool param_cook_on_load; // INPUT
     HAPI_AssetId param_asset_id; // INPUT
     */
@@ -4329,7 +4329,7 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_file_name; // INPUT
+    char* param_file_name = NULL; // INPUT
     */
     
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
@@ -4370,7 +4370,7 @@ hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    int* param_orders; // OUTPUT | SIZE: param_length
+    int* param_orders = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -4578,10 +4578,10 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    char* param_otl_search_path; // INPUT
-    char* param_dso_search_path; // INPUT
+    char* param_otl_search_path = NULL; // INPUT
+    char* param_dso_search_path = NULL; // INPUT
     HAPI_CookOptions param_cook_options; // INPUT
-    HAPI_Bool* param_use_cooking_thread; // OUTPUT | SIZE: param_cooking_thread_stack_size
+    HAPI_Bool* param_use_cooking_thread = NULL; // OUTPUT | SIZE: param_cooking_thread_stack_size
     int param_cooking_thread_stack_size; // INPUT
     */
     
@@ -4648,7 +4648,7 @@ hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    float* param_values; // OUTPUT | SIZE: param_length
+    float* param_values = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -4945,7 +4945,7 @@ hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    char* param_file_name; // INPUT
+    char* param_file_name = NULL; // INPUT
     HAPI_Bool param_cook_on_load; // INPUT
     */
     
@@ -5043,7 +5043,7 @@ hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_parm_name; // INPUT
+    char* param_parm_name = NULL; // INPUT
     int param_index; // INPUT
     int param_value; // INPUT
     */
@@ -5083,7 +5083,7 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
     */
     
@@ -5123,7 +5123,7 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_GroupType param_group_type; // INPUT
-    char* param_group_name; // INPUT
+    char* param_group_name = NULL; // INPUT
     */
     
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
@@ -5197,9 +5197,9 @@ hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
-    float* param_data; // INPUT | SIZE: param_length
+    float* param_data = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -5235,7 +5235,7 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_parm_name; // INPUT
+    char* param_parm_name = NULL; // INPUT
     HAPI_ParmId param_parm_id; // INPUT
     */
     
@@ -5278,8 +5278,8 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_GroupType param_group_type; // INPUT
-    char* param_group_name; // INPUT
-    int* param_membership; // OUTPUT | SIZE: param_length
+    char* param_group_name = NULL; // INPUT
+    int* param_membership = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -5396,7 +5396,7 @@ hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
     HAPI_Bool param_are_all_the_same; // INPUT
-    HAPI_MaterialId* param_material_ids; // OUTPUT | SIZE: param_length
+    HAPI_MaterialId* param_material_ids = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -5436,7 +5436,7 @@ hapi_get_geo_size_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_format; // INPUT | SIZE: param_size
+    char* param_format = NULL; // INPUT | SIZE: param_size
     int param_size; // INPUT
     */
     
@@ -5478,7 +5478,7 @@ hapi_set_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    int* param_orders; // INPUT | SIZE: param_length
+    int* param_orders = NULL; // INPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -5514,7 +5514,7 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
 
     /*
     HAPI_StatusType param_status_type; // INPUT
-    HAPI_StatusVerbosity* param_verbosity; // OUTPUT | SIZE: param_buffer_size
+    HAPI_StatusVerbosity* param_verbosity = NULL; // OUTPUT | SIZE: param_buffer_size
     int param_buffer_size; // INPUT
     */
     
@@ -5556,7 +5556,7 @@ hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    float* param_knots; // OUTPUT | SIZE: param_length
+    float* param_knots = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -5637,7 +5637,7 @@ hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_GroupType param_group_type; // INPUT
-    HAPI_StringHandle* param_group_names; // OUTPUT | SIZE: param_group_count
+    HAPI_StringHandle* param_group_names = NULL; // OUTPUT | SIZE: param_group_count
     int param_group_count; // INPUT
     */
     
@@ -5675,7 +5675,7 @@ hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_file_name; // INPUT
+    char* param_file_name = NULL; // INPUT
     */
     
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
@@ -5805,7 +5805,7 @@ hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 
     /*
     HAPI_AssetId param_asset_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     */
     
     //%{HAPI_FUNCTION_OUTPUT_VARS}%
@@ -5840,7 +5840,7 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 
     /*
     HAPI_NodeId param_node_id; // INPUT
-    char* param_parm_name; // INPUT
+    char* param_parm_name = NULL; // INPUT
     int param_index; // INPUT
     float param_value; // INPUT
     */
@@ -5881,8 +5881,8 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_format; // INPUT
-    char* param_buffer; // OUTPUT | SIZE: param_size
+    char* param_format = NULL; // INPUT
+    char* param_buffer = NULL; // OUTPUT | SIZE: param_size
     int param_size; // INPUT
     */
     
@@ -6107,7 +6107,7 @@ hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 
     /*
     HAPI_AssetLibraryId param_library_id; // INPUT
-    HAPI_StringHandle* param_asset_names; // OUTPUT | SIZE: param_asset_count
+    HAPI_StringHandle* param_asset_names = NULL; // OUTPUT | SIZE: param_asset_count
     int param_asset_count; // INPUT
     */
     
@@ -6278,10 +6278,10 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_MaterialId param_material_id; // INPUT
-    char* param_image_file_format_name; // INPUT
-    char* param_image_planes; // INPUT
-    char* param_destination_folder_path; // INPUT
-    char* param_destination_file_name; // INPUT
+    char* param_image_file_format_name = NULL; // INPUT
+    char* param_image_planes = NULL; // INPUT
+    char* param_destination_folder_path = NULL; // INPUT
+    char* param_destination_file_name = NULL; // INPUT
     int param_destination_file_path; // INPUT
     */
     
@@ -6385,7 +6385,7 @@ hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     HAPI_NodeId param_node_id; // INPUT
     HAPI_Bool param_evaluate; // INPUT
-    HAPI_StringHandle* param_values; // OUTPUT | SIZE: param_length
+    HAPI_StringHandle* param_values = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -6425,7 +6425,7 @@ hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     HAPI_AssetId param_asset_id; // INPUT
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
-    char* param_group_name; // INPUT
+    char* param_group_name = NULL; // INPUT
     HAPI_MaterialInfo param_material_info; // INPUT
     */
     
@@ -6572,9 +6572,9 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     HAPI_ObjectId param_object_id; // INPUT
     HAPI_GeoId param_geo_id; // INPUT
     HAPI_PartId param_part_id; // INPUT
-    char* param_name; // INPUT
+    char* param_name = NULL; // INPUT
     HAPI_AttributeInfo param_attr_info; // INPUT
-    float* param_data; // OUTPUT | SIZE: param_length
+    float* param_data = NULL; // OUTPUT | SIZE: param_length
     int param_start; // INPUT
     int param_length; // INPUT
     */
@@ -6675,7 +6675,7 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
     */
 
     /*
-    HAPI_ImageFileFormat* param_formats; // OUTPUT | SIZE: param_file_format_count
+    HAPI_ImageFileFormat* param_formats = NULL; // OUTPUT | SIZE: param_file_format_count
     int param_file_format_count; // INPUT
     */
     

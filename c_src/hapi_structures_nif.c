@@ -2197,11 +2197,12 @@ hapi_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
 ERL_NIF_TERM
 hapi_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* hapi_struct)
 {
-    return enif_make_tuple(env, 12,
+    return enif_make_tuple(env, 13,
         hapi_make_atom(env, "hapi_node_info"),
         hapi_make_hapi_node_id(env, hapi_struct->id),
         hapi_make_hapi_asset_id(env, hapi_struct->assetId),
         hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_make_hapi_bool(env, hapi_struct->isValid),
         hapi_make_int(env, hapi_struct->totalCookCount),
         hapi_make_int(env, hapi_struct->uniqueHoudiniNodeId),
         hapi_make_hapi_string_handle(env, hapi_struct->internalNodePathSH),
@@ -2224,6 +2225,7 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
     HAPI_NodeId field_id;
     HAPI_AssetId field_asset_id;
     HAPI_StringHandle field_name_sh;
+    HAPI_Bool field_is_valid;
     int field_total_cook_count;
     int field_unique_houdini_node_id;
     HAPI_StringHandle field_internal_node_path_sh;
@@ -2234,20 +2236,21 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
     int field_parm_choice_count;
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
-        (tuple_size != 12) ||
+        (tuple_size != 13) ||
         !hapi_check_atom(env, tuple_record[0], "hapi_node_info", &atom_name_match) ||
         !atom_name_match ||
         !hapi_get_hapi_node_id(env, tuple_record[1], &field_id)||
         !hapi_get_hapi_asset_id(env, tuple_record[2], &field_asset_id)||
         !hapi_get_hapi_string_handle(env, tuple_record[3], &field_name_sh)||
-        !hapi_get_int(env, tuple_record[4], &field_total_cook_count)||
-        !hapi_get_int(env, tuple_record[5], &field_unique_houdini_node_id)||
-        !hapi_get_hapi_string_handle(env, tuple_record[6], &field_internal_node_path_sh)||
-        !hapi_get_int(env, tuple_record[7], &field_parm_count)||
-        !hapi_get_int(env, tuple_record[8], &field_parm_int_value_count)||
-        !hapi_get_int(env, tuple_record[9], &field_parm_float_value_count)||
-        !hapi_get_int(env, tuple_record[10], &field_parm_string_value_count)||
-        !hapi_get_int(env, tuple_record[11], &field_parm_choice_count))
+        !hapi_get_hapi_bool(env, tuple_record[4], &field_is_valid)||
+        !hapi_get_int(env, tuple_record[5], &field_total_cook_count)||
+        !hapi_get_int(env, tuple_record[6], &field_unique_houdini_node_id)||
+        !hapi_get_hapi_string_handle(env, tuple_record[7], &field_internal_node_path_sh)||
+        !hapi_get_int(env, tuple_record[8], &field_parm_count)||
+        !hapi_get_int(env, tuple_record[9], &field_parm_int_value_count)||
+        !hapi_get_int(env, tuple_record[10], &field_parm_float_value_count)||
+        !hapi_get_int(env, tuple_record[11], &field_parm_string_value_count)||
+        !hapi_get_int(env, tuple_record[12], &field_parm_choice_count))
     {
         return false;
     }
@@ -2255,6 +2258,7 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
     hapi_struct->id = field_id;
     hapi_struct->assetId = field_asset_id;
     hapi_struct->nameSH = field_name_sh;
+    hapi_struct->isValid = field_is_valid;
     hapi_struct->totalCookCount = field_total_cook_count;
     hapi_struct->uniqueHoudiniNodeId = field_unique_houdini_node_id;
     hapi_struct->internalNodePathSH = field_internal_node_path_sh;

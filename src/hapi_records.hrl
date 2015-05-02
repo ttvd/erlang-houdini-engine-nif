@@ -273,6 +273,7 @@
     id,
     asset_id,
     name_sh,
+    is_valid,
     total_cook_count,
     unique_houdini_node_id,
     internal_node_path_sh,

@@ -379,7 +379,7 @@ hapi_parm_choice_info_create() ->
 
 
 % Corresponds to HAPI_GlobalNodes_Init function.
-%-spec hapi_global_nodes_init() -> {atom(), list()}.
+%-spec hapi_global_nodes_init() -> {atom(), hapi_global_nodes()}.
 hapi_global_nodes_init() ->
     ?nif_stub.
 
@@ -691,7 +691,7 @@ hapi_get_volume_info(_AssetId, _ObjectId, _GeoId, _PartId) ->
 
 
 % Corresponds to HAPI_TimelineOptions_Init function.
-%-spec hapi_timeline_options_init() -> {atom(), list()}.
+%-spec hapi_timeline_options_init() -> {atom(), hapi_timeline_options()}.
 hapi_timeline_options_init() ->
     ?nif_stub.
 
@@ -835,7 +835,7 @@ hapi_set_parm_int_values(_NodeId, _Values, _Start, _Length) ->
 
 
 % Corresponds to HAPI_CookOptions_Init function.
-%-spec hapi_cook_options_init() -> {atom(), list()}.
+%-spec hapi_cook_options_init() -> {atom(), hapi_cook_options()}.
 hapi_cook_options_init() ->
     ?nif_stub.
 

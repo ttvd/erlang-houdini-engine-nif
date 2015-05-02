@@ -1215,7 +1215,7 @@ defmodule HAPI do
 
         #
         defp create_stub_c_entry_object(env, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
-            {"char*", "EXTRACT_CODE", "param_#{param_name}", :nil, not is_const_parameter(param), :nil, true}
+            {"char*", "EXTRACT_CODE", "param_#{param_name}", "NULL", not is_const_parameter(param), :nil, true}
         end
         defp create_stub_c_entry_object(env, function_name, function_type, {param_type, param_name, _param_opts}) do
             resolved_type = HAPI.Util.type_resolve(env, param_type)
@@ -1243,7 +1243,7 @@ defmodule HAPI do
 
                     collect
                         ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}",
-                                :nil, parm_const, "param_length", true}]
+                                "NULL", parm_const, "param_length", true}]
                         ++ [{"int", "EXTRACT_CODE", "param_start", :nil, false, :nil, false}]
                         ++ [{"int", "EXTRACT_CODE", "param_length", :nil, false, :nil, false}]
                         |> create_stub_c_entry_objects(env, function_name, function_type, rest)
@@ -1262,7 +1262,7 @@ defmodule HAPI do
                         resolved_type = HAPI.Util.type_resolve(env, param_0_type)
 
                         collect
-                            ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}", :nil,
+                            ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}", "NULL",
                                     not is_const_parameter(param_0), "param_#{param_1_name}", true}]
                             ++ [{"int", "EXTRACT_CODE", "param_#{param_1_name}", :nil, false, :nil, false}]
                         |> create_stub_c_entry_objects(env, function_name, function_type, rest)

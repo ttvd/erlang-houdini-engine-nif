@@ -2,6 +2,8 @@
 ERL_NIF_TERM
 %{HAPI_FUNCTION_DOWNCASE}%_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
+    ERL_NIF_TERM stub_result = enif_make_badarg(env);
+
     /*
     %{HAPI_DEBUG_TOKENS}%
     */
@@ -9,13 +11,17 @@ ERL_NIF_TERM
     /*
     %{HAPI_FUNCTION_BODY}%
     */
-    
-    //%{HAPI_FUNCTION_OUTPUT_VARS}%
 
-    //%{HAPI_FUNCTION_CLEANUP}%
+    /*
+    %{HAPI_FUNCTION_OUTPUT_VARS}%
+    */
+
+    /*
+    %{HAPI_FUNCTION_CLEANUP}%
+    */
 
     //return hapi_make_atom_ok(env);
-    return enif_make_badarg(env);
+    return stub_result;
 }
 
 

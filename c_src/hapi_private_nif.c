@@ -36,7 +36,7 @@ hapi_make_atom_nil(ErlNifEnv* env)
 
 
 ERL_NIF_TERM
-hapi_make_atom_bool(ErlNifEnv* env, bool value)
+hapi_make_bool(ErlNifEnv* env, bool value)
 {
     if(value)
     {
@@ -274,7 +274,7 @@ hapi_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
 
 
 bool
-hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size)
+hapi_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -314,7 +314,7 @@ hapi_get_list_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32
 
 
 bool
-hapi_get_list_double(ErlNifEnv* env, const ERL_NIF_TERM term, double* data, uint32_t size)
+hapi_get_double_list(ErlNifEnv* env, const ERL_NIF_TERM term, double* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;

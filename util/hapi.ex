@@ -1115,8 +1115,8 @@ defmodule HAPI do
                 entries = String.replace(template_hapi_erl, "%{HAPI_ERL_FUNCTIONS}%",
                     Enum.map_join(functions, "\n\n", fn{k, v} -> create_stub_erl_entry(env, k, v, template_hapi_erl_block) end))
                         |> String.replace("%{HAPI_ERL_EXPORTS}%",
-                            Enum.map_join(functions, ",\n    ", fn{k, v} ->
-                                "#{HAPI.Util.underscore(k)}/#{length(get_parameters(v))}" end))
+                            Enum.map_join(functions, ",\n    ", fn{k, v} -> "HAPI_" <> f = k;
+                                "#{HAPI.Util.underscore(f)}/#{length(get_parameters(v))}" end))
 
                 File.write("./src/hapi.erl", entries)
                 IO.puts("Generating src/hapi.erl")
@@ -1124,7 +1124,7 @@ defmodule HAPI do
         end
 
         # Helper function to generate erl function stub entries.
-        defp create_stub_erl_entry(env, function_name, function_body, template_block) do
+        defp create_stub_erl_entry(env, "HAPI_" <> function_name, function_body, template_block) do
             {function_return_type, _params} = function_body
             String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
                 |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
@@ -1178,6 +1178,9 @@ defmodule HAPI do
                     Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
                 |> String.replace("%{HAPI_FUNCTION_BODY}%",
                     Enum.map_join(parameters, "\n    ", fn(p) -> create_stub_c_entry_var(p) end))
+                |> String.replace("%{HAPI_FUNCTION_CLEANUP}%",
+                    Enum.filter(parameters, fn(p) -> elem(p, 6) end)
+                        |> Enum.map_join("\n    ", fn(o) -> "if(#{elem(o, 2)}) free(#{elem(o, 2)});" end))
         end
 
         # DEBUG FUNCTION

@@ -1,477 +1,477 @@
 defmodule HAPI do
 
-    # Module used to generate HAPI C stub which we will parse.
-    defmodule C do
+# Module used to generate HAPI C stub which we will parse.
+defmodule C do
 
-        # Pre-process hapi.c which includes all hapi headers into something we can parse.
-        def generate("clang", hapi_include_path) do
-            {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
-            if 0 == result_code do
-                cmd_output
-            else
-                raise(RuntimeError, description: "Unable to expand macros in hapi.c")
-            end
-        end
-        def generate("cpp.exe", hapi_include_path) do
-            if File.exists?("./util/cpp.exe") do
-                to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
-            else
-                raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
-            end
+  # Pre-process hapi.c which includes all hapi headers into something we can parse.
+  def generate("clang", hapi_include_path) do
+    {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
+    if 0 == result_code do
+      cmd_output
+    else
+      raise(RuntimeError, description: "Unable to expand macros in hapi.c")
+    end
+  end
+  def generate("cpp.exe", hapi_include_path) do
+    if File.exists?("./util/cpp.exe") do
+      to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
+    else
+      raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
+    end
+  end
+  def generate(_compiler, _hapi_include_path) do
+    raise(RuntimeError, description: "Unknown compiler, please add options")
+  end
+end
 
-        end
-        def generate(_compiler, _hapi_include_path) do
-            raise(RuntimeError, description: "Unknown compiler, please add options")
-        end
+  # Lexical parsing.
+  defmodule Lexical do
+
+    # Create environment consisting of types, enums, structs and functions.
+    def parse(data) do
+      preprocess(data) |> tokenize()
     end
 
-    # Lexical parsing.
-    defmodule Lexical do
-
-        # Create environment consisting of types, enums, structs and functions.
-        def parse(data) do
-            preprocess(data) |> tokenize()
-        end
-
-        # Remove preprocessor left overs from data stream.
-        defp preprocess(data) do
-            String.replace(data, ~r/int main\(\)\s\{\s*.*\s*\}/, "")
-                |> String.replace(~r/#\s*\d+.*\n/, "")
-                |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
-                |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
-                |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
-                |> String.replace("__attribute__((visibility(0)))", "")
-        end
-
-        # Parse given string containing code.
-        defp tokenize([]), do: []
-        defp tokenize(code), do: parse_collect(code, "", [])
-
-        # Parse and collect tokens.
-        defp parse_collect("", _buf, tokens) do
-            tokens
-        end
-        defp parse_collect(<<c>> <> rest, buf, tokens) do
-            cond do
-                is_whitespace(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens)
-                is_comma(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_comma)
-                is_semicolon(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_semicolon)
-                is_pointer(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_pointer)
-                is_bracket_left(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_bracket_left)
-                is_bracket_right(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_bracket_right)
-                is_bracket_curly_left(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_bracket_curly_left)
-                is_bracket_curly_right(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_bracket_curly_right)
-                is_bracket_square_left(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_bracket_square_left)
-                is_bracket_square_right(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_bracket_square_right)
-                is_assignment(<<c>>) ->
-                    parse_collect_submit(rest, buf, tokens, :token_assignment)
-                true ->
-                    parse_collect(rest, buf <> <<c>>, tokens)
-            end
-        end
-
-        # Helper method to collect and avoid empty token submission.
-        defp parse_collect_submit(code, "", tokens), do: parse_collect(code, "", tokens)
-        defp parse_collect_submit(code, buf, tokens), do: parse_collect(code, "", tokens ++ map_token(buf))
-        defp parse_collect_submit(code, "", tokens, extra), do: parse_collect(code, "", tokens ++ [extra])
-        defp parse_collect_submit(code, buf, tokens, extra), do: parse_collect(code, "", tokens ++ map_token(buf) ++ [extra])
-
-        # Return true if current position is whitespace.
-        defp is_whitespace(""), do: false
-        defp is_whitespace(<<c>> <> _rest), do: String.match?(<<c>>, ~r/\s/)
-
-        # Return true if current position is comma.
-        defp is_comma(""), do: false
-        defp is_comma("," <> _rest), do: true
-        defp is_comma(_rest), do: false
-
-        # Return true if current position is assignment.
-        defp is_assignment(""), do: false
-        defp is_assignment("=" <> _rest), do: true
-        defp is_assignment(_rest), do: false
-
-        # Return true if current position is semicolon.
-        defp is_semicolon(""), do: false
-        defp is_semicolon(";" <> _rest), do: true
-        defp is_semicolon(_rest), do: false
-
-        # Return true if current position is left bracket.
-        defp is_bracket_left(""), do: false
-        defp is_bracket_left("(" <> _rest), do: true
-        defp is_bracket_left(_rest), do: false
-
-        # Return true if current position is right bracket.
-        defp is_bracket_right(""), do: false
-        defp is_bracket_right(")" <> _rest), do: true
-        defp is_bracket_right(_rest), do: false
-
-        # Return true if current position is left curly bracket.
-        defp is_bracket_curly_left(""), do: false
-        defp is_bracket_curly_left("{" <> _rest), do: true
-        defp is_bracket_curly_left(_rest), do: false
-
-        # Return true if current position is right curly bracket.
-        defp is_bracket_curly_right(""), do: false
-        defp is_bracket_curly_right("}" <> _rest), do: true
-        defp is_bracket_curly_right(_rest), do: false
-
-        # Return true if current position is left square bracket.
-        defp is_bracket_square_left(""), do: false
-        defp is_bracket_square_left("[" <> _rest), do: true
-        defp is_bracket_square_left(_rest), do: false
-
-        # Return true if current position is right square bracket.
-        defp is_bracket_square_right(""), do: false
-        defp is_bracket_square_right("]" <> _rest), do: true
-        defp is_bracket_square_right(_rest), do: false
-
-        # Return true if current position is a pointer.
-        defp is_pointer(""), do: false
-        defp is_pointer("*"), do: true
-        defp is_pointer(_rest), do: false
-
-        # Map extracted string to a token.
-        defp map_token(""), do: []
-        defp map_token("typedef"), do: [:token_typedecl]
-        defp map_token("enum"), do: [:token_enum]
-        defp map_token("struct"), do: [:token_structure]
-        defp map_token("const"), do: [:token_const]
-        defp map_token("void"), do: [:token_void]
-        defp map_token("float"), do: [:token_float]
-        defp map_token("int"), do: [:token_int]
-        defp map_token("char"), do: [:token_char]
-        defp map_token("double"), do: [:token_double]
-        defp map_token(token) do
-            case Integer.parse(token) do
-                {num, ""} ->
-                    [num]
-                _ ->
-                    [token]
-            end
-        end
-
-        # Function used to print token stream.
-        def print_tokens(tokens) do
-            Enum.map(tokens, fn(x) -> IO.puts("#{x}") end)
-            tokens
-        end
+    # Remove preprocessor left overs from data stream.
+    defp preprocess(data) do
+      String.replace(data, ~r/int main\(\)\s\{\s*.*\s*\}/, "")
+      |> String.replace(~r/#\s*\d+.*\n/, "")
+      |> String.replace(~r/__attribute__\(\s*\(\s*visibility\(\s*\"default\"\s*\)\s*\)\s*\)\s+(\w+)/, "\\1")
+      |> String.replace(~r/typedef\s+enum\s+\w+\s+\w+;/, "")
+      |> String.replace(~r/typedef\s+struct\s+\w+\s+\w+;/, "")
+      |> String.replace("__attribute__((visibility(0)))", "")
     end
 
-    # Syntactic processing.
-    defmodule Syntactic do
+    # Parse given string containing code.
+    defp tokenize([]), do: []
+    defp tokenize(code), do: parse_collect(code, "", [])
 
-        # Given a list of tokens produce necessary tables.
+    # Parse and collect tokens.
+    defp parse_collect("", _buf, tokens) do
+      tokens
+    end
+    defp parse_collect(<<c>> <> rest, buf, tokens) do
+      cond do
+        is_whitespace(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens)
+        is_comma(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_comma)
+        is_semicolon(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_semicolon)
+        is_pointer(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_pointer)
+        is_bracket_left(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_bracket_left)
+        is_bracket_right(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_bracket_right)
+        is_bracket_curly_left(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_bracket_curly_left)
+        is_bracket_curly_right(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_bracket_curly_right)
+        is_bracket_square_left(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_bracket_square_left)
+        is_bracket_square_right(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_bracket_square_right)
+        is_assignment(<<c>>) ->
+          parse_collect_submit(rest, buf, tokens, :token_assignment)
+        true ->
+          parse_collect(rest, buf <> <<c>>, tokens)
+      end
+    end
+
+    # Helper method to collect and avoid empty token submission.
+    defp parse_collect_submit(code, "", tokens), do: parse_collect(code, "", tokens)
+    defp parse_collect_submit(code, buf, tokens), do: parse_collect(code, "", tokens ++ map_token(buf))
+    defp parse_collect_submit(code, "", tokens, extra), do: parse_collect(code, "", tokens ++ [extra])
+    defp parse_collect_submit(code, buf, tokens, extra), do: parse_collect(code, "", tokens ++ map_token(buf) ++ [extra])
+
+    # Return true if current position is whitespace.
+    defp is_whitespace(""), do: false
+    defp is_whitespace(<<c>> <> _rest), do: String.match?(<<c>>, ~r/\s/)
+
+    # Return true if current position is comma.
+    defp is_comma(""), do: false
+    defp is_comma("," <> _rest), do: true
+    defp is_comma(_rest), do: false
+
+    # Return true if current position is assignment.
+    defp is_assignment(""), do: false
+    defp is_assignment("=" <> _rest), do: true
+    defp is_assignment(_rest), do: false
+
+    # Return true if current position is semicolon.
+    defp is_semicolon(""), do: false
+    defp is_semicolon(";" <> _rest), do: true
+    defp is_semicolon(_rest), do: false
+
+    # Return true if current position is left bracket.
+    defp is_bracket_left(""), do: false
+    defp is_bracket_left("(" <> _rest), do: true
+    defp is_bracket_left(_rest), do: false
+
+    # Return true if current position is right bracket.
+    defp is_bracket_right(""), do: false
+    defp is_bracket_right(")" <> _rest), do: true
+    defp is_bracket_right(_rest), do: false
+
+    # Return true if current position is left curly bracket.
+    defp is_bracket_curly_left(""), do: false
+    defp is_bracket_curly_left("{" <> _rest), do: true
+    defp is_bracket_curly_left(_rest), do: false
+
+    # Return true if current position is right curly bracket.
+    defp is_bracket_curly_right(""), do: false
+    defp is_bracket_curly_right("}" <> _rest), do: true
+    defp is_bracket_curly_right(_rest), do: false
+
+    # Return true if current position is left square bracket.
+    defp is_bracket_square_left(""), do: false
+    defp is_bracket_square_left("[" <> _rest), do: true
+    defp is_bracket_square_left(_rest), do: false
+
+    # Return true if current position is right square bracket.
+    defp is_bracket_square_right(""), do: false
+    defp is_bracket_square_right("]" <> _rest), do: true
+    defp is_bracket_square_right(_rest), do: false
+
+    # Return true if current position is a pointer.
+    defp is_pointer(""), do: false
+    defp is_pointer("*"), do: true
+    defp is_pointer(_rest), do: false
+
+    # Map extracted string to a token.
+    defp map_token(""), do: []
+    defp map_token("typedef"), do: [:token_typedecl]
+    defp map_token("enum"), do: [:token_enum]
+    defp map_token("struct"), do: [:token_structure]
+    defp map_token("const"), do: [:token_const]
+    defp map_token("void"), do: [:token_void]
+    defp map_token("float"), do: [:token_float]
+    defp map_token("int"), do: [:token_int]
+    defp map_token("char"), do: [:token_char]
+    defp map_token("double"), do: [:token_double]
+    defp map_token(token) do
+      case Integer.parse(token) do
+        {num, ""} ->
+          [num]
+        _ ->
+          [token]
+      end
+    end
+
+    # Function used to print token stream.
+    def print_tokens(tokens) do
+      Enum.map(tokens, fn(x) -> IO.puts("#{x}") end)
+      tokens
+    end
+  end
+
+  # Syntactic processing.
+  defmodule Syntactic do
+
+    # Given a list of tokens produce necessary tables.
+    def process(tokens) do
+      HashDict.new
+      |> Dict.put(:types, HAPI.Syntactic.Types.process(tokens))
+      |> Dict.put(:enums, HAPI.Syntactic.Enums.process(tokens))
+      |> Dict.put(:structures, HAPI.Syntactic.Structs.process(tokens))
+      |> Dict.put(:functions, HAPI.Syntactic.Functions.process(tokens))
+    end
+
+    # Type extraction into type table.
+    defmodule Types do
+
+      # Given a list of tokens, produce a mapping table (parsed type -> system type).
+      def process(tokens) do
+        add_entry = &(Dict.put(&1, &2, HAPI.Util.get_builtin_type(&2)))
+        HashDict.new
+        |> add_entry.("void")
+        |> add_entry.("int")
+        |> add_entry.("float")
+        |> add_entry.("double")
+        |> add_entry.("bool")
+        |> add_entry.("char")
+        |> process_collect(tokens)
+        end
+
+        # Process tokens and collect types.
+        defp process_collect(dict, []), do: dict
+        defp process_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
+          Dict.put(dict, "HAPI_Bool", :token_bool)
+          |> process_collect(rest)
+        end
+        defp process_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
+          Dict.put(dict, type_new, type_origin)
+          |> process_collect(rest)
+        end
+        defp process_collect(dict, [:token_enum, enum_name | rest]) do
+          Dict.put(dict, enum_name, :token_enum)
+          |> process_collect(rest)
+        end
+        defp process_collect(dict, [:token_structure, struct_name | rest]) do
+          Dict.put(dict, struct_name, :token_structure)
+          |> process_collect(rest)
+        end
+        defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
+      end
+
+      # Enum extraction into enum table.
+      defmodule Enums do
+
+        # Given a list of tokens, produce a mapping table for enums.
         def process(tokens) do
-            HashDict.new
-                |> Dict.put(:types, HAPI.Syntactic.Types.process(tokens))
-                |> Dict.put(:enums, HAPI.Syntactic.Enums.process(tokens))
-                |> Dict.put(:structures, HAPI.Syntactic.Structs.process(tokens))
-                |> Dict.put(:functions, HAPI.Syntactic.Functions.process(tokens))
+          HashDict.new
+          |> process_collect(tokens)
         end
 
-        # Type extraction into type table.
-        defmodule Types do
+        # Process tokens and collect enums.
+        defp process_collect(dict, []), do: dict
+        defp process_collect(dict, [:token_enum, enum_name, :token_bracket_curly_left | rest]) do
+          {enum_values, remaining} = process_extract([], rest, 0)
+          Dict.put(dict, enum_name, enum_values)
+          |> process_collect(remaining)
+        end
+        defp process_collect(_dict, [:token_enum | _rest]), do: raise(SyntaxError, description: "Invalid enum detected")
+        defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
 
-            # Given a list of tokens, produce a mapping table (parsed type -> system type).
-            def process(tokens) do
-                add_entry = &(Dict.put(&1, &2, HAPI.Util.get_builtin_type(&2)))
-                HashDict.new
-                    |> add_entry.("void")
-                    |> add_entry.("int")
-                    |> add_entry.("float")
-                    |> add_entry.("double")
-                    |> add_entry.("bool")
-                    |> add_entry.("char")
-                    |> process_collect(tokens)
-            end
-
-            # Process tokens and collect types.
-            defp process_collect(dict, []), do: dict
-            defp process_collect(dict, [:token_typedecl, _type_origin, "HAPI_Bool" | rest]) do
-                Dict.put(dict, "HAPI_Bool", :token_bool)
-                    |> process_collect(rest)
-            end
-            defp process_collect(dict, [:token_typedecl, type_origin, type_new | rest]) do
-                Dict.put(dict, type_new, type_origin)
-                    |> process_collect(rest)
-            end
-            defp process_collect(dict, [:token_enum, enum_name | rest]) do
-                Dict.put(dict, enum_name, :token_enum)
-                    |> process_collect(rest)
-            end
-            defp process_collect(dict, [:token_structure, struct_name | rest]) do
-                Dict.put(dict, struct_name, :token_structure)
-                    |> process_collect(rest)
-            end
-            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
+        # Helper function to extract enum values from token stream.
+        defp process_extract(_values, [], _idx), do: raise(SyntaxError, description: "Unexpected end of enum")
+        defp process_extract(values, [:token_comma | rest], idx), do: process_extract(values, rest, idx)
+        defp process_extract(values, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {values, rest}
+        defp process_extract(values, [enum_entry, :token_comma | rest], idx) do
+          values ++ [{enum_entry, idx}]
+          |> process_extract(rest, idx + 1)
+        end
+        defp process_extract(values, [enum_entry, :token_bracket_curly_right, :token_semicolon | rest], idx) do
+          {values ++ [{enum_entry, idx}], rest}
+        end
+        defp process_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) when is_integer(enum_value) do
+          values ++ [{enum_entry, enum_value}]
+          |> process_extract(rest, enum_value + 1)
+        end
+        defp process_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) do
+          orig_value = process_lookup(values, values, enum_value)
+          values ++ [{enum_entry, orig_value, enum_value}]
+          |> process_extract(rest, orig_value + 1)
         end
 
-        # Enum extraction into enum table.
-        defmodule Enums do
+        # Helper function used to look up enum value within enum table.
+        defp process_lookup([], _values, _enum_value), do: raise(SyntaxError, description: "Enum value was not found")
+        defp process_lookup([field | rest], values, enum_value) do
+          if elem(field, 0) == enum_value do
+            field_value = elem(field, 1)
+            if is_integer(field_value) do
+              field_value
+            else
+              process_lookup(values, values, field_value)
+            end
+          else
+            process_lookup(rest, values, enum_value)
+          end
+        end
+      end
 
-            # Given a list of tokens, produce a mapping table for enums.
-            def process(tokens) do
-                HashDict.new
-                    |> process_collect(tokens)
-            end
+      # Struct extraction into struct table.
+      defmodule Structs do
 
-            # Process tokens and collect enums.
-            defp process_collect(dict, []), do: dict
-            defp process_collect(dict, [:token_enum, enum_name, :token_bracket_curly_left | rest]) do
-                {enum_values, remaining} = process_extract([], rest, 0)
-                Dict.put(dict, enum_name, enum_values)
-                    |> process_collect(remaining)
-            end
-            defp process_collect(_dict, [:token_enum | _rest]), do: raise(SyntaxError, description: "Invalid enum detected")
-            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
-
-            # Helper function to extract enum values from token stream.
-            defp process_extract(_values, [], _idx), do: raise(SyntaxError, description: "Unexpected end of enum")
-            defp process_extract(values, [:token_comma | rest], idx), do: process_extract(values, rest, idx)
-            defp process_extract(values, [:token_bracket_curly_right, :token_semicolon | rest], _idx), do: {values, rest}
-            defp process_extract(values, [enum_entry, :token_comma | rest], idx) do
-                values ++ [{enum_entry, idx}]
-                    |> process_extract(rest, idx + 1)
-            end
-            defp process_extract(values, [enum_entry, :token_bracket_curly_right, :token_semicolon | rest], idx) do
-                {values ++ [{enum_entry, idx}], rest}
-            end
-            defp process_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) when is_integer(enum_value) do
-                values ++ [{enum_entry, enum_value}]
-                    |> process_extract(rest, enum_value + 1)
-            end
-            defp process_extract(values, [enum_entry, :token_assignment, enum_value | rest], _idx) do
-                orig_value = process_lookup(values, values, enum_value)
-                values ++ [{enum_entry, orig_value, enum_value}]
-                    |> process_extract(rest, orig_value + 1)
-            end
-
-            # Helper function used to look up enum value within enum table.
-            defp process_lookup([], _values, _enum_value), do: raise(SyntaxError, description: "Enum value was not found")
-            defp process_lookup([field | rest], values, enum_value) do
-                if elem(field, 0) == enum_value do
-                    field_value = elem(field, 1)
-                    if is_integer(field_value) do
-                        field_value
-                    else
-                        process_lookup(values, values, field_value)
-                    end
-                else
-                    process_lookup(rest, values, enum_value)
-                end
-            end
+        # Given a list of tokens, produce a mapping table for structs.
+        def process(tokens) do
+          HashDict.new
+          |> process_collect(tokens)
         end
 
-        # Struct extraction into struct table.
-        defmodule Structs do
+        # Process tokens and collect structures.
+        defp process_collect(dict, []), do: dict
+        defp process_collect(dict, [:token_structure, struct_name, :token_bracket_curly_left | rest]) do
+          [struct_body, remaining] = process_extract([], rest)
+          Dict.put(dict, struct_name, struct_body)
+          |> process_collect(remaining)
+        end
+        defp process_collect(_dict, [:token_structure | _rest]) do
+          raise(SyntaxError, description: "Invalid struct detected")
+        end
+        defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
 
-            # Given a list of tokens, produce a mapping table for structs.
-            def process(tokens) do
-                HashDict.new
-                    |> process_collect(tokens)
-            end
+        # Helper function to extract struct fields from token stream.
+        defp process_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of struct")
+        defp process_extract(list, [:token_bracket_curly_right, :token_semicolon | rest]), do: [list, rest]
+        defp process_extract(list, [field_type, field_name, :token_bracket_square_left, field_size,
+          :token_bracket_square_right, :token_semicolon | rest]) do
 
-            # Process tokens and collect structures.
-            defp process_collect(dict, []), do: dict
-            defp process_collect(dict, [:token_structure, struct_name, :token_bracket_curly_left | rest]) do
-                [struct_body, remaining] = process_extract([], rest)
-                Dict.put(dict, struct_name, struct_body)
-                    |> process_collect(remaining)
-            end
-            defp process_collect(_dict, [:token_structure | _rest]) do
-                raise(SyntaxError, description: "Invalid struct detected")
-            end
-            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
+          list ++ [{field_name, field_type, field_size}]
+          |> process_extract(rest)
+        end
+        defp process_extract(list, [field_type, field_name, :token_semicolon | rest]) do
+          list ++ [{field_name, field_type}]
+          |> process_extract(rest)
+        end
+      end
 
-            # Helper function to extract struct fields from token stream.
-            defp process_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of struct")
-            defp process_extract(list, [:token_bracket_curly_right, :token_semicolon | rest]), do: [list, rest]
-            defp process_extract(list, [field_type, field_name, :token_bracket_square_left, field_size,
-                :token_bracket_square_right, :token_semicolon | rest]) do
-                    list ++ [{field_name, field_type, field_size}]
-                        |> process_extract(rest)
-            end
-            defp process_extract(list, [field_type, field_name, :token_semicolon | rest]) do
-                list ++ [{field_name, field_type}]
-                    |> process_extract(rest)
-            end
+      # Function extraction into function table.
+      defmodule Functions do
+
+        # Given a list of tokens, produce a mapping table for functions.
+        def process(tokens) do
+          HashDict.new
+          |> process_collect(tokens)
         end
 
-        # Function extraction into function table.
-        defmodule Functions do
+        # Process tokens and collect functions.
+        defp process_collect(dict, []), do: dict
+        defp process_collect(dict, [function_type, function_name, :token_bracket_left | rest]) do
+          [params, remaining] = process_extract([], rest)
+          Dict.put(dict, function_name, {function_type, params})
+          |> process_collect(remaining)
+        end
+        defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
 
-            # Given a list of tokens, produce a mapping table for functions.
-            def process(tokens) do
-                HashDict.new
-                    |> process_collect(tokens)
-            end
-
-            # Process tokens and collect functions.
-            defp process_collect(dict, []), do: dict
-            defp process_collect(dict, [function_type, function_name, :token_bracket_left | rest]) do
-                [params, remaining] = process_extract([], rest)
-                Dict.put(dict, function_name, {function_type, params})
-                    |> process_collect(remaining)
-            end
-            defp process_collect(dict, [_token | rest]), do: process_collect(dict, rest)
-
-            # Helper function to extract function parameters.
-            defp process_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of function")
-            defp process_extract(list, [:token_comma | rest]), do: process_extract(list, rest)
-            defp process_extract(list, [:token_bracket_right, :token_semicolon | rest]), do: [list, rest]
-            defp process_extract(list, [:token_const, param_type, :token_pointer, :token_pointer, param_name | rest] = tokens) do
-                list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 4))}]
-                        |> process_extract(rest)
-            end
-            defp process_extract(list, [:token_const, :token_char, :token_pointer, param_name | rest] = tokens) do
-                list ++ [{:token_char, param_name,
-                            process_flags(HashDict.new |> Dict.put(:param_string, true), Enum.take(tokens, 4))
-                                |> process_flags_array(param_name)}]
-                |> process_extract(rest)
-            end
-            defp process_extract(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
-                list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 4))}]
-                    |> process_extract(rest)
-            end
-            defp process_extract(list, [:token_const, param_type, param_name | rest] = tokens) do
-                list ++ [{param_type, param_name,
-                            HashDict.new |> process_flags(Enum.take(tokens, 3))
-                                |> process_flags_array(param_name)}]
-                |> process_extract(rest)
-            end
-            defp process_extract(list, [:token_char, :token_pointer, param_name | rest] = tokens) do
-                list ++ [{:token_char, param_name,
-                            process_flags(HashDict.new |> Dict.put(:param_string, true), Enum.take(tokens, 3))
-                                |> process_flags_array(param_name)}]
-                |> process_extract(rest)
-            end
-            defp process_extract(list, [param_type, :token_pointer, param_name | rest] = tokens) do
-                list ++ [{param_type, param_name,
-                            process_flags(HashDict.new, Enum.take(tokens, 3))
-                                |> process_flags_array(param_name)}]
-                |> process_extract(rest)
-            end
-            defp process_extract(list, [param_type, param_name | rest] = tokens) do
-                list ++ [{param_type, param_name,
-                            process_flags(HashDict.new, Enum.take(tokens, 2))
-                                |> process_flags_array(param_name)}]
-                |> process_extract(rest)
-            end
-
-            # Helper function used add flags.
-            defp process_flags(dict, []), do: dict
-            defp process_flags(dict, [:token_const | rest]) do
-                Dict.put(dict, :param_const, true)
-                    |> process_flags(rest)
-            end
-            defp process_flags(dict, [:token_pointer | rest]) do
-                if Dict.get(dict, :param_pointer, false) do
-                    Dict.put(dict, :param_pointer_pointer, true)
-                        |> process_flags(rest)
-                else
-                    Dict.put(dict, :param_pointer, true)
-                        |> process_flags(rest)
-                end
-            end
-            defp process_flags(dict, [_param | rest]), do: process_flags(dict, rest)
-
-            # Helper function to add array flag.
-            defp process_flags_array(dict, "cook_options"), do: dict
-            defp process_flags_array(dict, param) when is_binary(param) do
-                if String.match?(param, ~r/\w+es$/) or String.match?(param, ~r/\w+s$/) do
-                    Dict.put(dict, :param_array, true)
-                else
-                    dict
-                end
-            end
+        # Helper function to extract function parameters.
+        defp process_extract(_list, []), do: raise(SyntaxError, description: "Unexpected end of function")
+        defp process_extract(list, [:token_comma | rest]), do: process_extract(list, rest)
+        defp process_extract(list, [:token_bracket_right, :token_semicolon | rest]), do: [list, rest]
+        defp process_extract(list, [:token_const, param_type, :token_pointer, :token_pointer, param_name | rest] = tokens) do
+          list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 4))}]
+          |> process_extract(rest)
+        end
+        defp process_extract(list, [:token_const, :token_char, :token_pointer, param_name | rest] = tokens) do
+          list ++ [{:token_char, param_name,
+            process_flags(HashDict.new |> Dict.put(:param_string, true), Enum.take(tokens, 4))
+            |> process_flags_array(param_name)}]
+          |> process_extract(rest)
+        end
+        defp process_extract(list, [:token_const, param_type, :token_pointer, param_name | rest] = tokens) do
+          list ++ [{param_type, param_name, process_flags(HashDict.new, Enum.take(tokens, 4))}]
+          |> process_extract(rest)
+        end
+        defp process_extract(list, [:token_const, param_type, param_name | rest] = tokens) do
+          list ++ [{param_type, param_name,
+            HashDict.new |> process_flags(Enum.take(tokens, 3))
+            |> process_flags_array(param_name)}]
+          |> process_extract(rest)
+        end
+        defp process_extract(list, [:token_char, :token_pointer, param_name | rest] = tokens) do
+          list ++ [{:token_char, param_name,
+            process_flags(HashDict.new |> Dict.put(:param_string, true), Enum.take(tokens, 3))
+            |> process_flags_array(param_name)}]
+          |> process_extract(rest)
+        end
+        defp process_extract(list, [param_type, :token_pointer, param_name | rest] = tokens) do
+          list ++ [{param_type, param_name,
+            process_flags(HashDict.new, Enum.take(tokens, 3))
+            |> process_flags_array(param_name)}]
+          |> process_extract(rest)
+        end
+        defp process_extract(list, [param_type, param_name | rest] = tokens) do
+          list ++ [{param_type, param_name,
+            process_flags(HashDict.new, Enum.take(tokens, 2))
+            |> process_flags_array(param_name)}]
+          |> process_extract(rest)
         end
 
-        # Print types.
-        def print_types(env) do
-            types = Dict.get(env, :types, :nil)
-            if not is_nil(types) do
-                Enum.map(types, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
-            end
-            env
+        # Helper function used add flags.
+        defp process_flags(dict, []), do: dict
+        defp process_flags(dict, [:token_const | rest]) do
+          Dict.put(dict, :param_const, true)
+          |> process_flags(rest)
         end
+        defp process_flags(dict, [:token_pointer | rest]) do
+          if Dict.get(dict, :param_pointer, false) do
+            Dict.put(dict, :param_pointer_pointer, true)
+            |> process_flags(rest)
+          else
+            Dict.put(dict, :param_pointer, true)
+            |> process_flags(rest)
+          end
+        end
+        defp process_flags(dict, [_param | rest]), do: process_flags(dict, rest)
 
-        # Print enums.
-        def print_enums(env) do
-            enums = Dict.get(env, :enums, :nil)
-            if not is_nil(enums) do
-                Enum.map(enums, fn {k, v} -> print_enum(k, v) end)
-            end
-            env
+        # Helper function to add array flag.
+        defp process_flags_array(dict, "cook_options"), do: dict
+        defp process_flags_array(dict, param) when is_binary(param) do
+          if String.match?(param, ~r/\w+es$/) or String.match?(param, ~r/\w+s$/) do
+            Dict.put(dict, :param_array, true)
+          else
+            dict
+          end
         end
+      end
 
-        # Helper function to print each individual enum.
-        defp print_enum(enum_name, enum_body) do
-            IO.puts("#{enum_name}")
-            Enum.map(enum_body, fn(x) -> print_enum_field(x) end)
-            IO.puts("")
+      # Print types.
+      def print_types(env) do
+        types = Dict.get(env, :types, :nil)
+        if not is_nil(types) do
+          Enum.map(types, fn {k, v} -> IO.puts("#{k} -> #{v}") end)
         end
+        env
+      end
 
-        # Helper function to print each enum field.
-        defp print_enum_field({field_name, field_value, field_original}) do
-            IO.puts("    #{field_name} -> #{field_value} -> #{field_original}")
+      # Print enums.
+      def print_enums(env) do
+        enums = Dict.get(env, :enums, :nil)
+        if not is_nil(enums) do
+          Enum.map(enums, fn {k, v} -> print_enum(k, v) end)
         end
-        defp print_enum_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
+        env
+      end
 
-        # Helper function to print each individual struct.
-        def print_structs(env) do
-            structs = Dict.get(env, :structs, :nil)
-            if not is_nil(structs) do
-                Enum.map(structs, fn {k, v} -> print_struct(k, v) end)
-            end
-            env
-        end
+      # Helper function to print each individual enum.
+      defp print_enum(enum_name, enum_body) do
+        IO.puts("#{enum_name}")
+        Enum.map(enum_body, fn(x) -> print_enum_field(x) end)
+        IO.puts("")
+      end
 
-        # Helper function to print each individual struct.
-        defp print_struct(struct_name, struct_body) do
-            IO.puts("#{struct_name}")
-            Enum.map(struct_body, fn(x) -> print_struct_field(x) end)
-            IO.puts("")
-        end
+      # Helper function to print each enum field.
+      defp print_enum_field({field_name, field_value, field_original}) do
+        IO.puts("    #{field_name} -> #{field_value} -> #{field_original}")
+      end
+      defp print_enum_field({field_name, field_value}), do: IO.puts("    #{field_name} -> #{field_value}")
 
-        # Helper function to print each individual struct field.
-        defp print_struct_field({field_name, field_type, field_size}) do
-            IO.puts("    #{field_type} #{field_name}[#{field_size}]")
+      # Helper function to print each individual struct.
+      def print_structs(env) do
+        structs = Dict.get(env, :structs, :nil)
+        if not is_nil(structs) do
+          Enum.map(structs, fn {k, v} -> print_struct(k, v) end)
         end
-        defp print_struct_field({field_name, field_type}) do
-            IO.puts("    #{field_type} #{field_name}")
-        end
+        env
+      end
 
-        # Print functions.
-        def print_functions(env) do
-            funcs = Dict.get(env, :functions, :nil)
-            if not is_nil(funcs) do
-                Enum.map(funcs, fn {k, v} -> print_function(k, v) end)
-            end
-            env
-        end
+      # Helper function to print each individual struct.
+      defp print_struct(struct_name, struct_body) do
+        IO.puts("#{struct_name}")
+        Enum.map(struct_body, fn(x) -> print_struct_field(x) end)
+        IO.puts("")
+      end
 
-        # Helper function to print each individual function.
-        defp print_function(function_name, {function_type, function_params}) do
-            IO.puts("#{function_name} -> #{function_type}")
-            Enum.map(function_params, fn(param) -> print_function_param(param) end)
-            IO.puts("")
-        end
+      # Helper function to print each individual struct field.
+      defp print_struct_field({field_name, field_type, field_size}) do
+        IO.puts("    #{field_type} #{field_name}[#{field_size}]")
+      end
+      defp print_struct_field({field_name, field_type}) do
+        IO.puts("    #{field_type} #{field_name}")
+      end
 
-        # Helper function to print each individual function parameter.
-        defp print_function_param({param_type, param_name, param_opts}) do
-            IO.puts("    #{param_type} #{param_name}")
-            Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
+      # Print functions.
+      def print_functions(env) do
+        funcs = Dict.get(env, :functions, :nil)
+        if not is_nil(funcs) do
+          Enum.map(funcs, fn {k, v} -> print_function(k, v) end)
         end
+        env
+      end
+
+      # Helper function to print each individual function.
+      defp print_function(function_name, {function_type, function_params}) do
+        IO.puts("#{function_name} -> #{function_type}")
+        Enum.map(function_params, fn(param) -> print_function_param(param) end)
+        IO.puts("")
+      end
+
+      # Helper function to print each individual function parameter.
+      defp print_function_param({param_type, param_name, param_opts}) do
+        IO.puts("    #{param_type} #{param_name}")
+        Enum.map(param_opts, fn {k, v} -> IO.puts("        #{k} -> #{v}") end)
+      end
     end
 
     # Utility module.

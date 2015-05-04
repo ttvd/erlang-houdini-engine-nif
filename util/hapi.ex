@@ -1171,7 +1171,7 @@ defmodule HAPI do
 
             {function_type, function_params} = function_body
             parameters = create_stub_c_entry_objects([], env, function_name, function_type, function_params)
-            parameters_input = Enum.filter(parameters, &(not elem(&1, 4)))
+            #parameters_input = Enum.filter(parameters, &(not elem(&1, 4)))
 
             String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
                 |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
@@ -1183,9 +1183,10 @@ defmodule HAPI do
                     Enum.filter(parameters, &(elem(&1, 6)))
                     |> Enum.map_join("\n    ", &("if(#{elem(&1, 2)}) free(#{elem(&1, 2)});")))
                 |> String.replace("%{HAPI_FUNCTION_INPUT_ASSIGN}%",
-                    Enum.filter(parameters_input, &(not elem(&1, 6)))
-                    |> Enum.concat(Enum.filter(parameters_input, &(elem(&1, 6))))
-                    |> Enum.map_join("\n    ", &("INPUT_VAR_NEEDS_INIT #{elem(&1, 0)} #{elem(&1, 2)}")))
+                    Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
+                    |> Enum.filter(&(not elem(&1, 4)))
+                    #|> Enum.map_join("\n    ", &("INPUT_VAR_NEEDS_INIT #{elem(&1, 0)} #{elem(&1, 2)} // #{elem(&1, 1)}")))
+                    |> Enum.map_join("\n    ", &(create_stub_c_entry_assign(env, &1))))
         end
 
         # DEBUG FUNCTION
@@ -1223,12 +1224,11 @@ defmodule HAPI do
 
         #
         defp create_stub_c_entry_object(env, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
-            {"char*", "EXTRACT_CODE", "param_#{param_name}", "NULL", not is_const_parameter(param), :nil, true}
+            {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", not is_const_parameter(param), :nil, true}
         end
-        defp create_stub_c_entry_object(env, function_name, function_type, {param_type, param_name, _param_opts}) do
+        defp create_stub_c_entry_object(env, function_name, function_type, {param_type, param_name, _param_opts} = param) do
             resolved_type = HAPI.Util.type_resolve(env, param_type)
-            # FIX INPUT OUTPUT FLAG HERE
-            {"#{resolved_type}", "EXTRACT_CODE", "param_#{param_name}", :nil, false, :nil, false}
+            {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_const_parameter(param), :nil, false}
         end
         defp create_stub_c_entry_objects(collect, env, function_name, function_type, []) do
             collect
@@ -1250,10 +1250,10 @@ defmodule HAPI do
                     #end
 
                     collect
-                        ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}",
+                        ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}",
                                 "NULL", parm_const, "param_length", true}]
-                        ++ [{"int", "EXTRACT_CODE", "param_start", :nil, false, :nil, false}]
-                        ++ [{"int", "EXTRACT_CODE", "param_length", :nil, false, :nil, false}]
+                        ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, false, :nil, false}]
+                        ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, false, :nil, false}]
                         |> create_stub_c_entry_objects(env, function_name, function_type, rest)
                 else
                     raise(RuntimeError, description: "Illegal sequence of parameters, pointer, size, length.")
@@ -1270,9 +1270,9 @@ defmodule HAPI do
                         resolved_type = HAPI.Util.type_resolve(env, param_0_type)
 
                         collect
-                            ++ [{"#{resolved_type}*", "EXTRACT_CODE", "param_#{param_0_name}", "NULL",
+                            ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
                                     not is_const_parameter(param_0), "param_#{param_1_name}", true}]
-                            ++ [{"int", "EXTRACT_CODE", "param_#{param_1_name}", :nil, false, :nil, false}]
+                            ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, false, :nil, false}]
                         |> create_stub_c_entry_objects(env, function_name, function_type, rest)
                     else
                         collect ++
@@ -1285,6 +1285,13 @@ defmodule HAPI do
                 |> create_stub_c_entry_objects(env, function_name, function_type, rest)
         end
 
+        # Helper function used to create assignments.
+        defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_output, decl_size, needs_cleanup}) do
+        #    cond do
+        #        HAPI.Util.is_type_enum(env, type) do ->
+        #        "// ENUM"
+            "// EMPTY"
+        end
     end
 end
 

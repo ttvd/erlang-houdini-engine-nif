@@ -1115,8 +1115,8 @@ defmodule HAPI do
                 entries = String.replace(template_hapi_erl, "%{HAPI_ERL_FUNCTIONS}%",
                     Enum.map_join(functions, "\n\n", fn{k, v} -> create_stub_erl_entry(env, k, v, template_hapi_erl_block) end))
                         |> String.replace("%{HAPI_ERL_EXPORTS}%",
-                            Enum.map_join(functions, ",\n    ", fn{k, v} -> "HAPI_" <> f = k;
-                                "#{HAPI.Util.underscore(f)}/#{length(get_parameters(v))}" end))
+                            Enum.map_join(functions, ",\n    ",
+                                fn{"HAPI_" <> k, v} -> "#{HAPI.Util.underscore(k)}/#{length(get_parameters(v))}" end))
 
                 File.write("./src/hapi.erl", entries)
                 IO.puts("Generating src/hapi.erl")
@@ -1171,16 +1171,21 @@ defmodule HAPI do
 
             {function_type, function_params} = function_body
             parameters = create_stub_c_entry_objects([], env, function_name, function_type, function_params)
+            parameters_input = Enum.filter(parameters, &(not elem(&1, 4)))
 
             String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
                 |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
                 |> String.replace("%{HAPI_DEBUG_TOKENS}%",
                     Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
                 |> String.replace("%{HAPI_FUNCTION_BODY}%",
-                    Enum.map_join(parameters, "\n    ", fn(p) -> create_stub_c_entry_var(p) end))
+                    Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1))))
                 |> String.replace("%{HAPI_FUNCTION_CLEANUP}%",
-                    Enum.filter(parameters, fn(p) -> elem(p, 6) end)
-                        |> Enum.map_join("\n    ", fn(o) -> "if(#{elem(o, 2)}) free(#{elem(o, 2)});" end))
+                    Enum.filter(parameters, &(elem(&1, 6)))
+                    |> Enum.map_join("\n    ", &("if(#{elem(&1, 2)}) free(#{elem(&1, 2)});")))
+                |> String.replace("%{HAPI_FUNCTION_INPUT_ASSIGN}%",
+                    Enum.filter(parameters_input, &(not elem(&1, 6)))
+                    |> Enum.concat(Enum.filter(parameters_input, &(elem(&1, 6))))
+                    |> Enum.map_join("\n    ", &("INPUT_VAR_NEEDS_INIT #{elem(&1, 0)} #{elem(&1, 2)}")))
         end
 
         # DEBUG FUNCTION

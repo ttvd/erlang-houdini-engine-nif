@@ -1,11 +1,11 @@
 /* Conversion of %{HAPI_STRUCT}% structure from c to erl. */
-ERL_NIF_TERM hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct);
 
 /* Conversion of %{HAPI_STRUCT}% structure from erl to c. */
-bool hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct);
+bool hapi_priv_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct);
 
 /* Conversion of array of %{HAPI_STRUCT}% objects from c to erl. */
-ERL_NIF_TERM hapi_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of %{HAPI_STRUCT}% objects from erl to c. */
-bool hapi_get_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size);

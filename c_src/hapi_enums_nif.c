@@ -11,28 +11,28 @@
 
 /* Converting HAPI_RampType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_ramp_type(ErlNifEnv* env, HAPI_RampType enum_value)
+hapi_priv_make_hapi_ramp_type(ErlNifEnv* env, HAPI_RampType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_RAMPTYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_ramptype_invalid");
+            return hapi_priv_make_atom(env, "hapi_ramptype_invalid");
         }
 
         case HAPI_RAMPTYPE_FLOAT:
         {
-            return hapi_make_atom(env, "hapi_ramptype_float");
+            return hapi_priv_make_atom(env, "hapi_ramptype_float");
         }
 
         case HAPI_RAMPTYPE_COLOR:
         {
-            return hapi_make_atom(env, "hapi_ramptype_color");
+            return hapi_priv_make_atom(env, "hapi_ramptype_color");
         }
 
         case HAPI_RAMPTYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_ramptype_max");
+            return hapi_priv_make_atom(env, "hapi_ramptype_max");
         }
 
         default:
@@ -47,7 +47,7 @@ hapi_make_hapi_ramp_type(ErlNifEnv* env, HAPI_RampType enum_value)
 
 /* Converting HAPI_RampType from erl to c. */
 bool
-hapi_get_hapi_ramp_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RampType* enum_result)
+hapi_priv_get_hapi_ramp_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RampType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -121,38 +121,38 @@ label_cleanup:
 
 /* Converting HAPI_XYZOrder from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_xyzorder(ErlNifEnv* env, HAPI_XYZOrder enum_value)
+hapi_priv_make_hapi_xyzorder(ErlNifEnv* env, HAPI_XYZOrder enum_value)
 {
     switch(enum_value)
     {
         case HAPI_XYZ:
         {
-            return hapi_make_atom(env, "hapi_xyz");
+            return hapi_priv_make_atom(env, "hapi_xyz");
         }
 
         case HAPI_XZY:
         {
-            return hapi_make_atom(env, "hapi_xzy");
+            return hapi_priv_make_atom(env, "hapi_xzy");
         }
 
         case HAPI_YXZ:
         {
-            return hapi_make_atom(env, "hapi_yxz");
+            return hapi_priv_make_atom(env, "hapi_yxz");
         }
 
         case HAPI_YZX:
         {
-            return hapi_make_atom(env, "hapi_yzx");
+            return hapi_priv_make_atom(env, "hapi_yzx");
         }
 
         case HAPI_ZXY:
         {
-            return hapi_make_atom(env, "hapi_zxy");
+            return hapi_priv_make_atom(env, "hapi_zxy");
         }
 
         case HAPI_ZYX:
         {
-            return hapi_make_atom(env, "hapi_zyx");
+            return hapi_priv_make_atom(env, "hapi_zyx");
         }
 
         default:
@@ -167,7 +167,7 @@ hapi_make_hapi_xyzorder(ErlNifEnv* env, HAPI_XYZOrder enum_value)
 
 /* Converting HAPI_XYZOrder from erl to c. */
 bool
-hapi_get_hapi_xyzorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* enum_result)
+hapi_priv_get_hapi_xyzorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_XYZOrder* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -255,43 +255,43 @@ label_cleanup:
 
 /* Converting HAPI_ImageDataFormat from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_data_format(ErlNifEnv* env, HAPI_ImageDataFormat enum_value)
+hapi_priv_make_hapi_image_data_format(ErlNifEnv* env, HAPI_ImageDataFormat enum_value)
 {
     switch(enum_value)
     {
         case HAPI_IMAGE_DATA_UNKNOWN:
         {
-            return hapi_make_atom(env, "hapi_image_data_unknown");
+            return hapi_priv_make_atom(env, "hapi_image_data_unknown");
         }
 
         case HAPI_IMAGE_DATA_INT8:
         {
-            return hapi_make_atom(env, "hapi_image_data_int8");
+            return hapi_priv_make_atom(env, "hapi_image_data_int8");
         }
 
         case HAPI_IMAGE_DATA_INT16:
         {
-            return hapi_make_atom(env, "hapi_image_data_int16");
+            return hapi_priv_make_atom(env, "hapi_image_data_int16");
         }
 
         case HAPI_IMAGE_DATA_INT32:
         {
-            return hapi_make_atom(env, "hapi_image_data_int32");
+            return hapi_priv_make_atom(env, "hapi_image_data_int32");
         }
 
         case HAPI_IMAGE_DATA_FLOAT16:
         {
-            return hapi_make_atom(env, "hapi_image_data_float16");
+            return hapi_priv_make_atom(env, "hapi_image_data_float16");
         }
 
         case HAPI_IMAGE_DATA_FLOAT32:
         {
-            return hapi_make_atom(env, "hapi_image_data_float32");
+            return hapi_priv_make_atom(env, "hapi_image_data_float32");
         }
 
         case HAPI_IMAGE_DATA_MAX:
         {
-            return hapi_make_atom(env, "hapi_image_data_max");
+            return hapi_priv_make_atom(env, "hapi_image_data_max");
         }
 
         default:
@@ -306,7 +306,7 @@ hapi_make_hapi_image_data_format(ErlNifEnv* env, HAPI_ImageDataFormat enum_value
 
 /* Converting HAPI_ImageDataFormat from erl to c. */
 bool
-hapi_get_hapi_image_data_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageDataFormat* enum_result)
+hapi_priv_get_hapi_image_data_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageDataFormat* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -408,43 +408,43 @@ label_cleanup:
 
 /* Converting HAPI_License from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_license(ErlNifEnv* env, HAPI_License enum_value)
+hapi_priv_make_hapi_license(ErlNifEnv* env, HAPI_License enum_value)
 {
     switch(enum_value)
     {
         case HAPI_LICENSE_NONE:
         {
-            return hapi_make_atom(env, "hapi_license_none");
+            return hapi_priv_make_atom(env, "hapi_license_none");
         }
 
         case HAPI_LICENSE_HOUDINI_ENGINE:
         {
-            return hapi_make_atom(env, "hapi_license_houdini_engine");
+            return hapi_priv_make_atom(env, "hapi_license_houdini_engine");
         }
 
         case HAPI_LICENSE_HOUDINI:
         {
-            return hapi_make_atom(env, "hapi_license_houdini");
+            return hapi_priv_make_atom(env, "hapi_license_houdini");
         }
 
         case HAPI_LICENSE_HOUDINI_FX:
         {
-            return hapi_make_atom(env, "hapi_license_houdini_fx");
+            return hapi_priv_make_atom(env, "hapi_license_houdini_fx");
         }
 
         case HAPI_LICENSE_HOUDINI_ENGINE_INDIE:
         {
-            return hapi_make_atom(env, "hapi_license_houdini_engine_indie");
+            return hapi_priv_make_atom(env, "hapi_license_houdini_engine_indie");
         }
 
         case HAPI_LICENSE_HOUDINI_INDIE:
         {
-            return hapi_make_atom(env, "hapi_license_houdini_indie");
+            return hapi_priv_make_atom(env, "hapi_license_houdini_indie");
         }
 
         case HAPI_LICENSE_MAX:
         {
-            return hapi_make_atom(env, "hapi_license_max");
+            return hapi_priv_make_atom(env, "hapi_license_max");
         }
 
         default:
@@ -459,7 +459,7 @@ hapi_make_hapi_license(ErlNifEnv* env, HAPI_License enum_value)
 
 /* Converting HAPI_License from erl to c. */
 bool
-hapi_get_hapi_license(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_License* enum_result)
+hapi_priv_get_hapi_license(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_License* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -554,38 +554,38 @@ label_cleanup:
 
 /* Converting HAPI_GeoType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_geo_type(ErlNifEnv* env, HAPI_GeoType enum_value)
+hapi_priv_make_hapi_geo_type(ErlNifEnv* env, HAPI_GeoType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_GEOTYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_geotype_invalid");
+            return hapi_priv_make_atom(env, "hapi_geotype_invalid");
         }
 
         case HAPI_GEOTYPE_DEFAULT:
         {
-            return hapi_make_atom(env, "hapi_geotype_default");
+            return hapi_priv_make_atom(env, "hapi_geotype_default");
         }
 
         case HAPI_GEOTYPE_INTERMEDIATE:
         {
-            return hapi_make_atom(env, "hapi_geotype_intermediate");
+            return hapi_priv_make_atom(env, "hapi_geotype_intermediate");
         }
 
         case HAPI_GEOTYPE_INPUT:
         {
-            return hapi_make_atom(env, "hapi_geotype_input");
+            return hapi_priv_make_atom(env, "hapi_geotype_input");
         }
 
         case HAPI_GEOTYPE_CURVE:
         {
-            return hapi_make_atom(env, "hapi_geotype_curve");
+            return hapi_priv_make_atom(env, "hapi_geotype_curve");
         }
 
         case HAPI_GEOTYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_geotype_max");
+            return hapi_priv_make_atom(env, "hapi_geotype_max");
         }
 
         default:
@@ -600,7 +600,7 @@ hapi_make_hapi_geo_type(ErlNifEnv* env, HAPI_GeoType enum_value)
 
 /* Converting HAPI_GeoType from erl to c. */
 bool
-hapi_get_hapi_geo_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoType* enum_result)
+hapi_priv_get_hapi_geo_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -688,28 +688,28 @@ label_cleanup:
 
 /* Converting HAPI_InputType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_input_type(ErlNifEnv* env, HAPI_InputType enum_value)
+hapi_priv_make_hapi_input_type(ErlNifEnv* env, HAPI_InputType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_INPUT_INVALID:
         {
-            return hapi_make_atom(env, "hapi_input_invalid");
+            return hapi_priv_make_atom(env, "hapi_input_invalid");
         }
 
         case HAPI_INPUT_TRANSFORM:
         {
-            return hapi_make_atom(env, "hapi_input_transform");
+            return hapi_priv_make_atom(env, "hapi_input_transform");
         }
 
         case HAPI_INPUT_GEOMETRY:
         {
-            return hapi_make_atom(env, "hapi_input_geometry");
+            return hapi_priv_make_atom(env, "hapi_input_geometry");
         }
 
         case HAPI_INPUT_MAX:
         {
-            return hapi_make_atom(env, "hapi_input_max");
+            return hapi_priv_make_atom(env, "hapi_input_max");
         }
 
         default:
@@ -724,7 +724,7 @@ hapi_make_hapi_input_type(ErlNifEnv* env, HAPI_InputType enum_value)
 
 /* Converting HAPI_InputType from erl to c. */
 bool
-hapi_get_hapi_input_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_InputType* enum_result)
+hapi_priv_get_hapi_input_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_InputType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -798,93 +798,93 @@ label_cleanup:
 
 /* Converting HAPI_AssetType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_asset_type(ErlNifEnv* env, HAPI_AssetType enum_value)
+hapi_priv_make_hapi_asset_type(ErlNifEnv* env, HAPI_AssetType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_ASSETTYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_assettype_invalid");
+            return hapi_priv_make_atom(env, "hapi_assettype_invalid");
         }
 
         case HAPI_ASSETTYPE_OBJ:
         {
-            return hapi_make_atom(env, "hapi_assettype_obj");
+            return hapi_priv_make_atom(env, "hapi_assettype_obj");
         }
 
         case HAPI_ASSETTYPE_SOP:
         {
-            return hapi_make_atom(env, "hapi_assettype_sop");
+            return hapi_priv_make_atom(env, "hapi_assettype_sop");
         }
 
         case HAPI_ASSETTYPE_POPNET:
         {
-            return hapi_make_atom(env, "hapi_assettype_popnet");
+            return hapi_priv_make_atom(env, "hapi_assettype_popnet");
         }
 
         case HAPI_ASSETTYPE_POP:
         {
-            return hapi_make_atom(env, "hapi_assettype_pop");
+            return hapi_priv_make_atom(env, "hapi_assettype_pop");
         }
 
         case HAPI_ASSETTYPE_CHOPNET:
         {
-            return hapi_make_atom(env, "hapi_assettype_chopnet");
+            return hapi_priv_make_atom(env, "hapi_assettype_chopnet");
         }
 
         case HAPI_ASSETTYPE_CHOP:
         {
-            return hapi_make_atom(env, "hapi_assettype_chop");
+            return hapi_priv_make_atom(env, "hapi_assettype_chop");
         }
 
         case HAPI_ASSETTYPE_ROP:
         {
-            return hapi_make_atom(env, "hapi_assettype_rop");
+            return hapi_priv_make_atom(env, "hapi_assettype_rop");
         }
 
         case HAPI_ASSETTYPE_SHOP:
         {
-            return hapi_make_atom(env, "hapi_assettype_shop");
+            return hapi_priv_make_atom(env, "hapi_assettype_shop");
         }
 
         case HAPI_ASSETTYPE_COP2:
         {
-            return hapi_make_atom(env, "hapi_assettype_cop2");
+            return hapi_priv_make_atom(env, "hapi_assettype_cop2");
         }
 
         case HAPI_ASSETTYPE_COPNET:
         {
-            return hapi_make_atom(env, "hapi_assettype_copnet");
+            return hapi_priv_make_atom(env, "hapi_assettype_copnet");
         }
 
         case HAPI_ASSETTYPE_VOP:
         {
-            return hapi_make_atom(env, "hapi_assettype_vop");
+            return hapi_priv_make_atom(env, "hapi_assettype_vop");
         }
 
         case HAPI_ASSETTYPE_VOPNET:
         {
-            return hapi_make_atom(env, "hapi_assettype_vopnet");
+            return hapi_priv_make_atom(env, "hapi_assettype_vopnet");
         }
 
         case HAPI_ASSETTYPE_DOP:
         {
-            return hapi_make_atom(env, "hapi_assettype_dop");
+            return hapi_priv_make_atom(env, "hapi_assettype_dop");
         }
 
         case HAPI_ASSETTYPE_MGR:
         {
-            return hapi_make_atom(env, "hapi_assettype_mgr");
+            return hapi_priv_make_atom(env, "hapi_assettype_mgr");
         }
 
         case HAPI_ASSETTYPE_DIR:
         {
-            return hapi_make_atom(env, "hapi_assettype_dir");
+            return hapi_priv_make_atom(env, "hapi_assettype_dir");
         }
 
         case HAPI_ASSETTYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_assettype_max");
+            return hapi_priv_make_atom(env, "hapi_assettype_max");
         }
 
         default:
@@ -899,7 +899,7 @@ hapi_make_hapi_asset_type(ErlNifEnv* env, HAPI_AssetType enum_value)
 
 /* Converting HAPI_AssetType from erl to c. */
 bool
-hapi_get_hapi_asset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetType* enum_result)
+hapi_priv_get_hapi_asset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -1064,38 +1064,38 @@ label_cleanup:
 
 /* Converting HAPI_RSTOrder from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_rstorder(ErlNifEnv* env, HAPI_RSTOrder enum_value)
+hapi_priv_make_hapi_rstorder(ErlNifEnv* env, HAPI_RSTOrder enum_value)
 {
     switch(enum_value)
     {
         case HAPI_TRS:
         {
-            return hapi_make_atom(env, "hapi_trs");
+            return hapi_priv_make_atom(env, "hapi_trs");
         }
 
         case HAPI_TSR:
         {
-            return hapi_make_atom(env, "hapi_tsr");
+            return hapi_priv_make_atom(env, "hapi_tsr");
         }
 
         case HAPI_RTS:
         {
-            return hapi_make_atom(env, "hapi_rts");
+            return hapi_priv_make_atom(env, "hapi_rts");
         }
 
         case HAPI_RST:
         {
-            return hapi_make_atom(env, "hapi_rst");
+            return hapi_priv_make_atom(env, "hapi_rst");
         }
 
         case HAPI_STR:
         {
-            return hapi_make_atom(env, "hapi_str");
+            return hapi_priv_make_atom(env, "hapi_str");
         }
 
         case HAPI_SRT:
         {
-            return hapi_make_atom(env, "hapi_srt");
+            return hapi_priv_make_atom(env, "hapi_srt");
         }
 
         default:
@@ -1110,7 +1110,7 @@ hapi_make_hapi_rstorder(ErlNifEnv* env, HAPI_RSTOrder enum_value)
 
 /* Converting HAPI_RSTOrder from erl to c. */
 bool
-hapi_get_hapi_rstorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* enum_result)
+hapi_priv_get_hapi_rstorder(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_RSTOrder* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -1198,38 +1198,38 @@ label_cleanup:
 
 /* Converting HAPI_AttributeOwner from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_attribute_owner(ErlNifEnv* env, HAPI_AttributeOwner enum_value)
+hapi_priv_make_hapi_attribute_owner(ErlNifEnv* env, HAPI_AttributeOwner enum_value)
 {
     switch(enum_value)
     {
         case HAPI_ATTROWNER_INVALID:
         {
-            return hapi_make_atom(env, "hapi_attrowner_invalid");
+            return hapi_priv_make_atom(env, "hapi_attrowner_invalid");
         }
 
         case HAPI_ATTROWNER_VERTEX:
         {
-            return hapi_make_atom(env, "hapi_attrowner_vertex");
+            return hapi_priv_make_atom(env, "hapi_attrowner_vertex");
         }
 
         case HAPI_ATTROWNER_POINT:
         {
-            return hapi_make_atom(env, "hapi_attrowner_point");
+            return hapi_priv_make_atom(env, "hapi_attrowner_point");
         }
 
         case HAPI_ATTROWNER_PRIM:
         {
-            return hapi_make_atom(env, "hapi_attrowner_prim");
+            return hapi_priv_make_atom(env, "hapi_attrowner_prim");
         }
 
         case HAPI_ATTROWNER_DETAIL:
         {
-            return hapi_make_atom(env, "hapi_attrowner_detail");
+            return hapi_priv_make_atom(env, "hapi_attrowner_detail");
         }
 
         case HAPI_ATTROWNER_MAX:
         {
-            return hapi_make_atom(env, "hapi_attrowner_max");
+            return hapi_priv_make_atom(env, "hapi_attrowner_max");
         }
 
         default:
@@ -1244,7 +1244,7 @@ hapi_make_hapi_attribute_owner(ErlNifEnv* env, HAPI_AttributeOwner enum_value)
 
 /* Converting HAPI_AttributeOwner from erl to c. */
 bool
-hapi_get_hapi_attribute_owner(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeOwner* enum_result)
+hapi_priv_get_hapi_attribute_owner(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeOwner* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -1332,28 +1332,28 @@ label_cleanup:
 
 /* Converting HAPI_ShaderType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_shader_type(ErlNifEnv* env, HAPI_ShaderType enum_value)
+hapi_priv_make_hapi_shader_type(ErlNifEnv* env, HAPI_ShaderType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_SHADER_INVALID:
         {
-            return hapi_make_atom(env, "hapi_shader_invalid");
+            return hapi_priv_make_atom(env, "hapi_shader_invalid");
         }
 
         case HAPI_SHADER_OPENGL:
         {
-            return hapi_make_atom(env, "hapi_shader_opengl");
+            return hapi_priv_make_atom(env, "hapi_shader_opengl");
         }
 
         case HAPI_SHADER_MANTRA:
         {
-            return hapi_make_atom(env, "hapi_shader_mantra");
+            return hapi_priv_make_atom(env, "hapi_shader_mantra");
         }
 
         case HAPI_SHADER_MAX:
         {
-            return hapi_make_atom(env, "hapi_shader_max");
+            return hapi_priv_make_atom(env, "hapi_shader_max");
         }
 
         default:
@@ -1368,7 +1368,7 @@ hapi_make_hapi_shader_type(ErlNifEnv* env, HAPI_ShaderType enum_value)
 
 /* Converting HAPI_ShaderType from erl to c. */
 bool
-hapi_get_hapi_shader_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ShaderType* enum_result)
+hapi_priv_get_hapi_shader_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ShaderType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -1442,48 +1442,48 @@ label_cleanup:
 
 /* Converting HAPI_ImagePacking from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_packing(ErlNifEnv* env, HAPI_ImagePacking enum_value)
+hapi_priv_make_hapi_image_packing(ErlNifEnv* env, HAPI_ImagePacking enum_value)
 {
     switch(enum_value)
     {
         case HAPI_IMAGE_PACKING_UNKNOWN:
         {
-            return hapi_make_atom(env, "hapi_image_packing_unknown");
+            return hapi_priv_make_atom(env, "hapi_image_packing_unknown");
         }
 
         case HAPI_IMAGE_PACKING_SINGLE:
         {
-            return hapi_make_atom(env, "hapi_image_packing_single");
+            return hapi_priv_make_atom(env, "hapi_image_packing_single");
         }
 
         case HAPI_IMAGE_PACKING_DUAL:
         {
-            return hapi_make_atom(env, "hapi_image_packing_dual");
+            return hapi_priv_make_atom(env, "hapi_image_packing_dual");
         }
 
         case HAPI_IMAGE_PACKING_RGB:
         {
-            return hapi_make_atom(env, "hapi_image_packing_rgb");
+            return hapi_priv_make_atom(env, "hapi_image_packing_rgb");
         }
 
         case HAPI_IMAGE_PACKING_BGR:
         {
-            return hapi_make_atom(env, "hapi_image_packing_bgr");
+            return hapi_priv_make_atom(env, "hapi_image_packing_bgr");
         }
 
         case HAPI_IMAGE_PACKING_RGBA:
         {
-            return hapi_make_atom(env, "hapi_image_packing_rgba");
+            return hapi_priv_make_atom(env, "hapi_image_packing_rgba");
         }
 
         case HAPI_IMAGE_PACKING_ABGR:
         {
-            return hapi_make_atom(env, "hapi_image_packing_abgr");
+            return hapi_priv_make_atom(env, "hapi_image_packing_abgr");
         }
 
         case HAPI_IMAGE_PACKING_MAX:
         {
-            return hapi_make_atom(env, "hapi_image_packing_max");
+            return hapi_priv_make_atom(env, "hapi_image_packing_max");
         }
 
         default:
@@ -1498,7 +1498,7 @@ hapi_make_hapi_image_packing(ErlNifEnv* env, HAPI_ImagePacking enum_value)
 
 /* Converting HAPI_ImagePacking from erl to c. */
 bool
-hapi_get_hapi_image_packing(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result)
+hapi_priv_get_hapi_image_packing(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImagePacking* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -1614,103 +1614,103 @@ label_cleanup:
 
 /* Converting HAPI_Result from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_result(ErlNifEnv* env, HAPI_Result enum_value)
+hapi_priv_make_hapi_result(ErlNifEnv* env, HAPI_Result enum_value)
 {
     switch(enum_value)
     {
         case HAPI_RESULT_SUCCESS:
         {
-            return hapi_make_atom(env, "hapi_result_success");
+            return hapi_priv_make_atom(env, "hapi_result_success");
         }
 
         case HAPI_RESULT_FAILURE:
         {
-            return hapi_make_atom(env, "hapi_result_failure");
+            return hapi_priv_make_atom(env, "hapi_result_failure");
         }
 
         case HAPI_RESULT_ALREADY_INITIALIZED:
         {
-            return hapi_make_atom(env, "hapi_result_already_initialized");
+            return hapi_priv_make_atom(env, "hapi_result_already_initialized");
         }
 
         case HAPI_RESULT_NOT_INITIALIZED:
         {
-            return hapi_make_atom(env, "hapi_result_not_initialized");
+            return hapi_priv_make_atom(env, "hapi_result_not_initialized");
         }
 
         case HAPI_RESULT_CANT_LOADFILE:
         {
-            return hapi_make_atom(env, "hapi_result_cant_loadfile");
+            return hapi_priv_make_atom(env, "hapi_result_cant_loadfile");
         }
 
         case HAPI_RESULT_PARM_SET_FAILED:
         {
-            return hapi_make_atom(env, "hapi_result_parm_set_failed");
+            return hapi_priv_make_atom(env, "hapi_result_parm_set_failed");
         }
 
         case HAPI_RESULT_INVALID_ARGUMENT:
         {
-            return hapi_make_atom(env, "hapi_result_invalid_argument");
+            return hapi_priv_make_atom(env, "hapi_result_invalid_argument");
         }
 
         case HAPI_RESULT_CANT_LOAD_GEO:
         {
-            return hapi_make_atom(env, "hapi_result_cant_load_geo");
+            return hapi_priv_make_atom(env, "hapi_result_cant_load_geo");
         }
 
         case HAPI_RESULT_CANT_GENERATE_PRESET:
         {
-            return hapi_make_atom(env, "hapi_result_cant_generate_preset");
+            return hapi_priv_make_atom(env, "hapi_result_cant_generate_preset");
         }
 
         case HAPI_RESULT_CANT_LOAD_PRESET:
         {
-            return hapi_make_atom(env, "hapi_result_cant_load_preset");
+            return hapi_priv_make_atom(env, "hapi_result_cant_load_preset");
         }
 
         case HAPI_RESULT_ASSET_DEF_ALREADY_LOADED:
         {
-            return hapi_make_atom(env, "hapi_result_asset_def_already_loaded");
+            return hapi_priv_make_atom(env, "hapi_result_asset_def_already_loaded");
         }
 
         case HAPI_RESULT_NO_LICENSE_FOUND:
         {
-            return hapi_make_atom(env, "hapi_result_no_license_found");
+            return hapi_priv_make_atom(env, "hapi_result_no_license_found");
         }
 
         case HAPI_RESULT_DISALLOWED_NC_LICENSE_FOUND:
         {
-            return hapi_make_atom(env, "hapi_result_disallowed_nc_license_found");
+            return hapi_priv_make_atom(env, "hapi_result_disallowed_nc_license_found");
         }
 
         case HAPI_RESULT_DISALLOWED_NC_ASSET_WITH_C_LICENSE:
         {
-            return hapi_make_atom(env, "hapi_result_disallowed_nc_asset_with_c_license");
+            return hapi_priv_make_atom(env, "hapi_result_disallowed_nc_asset_with_c_license");
         }
 
         case HAPI_RESULT_DISALLOWED_NC_ASSET_WITH_LC_LICENSE:
         {
-            return hapi_make_atom(env, "hapi_result_disallowed_nc_asset_with_lc_license");
+            return hapi_priv_make_atom(env, "hapi_result_disallowed_nc_asset_with_lc_license");
         }
 
         case HAPI_RESULT_DISALLOWED_LC_ASSET_WITH_C_LICENSE:
         {
-            return hapi_make_atom(env, "hapi_result_disallowed_lc_asset_with_c_license");
+            return hapi_priv_make_atom(env, "hapi_result_disallowed_lc_asset_with_c_license");
         }
 
         case HAPI_RESULT_ASSET_INVALID:
         {
-            return hapi_make_atom(env, "hapi_result_asset_invalid");
+            return hapi_priv_make_atom(env, "hapi_result_asset_invalid");
         }
 
         case HAPI_RESULT_NODE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_result_node_invalid");
+            return hapi_priv_make_atom(env, "hapi_result_node_invalid");
         }
 
         case HAPI_RESULT_USER_INTERRUPTED:
         {
-            return hapi_make_atom(env, "hapi_result_user_interrupted");
+            return hapi_priv_make_atom(env, "hapi_result_user_interrupted");
         }
 
         default:
@@ -1725,7 +1725,7 @@ hapi_make_hapi_result(ErlNifEnv* env, HAPI_Result enum_value)
 
 /* Converting HAPI_Result from erl to c. */
 bool
-hapi_get_hapi_result(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* enum_result)
+hapi_priv_get_hapi_result(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Result* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -1904,33 +1904,33 @@ label_cleanup:
 
 /* Converting HAPI_CurveType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_curve_type(ErlNifEnv* env, HAPI_CurveType enum_value)
+hapi_priv_make_hapi_curve_type(ErlNifEnv* env, HAPI_CurveType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_CURVETYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_curvetype_invalid");
+            return hapi_priv_make_atom(env, "hapi_curvetype_invalid");
         }
 
         case HAPI_CURVETYPE_LINEAR:
         {
-            return hapi_make_atom(env, "hapi_curvetype_linear");
+            return hapi_priv_make_atom(env, "hapi_curvetype_linear");
         }
 
         case HAPI_CURVETYPE_NURBS:
         {
-            return hapi_make_atom(env, "hapi_curvetype_nurbs");
+            return hapi_priv_make_atom(env, "hapi_curvetype_nurbs");
         }
 
         case HAPI_CURVETYPE_BEZIER:
         {
-            return hapi_make_atom(env, "hapi_curvetype_bezier");
+            return hapi_priv_make_atom(env, "hapi_curvetype_bezier");
         }
 
         case HAPI_CURVETYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_curvetype_max");
+            return hapi_priv_make_atom(env, "hapi_curvetype_max");
         }
 
         default:
@@ -1945,7 +1945,7 @@ hapi_make_hapi_curve_type(ErlNifEnv* env, HAPI_CurveType enum_value)
 
 /* Converting HAPI_CurveType from erl to c. */
 bool
-hapi_get_hapi_curve_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveType* enum_result)
+hapi_priv_get_hapi_curve_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -2026,23 +2026,23 @@ label_cleanup:
 
 /* Converting HAPI_StatusVerbosity from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_status_verbosity(ErlNifEnv* env, HAPI_StatusVerbosity enum_value)
+hapi_priv_make_hapi_status_verbosity(ErlNifEnv* env, HAPI_StatusVerbosity enum_value)
 {
     switch(enum_value)
     {
         case HAPI_STATUSVERBOSITY_0:
         {
-            return hapi_make_atom(env, "hapi_statusverbosity_0");
+            return hapi_priv_make_atom(env, "hapi_statusverbosity_0");
         }
 
         case HAPI_STATUSVERBOSITY_1:
         {
-            return hapi_make_atom(env, "hapi_statusverbosity_1");
+            return hapi_priv_make_atom(env, "hapi_statusverbosity_1");
         }
 
         case HAPI_STATUSVERBOSITY_2:
         {
-            return hapi_make_atom(env, "hapi_statusverbosity_2");
+            return hapi_priv_make_atom(env, "hapi_statusverbosity_2");
         }
 
         default:
@@ -2057,7 +2057,7 @@ hapi_make_hapi_status_verbosity(ErlNifEnv* env, HAPI_StatusVerbosity enum_value)
 
 /* Converting HAPI_StatusVerbosity from erl to c. */
 bool
-hapi_get_hapi_status_verbosity(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusVerbosity* enum_result)
+hapi_priv_get_hapi_status_verbosity(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusVerbosity* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -2152,33 +2152,33 @@ label_cleanup:
 
 /* Converting HAPI_Permissions from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_permissions(ErlNifEnv* env, HAPI_Permissions enum_value)
+hapi_priv_make_hapi_permissions(ErlNifEnv* env, HAPI_Permissions enum_value)
 {
     switch(enum_value)
     {
         case HAPI_PERMISSIONS_NON_APPLICABLE:
         {
-            return hapi_make_atom(env, "hapi_permissions_non_applicable");
+            return hapi_priv_make_atom(env, "hapi_permissions_non_applicable");
         }
 
         case HAPI_PERMISSIONS_READ_WRITE:
         {
-            return hapi_make_atom(env, "hapi_permissions_read_write");
+            return hapi_priv_make_atom(env, "hapi_permissions_read_write");
         }
 
         case HAPI_PERMISSIONS_READ_ONLY:
         {
-            return hapi_make_atom(env, "hapi_permissions_read_only");
+            return hapi_priv_make_atom(env, "hapi_permissions_read_only");
         }
 
         case HAPI_PERMISSIONS_WRITE_ONLY:
         {
-            return hapi_make_atom(env, "hapi_permissions_write_only");
+            return hapi_priv_make_atom(env, "hapi_permissions_write_only");
         }
 
         case HAPI_PERMISSIONS_MAX:
         {
-            return hapi_make_atom(env, "hapi_permissions_max");
+            return hapi_priv_make_atom(env, "hapi_permissions_max");
         }
 
         default:
@@ -2193,7 +2193,7 @@ hapi_make_hapi_permissions(ErlNifEnv* env, HAPI_Permissions enum_value)
 
 /* Converting HAPI_Permissions from erl to c. */
 bool
-hapi_get_hapi_permissions(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Permissions* enum_result)
+hapi_priv_get_hapi_permissions(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Permissions* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -2274,78 +2274,78 @@ label_cleanup:
 
 /* Converting HAPI_EnvIntType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_env_int_type(ErlNifEnv* env, HAPI_EnvIntType enum_value)
+hapi_priv_make_hapi_env_int_type(ErlNifEnv* env, HAPI_EnvIntType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_ENVINT_INVALID:
         {
-            return hapi_make_atom(env, "hapi_envint_invalid");
+            return hapi_priv_make_atom(env, "hapi_envint_invalid");
         }
 
         case HAPI_ENVINT_VERSION_HOUDINI_MAJOR:
         {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_major");
+            return hapi_priv_make_atom(env, "hapi_envint_version_houdini_major");
         }
 
         case HAPI_ENVINT_VERSION_HOUDINI_MINOR:
         {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_minor");
+            return hapi_priv_make_atom(env, "hapi_envint_version_houdini_minor");
         }
 
         case HAPI_ENVINT_VERSION_HOUDINI_BUILD:
         {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_build");
+            return hapi_priv_make_atom(env, "hapi_envint_version_houdini_build");
         }
 
         case HAPI_ENVINT_VERSION_HOUDINI_PATCH:
         {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_patch");
+            return hapi_priv_make_atom(env, "hapi_envint_version_houdini_patch");
         }
 
         case HAPI_ENVINT_VERSION_ORIG_HOUDINI_MAJOR:
         {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_major");
+            return hapi_priv_make_atom(env, "hapi_envint_version_orig_houdini_major");
         }
 
         case HAPI_ENVINT_VERSION_ORIG_HOUDINI_MINOR:
         {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_minor");
+            return hapi_priv_make_atom(env, "hapi_envint_version_orig_houdini_minor");
         }
 
         case HAPI_ENVINT_VERSION_ORIG_HOUDINI_BUILD:
         {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_build");
+            return hapi_priv_make_atom(env, "hapi_envint_version_orig_houdini_build");
         }
 
         case HAPI_ENVINT_VERSION_ORIG_HOUDINI_PATCH:
         {
-            return hapi_make_atom(env, "hapi_envint_version_orig_houdini_patch");
+            return hapi_priv_make_atom(env, "hapi_envint_version_orig_houdini_patch");
         }
 
         case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MAJOR:
         {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_major");
+            return hapi_priv_make_atom(env, "hapi_envint_version_houdini_engine_major");
         }
 
         case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_MINOR:
         {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_minor");
+            return hapi_priv_make_atom(env, "hapi_envint_version_houdini_engine_minor");
         }
 
         case HAPI_ENVINT_VERSION_HOUDINI_ENGINE_API:
         {
-            return hapi_make_atom(env, "hapi_envint_version_houdini_engine_api");
+            return hapi_priv_make_atom(env, "hapi_envint_version_houdini_engine_api");
         }
 
         case HAPI_ENVINT_LICENSE:
         {
-            return hapi_make_atom(env, "hapi_envint_license");
+            return hapi_priv_make_atom(env, "hapi_envint_license");
         }
 
         case HAPI_ENVINT_MAX:
         {
-            return hapi_make_atom(env, "hapi_envint_max");
+            return hapi_priv_make_atom(env, "hapi_envint_max");
         }
 
         default:
@@ -2360,7 +2360,7 @@ hapi_make_hapi_env_int_type(ErlNifEnv* env, HAPI_EnvIntType enum_value)
 
 /* Converting HAPI_EnvIntType from erl to c. */
 bool
-hapi_get_hapi_env_int_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_EnvIntType* enum_result)
+hapi_priv_get_hapi_env_int_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_EnvIntType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -2504,33 +2504,33 @@ label_cleanup:
 
 /* Converting HAPI_AssetSubType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_asset_sub_type(ErlNifEnv* env, HAPI_AssetSubType enum_value)
+hapi_priv_make_hapi_asset_sub_type(ErlNifEnv* env, HAPI_AssetSubType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_ASSETSUBTYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_assetsubtype_invalid");
+            return hapi_priv_make_atom(env, "hapi_assetsubtype_invalid");
         }
 
         case HAPI_ASSETSUBTYPE_DEFAULT:
         {
-            return hapi_make_atom(env, "hapi_assetsubtype_default");
+            return hapi_priv_make_atom(env, "hapi_assetsubtype_default");
         }
 
         case HAPI_ASSETSUBTYPE_CURVE:
         {
-            return hapi_make_atom(env, "hapi_assetsubtype_curve");
+            return hapi_priv_make_atom(env, "hapi_assetsubtype_curve");
         }
 
         case HAPI_ASSETSUBTYPE_INPUT:
         {
-            return hapi_make_atom(env, "hapi_assetsubtype_input");
+            return hapi_priv_make_atom(env, "hapi_assetsubtype_input");
         }
 
         case HAPI_ASSETSUBTYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_assetsubtype_max");
+            return hapi_priv_make_atom(env, "hapi_assetsubtype_max");
         }
 
         default:
@@ -2545,7 +2545,7 @@ hapi_make_hapi_asset_sub_type(ErlNifEnv* env, HAPI_AssetSubType enum_value)
 
 /* Converting HAPI_AssetSubType from erl to c. */
 bool
-hapi_get_hapi_asset_sub_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetSubType* enum_result)
+hapi_priv_get_hapi_asset_sub_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetSubType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -2626,28 +2626,28 @@ label_cleanup:
 
 /* Converting HAPI_GroupType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_group_type(ErlNifEnv* env, HAPI_GroupType enum_value)
+hapi_priv_make_hapi_group_type(ErlNifEnv* env, HAPI_GroupType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_GROUPTYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_grouptype_invalid");
+            return hapi_priv_make_atom(env, "hapi_grouptype_invalid");
         }
 
         case HAPI_GROUPTYPE_POINT:
         {
-            return hapi_make_atom(env, "hapi_grouptype_point");
+            return hapi_priv_make_atom(env, "hapi_grouptype_point");
         }
 
         case HAPI_GROUPTYPE_PRIM:
         {
-            return hapi_make_atom(env, "hapi_grouptype_prim");
+            return hapi_priv_make_atom(env, "hapi_grouptype_prim");
         }
 
         case HAPI_GROUPTYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_grouptype_max");
+            return hapi_priv_make_atom(env, "hapi_grouptype_max");
         }
 
         default:
@@ -2662,7 +2662,7 @@ hapi_make_hapi_group_type(ErlNifEnv* env, HAPI_GroupType enum_value)
 
 /* Converting HAPI_GroupType from erl to c. */
 bool
-hapi_get_hapi_group_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GroupType* enum_result)
+hapi_priv_get_hapi_group_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GroupType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -2736,73 +2736,73 @@ label_cleanup:
 
 /* Converting HAPI_TransformComponent from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_transform_component(ErlNifEnv* env, HAPI_TransformComponent enum_value)
+hapi_priv_make_hapi_transform_component(ErlNifEnv* env, HAPI_TransformComponent enum_value)
 {
     switch(enum_value)
     {
         case HAPI_TRANSFORM_TX:
         {
-            return hapi_make_atom(env, "hapi_transform_tx");
+            return hapi_priv_make_atom(env, "hapi_transform_tx");
         }
 
         case HAPI_TRANSFORM_TY:
         {
-            return hapi_make_atom(env, "hapi_transform_ty");
+            return hapi_priv_make_atom(env, "hapi_transform_ty");
         }
 
         case HAPI_TRANSFORM_TZ:
         {
-            return hapi_make_atom(env, "hapi_transform_tz");
+            return hapi_priv_make_atom(env, "hapi_transform_tz");
         }
 
         case HAPI_TRANSFORM_RX:
         {
-            return hapi_make_atom(env, "hapi_transform_rx");
+            return hapi_priv_make_atom(env, "hapi_transform_rx");
         }
 
         case HAPI_TRANSFORM_RY:
         {
-            return hapi_make_atom(env, "hapi_transform_ry");
+            return hapi_priv_make_atom(env, "hapi_transform_ry");
         }
 
         case HAPI_TRANSFORM_RZ:
         {
-            return hapi_make_atom(env, "hapi_transform_rz");
+            return hapi_priv_make_atom(env, "hapi_transform_rz");
         }
 
         case HAPI_TRANSFORM_QX:
         {
-            return hapi_make_atom(env, "hapi_transform_qx");
+            return hapi_priv_make_atom(env, "hapi_transform_qx");
         }
 
         case HAPI_TRANSFORM_QY:
         {
-            return hapi_make_atom(env, "hapi_transform_qy");
+            return hapi_priv_make_atom(env, "hapi_transform_qy");
         }
 
         case HAPI_TRANSFORM_QZ:
         {
-            return hapi_make_atom(env, "hapi_transform_qz");
+            return hapi_priv_make_atom(env, "hapi_transform_qz");
         }
 
         case HAPI_TRANSFORM_QW:
         {
-            return hapi_make_atom(env, "hapi_transform_qw");
+            return hapi_priv_make_atom(env, "hapi_transform_qw");
         }
 
         case HAPI_TRANSFORM_SX:
         {
-            return hapi_make_atom(env, "hapi_transform_sx");
+            return hapi_priv_make_atom(env, "hapi_transform_sx");
         }
 
         case HAPI_TRANSFORM_SY:
         {
-            return hapi_make_atom(env, "hapi_transform_sy");
+            return hapi_priv_make_atom(env, "hapi_transform_sy");
         }
 
         case HAPI_TRANSFORM_SZ:
         {
-            return hapi_make_atom(env, "hapi_transform_sz");
+            return hapi_priv_make_atom(env, "hapi_transform_sz");
         }
 
         default:
@@ -2817,7 +2817,7 @@ hapi_make_hapi_transform_component(ErlNifEnv* env, HAPI_TransformComponent enum_
 
 /* Converting HAPI_TransformComponent from erl to c. */
 bool
-hapi_get_hapi_transform_component(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* enum_result)
+hapi_priv_get_hapi_transform_component(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformComponent* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -2954,28 +2954,28 @@ label_cleanup:
 
 /* Converting HAPI_StatusType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_status_type(ErlNifEnv* env, HAPI_StatusType enum_value)
+hapi_priv_make_hapi_status_type(ErlNifEnv* env, HAPI_StatusType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_STATUS_CALL_RESULT:
         {
-            return hapi_make_atom(env, "hapi_status_call_result");
+            return hapi_priv_make_atom(env, "hapi_status_call_result");
         }
 
         case HAPI_STATUS_COOK_RESULT:
         {
-            return hapi_make_atom(env, "hapi_status_cook_result");
+            return hapi_priv_make_atom(env, "hapi_status_cook_result");
         }
 
         case HAPI_STATUS_COOK_STATE:
         {
-            return hapi_make_atom(env, "hapi_status_cook_state");
+            return hapi_priv_make_atom(env, "hapi_status_cook_state");
         }
 
         case HAPI_STATUS_MAX:
         {
-            return hapi_make_atom(env, "hapi_status_max");
+            return hapi_priv_make_atom(env, "hapi_status_max");
         }
 
         default:
@@ -2990,7 +2990,7 @@ hapi_make_hapi_status_type(ErlNifEnv* env, HAPI_StatusType enum_value)
 
 /* Converting HAPI_StatusType from erl to c. */
 bool
-hapi_get_hapi_status_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* enum_result)
+hapi_priv_get_hapi_status_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StatusType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -3064,48 +3064,48 @@ label_cleanup:
 
 /* Converting HAPI_State from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_state(ErlNifEnv* env, HAPI_State enum_value)
+hapi_priv_make_hapi_state(ErlNifEnv* env, HAPI_State enum_value)
 {
     switch(enum_value)
     {
         case HAPI_STATE_READY:
         {
-            return hapi_make_atom(env, "hapi_state_ready");
+            return hapi_priv_make_atom(env, "hapi_state_ready");
         }
 
         case HAPI_STATE_READY_WITH_FATAL_ERRORS:
         {
-            return hapi_make_atom(env, "hapi_state_ready_with_fatal_errors");
+            return hapi_priv_make_atom(env, "hapi_state_ready_with_fatal_errors");
         }
 
         case HAPI_STATE_READY_WITH_COOK_ERRORS:
         {
-            return hapi_make_atom(env, "hapi_state_ready_with_cook_errors");
+            return hapi_priv_make_atom(env, "hapi_state_ready_with_cook_errors");
         }
 
         case HAPI_STATE_STARTING_COOK:
         {
-            return hapi_make_atom(env, "hapi_state_starting_cook");
+            return hapi_priv_make_atom(env, "hapi_state_starting_cook");
         }
 
         case HAPI_STATE_COOKING:
         {
-            return hapi_make_atom(env, "hapi_state_cooking");
+            return hapi_priv_make_atom(env, "hapi_state_cooking");
         }
 
         case HAPI_STATE_STARTING_LOAD:
         {
-            return hapi_make_atom(env, "hapi_state_starting_load");
+            return hapi_priv_make_atom(env, "hapi_state_starting_load");
         }
 
         case HAPI_STATE_LOADING:
         {
-            return hapi_make_atom(env, "hapi_state_loading");
+            return hapi_priv_make_atom(env, "hapi_state_loading");
         }
 
         case HAPI_STATE_MAX:
         {
-            return hapi_make_atom(env, "hapi_state_max");
+            return hapi_priv_make_atom(env, "hapi_state_max");
         }
 
         default:
@@ -3120,7 +3120,7 @@ hapi_make_hapi_state(ErlNifEnv* env, HAPI_State enum_value)
 
 /* Converting HAPI_State from erl to c. */
 bool
-hapi_get_hapi_state(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_State* enum_result)
+hapi_priv_get_hapi_state(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_State* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -3229,33 +3229,33 @@ label_cleanup:
 
 /* Converting HAPI_CurveOrders from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_curve_orders(ErlNifEnv* env, HAPI_CurveOrders enum_value)
+hapi_priv_make_hapi_curve_orders(ErlNifEnv* env, HAPI_CurveOrders enum_value)
 {
     switch(enum_value)
     {
         case HAPI_CURVE_ORDER_VARYING:
         {
-            return hapi_make_atom(env, "hapi_curve_order_varying");
+            return hapi_priv_make_atom(env, "hapi_curve_order_varying");
         }
 
         case HAPI_CURVE_ORDER_INVALID:
         {
-            return hapi_make_atom(env, "hapi_curve_order_invalid");
+            return hapi_priv_make_atom(env, "hapi_curve_order_invalid");
         }
 
         case HAPI_CURVE_ORDER_LINEAR:
         {
-            return hapi_make_atom(env, "hapi_curve_order_linear");
+            return hapi_priv_make_atom(env, "hapi_curve_order_linear");
         }
 
         case HAPI_CURVE_ORDER_QUADRATIC:
         {
-            return hapi_make_atom(env, "hapi_curve_order_quadratic");
+            return hapi_priv_make_atom(env, "hapi_curve_order_quadratic");
         }
 
         case HAPI_CURVE_ORDER_CUBIC:
         {
-            return hapi_make_atom(env, "hapi_curve_order_cubic");
+            return hapi_priv_make_atom(env, "hapi_curve_order_cubic");
         }
 
         default:
@@ -3270,7 +3270,7 @@ hapi_make_hapi_curve_orders(ErlNifEnv* env, HAPI_CurveOrders enum_value)
 
 /* Converting HAPI_CurveOrders from erl to c. */
 bool
-hapi_get_hapi_curve_orders(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveOrders* enum_result)
+hapi_priv_get_hapi_curve_orders(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveOrders* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -3351,28 +3351,28 @@ label_cleanup:
 
 /* Converting HAPI_PresetType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_preset_type(ErlNifEnv* env, HAPI_PresetType enum_value)
+hapi_priv_make_hapi_preset_type(ErlNifEnv* env, HAPI_PresetType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_PRESETTYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_presettype_invalid");
+            return hapi_priv_make_atom(env, "hapi_presettype_invalid");
         }
 
         case HAPI_PRESETTYPE_BINARY:
         {
-            return hapi_make_atom(env, "hapi_presettype_binary");
+            return hapi_priv_make_atom(env, "hapi_presettype_binary");
         }
 
         case HAPI_PRESETTYPE_IDX:
         {
-            return hapi_make_atom(env, "hapi_presettype_idx");
+            return hapi_priv_make_atom(env, "hapi_presettype_idx");
         }
 
         case HAPI_PRESETTYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_presettype_max");
+            return hapi_priv_make_atom(env, "hapi_presettype_max");
         }
 
         default:
@@ -3387,7 +3387,7 @@ hapi_make_hapi_preset_type(ErlNifEnv* env, HAPI_PresetType enum_value)
 
 /* Converting HAPI_PresetType from erl to c. */
 bool
-hapi_get_hapi_preset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PresetType* enum_result)
+hapi_priv_get_hapi_preset_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PresetType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -3461,88 +3461,88 @@ label_cleanup:
 
 /* Converting HAPI_ParmType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_parm_type(ErlNifEnv* env, HAPI_ParmType enum_value)
+hapi_priv_make_hapi_parm_type(ErlNifEnv* env, HAPI_ParmType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_PARMTYPE_INT:
         {
-            return hapi_make_atom(env, "hapi_parmtype_int");
+            return hapi_priv_make_atom(env, "hapi_parmtype_int");
         }
 
         case HAPI_PARMTYPE_MULTIPARMLIST:
         {
-            return hapi_make_atom(env, "hapi_parmtype_multiparmlist");
+            return hapi_priv_make_atom(env, "hapi_parmtype_multiparmlist");
         }
 
         case HAPI_PARMTYPE_TOGGLE:
         {
-            return hapi_make_atom(env, "hapi_parmtype_toggle");
+            return hapi_priv_make_atom(env, "hapi_parmtype_toggle");
         }
 
         case HAPI_PARMTYPE_BUTTON:
         {
-            return hapi_make_atom(env, "hapi_parmtype_button");
+            return hapi_priv_make_atom(env, "hapi_parmtype_button");
         }
 
         case HAPI_PARMTYPE_FLOAT:
         {
-            return hapi_make_atom(env, "hapi_parmtype_float");
+            return hapi_priv_make_atom(env, "hapi_parmtype_float");
         }
 
         case HAPI_PARMTYPE_COLOR:
         {
-            return hapi_make_atom(env, "hapi_parmtype_color");
+            return hapi_priv_make_atom(env, "hapi_parmtype_color");
         }
 
         case HAPI_PARMTYPE_STRING:
         {
-            return hapi_make_atom(env, "hapi_parmtype_string");
+            return hapi_priv_make_atom(env, "hapi_parmtype_string");
         }
 
         case HAPI_PARMTYPE_PATH_FILE:
         {
-            return hapi_make_atom(env, "hapi_parmtype_path_file");
+            return hapi_priv_make_atom(env, "hapi_parmtype_path_file");
         }
 
         case HAPI_PARMTYPE_PATH_FILE_GEO:
         {
-            return hapi_make_atom(env, "hapi_parmtype_path_file_geo");
+            return hapi_priv_make_atom(env, "hapi_parmtype_path_file_geo");
         }
 
         case HAPI_PARMTYPE_PATH_FILE_IMAGE:
         {
-            return hapi_make_atom(env, "hapi_parmtype_path_file_image");
+            return hapi_priv_make_atom(env, "hapi_parmtype_path_file_image");
         }
 
         case HAPI_PARMTYPE_PATH_NODE:
         {
-            return hapi_make_atom(env, "hapi_parmtype_path_node");
+            return hapi_priv_make_atom(env, "hapi_parmtype_path_node");
         }
 
         case HAPI_PARMTYPE_FOLDERLIST:
         {
-            return hapi_make_atom(env, "hapi_parmtype_folderlist");
+            return hapi_priv_make_atom(env, "hapi_parmtype_folderlist");
         }
 
         case HAPI_PARMTYPE_FOLDER:
         {
-            return hapi_make_atom(env, "hapi_parmtype_folder");
+            return hapi_priv_make_atom(env, "hapi_parmtype_folder");
         }
 
         case HAPI_PARMTYPE_LABEL:
         {
-            return hapi_make_atom(env, "hapi_parmtype_label");
+            return hapi_priv_make_atom(env, "hapi_parmtype_label");
         }
 
         case HAPI_PARMTYPE_SEPARATOR:
         {
-            return hapi_make_atom(env, "hapi_parmtype_separator");
+            return hapi_priv_make_atom(env, "hapi_parmtype_separator");
         }
 
         case HAPI_PARMTYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_parmtype_max");
+            return hapi_priv_make_atom(env, "hapi_parmtype_max");
         }
 
         default:
@@ -3557,7 +3557,7 @@ hapi_make_hapi_parm_type(ErlNifEnv* env, HAPI_ParmType enum_value)
 
 /* Converting HAPI_ParmType from erl to c. */
 bool
-hapi_get_hapi_parm_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* enum_result)
+hapi_priv_get_hapi_parm_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;
@@ -3827,33 +3827,33 @@ label_cleanup:
 
 /* Converting HAPI_StorageType from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_storage_type(ErlNifEnv* env, HAPI_StorageType enum_value)
+hapi_priv_make_hapi_storage_type(ErlNifEnv* env, HAPI_StorageType enum_value)
 {
     switch(enum_value)
     {
         case HAPI_STORAGETYPE_INVALID:
         {
-            return hapi_make_atom(env, "hapi_storagetype_invalid");
+            return hapi_priv_make_atom(env, "hapi_storagetype_invalid");
         }
 
         case HAPI_STORAGETYPE_INT:
         {
-            return hapi_make_atom(env, "hapi_storagetype_int");
+            return hapi_priv_make_atom(env, "hapi_storagetype_int");
         }
 
         case HAPI_STORAGETYPE_FLOAT:
         {
-            return hapi_make_atom(env, "hapi_storagetype_float");
+            return hapi_priv_make_atom(env, "hapi_storagetype_float");
         }
 
         case HAPI_STORAGETYPE_STRING:
         {
-            return hapi_make_atom(env, "hapi_storagetype_string");
+            return hapi_priv_make_atom(env, "hapi_storagetype_string");
         }
 
         case HAPI_STORAGETYPE_MAX:
         {
-            return hapi_make_atom(env, "hapi_storagetype_max");
+            return hapi_priv_make_atom(env, "hapi_storagetype_max");
         }
 
         default:
@@ -3868,7 +3868,7 @@ hapi_make_hapi_storage_type(ErlNifEnv* env, HAPI_StorageType enum_value)
 
 /* Converting HAPI_StorageType from erl to c. */
 bool
-hapi_get_hapi_storage_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StorageType* enum_result)
+hapi_priv_get_hapi_storage_type(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StorageType* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;

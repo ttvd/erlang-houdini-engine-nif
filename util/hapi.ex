@@ -1,28 +1,28 @@
 defmodule HAPI do
 
-# Module used to generate HAPI C stub which we will parse.
-defmodule C do
+  # Module used to generate HAPI C stub which we will parse.
+  defmodule C do
 
-  # Pre-process hapi.c which includes all hapi headers into something we can parse.
-  def generate("clang", hapi_include_path) do
-    {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
-    if 0 == result_code do
-      cmd_output
-    else
-      raise(RuntimeError, description: "Unable to expand macros in hapi.c")
+    # Pre-process hapi.c which includes all hapi headers into something we can parse.
+    def generate("clang", hapi_include_path) do
+      {cmd_output, result_code} = System.cmd("clang", ["-cc1", "-ast-print", "-I#{hapi_include_path}", "./util/hapi.c"])
+      if 0 == result_code do
+        cmd_output
+      else
+        raise(RuntimeError, description: "Unable to expand macros in hapi.c")
+      end
+    end
+    def generate("cpp.exe", hapi_include_path) do
+      if File.exists?("./util/cpp.exe") do
+        to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
+      else
+        raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
+      end
+    end
+    def generate(_compiler, _hapi_include_path) do
+      raise(RuntimeError, description: "Unknown compiler, please add options")
     end
   end
-  def generate("cpp.exe", hapi_include_path) do
-    if File.exists?("./util/cpp.exe") do
-      to_string(:os.cmd './util/cpp.exe -E -I"#{hapi_include_path}" ./util/hapi.c')
-    else
-      raise(RuntimeError, description: "xxhash utility was not compiled and is missing")
-    end
-  end
-  def generate(_compiler, _hapi_include_path) do
-    raise(RuntimeError, description: "Unknown compiler, please add options")
-  end
-end
 
   # Lexical parsing.
   defmodule Lexical do

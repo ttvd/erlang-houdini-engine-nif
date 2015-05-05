@@ -1147,11 +1147,14 @@ defmodule Structures do
     defp create_stub_c(env) do
       functions = Dict.get(env, :functions, :nil)
       if not is_nil(functions) do
-        {:ok, template_functions_c} = File.read("./util/hapi_functions_nif.c.template")
-        {:ok, template_functions_c_block} = File.read("./util/hapi_functions_nif.c.block.template")
+        {:ok, template} = File.read("./util/hapi_functions_nif.c.template")
+        {:ok, template_block} = File.read("./util/hapi_functions_nif.c.block.template")
+        {:ok, assign_block} = File.read("./util/hapi_functions_nif.c.assign.block.template")
+        {:ok, clean_block} = File.read("./util/hapi_functions_nif.c.cleanup.block.template")
 
-        entries = String.replace(template_functions_c, "%{HAPI_FUNCTIONS}%",
-          Enum.map_join(functions, "\n\n", fn{k, v} -> create_stub_c_entry(env, k, v, template_functions_c_block) end))
+        entries = String.replace(template, "%{HAPI_FUNCTIONS}%",
+          Enum.map_join(functions, "\n\n",
+            fn{k, v} -> create_stub_c_entry(env, k, v, template_block, assign_block, clean_block) end))
 
         File.write("./c_src/hapi_functions_nif.c", entries)
         IO.puts("Generating c_src/hapi_functions_nif.c")
@@ -1159,26 +1162,57 @@ defmodule Structures do
     end
 
     # Helper function used to generate c stub entries.
-    defp create_stub_c_entry(env, function_name, function_body, template_block) do
+    defp create_stub_c_entry(env, function_name, function_body, template_block, assign_block, cleanup_block) do
 
       {function_type, function_params} = function_body
+
+      # Put parameters which require allocation at the end.
       parameters = create_stub_c_entry_objects([], env, 0, function_name, function_type, function_params)
-      #parameters_input = Enum.filter(parameters, &(not elem(&1, 4)))
+      parameters = Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
+
+      # Filter out input parameters.
+      parameters_input = Enum.filter(parameters, &(elem(&1, 4)))
+
+      # Filter out parameters which require clean up.
+      parameters_cleanup = Enum.filter(parameters, &(elem(&1, 6)))
+
+      # Process variable declarations.
+      parameters_vars = Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1)))
+
+      # Process variable block.
+      if Enum.empty?(parameters) do
+        var_code = ""
+      else
+        var_code = "    " <> Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1))) <> "\n\n"
+      end
+
+      # Process assignment block.
+      if Enum.empty?(parameters_input) do
+        assign_code = ""
+      else
+        assign_code = String.replace(assign_block, "%{HAPI_FUNCTION_ASSIGN}%",
+          Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
+          |> Enum.filter(&(elem(&1, 4)))
+          |> Enum.map_join(" ||\n        ", &(create_stub_c_entry_assign(env, &1))))
+          <> "\n"
+      end
+
+      # Process clean up block.
+      if Enum.empty?(parameters_cleanup) do
+        cleanup_label = "label_cleanup:"
+        cleanup_code = ""
+      else
+        cleanup_label = "label_cleanup:\n\n"
+        cleanup_code = Enum.map_join(parameters_cleanup, "\n    ",
+         &(String.replace(cleanup_block, "%{HAPI_DYNAMIC_VARIABLE}%", elem(&1, 2)))) <> "\n\n"
+      end
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
       |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
       |> String.replace("%{HAPI_DEBUG_TOKENS}%",
         Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
       |> String.replace("%{HAPI_FUNCTION_BODY}%",
-        Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1))))
-      |> String.replace("%{HAPI_FUNCTION_CLEANUP}%",
-        Enum.filter(parameters, &(elem(&1, 6)))
-        |> Enum.map_join("\n    ", &("if(#{elem(&1, 2)}) free(#{elem(&1, 2)});")))
-      |> String.replace("%{HAPI_FUNCTION_INPUT_ASSIGN}%",
-        Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
-        |> Enum.filter(&(elem(&1, 4)))
-        #|> Enum.map_join("\n    ", &("INPUT_VAR_NEEDS_INIT #{elem(&1, 0)} #{elem(&1, 2)} // #{elem(&1, 1)}")))
-        |> Enum.map_join("\n    ", &(create_stub_c_entry_assign(env, &1))))
+        var_code <> assign_code <> cleanup_label <> cleanup_code)
     end
 
     # DEBUG FUNCTION
@@ -1282,12 +1316,12 @@ defmodule Structures do
       cond do
         needs_cleanup ->
           if not is_nil(decl_size) do
-            "hapi_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size});"
+            "!hapi_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
           else
             raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
           end
         true ->
-          "hapi_get_#{type_underscore}(env, argv[#{idx}], &#{name});"
+          "!hapi_get_#{type_underscore}(env, argv[#{idx}], &#{name})"
       end
     end
   end

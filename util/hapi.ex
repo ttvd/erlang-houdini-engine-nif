@@ -1162,7 +1162,7 @@ defmodule Structures do
     defp create_stub_c_entry(env, function_name, function_body, template_block) do
 
       {function_type, function_params} = function_body
-      parameters = create_stub_c_entry_objects([], env, function_name, function_type, function_params)
+      parameters = create_stub_c_entry_objects([], 0, env, function_name, function_type, function_params)
       #parameters_input = Enum.filter(parameters, &(not elem(&1, 4)))
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
@@ -1215,20 +1215,20 @@ defmodule Structures do
     # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, FALSE-INPUT/TRUE-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, FALSE/TRUE IF NEEDS CLEAN UP}
 
     #
-    defp create_stub_c_entry_object(env, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
+    defp create_stub_c_entry_object(env, idx, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
       {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", not is_const_parameter(param), :nil, true}
     end
-    defp create_stub_c_entry_object(env, function_name, function_type, {param_type, param_name, _param_opts} = param) do
+    defp create_stub_c_entry_object(env, idx, function_name, function_type, {param_type, param_name, _param_opts} = param) do
       resolved_type = HAPI.Util.type_resolve(env, param_type)
       {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_const_parameter(param), :nil, false}
     end
-    defp create_stub_c_entry_objects(collect, env, function_name, function_type, []) do
+    defp create_stub_c_entry_objects(collect, idx, env, function_name, function_type, []) do
       collect
     end
-    defp create_stub_c_entry_objects(collect, env, function_name, function_type, [param]) do
-      collect ++ [create_stub_c_entry_object(env, function_name, function_type, param)]
+    defp create_stub_c_entry_objects(collect, idx, env, function_name, function_type, [param]) do
+      collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param)]
     end
-    defp create_stub_c_entry_objects(collect, env, function_name, function_type,
+    defp create_stub_c_entry_objects(collect, idx, env, function_name, function_type,
       [{param_0_type, param_0_name, _param_0_opts} = param_0,
       {:token_int, "start", _param_1_opts} = param_1,
       {:token_int, "length", _param_2_opts} = param_2 | rest]) do
@@ -1245,12 +1245,12 @@ defmodule Structures do
         collect ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}", "NULL", parm_const, "param_length", true}]
           ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, false, :nil, false}]
           ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, false, :nil, false}]
-        |> create_stub_c_entry_objects(env, function_name, function_type, rest)
+        |> create_stub_c_entry_objects(env, idx, function_name, function_type, rest)
       else
         raise(RuntimeError, description: "Illegal sequence of parameters, pointer, size, length.")
       end
     end
-    defp create_stub_c_entry_objects(collect, env, function_name, function_type,
+    defp create_stub_c_entry_objects(collect, idx, env, function_name, function_type,
       [{param_0_type, param_0_name, _param_0_opts} = param_0,
       {:token_int, param_1_name, _param_1_opts} = param_1 | rest]) do
 
@@ -1264,32 +1264,37 @@ defmodule Structures do
         collect ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
           not is_const_parameter(param_0), "param_#{param_1_name}", true}]
           ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, false, :nil, false}]
-        |> create_stub_c_entry_objects(env, function_name, function_type, rest)
+        |> create_stub_c_entry_objects(env, idx, function_name, function_type, rest)
       else
-        collect ++ [create_stub_c_entry_object(env, function_name, function_type, param_0)]
-        |> create_stub_c_entry_objects(env, function_name, function_type, [param_1 | rest])
+        collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param_0)]
+        |> create_stub_c_entry_objects(env, idx, function_name, function_type, [param_1 | rest])
       end
     end
-    defp create_stub_c_entry_objects(collect, env, function_name, function_type, [param | rest]) do
-      collect ++ [create_stub_c_entry_object(env, function_name, function_type, param)]
-      |> create_stub_c_entry_objects(env, function_name, function_type, rest)
+    defp create_stub_c_entry_objects(collect, idx, env, function_name, function_type, [param | rest]) do
+      collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param)]
+      |> create_stub_c_entry_objects(env, idx, function_name, function_type, rest)
     end
 
     # Helper function used to create assignments.
     defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_output, decl_size, needs_cleanup}) do
-    #    cond do
-    #        HAPI.Util.is_type_enum(env, type) do ->
-    #        "// ENUM"
-      "// EMPTY"
+      cond do
+        needs_cleanup ->
+          "POINTER #{type} param_#{name}"
+        #HAPI.Util.is_type_enum(env, type) or HAPI.Util.is_type_structure(env, type) ->
+          "hapi_get_#{HAPI.Util.underscore(type)}(env, &#{name});"
+        true ->
+          #"OTHER #{type} param_#{name}"
+          "hapi_get_#{HAPI.Util.underscore(type)}(env, &#{name});"
+      end
     end
   end
 end
 
 [compiler, hapi_include_path] = System.argv()
 HAPI.C.generate(compiler, hapi_include_path)
-    |> HAPI.Lexical.parse() #|> HAPI.Lexical.print_tokens()
-    |> HAPI.Syntactic.process() #|> HAPI.Syntactic.print_types() |> HAPI.Syntactic.print_enums() |> HAPI.Syntactic.print_structs() |> HAPI.Syntactic.print_functions()
-    |> HAPI.Types.create()
-    |> HAPI.Enums.create()
-    |> HAPI.Structures.create()
-    |> HAPI.Functions.create()
+|> HAPI.Lexical.parse() #|> HAPI.Lexical.print_tokens()
+|> HAPI.Syntactic.process() #|> HAPI.Syntactic.print_types() |> HAPI.Syntactic.print_enums() |> HAPI.Syntactic.print_structs() |> HAPI.Syntactic.print_functions()
+|> HAPI.Types.create()
+|> HAPI.Enums.create()
+|> HAPI.Structures.create()
+|> HAPI.Functions.create()

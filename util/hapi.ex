@@ -1250,7 +1250,7 @@ defmodule HAPI do
     defp create_stub_c_entry_tokens_debug(function_name, function_type, function_params) do
       dbg_opts = &(Enum.map_join(get_parameter_variable_name(&1), " | ", fn{k,v} -> "OPT #{k}->#{v}" end))
       ["function_name: #{function_name}", "function_type: #{function_type}"]
-      ++ Enum.map(function_params, &(dbg_opts.(&1)))
+      ++ Enum.map(function_params, &("#{elem(&1, 0)} #{elem(&1, 1)}     " <> dbg_opts.(&1)))
     end
 
     # Helper function to generate variable declaration for parameter.

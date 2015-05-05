@@ -65,7 +65,7 @@ hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_buffer_length);
     */
 
     /*
@@ -102,7 +102,7 @@ hapi_parm_info_is_float_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -143,7 +143,7 @@ hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_buffer_length);
     */
 
     /*
@@ -306,9 +306,9 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_name);
     */
 
     /*
@@ -389,7 +389,7 @@ hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_parm_name);
     */
 
     /*
@@ -580,7 +580,7 @@ hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_buffer_length);
     */
 
     /*
@@ -617,7 +617,7 @@ hapi_parm_info_is_non_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -654,7 +654,7 @@ hapi_parm_info_get_float_value_count_schedule(ErlNifEnv* env, int argc, const ER
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -701,9 +701,9 @@ hapi_set_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_int*(env, &param_face_counts);
     */
 
     /*
@@ -782,8 +782,8 @@ hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -912,8 +912,8 @@ hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -1120,7 +1120,7 @@ hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_name);
     */
 
     /*
@@ -1161,7 +1161,7 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_file_path);
     */
 
     /*
@@ -1286,8 +1286,8 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -1330,9 +1330,9 @@ hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_float*(env, &param_values);
     */
 
     /*
@@ -1450,7 +1450,7 @@ hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_file_path);
     */
 
     /*
@@ -1537,11 +1537,11 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_hapi_attribute_info(env, &param_attr_info);
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_name);
+    hapi_get_int*(env, &param_data);
     */
 
     /*
@@ -1708,8 +1708,8 @@ hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_buffer_length);
+    hapi_get_char*(env, &param_preset_name);
     */
 
     /*
@@ -1754,9 +1754,9 @@ hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_buffer_size);
+    hapi_get_char*(env, &param_image_file_format_name);
+    hapi_get_char*(env, &param_image_planes);
     */
 
     /*
@@ -1875,7 +1875,7 @@ hapi_set_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_part_info(env, &param_part_info);
     */
 
     /*
@@ -1922,9 +1922,9 @@ hapi_set_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_int*(env, &param_vertex_list);
     */
 
     /*
@@ -1975,11 +1975,11 @@ hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_hapi_attribute_info(env, &param_attr_info);
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_name);
+    hapi_get_char*(env, &param_data);
     */
 
     /*
@@ -2025,8 +2025,8 @@ hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -2069,8 +2069,8 @@ hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_keyframe_count);
+    hapi_get_hapi_keyframe*(env, &param_curve_keyframes);
     */
 
     /*
@@ -2223,7 +2223,7 @@ hapi_parm_info_is_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -2276,9 +2276,9 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_name);
     */
 
     /*
@@ -2332,9 +2332,9 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_group_name);
     */
 
     /*
@@ -2413,7 +2413,7 @@ hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_parm_name);
     */
 
     /*
@@ -2462,8 +2462,8 @@ hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -2512,9 +2512,9 @@ hapi_set_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_int*(env, &param_counts);
     */
 
     /*
@@ -2593,8 +2593,8 @@ hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_library_buffer_size);
+    hapi_get_char*(env, &param_library_buffer);
     */
 
     /*
@@ -2672,7 +2672,7 @@ hapi_set_object_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_transform_euler(env, &param_transform);
     */
 
     /*
@@ -2751,8 +2751,8 @@ hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -2797,8 +2797,8 @@ hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_hapi_volume_tile_info(env, &param_tile);
+    hapi_get_float(env, &param_values);
     */
 
     /*
@@ -3113,8 +3113,8 @@ hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -3316,7 +3316,7 @@ hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_image_plane_count);
     */
 
     /*
@@ -3395,7 +3395,7 @@ hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_value);
     */
 
     /*
@@ -3438,7 +3438,7 @@ hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_parm_name);
     */
 
     /*
@@ -3557,7 +3557,7 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_buffer_length);
     */
 
     /*
@@ -3598,7 +3598,7 @@ hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_image_plane_count);
     */
 
     /*
@@ -3641,7 +3641,7 @@ hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     */
 
     /*
-    // EMPTY
+    hapi_get_float(env, &param_mat);
     */
 
     /*
@@ -3684,8 +3684,8 @@ hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -3814,8 +3814,8 @@ hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -3854,7 +3854,7 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_asset_count);
     */
 
     /*
@@ -3940,7 +3940,7 @@ hapi_set_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_image_info(env, &param_image_info);
     */
 
     /*
@@ -4014,7 +4014,7 @@ hapi_parm_info_get_string_value_count_schedule(ErlNifEnv* env, int argc, const E
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -4137,8 +4137,8 @@ hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -4181,9 +4181,9 @@ hapi_set_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_int*(env, &param_values);
     */
 
     /*
@@ -4265,7 +4265,7 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_parm_name);
     */
 
     /*
@@ -4310,8 +4310,8 @@ hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_keyframe_count);
+    hapi_get_hapi_keyframe*(env, &param_curve_keyframes);
     */
 
     /*
@@ -4401,9 +4401,9 @@ hapi_set_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_float*(env, &param_knots);
     */
 
     /*
@@ -4485,9 +4485,9 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_buffer_length);
+    hapi_get_char*(env, &param_preset_name);
+    hapi_get_char*(env, &param_buffer);
     */
 
     /*
@@ -4604,7 +4604,7 @@ hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_buffer_size);
     */
 
     /*
@@ -4645,7 +4645,7 @@ hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     */
 
     /*
-    // EMPTY
+    hapi_get_float(env, &param_mat);
     */
 
     /*
@@ -4688,8 +4688,8 @@ hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -4804,7 +4804,7 @@ hapi_parm_info_is_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -4843,7 +4843,7 @@ hapi_convert_transform_quat_to_matrix_schedule(ErlNifEnv* env, int argc, const E
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_transform(env, &param_transform);
     */
 
     /*
@@ -4880,7 +4880,7 @@ hapi_parm_info_get_int_value_count_schedule(ErlNifEnv* env, int argc, const ERL_
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -4962,7 +4962,7 @@ hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_size);
     */
 
     /*
@@ -5003,7 +5003,7 @@ hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_asset_name);
     */
 
     /*
@@ -5083,7 +5083,7 @@ hapi_set_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_volume_info(env, &param_volume_info);
     */
 
     /*
@@ -5126,7 +5126,7 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_file_name);
     */
 
     /*
@@ -5175,8 +5175,8 @@ hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -5377,7 +5377,7 @@ hapi_set_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_curve_info(env, &param_info);
     */
 
     /*
@@ -5422,10 +5422,10 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_hapi_cook_options(env, &param_cook_options);
+    hapi_get_int(env, &param_cooking_thread_stack_size);
+    hapi_get_char*(env, &param_otl_search_path);
+    hapi_get_char*(env, &param_dso_search_path);
     */
 
     /*
@@ -5507,8 +5507,8 @@ hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -5819,7 +5819,7 @@ hapi_cook_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_cook_options(env, &param_cook_options);
     */
 
     /*
@@ -5858,7 +5858,7 @@ hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_file_name);
     */
 
     /*
@@ -5975,7 +5975,7 @@ hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_parm_name);
     */
 
     /*
@@ -6020,8 +6020,8 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_hapi_attribute_info(env, &param_attr_info);
+    hapi_get_char*(env, &param_name);
     */
 
     /*
@@ -6066,7 +6066,7 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_group_name);
     */
 
     /*
@@ -6105,7 +6105,7 @@ hapi_convert_transform_euler_to_matrix_schedule(ErlNifEnv* env, int argc, const 
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_transform_euler(env, &param_transform);
     */
 
     /*
@@ -6156,11 +6156,11 @@ hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_hapi_attribute_info(env, &param_attr_info);
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_name);
+    hapi_get_float*(env, &param_data);
     */
 
     /*
@@ -6202,7 +6202,7 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_parm_name);
     */
 
     /*
@@ -6253,9 +6253,9 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_group_name);
     */
 
     /*
@@ -6301,8 +6301,8 @@ hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_hapi_volume_tile_info(env, &param_tile);
+    hapi_get_int(env, &param_values);
     */
 
     /*
@@ -6392,8 +6392,8 @@ hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -6438,8 +6438,8 @@ hapi_get_geo_size_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_size);
+    hapi_get_char*(env, &param_format);
     */
 
     /*
@@ -6488,9 +6488,9 @@ hapi_set_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_int*(env, &param_orders);
     */
 
     /*
@@ -6531,7 +6531,7 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_buffer_size);
     */
 
     /*
@@ -6580,8 +6580,8 @@ hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -6673,7 +6673,7 @@ hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_group_count);
     */
 
     /*
@@ -6716,7 +6716,7 @@ hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_file_name);
     */
 
     /*
@@ -6831,7 +6831,7 @@ hapi_parm_info_is_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -6870,7 +6870,7 @@ hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_name);
     */
 
     /*
@@ -6913,7 +6913,7 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_parm_name);
     */
 
     /*
@@ -6960,8 +6960,8 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_size);
+    hapi_get_char*(env, &param_format);
     */
 
     /*
@@ -6999,7 +6999,7 @@ hapi_parm_info_is_file_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -7229,7 +7229,7 @@ hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_asset_count);
     */
 
     /*
@@ -7348,7 +7348,7 @@ hapi_parm_info_is_node_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_parm_info(env, &param_in);
     */
 
     /*
@@ -7433,10 +7433,10 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_char*(env, &param_image_file_format_name);
+    hapi_get_char*(env, &param_image_planes);
+    hapi_get_char*(env, &param_destination_folder_path);
+    hapi_get_char*(env, &param_destination_file_name);
     */
 
     /*
@@ -7562,8 +7562,8 @@ hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     */
 
     /*
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
     */
 
     /*
@@ -7608,7 +7608,7 @@ hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     */
 
     /*
-    // EMPTY
+    hapi_get_char*(env, &param_group_name);
     */
 
     /*
@@ -7682,7 +7682,7 @@ hapi_set_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     */
 
     /*
-    // EMPTY
+    hapi_get_hapi_timeline_options(env, &param_timeline_options);
     */
 
     /*
@@ -7782,9 +7782,9 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     */
 
     /*
-    // EMPTY
-    // EMPTY
-    // EMPTY
+    hapi_get_int(env, &param_start);
+    hapi_get_int(env, &param_length);
+    hapi_get_char*(env, &param_name);
     */
 
     /*
@@ -7903,7 +7903,7 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
     */
 
     /*
-    // EMPTY
+    hapi_get_int(env, &param_file_format_count);
     */
 
     /*

@@ -57,7 +57,7 @@ hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     int param_buffer_length; // OUTPUT IDX: 1
 
     hapi_get_int(env, argv[1], &param_buffer_length);
-    //POINTER HAPI_StringHandle* param_param_string_handle IDX 0
+    hapi_get_hapi_string_handle_list(env, argv[0], &param_string_handle[0], param_buffer_length);
 
     if(param_string_handle) free(param_string_handle);
 
@@ -125,7 +125,7 @@ hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     hapi_get_hapi_node_id(env, argv[0], &param_node_id);
     hapi_get_int(env, argv[2], &param_buffer_length);
-    //POINTER char* param_param_buffer IDX 1
+    hapi_get_char_list(env, argv[1], &param_buffer[0], param_buffer_length);
 
     if(param_buffer) free(param_buffer);
 
@@ -271,7 +271,7 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     hapi_get_hapi_attribute_info(env, argv[5], &param_attr_info);
     hapi_get_int(env, argv[7], &param_start);
     hapi_get_int(env, argv[8], &param_length);
-    //POINTER int* param_param_data IDX 6
+    hapi_get_int_list(env, argv[6], &param_data[0], param_length);
 
     if(param_name) free(param_name);
     if(param_data) free(param_data);
@@ -507,7 +507,7 @@ hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 
     hapi_get_hapi_status_type(env, argv[0], &param_status_type);
     hapi_get_int(env, argv[2], &param_buffer_length);
-    //POINTER char* param_param_buffer IDX 1
+    hapi_get_char_list(env, argv[1], &param_buffer[0], param_buffer_length);
 
     if(param_buffer) free(param_buffer);
 
@@ -684,7 +684,7 @@ hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     hapi_get_hapi_asset_id(env, argv[0], &param_asset_id);
     hapi_get_int(env, argv[2], &param_start);
     hapi_get_int(env, argv[3], &param_length);
-    //POINTER HAPI_HandleInfo* param_param_handle_infos IDX 1
+    hapi_get_hapi_handle_info_list(env, argv[1], &param_handle_infos[0], param_length);
 
     if(param_handle_infos) free(param_handle_infos);
 
@@ -804,7 +804,7 @@ hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     hapi_get_hapi_rstorder(env, argv[3], &param_rst_order);
     hapi_get_int(env, argv[5], &param_start);
     hapi_get_int(env, argv[6], &param_length);
-    //POINTER HAPI_Transform* param_param_transforms IDX 4
+    hapi_get_hapi_transform_list(env, argv[4], &param_transforms[0], param_length);
 
     if(param_transforms) free(param_transforms);
 
@@ -1142,7 +1142,7 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     hapi_get_hapi_part_id(env, argv[3], &param_part_id);
     hapi_get_int(env, argv[5], &param_start);
     hapi_get_int(env, argv[6], &param_length);
-    //POINTER int* param_param_counts IDX 4
+    hapi_get_int_list(env, argv[4], &param_counts[0], param_length);
 
     if(param_counts) free(param_counts);
 
@@ -1798,7 +1798,7 @@ hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     hapi_get_hapi_rstorder(env, argv[1], &param_rst_order);
     hapi_get_int(env, argv[3], &param_start);
     hapi_get_int(env, argv[4], &param_length);
-    //POINTER HAPI_Transform* param_param_transforms IDX 2
+    hapi_get_hapi_transform_list(env, argv[2], &param_transforms[0], param_length);
 
     if(param_transforms) free(param_transforms);
 
@@ -2023,7 +2023,7 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     hapi_get_hapi_attribute_info(env, argv[5], &param_attr_info);
     hapi_get_int(env, argv[7], &param_start);
     hapi_get_int(env, argv[8], &param_length);
-    //POINTER int* param_param_data IDX 6
+    hapi_get_int_list(env, argv[6], &param_data[0], param_length);
 
     if(param_name) free(param_name);
     if(param_data) free(param_data);
@@ -2078,7 +2078,7 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     hapi_get_hapi_group_type(env, argv[4], &param_group_type);
     hapi_get_int(env, argv[7], &param_start);
     hapi_get_int(env, argv[8], &param_length);
-    //POINTER int* param_param_membership IDX 6
+    hapi_get_int_list(env, argv[6], &param_membership[0], param_length);
 
     if(param_group_name) free(param_group_name);
     if(param_membership) free(param_membership);
@@ -2195,7 +2195,7 @@ hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     hapi_get_hapi_part_id(env, argv[3], &param_part_id);
     hapi_get_int(env, argv[5], &param_start);
     hapi_get_int(env, argv[6], &param_length);
-    //POINTER int* param_param_face_counts IDX 4
+    hapi_get_int_list(env, argv[4], &param_face_counts[0], param_length);
 
     if(param_face_counts) free(param_face_counts);
 
@@ -2449,7 +2449,7 @@ hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     hapi_get_hapi_asset_id(env, argv[0], &param_asset_id);
     hapi_get_int(env, argv[2], &param_start);
     hapi_get_int(env, argv[3], &param_length);
-    //POINTER HAPI_ObjectInfo* param_param_object_infos IDX 1
+    hapi_get_hapi_object_info_list(env, argv[1], &param_object_infos[0], param_length);
 
     if(param_object_infos) free(param_object_infos);
 
@@ -2767,7 +2767,7 @@ hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     hapi_get_int(env, argv[1], &param_handle_index);
     hapi_get_int(env, argv[3], &param_start);
     hapi_get_int(env, argv[4], &param_length);
-    //POINTER HAPI_HandleBindingInfo* param_param_handle_infos IDX 2
+    hapi_get_hapi_handle_binding_info_list(env, argv[2], &param_handle_infos[0], param_length);
 
     if(param_handle_infos) free(param_handle_infos);
 
@@ -2948,7 +2948,7 @@ hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     hapi_get_hapi_asset_id(env, argv[0], &param_asset_id);
     hapi_get_hapi_material_id(env, argv[1], &param_material_id);
     hapi_get_int(env, argv[3], &param_image_plane_count);
-    //POINTER HAPI_StringHandle* param_param_image_planes IDX 2
+    hapi_get_hapi_string_handle_list(env, argv[2], &param_image_planes[0], param_image_plane_count);
 
     if(param_image_planes) free(param_image_planes);
 
@@ -3161,7 +3161,7 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     hapi_get_hapi_string_handle(env, argv[0], &param_string_handle);
     hapi_get_int(env, argv[2], &param_buffer_length);
-    //POINTER char* param_param_string_value IDX 1
+    hapi_get_char_list(env, argv[1], &param_string_value[0], param_buffer_length);
 
     if(param_string_value) free(param_string_value);
 
@@ -3198,7 +3198,7 @@ hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     hapi_get_hapi_asset_id(env, argv[0], &param_asset_id);
     hapi_get_int(env, argv[2], &param_image_plane_count);
-    //POINTER HAPI_MaterialId* param_param_material_id IDX 1
+    hapi_get_hapi_material_id_list(env, argv[1], &param_material_id[0], param_image_plane_count);
 
     if(param_material_id) free(param_material_id);
 
@@ -3277,7 +3277,7 @@ hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     hapi_get_hapi_node_id(env, argv[0], &param_node_id);
     hapi_get_int(env, argv[2], &param_start);
     hapi_get_int(env, argv[3], &param_length);
-    //POINTER HAPI_ParmChoiceInfo* param_param_parm_choices IDX 1
+    hapi_get_hapi_parm_choice_info_list(env, argv[1], &param_parm_choices[0], param_length);
 
     if(param_parm_choices) free(param_parm_choices);
 
@@ -3397,7 +3397,7 @@ hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     hapi_get_hapi_part_id(env, argv[3], &param_part_id);
     hapi_get_int(env, argv[5], &param_start);
     hapi_get_int(env, argv[6], &param_length);
-    //POINTER int* param_param_vertex_list IDX 4
+    hapi_get_int_list(env, argv[4], &param_vertex_list[0], param_length);
 
     if(param_vertex_list) free(param_vertex_list);
 
@@ -3431,7 +3431,7 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     int param_asset_count; // OUTPUT IDX: 1
 
     hapi_get_int(env, argv[1], &param_asset_count);
-    //POINTER HAPI_AssetLibraryId* param_param_library_id IDX 0
+    hapi_get_hapi_asset_library_id_list(env, argv[0], &param_library_id[0], param_asset_count);
 
     if(param_library_id) free(param_library_id);
 
@@ -3683,7 +3683,7 @@ hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     hapi_get_hapi_node_id(env, argv[0], &param_node_id);
     hapi_get_int(env, argv[2], &param_start);
     hapi_get_int(env, argv[3], &param_length);
-    //POINTER int* param_param_values IDX 1
+    hapi_get_int_list(env, argv[1], &param_values[0], param_length);
 
     if(param_values) free(param_values);
 
@@ -4096,7 +4096,7 @@ hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     hapi_get_hapi_asset_id(env, argv[0], &param_asset_id);
     hapi_get_hapi_material_id(env, argv[1], &param_material_id);
     hapi_get_int(env, argv[3], &param_buffer_size);
-    //POINTER char* param_param_buffer IDX 2
+    hapi_get_char_list(env, argv[2], &param_buffer[0], param_buffer_size);
 
     if(param_buffer) free(param_buffer);
 
@@ -4172,7 +4172,7 @@ hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     hapi_get_hapi_node_id(env, argv[0], &param_node_id);
     hapi_get_int(env, argv[2], &param_start);
     hapi_get_int(env, argv[3], &param_length);
-    //POINTER HAPI_ParmInfo* param_param_parm_infos IDX 1
+    hapi_get_hapi_parm_info_list(env, argv[1], &param_parm_infos[0], param_length);
 
     if(param_parm_infos) free(param_parm_infos);
 
@@ -4409,7 +4409,7 @@ hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     hapi_get_hapi_object_id(env, argv[1], &param_object_id);
     hapi_get_hapi_geo_id(env, argv[2], &param_geo_id);
     hapi_get_int(env, argv[4], &param_size);
-    //POINTER char* param_param_buffer IDX 3
+    hapi_get_char_list(env, argv[3], &param_buffer[0], param_size);
 
     if(param_buffer) free(param_buffer);
 
@@ -4603,7 +4603,7 @@ hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     hapi_get_hapi_part_id(env, argv[3], &param_part_id);
     hapi_get_int(env, argv[5], &param_start);
     hapi_get_int(env, argv[6], &param_length);
-    //POINTER int* param_param_orders IDX 4
+    hapi_get_int_list(env, argv[4], &param_orders[0], param_length);
 
     if(param_orders) free(param_orders);
 
@@ -4822,7 +4822,7 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     int param_cooking_thread_stack_size; // OUTPUT IDX: 4
 
     hapi_get_int(env, argv[4], &param_cooking_thread_stack_size);
-    //POINTER HAPI_Bool* param_param_use_cooking_thread IDX 3
+    hapi_get_hapi_bool_list(env, argv[3], &param_use_cooking_thread[0], param_cooking_thread_stack_size);
 
     if(param_otl_search_path) free(param_otl_search_path);
     if(param_dso_search_path) free(param_dso_search_path);
@@ -4895,7 +4895,7 @@ hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     hapi_get_hapi_node_id(env, argv[0], &param_node_id);
     hapi_get_int(env, argv[2], &param_start);
     hapi_get_int(env, argv[3], &param_length);
-    //POINTER float* param_param_values IDX 1
+    hapi_get_float_list(env, argv[1], &param_values[0], param_length);
 
     if(param_values) free(param_values);
 
@@ -5552,7 +5552,7 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     hapi_get_hapi_group_type(env, argv[3], &param_group_type);
     hapi_get_int(env, argv[6], &param_start);
     hapi_get_int(env, argv[7], &param_length);
-    //POINTER int* param_param_membership IDX 5
+    hapi_get_int_list(env, argv[5], &param_membership[0], param_length);
 
     if(param_group_name) free(param_group_name);
     if(param_membership) free(param_membership);
@@ -5680,7 +5680,7 @@ hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     hapi_get_hapi_bool(env, argv[4], &param_are_all_the_same);
     hapi_get_int(env, argv[6], &param_start);
     hapi_get_int(env, argv[7], &param_length);
-    //POINTER HAPI_MaterialId* param_param_material_ids IDX 5
+    hapi_get_hapi_material_id_list(env, argv[5], &param_material_ids[0], param_length);
 
     if(param_material_ids) free(param_material_ids);
 
@@ -5807,7 +5807,7 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
 
     hapi_get_hapi_status_type(env, argv[0], &param_status_type);
     hapi_get_int(env, argv[2], &param_buffer_size);
-    //POINTER HAPI_StatusVerbosity* param_param_verbosity IDX 1
+    hapi_get_hapi_status_verbosity_list(env, argv[1], &param_verbosity[0], param_buffer_size);
 
     if(param_verbosity) free(param_verbosity);
 
@@ -5856,7 +5856,7 @@ hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     hapi_get_hapi_part_id(env, argv[3], &param_part_id);
     hapi_get_int(env, argv[5], &param_start);
     hapi_get_int(env, argv[6], &param_length);
-    //POINTER float* param_param_knots IDX 4
+    hapi_get_float_list(env, argv[4], &param_knots[0], param_length);
 
     if(param_knots) free(param_knots);
 
@@ -5945,7 +5945,7 @@ hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     hapi_get_hapi_geo_id(env, argv[2], &param_geo_id);
     hapi_get_hapi_group_type(env, argv[3], &param_group_type);
     hapi_get_int(env, argv[5], &param_group_count);
-    //POINTER HAPI_StringHandle* param_param_group_names IDX 4
+    hapi_get_hapi_string_handle_list(env, argv[4], &param_group_names[0], param_group_count);
 
     if(param_group_names) free(param_group_names);
 
@@ -6200,7 +6200,7 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     hapi_get_hapi_object_id(env, argv[1], &param_object_id);
     hapi_get_hapi_geo_id(env, argv[2], &param_geo_id);
     hapi_get_int(env, argv[5], &param_size);
-    //POINTER char* param_param_buffer IDX 4
+    hapi_get_char_list(env, argv[4], &param_buffer[0], param_size);
 
     if(param_format) free(param_format);
     if(param_buffer) free(param_buffer);
@@ -6431,7 +6431,7 @@ hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 
     hapi_get_hapi_asset_library_id(env, argv[0], &param_library_id);
     hapi_get_int(env, argv[2], &param_asset_count);
-    //POINTER HAPI_StringHandle* param_param_asset_names IDX 1
+    hapi_get_hapi_string_handle_list(env, argv[1], &param_asset_names[0], param_asset_count);
 
     if(param_asset_names) free(param_asset_names);
 
@@ -6725,7 +6725,7 @@ hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     hapi_get_hapi_bool(env, argv[1], &param_evaluate);
     hapi_get_int(env, argv[3], &param_start);
     hapi_get_int(env, argv[4], &param_length);
-    //POINTER HAPI_StringHandle* param_param_values IDX 2
+    hapi_get_hapi_string_handle_list(env, argv[2], &param_values[0], param_length);
 
     if(param_values) free(param_values);
 
@@ -6929,7 +6929,7 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     hapi_get_hapi_attribute_info(env, argv[5], &param_attr_info);
     hapi_get_int(env, argv[7], &param_start);
     hapi_get_int(env, argv[8], &param_length);
-    //POINTER float* param_param_data IDX 6
+    hapi_get_float_list(env, argv[6], &param_data[0], param_length);
 
     if(param_name) free(param_name);
     if(param_data) free(param_data);
@@ -7034,7 +7034,7 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
     int param_file_format_count; // OUTPUT IDX: 1
 
     hapi_get_int(env, argv[1], &param_file_format_count);
-    //POINTER HAPI_ImageFileFormat* param_param_formats IDX 0
+    hapi_get_hapi_image_file_format_list(env, argv[0], &param_formats[0], param_file_format_count);
 
     if(param_formats) free(param_formats);
 

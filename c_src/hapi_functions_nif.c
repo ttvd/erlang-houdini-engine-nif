@@ -45,8 +45,8 @@ hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetStringBufLength
     function_type: HAPI_Result
-    
-    OPT param_pointer->true
+    HAPI_StringHandle string_handle     
+    token_int buffer_length     OPT param_pointer->true
     */
 
     int param_buffer_length; // INPUT IDX: 1 EX: EXTRACT_CODE6
@@ -89,7 +89,7 @@ hapi_parm_info_is_float_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_ParmInfo_IsFloat
     function_type: HAPI_Bool
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -123,9 +123,9 @@ hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetPreset
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_pointer->true
-    
+    HAPI_NodeId node_id     
+    token_char buffer     OPT param_string->true | OPT param_pointer->true
+    token_int buffer_length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -170,7 +170,7 @@ hapi_attribute_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_AttributeInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_AttributeInfo in     OPT param_pointer->true
     */
 
     HAPI_AttributeInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -204,7 +204,7 @@ hapi_handle_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_HandleInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_HandleInfo in     OPT param_pointer->true
     */
 
     HAPI_HandleInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -264,15 +264,15 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_GetAttributeStringData
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
-    OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeInfo attr_info     OPT param_pointer->true
+    token_int data     OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -335,7 +335,7 @@ hapi_get_cooking_current_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_GetCookingCurrentCount
     function_type: HAPI_Result
-    OPT param_pointer->true
+    token_int count     OPT param_pointer->true
     */
 
     int param_count; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -369,10 +369,10 @@ hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_GetParmFloatValue
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int index     
+    token_float value     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -421,8 +421,8 @@ hapi_geo_info_get_group_count_by_type_schedule(ErlNifEnv* env, int argc, const E
     /*
     function_name: HAPI_GeoInfo_GetGroupCountByType
     function_type: token_int
-    OPT param_pointer->true
-    
+    HAPI_GeoInfo in     OPT param_pointer->true
+    HAPI_GroupType type     
     */
 
     HAPI_GeoInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -510,8 +510,8 @@ hapi_get_env_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetEnvInt
     function_type: HAPI_Result
-    
-    OPT param_pointer->true
+    HAPI_EnvIntType int_type     
+    token_int value     OPT param_pointer->true
     */
 
     HAPI_EnvIntType param_int_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -547,9 +547,9 @@ hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_GetStatusString
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_pointer->true
-    
+    HAPI_StatusType status_type     
+    token_char buffer     OPT param_string->true | OPT param_pointer->true
+    token_int buffer_length     
     */
 
     HAPI_StatusType param_status_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -594,7 +594,7 @@ hapi_parm_info_is_non_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_ParmInfo_IsNonValue
     function_type: HAPI_Bool
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -628,7 +628,7 @@ hapi_parm_info_get_float_value_count_schedule(ErlNifEnv* env, int argc, const ER
     /*
     function_name: HAPI_ParmInfo_GetFloatValueCount
     function_type: token_int
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -662,12 +662,12 @@ hapi_set_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_SetFaceCounts
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_int face_counts     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -746,10 +746,10 @@ hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_GetHandleInfo
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_HandleInfo handle_infos     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -796,8 +796,8 @@ hapi_get_node_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetNodeInfo
     function_type: HAPI_Result
-    
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    HAPI_NodeInfo node_info     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -833,9 +833,9 @@ hapi_is_asset_valid_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_IsAssetValid
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    token_int asset_validation_id     
+    token_int answer     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -873,13 +873,13 @@ hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_GetInstanceTransforms
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_RSTOrder rst_order     
+    HAPI_Transform transforms     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -932,13 +932,13 @@ hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_GetAttributeNames
     function_type: HAPI_Result
-    
-    
-    
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_AttributeOwner owner     
+    HAPI_StringHandle attribute_names     OPT param_pointer->true | OPT param_array->true
+    token_int count     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1010,7 +1010,7 @@ hapi_global_nodes_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_GlobalNodes_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_GlobalNodes in     OPT param_pointer->true
     */
 
     HAPI_GlobalNodes param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1070,13 +1070,13 @@ hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_GetAttributeInfo
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeOwner owner     
+    HAPI_AttributeInfo attr_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1131,9 +1131,9 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
     /*
     function_name: HAPI_LoadAssetLibraryFromFile
     function_type: HAPI_Result
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    OPT param_pointer->true
+    token_char file_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_Bool allow_overwrite     
+    HAPI_AssetLibraryId library_id     OPT param_pointer->true
     */
 
     HAPI_Bool param_allow_overwrite; // INPUT IDX: 1 EX: EXTRACT_CODE1
@@ -1180,7 +1180,7 @@ hapi_geo_input_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_GeoInputInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_GeoInputInfo in     OPT param_pointer->true
     */
 
     HAPI_GeoInputInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1214,8 +1214,8 @@ hapi_set_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_SetAssetTransform
     function_type: HAPI_Result
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_TransformEuler transform     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1251,13 +1251,13 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_GetCurveCounts
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_int counts     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1310,10 +1310,10 @@ hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_SetParmFloatValues
     function_type: HAPI_Result
-    
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_NodeId node_id     
+    token_float values     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1362,11 +1362,11 @@ hapi_get_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetPartInfo
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_PartInfo part_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1434,7 +1434,7 @@ hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_SaveHIPFile
     function_type: HAPI_Result
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_char file_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
     */
 
     char* param_file_path = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
@@ -1503,14 +1503,14 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_SetAttributeIntData
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
+    token_int data     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1573,8 +1573,8 @@ hapi_part_info_get_element_count_by_attribute_owner_schedule(ErlNifEnv* env, int
     /*
     function_name: HAPI_PartInfo_GetElementCountByAttributeOwner
     function_type: token_int
-    OPT param_pointer->true
-    
+    HAPI_PartInfo in     OPT param_pointer->true
+    HAPI_AttributeOwner owner     
     */
 
     HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1610,10 +1610,10 @@ hapi_get_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_GetAssetTransform
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_RSTOrder rst_order     
+    HAPI_XYZOrder rot_order     
+    HAPI_TransformEuler transform     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1653,9 +1653,9 @@ hapi_insert_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_InsertMultiparmInstance
     function_type: HAPI_Result
-    
-    
-    
+    HAPI_NodeId node_id     
+    HAPI_ParmId parm_id     
+    token_int instance_position     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1693,10 +1693,10 @@ hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetPresetBufLength
     function_type: HAPI_Result
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    HAPI_PresetType preset_type     
+    token_char preset_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int buffer_length     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1745,11 +1745,11 @@ hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_ExtractImageToMemory
     function_type: HAPI_Result
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true | OPT param_array->true
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    token_char image_file_format_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_char image_planes     OPT param_string->true | OPT param_const->true | OPT param_pointer->true | OPT param_array->true
+    token_int buffer_size     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1806,8 +1806,8 @@ hapi_disconnect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_DisconnectAssetGeometry
     function_type: HAPI_Result
-    
-    
+    HAPI_AssetId asset_id     
+    token_int input_idx     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1869,10 +1869,10 @@ hapi_set_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_SetPartInfo
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartInfo part_info     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1912,12 +1912,12 @@ hapi_set_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_SetVertexList
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_int vertex_list     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -1970,14 +1970,14 @@ hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_SetAttributeStringData
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true | OPT param_pointer_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
+    token_char data     OPT param_const->true | OPT param_pointer->true | OPT param_pointer_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2040,11 +2040,11 @@ hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetObjectTransforms
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_RSTOrder rst_order     
+    HAPI_Transform transforms     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2093,10 +2093,10 @@ hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     function_name: HAPI_SetTransformAnimCurve
     function_type: HAPI_Result
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    
+    HAPI_NodeId node_id     
+    HAPI_TransformComponent trans_comp     
+    HAPI_Keyframe curve_keyframes     OPT param_const->true | OPT param_pointer->true
+    token_int keyframe_count     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2145,10 +2145,10 @@ hapi_get_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetGeoInfo
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_GeoInfo geo_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2214,7 +2214,7 @@ hapi_image_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_ImageInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_ImageInfo in     OPT param_pointer->true
     */
 
     HAPI_ImageInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2248,7 +2248,7 @@ hapi_parm_info_is_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_ParmInfo_IsString
     function_type: HAPI_Bool
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2282,15 +2282,15 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_GetAttributeIntData
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
-    OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeInfo attr_info     OPT param_pointer->true
+    token_int data     OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2353,15 +2353,15 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_GetGroupMembership
     function_type: HAPI_Result
-    
-    
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_GroupType group_type     
+    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int membership     OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2424,7 +2424,7 @@ hapi_get_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetTime
     function_type: HAPI_Result
-    OPT param_pointer->true
+    token_float time     OPT param_pointer->true
     */
 
     float param_time; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2458,9 +2458,9 @@ hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_GetParmInfoFromName
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo parm_info     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2507,13 +2507,13 @@ hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_GetFaceCounts
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_int face_counts     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2566,13 +2566,13 @@ hapi_set_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_SetCurveCounts
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_int counts     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2653,10 +2653,10 @@ hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL
     /*
     function_name: HAPI_LoadAssetLibraryFromMemory
     function_type: HAPI_Result
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    
-    OPT param_pointer->true
+    token_char library_buffer     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int library_buffer_size     
+    HAPI_Bool allow_overwrite     
+    HAPI_AssetLibraryId library_id     OPT param_pointer->true
     */
 
     int param_library_buffer_size; // INPUT IDX: 1 EX: EXTRACT_CODE6
@@ -2705,7 +2705,7 @@ hapi_get_new_asset_ids_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_GetNewAssetIds
     function_type: HAPI_Result
-    OPT param_pointer->true | OPT param_array->true
+    HAPI_AssetId asset_ids     OPT param_pointer->true | OPT param_array->true
     */
 
     HAPI_AssetId param_asset_ids; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2739,9 +2739,9 @@ hapi_set_object_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_SetObjectTransform
     function_type: HAPI_Result
-    
-    
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_TransformEuler transform     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2805,10 +2805,10 @@ hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetObjects
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectInfo object_infos     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2855,11 +2855,11 @@ hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
     /*
     function_name: HAPI_SetVolumeTileFloatData
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_VolumeTileInfo tile     OPT param_const->true | OPT param_pointer->true
+    token_float values     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2901,7 +2901,7 @@ hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_ImageFileFormat_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_ImageFileFormat in     OPT param_pointer->true
     */
 
     HAPI_ImageFileFormat param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2935,8 +2935,8 @@ hapi_get_asset_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_GetAssetInfo
     function_type: HAPI_Result
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_AssetInfo asset_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -2972,9 +2972,9 @@ hapi_render_material_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     function_name: HAPI_RenderMaterialToImage
     function_type: HAPI_Result
-    
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    HAPI_ShaderType shader_type     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3012,8 +3012,8 @@ hapi_part_info_get_attribute_count_by_owner_schedule(ErlNifEnv* env, int argc, c
     /*
     function_name: HAPI_PartInfo_GetAttributeCountByOwner
     function_type: token_int
-    OPT param_pointer->true
-    
+    HAPI_PartInfo in     OPT param_pointer->true
+    HAPI_AttributeOwner owner     
     */
 
     HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3049,9 +3049,9 @@ hapi_connect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_ConnectAssetTransform
     function_type: HAPI_Result
-    
-    
-    
+    HAPI_AssetId asset_id_from     
+    HAPI_AssetId asset_id_to     
+    token_int input_idx     
     */
 
     HAPI_AssetId param_asset_id_from; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3115,7 +3115,7 @@ hapi_get_global_nodes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_GetGlobalNodes
     function_type: HAPI_Result
-    OPT param_pointer->true | OPT param_array->true
+    HAPI_GlobalNodes global_nodes     OPT param_pointer->true | OPT param_array->true
     */
 
     HAPI_GlobalNodes param_global_nodes; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3149,11 +3149,11 @@ hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_GetHandleBindingInfo
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    token_int handle_index     
+    HAPI_HandleBindingInfo handle_infos     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3202,9 +3202,9 @@ hapi_get_material_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_GetMaterialInfo
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    HAPI_MaterialInfo material_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3242,11 +3242,11 @@ hapi_get_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_GetVolumeInfo
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_VolumeInfo volume_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3288,7 +3288,7 @@ hapi_timeline_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_TimelineOptions_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_TimelineOptions in     OPT param_pointer->true
     */
 
     HAPI_TimelineOptions param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3348,10 +3348,10 @@ hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_GetImagePlanes
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    HAPI_StringHandle image_planes     OPT param_pointer->true | OPT param_array->true
+    token_int image_plane_count     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3424,10 +3424,10 @@ hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_SetParmStringValue
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_NodeId node_id     
+    token_char value     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmId parm_id     
+    token_int index     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3476,10 +3476,10 @@ hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_SetParmIntValue
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_NodeId node_id     
+    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int index     
+    token_int value     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3528,7 +3528,7 @@ hapi_get_cooking_total_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_GetCookingTotalCount
     function_type: HAPI_Result
-    OPT param_pointer->true
+    token_int count     OPT param_pointer->true
     */
 
     int param_count; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3562,9 +3562,9 @@ hapi_render_texture_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_RenderTextureToImage
     function_type: HAPI_Result
-    
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    HAPI_ParmId parm_id     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3602,9 +3602,9 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetString
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_pointer->true
-    
+    HAPI_StringHandle string_handle     
+    token_char string_value     OPT param_string->true | OPT param_pointer->true
+    token_int buffer_length     
     */
 
     HAPI_StringHandle param_string_handle; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3649,9 +3649,9 @@ hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetImagePlaneCount
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    token_int image_plane_count     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3696,10 +3696,10 @@ hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_ConvertMatrixToEuler
     function_type: HAPI_Result
-    OPT param_const->true | OPT param_pointer->true
-    
-    
-    OPT param_pointer->true
+    token_float mat     OPT param_const->true | OPT param_pointer->true
+    HAPI_RSTOrder rst_order     
+    HAPI_XYZOrder rot_order     
+    HAPI_TransformEuler transform_out     OPT param_pointer->true
     */
 
     float param_mat; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3739,10 +3739,10 @@ hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetParmChoiceLists
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_NodeId node_id     
+    HAPI_ParmChoiceInfo parm_choices     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3789,8 +3789,8 @@ hapi_part_info_get_element_count_by_group_type_schedule(ErlNifEnv* env, int argc
     /*
     function_name: HAPI_PartInfo_GetElementCountByGroupType
     function_type: token_int
-    OPT param_pointer->true
-    
+    HAPI_PartInfo in     OPT param_pointer->true
+    HAPI_GroupType type     
     */
 
     HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3826,9 +3826,9 @@ hapi_remove_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_RemoveMultiparmInstance
     function_type: HAPI_Result
-    
-    
-    
+    HAPI_NodeId node_id     
+    HAPI_ParmId parm_id     
+    token_int instance_position     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3866,13 +3866,13 @@ hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_GetVertexList
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_int vertex_list     OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -3925,8 +3925,8 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_GetAvailableAssetCount
     function_type: HAPI_Result
-    
-    OPT param_pointer->true
+    HAPI_AssetLibraryId library_id     
+    token_int asset_count     OPT param_pointer->true
     */
 
     int param_asset_count; // INPUT IDX: 1 EX: EXTRACT_CODE6
@@ -3969,11 +3969,11 @@ hapi_get_next_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_GetNextVolumeTile
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_VolumeTileInfo tile     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4015,9 +4015,9 @@ hapi_set_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_SetImageInfo
     function_type: HAPI_Result
-    
-    
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    HAPI_ImageInfo image_info     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4055,7 +4055,7 @@ hapi_node_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_NodeInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_NodeInfo in     OPT param_pointer->true
     */
 
     HAPI_NodeInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4089,7 +4089,7 @@ hapi_parm_info_get_string_value_count_schedule(ErlNifEnv* env, int argc, const E
     /*
     function_name: HAPI_ParmInfo_GetStringValueCount
     function_type: token_int
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4123,7 +4123,7 @@ hapi_destroy_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_DestroyAsset
     function_type: HAPI_Result
-    
+    HAPI_AssetId asset_id     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4157,10 +4157,10 @@ hapi_get_input_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_GetInputName
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    token_int input_idx     
+    token_int input_type     
+    HAPI_StringHandle name     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4200,10 +4200,10 @@ hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_GetParmIntValues
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_NodeId node_id     
+    token_int values     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4250,10 +4250,10 @@ hapi_set_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     /*
     function_name: HAPI_SetParmIntValues
     function_type: HAPI_Result
-    
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_NodeId node_id     
+    token_int values     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4302,7 +4302,7 @@ hapi_cook_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_CookOptions_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_CookOptions in     OPT param_pointer->true
     */
 
     HAPI_CookOptions param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4336,11 +4336,11 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetParmStringValue
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int index     
+    HAPI_Bool evaluate     
+    HAPI_StringHandle value     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4391,11 +4391,11 @@ hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_SetAnimCurve
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    
+    HAPI_NodeId node_id     
+    HAPI_ParmId parm_id     
+    token_int parm_index     
+    HAPI_Keyframe curve_keyframes     OPT param_const->true | OPT param_pointer->true
+    token_int keyframe_count     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4446,9 +4446,9 @@ hapi_get_parm_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetParmInfo
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    HAPI_ParmId parm_id     
+    HAPI_ParmInfo parm_info     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4486,13 +4486,13 @@ hapi_set_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_SetCurveKnots
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_float knots     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4547,7 +4547,7 @@ hapi_reset_simulation_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_ResetSimulation
     function_type: HAPI_Result
-    
+    HAPI_AssetId asset_id     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4581,11 +4581,11 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_SetPreset
     function_type: HAPI_Result
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
+    HAPI_NodeId node_id     
+    HAPI_PresetType preset_type     
+    token_char preset_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_char buffer     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int buffer_length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4642,7 +4642,7 @@ hapi_keyframe_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_Keyframe_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_Keyframe in     OPT param_pointer->true
     */
 
     HAPI_Keyframe param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4702,10 +4702,10 @@ hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     /*
     function_name: HAPI_GetImageMemoryBuffer
     function_type: HAPI_Result
-    
-    
-    OPT param_string->true | OPT param_pointer->true
-    
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    token_char buffer     OPT param_string->true | OPT param_pointer->true
+    token_int buffer_size     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4752,9 +4752,9 @@ hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_ConvertMatrixToQuat
     function_type: HAPI_Result
-    OPT param_const->true | OPT param_pointer->true
-    
-    OPT param_pointer->true
+    token_float mat     OPT param_const->true | OPT param_pointer->true
+    HAPI_RSTOrder rst_order     
+    HAPI_Transform transform_out     OPT param_pointer->true
     */
 
     float param_mat; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4792,10 +4792,10 @@ hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_GetParameters
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_NodeId node_id     
+    HAPI_ParmInfo parm_infos     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4842,9 +4842,9 @@ hapi_convert_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_ConvertTransform
     function_type: HAPI_Result
-    OPT param_pointer->true
-    
-    
+    HAPI_TransformEuler transform_in_out     OPT param_pointer->true
+    HAPI_RSTOrder rst_order     
+    HAPI_XYZOrder rot_order     
     */
 
     HAPI_TransformEuler param_transform_in_out; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4882,7 +4882,7 @@ hapi_create_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_CreateCurve
     function_type: HAPI_Result
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4916,7 +4916,7 @@ hapi_parm_info_is_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_ParmInfo_IsInt
     function_type: HAPI_Bool
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4950,8 +4950,8 @@ hapi_convert_transform_quat_to_matrix_schedule(ErlNifEnv* env, int argc, const E
     /*
     function_name: HAPI_ConvertTransformQuatToMatrix
     function_type: HAPI_Result
-    OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_Transform transform     OPT param_const->true | OPT param_pointer->true
+    token_float matrix     OPT param_pointer->true
     */
 
     HAPI_Transform param_transform; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -4987,7 +4987,7 @@ hapi_parm_info_get_int_value_count_schedule(ErlNifEnv* env, int argc, const ERL_
     /*
     function_name: HAPI_ParmInfo_GetIntValueCount
     function_type: token_int
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5021,7 +5021,7 @@ hapi_volume_tile_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_VolumeTileInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_VolumeTileInfo in     OPT param_pointer->true
     */
 
     HAPI_VolumeTileInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5055,11 +5055,11 @@ hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_SaveGeoToMemory
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_pointer->true
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char buffer     OPT param_string->true | OPT param_pointer->true
+    token_int size     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5108,9 +5108,9 @@ hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_InstantiateAsset
     function_type: HAPI_Result
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    OPT param_pointer->true
+    token_char asset_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_Bool cook_on_load     
+    HAPI_AssetId asset_id     OPT param_pointer->true
     */
 
     HAPI_Bool param_cook_on_load; // INPUT IDX: 1 EX: EXTRACT_CODE1
@@ -5157,7 +5157,7 @@ hapi_get_supported_image_file_format_count_schedule(ErlNifEnv* env, int argc, co
     /*
     function_name: HAPI_GetSupportedImageFileFormatCount
     function_type: HAPI_Result
-    OPT param_pointer->true
+    token_int file_format_count     OPT param_pointer->true
     */
 
     int param_file_format_count; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5191,10 +5191,10 @@ hapi_set_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_SetVolumeInfo
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_VolumeInfo volume_info     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5234,10 +5234,10 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_SaveGeoToFile
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5286,13 +5286,13 @@ hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_GetCurveOrders
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_int orders     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5371,11 +5371,11 @@ hapi_get_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_GetCurveInfo
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_CurveInfo info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5443,8 +5443,8 @@ hapi_disconnect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF
     /*
     function_name: HAPI_DisconnectAssetTransform
     function_type: HAPI_Result
-    
-    
+    HAPI_AssetId asset_id     
+    token_int input_idx     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5480,11 +5480,11 @@ hapi_set_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_SetCurveInfo
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_CurveInfo info     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5526,11 +5526,11 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_Initialize
     function_type: HAPI_Result
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    token_char otl_search_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_char dso_search_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_CookOptions cook_options     OPT param_const->true | OPT param_pointer->true
+    HAPI_Bool use_cooking_thread     
+    token_int cooking_thread_stack_size     
     */
 
     HAPI_CookOptions param_cook_options; // INPUT IDX: 2 EX: EXTRACT_CODE1
@@ -5591,7 +5591,7 @@ hapi_part_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_PartInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_PartInfo in     OPT param_pointer->true
     */
 
     HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5625,10 +5625,10 @@ hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetParmFloatValues
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_NodeId node_id     
+    token_float values     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5675,7 +5675,7 @@ hapi_handle_binding_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     function_name: HAPI_HandleBindingInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_HandleBindingInfo in     OPT param_pointer->true
     */
 
     HAPI_HandleBindingInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5709,12 +5709,12 @@ hapi_get_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     function_name: HAPI_GetVolumeTileIntData
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
-    OPT param_pointer->true | OPT param_array->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_VolumeTileInfo tile     OPT param_pointer->true
+    token_int values     OPT param_pointer->true | OPT param_array->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5758,7 +5758,7 @@ hapi_object_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_ObjectInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_ObjectInfo in     OPT param_pointer->true
     */
 
     HAPI_ObjectInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5792,7 +5792,7 @@ hapi_get_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_GetTimelineOptions
     function_type: HAPI_Result
-    OPT param_pointer->true | OPT param_array->true
+    HAPI_TimelineOptions timeline_options     OPT param_pointer->true | OPT param_array->true
     */
 
     HAPI_TimelineOptions param_timeline_options; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5826,9 +5826,9 @@ hapi_commit_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_CommitGeo
     function_type: HAPI_Result
-    
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5866,7 +5866,7 @@ hapi_parm_choice_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_ParmChoiceInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_ParmChoiceInfo in     OPT param_pointer->true
     */
 
     HAPI_ParmChoiceInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5926,8 +5926,8 @@ hapi_cook_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_CookAsset
     function_type: HAPI_Result
-    
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_CookOptions cook_options     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -5963,8 +5963,8 @@ hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_LoadHIPFile
     function_type: HAPI_Result
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
+    token_char file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_Bool cook_on_load     
     */
 
     HAPI_Bool param_cook_on_load; // INPUT IDX: 1 EX: EXTRACT_CODE1
@@ -6009,7 +6009,7 @@ hapi_geo_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GeoInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_GeoInfo in     OPT param_pointer->true
     */
 
     HAPI_GeoInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6043,7 +6043,7 @@ hapi_volume_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_VolumeInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_VolumeInfo in     OPT param_pointer->true
     */
 
     HAPI_VolumeInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6077,10 +6077,10 @@ hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_GetParmIntValue
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int index     
+    token_int value     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6129,11 +6129,11 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_AddAttribute
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6184,11 +6184,11 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_AddGroup
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_GroupType group_type     
+    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6239,8 +6239,8 @@ hapi_convert_transform_euler_to_matrix_schedule(ErlNifEnv* env, int argc, const 
     /*
     function_name: HAPI_ConvertTransformEulerToMatrix
     function_type: HAPI_Result
-    OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_TransformEuler transform     OPT param_const->true | OPT param_pointer->true
+    token_float matrix     OPT param_pointer->true
     */
 
     HAPI_TransformEuler param_transform; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6276,14 +6276,14 @@ hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     function_name: HAPI_SetAttributeFloatData
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
+    token_float data     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6346,9 +6346,9 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetParmIdFromName
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_NodeId node_id     
+    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmId parm_id     OPT param_pointer->true
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6395,14 +6395,14 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_SetGroupMembership
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_GroupType group_type     
+    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int membership     OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6463,11 +6463,11 @@ hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     function_name: HAPI_SetVolumeTileIntData
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_VolumeTileInfo tile     OPT param_const->true | OPT param_pointer->true
+    token_int values     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6509,8 +6509,8 @@ hapi_get_status_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetStatus
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
+    HAPI_StatusType status_type     
+    token_int status     OPT param_pointer->true | OPT param_array->true
     */
 
     HAPI_StatusType param_status_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6546,14 +6546,14 @@ hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     /*
     function_name: HAPI_GetMaterialIdsOnFaces
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_Bool are_all_the_same     OPT param_pointer->true
+    HAPI_MaterialId material_ids     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6608,11 +6608,11 @@ hapi_get_geo_size_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_GetGeoSize
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char format     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int size     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6663,13 +6663,13 @@ hapi_set_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     /*
     function_name: HAPI_SetCurveOrders
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_int orders     OPT param_const->true | OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6724,9 +6724,9 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
     /*
     function_name: HAPI_GetStatusStringBufLength
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true
+    HAPI_StatusType status_type     
+    HAPI_StatusVerbosity verbosity     
+    token_int buffer_size     OPT param_pointer->true
     */
 
     HAPI_StatusType param_status_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6771,13 +6771,13 @@ hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_GetCurveKnots
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_float knots     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6830,11 +6830,11 @@ hapi_get_first_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetFirstVolumeTile
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_VolumeTileInfo tile     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6876,12 +6876,12 @@ hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_GetGroupNames
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_GroupType group_type     
+    HAPI_StringHandle group_names     OPT param_pointer->true | OPT param_array->true
+    token_int group_count     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6932,10 +6932,10 @@ hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_LoadGeoFromFile
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -6984,9 +6984,9 @@ hapi_revert_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_RevertGeo
     function_type: HAPI_Result
-    
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7024,7 +7024,7 @@ hapi_asset_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_AssetInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_AssetInfo in     OPT param_pointer->true
     */
 
     HAPI_AssetInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7058,7 +7058,7 @@ hapi_parm_info_is_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     /*
     function_name: HAPI_ParmInfo_IsPath
     function_type: HAPI_Bool
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7092,8 +7092,8 @@ hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_CreateInputAsset
     function_type: HAPI_Result
-    OPT param_pointer->true
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AssetId asset_id     OPT param_pointer->true
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7138,10 +7138,10 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_SetParmFloatValue
     function_type: HAPI_Result
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    
-    
+    HAPI_NodeId node_id     
+    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int index     
+    token_float value     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7190,12 +7190,12 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_LoadGeoFromMemory
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_string->true | OPT param_pointer->true
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char format     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_char buffer     OPT param_string->true | OPT param_pointer->true
+    token_int size     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7252,7 +7252,7 @@ hapi_parm_info_is_file_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_ParmInfo_IsFilePath
     function_type: HAPI_Bool
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7312,10 +7312,10 @@ hapi_set_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_SetGeoInfo
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_GeoInfo geo_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7381,7 +7381,7 @@ hapi_material_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     /*
     function_name: HAPI_MaterialInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_MaterialInfo in     OPT param_pointer->true
     */
 
     HAPI_MaterialInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7415,7 +7415,7 @@ hapi_parm_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_ParmInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7449,9 +7449,9 @@ hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_GetAvailableAssets
     function_type: HAPI_Result
-    
-    OPT param_pointer->true | OPT param_array->true
-    
+    HAPI_AssetLibraryId library_id     
+    HAPI_StringHandle asset_names     OPT param_pointer->true | OPT param_array->true
+    token_int asset_count     
     */
 
     HAPI_AssetLibraryId param_library_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7496,11 +7496,11 @@ hapi_get_material_on_part_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_GetMaterialOnPart
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_MaterialInfo material_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7542,7 +7542,7 @@ hapi_curve_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     /*
     function_name: HAPI_CurveInfo_Init
     function_type: token_void
-    OPT param_pointer->true
+    HAPI_CurveInfo in     OPT param_pointer->true
     */
 
     HAPI_CurveInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7576,7 +7576,7 @@ hapi_parm_info_is_node_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_ParmInfo_IsNodePath
     function_type: HAPI_Bool
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7636,13 +7636,13 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_ExtractImageToFile
     function_type: HAPI_Result
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true | OPT param_array->true
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    token_char image_file_format_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_char image_planes     OPT param_string->true | OPT param_const->true | OPT param_pointer->true | OPT param_array->true
+    token_char destination_folder_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_char destination_file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    token_int destination_file_path     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7715,7 +7715,7 @@ hapi_set_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     /*
     function_name: HAPI_SetTime
     function_type: HAPI_Result
-    
+    token_float time     
     */
 
     float param_time; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7749,9 +7749,9 @@ hapi_get_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     /*
     function_name: HAPI_GetImageInfo
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_MaterialId material_id     
+    HAPI_ImageInfo image_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7789,11 +7789,11 @@ hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_GetParmStringValues
     function_type: HAPI_Result
-    
-    
-    OPT param_pointer->true | OPT param_array->true
-    
-    
+    HAPI_NodeId node_id     
+    HAPI_Bool evaluate     
+    HAPI_StringHandle values     OPT param_pointer->true | OPT param_array->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7842,11 +7842,11 @@ hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     /*
     function_name: HAPI_GetMaterialOnGroup
     function_type: HAPI_Result
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_MaterialInfo material_info     OPT param_pointer->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7897,7 +7897,7 @@ hapi_python_thread_interpreter_lock_schedule(ErlNifEnv* env, int argc, const ERL
     /*
     function_name: HAPI_PythonThreadInterpreterLock
     function_type: HAPI_Result
-    
+    HAPI_Bool locked     
     */
 
     HAPI_Bool param_locked; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7931,7 +7931,7 @@ hapi_set_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_SetTimelineOptions
     function_type: HAPI_Result
-    OPT param_const->true | OPT param_pointer->true
+    HAPI_TimelineOptions timeline_options     OPT param_const->true | OPT param_pointer->true
     */
 
     HAPI_TimelineOptions param_timeline_options; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -7965,12 +7965,12 @@ hapi_get_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
     /*
     function_name: HAPI_GetVolumeTileFloatData
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_pointer->true
-    OPT param_pointer->true | OPT param_array->true
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    HAPI_VolumeTileInfo tile     OPT param_pointer->true
+    token_float values     OPT param_pointer->true | OPT param_array->true
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -8014,15 +8014,15 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     /*
     function_name: HAPI_GetAttributeFloatData
     function_type: HAPI_Result
-    
-    
-    
-    
-    OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    OPT param_pointer->true
-    OPT param_pointer->true
-    
-    
+    HAPI_AssetId asset_id     
+    HAPI_ObjectId object_id     
+    HAPI_GeoId geo_id     
+    HAPI_PartId part_id     
+    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
+    HAPI_AttributeInfo attr_info     OPT param_pointer->true
+    token_float data     OPT param_pointer->true
+    token_int start     
+    token_int length     
     */
 
     HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -8085,10 +8085,10 @@ hapi_connect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     /*
     function_name: HAPI_ConnectAssetGeometry
     function_type: HAPI_Result
-    
-    
-    
-    
+    HAPI_AssetId asset_id_from     
+    HAPI_ObjectId object_id_from     
+    HAPI_AssetId asset_id_to     
+    token_int input_idx     
     */
 
     HAPI_AssetId param_asset_id_from; // INPUT IDX: 0 EX: EXTRACT_CODE1
@@ -8154,8 +8154,8 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
     /*
     function_name: HAPI_GetSupportedImageFileFormats
     function_type: HAPI_Result
-    OPT param_pointer->true | OPT param_array->true
-    
+    HAPI_ImageFileFormat formats     OPT param_pointer->true | OPT param_array->true
+    token_int file_format_count     
     */
 
     int param_file_format_count; // INPUT IDX: 1 EX: EXTRACT_CODE6
@@ -8198,7 +8198,7 @@ hapi_check_for_new_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     /*
     function_name: HAPI_CheckForNewAssets
     function_type: HAPI_Result
-    OPT param_pointer->true
+    token_int new_asset_count     OPT param_pointer->true
     */
 
     int param_new_asset_count; // INPUT IDX: 0 EX: EXTRACT_CODE1

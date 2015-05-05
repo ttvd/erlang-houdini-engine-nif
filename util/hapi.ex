@@ -737,12 +737,12 @@ defmodule HAPI do
         HAPI.Util.is_type_builtin(env, type_name) ->
           :nil
         type_name == "HAPI_Bool" ->
-          String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_bool(env, (bool) hapi_type);")
-          |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_bool(env, term, (bool*) hapi_type);")
+          String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_priv_make_bool(env, (bool) hapi_type);")
+          |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_priv_get_bool(env, term, (bool*) hapi_type);")
         true ->
           old_type = HAPI.Util.get_reverse_builtin_type(env, HAPI.Util.get_original_type(env, type_name))
-          String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_make_#{old_type}(env, (#{old_type}) hapi_type);")
-          |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_get_#{old_type}(env, term, (#{old_type}*) hapi_type);")
+          String.replace(template, "%{HAPI_TYPE_CONVERT_MAKE}%", "return hapi_priv_make_#{old_type}(env, (#{old_type}) hapi_type);")
+          |> String.replace("%{HAPI_TYPE_CONVERT_GET}%", "return hapi_priv_get_#{old_type}(env, term, (#{old_type}*) hapi_type);")
         end
     end
   end
@@ -750,82 +750,82 @@ defmodule HAPI do
   # Module responsible for generating enum related stubs.
   defmodule Enums do
 
-  # Create enum related stubs.
-  def create(env) do
-    if not (Dict.get(env, :enums, :nil) |> is_nil()) do
-      create_stub_h(env)
-      create_stub_c(env)
+    # Create enum related stubs.
+    def create(env) do
+      if not (Dict.get(env, :enums, :nil) |> is_nil()) do
+        create_stub_h(env)
+        create_stub_c(env)
+      end
+      env
     end
-    env
-  end
 
-  # Create header stub for enums.
-  defp create_stub_h(env) do
-    enums = Dict.get(env, :enums, :nil)
-    if not is_nil(enums) do
-      {:ok, template_enums_h} = File.read("./util/hapi_enums_nif.h.template")
-      {:ok, template_enums_block} = File.read("./util/hapi_enums_nif.h.block.template")
+    # Create header stub for enums.
+    defp create_stub_h(env) do
+      enums = Dict.get(env, :enums, :nil)
+      if not is_nil(enums) do
+        {:ok, template_enums_h} = File.read("./util/hapi_enums_nif.h.template")
+        {:ok, template_enums_block} = File.read("./util/hapi_enums_nif.h.block.template")
 
-      signature_blocks = Enum.map_join(enums, "\n", fn {k, _v} ->
-        String.replace(template_enums_block, "%{HAPI_ENUM}%", k)
-        |> String.replace("%{HAPI_ENUM_DOWNCASE}%", HAPI.Util.underscore(k)) end)
+        signature_blocks = Enum.map_join(enums, "\n", fn {k, _v} ->
+          String.replace(template_enums_block, "%{HAPI_ENUM}%", k)
+          |> String.replace("%{HAPI_ENUM_DOWNCASE}%", HAPI.Util.underscore(k)) end)
 
-      signatures = String.replace(template_enums_h, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)
+        signatures = String.replace(template_enums_h, "%{HAPI_ENUM_FUNCTIONS}%", signature_blocks)
 
-      File.write("./c_src/hapi_enums_nif.h", signatures)
-      IO.puts("Generating c_src/hapi_enums_nif.h")
+        File.write("./c_src/hapi_enums_nif.h", signatures)
+        IO.puts("Generating c_src/hapi_enums_nif.h")
+      end
+    end
+
+    # Create source stub for enums.
+    defp create_stub_c(env) do
+      enums = Dict.get(env, :enums, :nil)
+      if not is_nil(enums) do
+        {:ok, template_enums_c} = File.read("./util/hapi_enums_nif.c.template")
+        {:ok, template_enums_c_block} = File.read("./util/hapi_enums_nif.c.block.template")
+        {:ok, template_enums_c_erl_to_c_block} = File.read("./util/hapi_enums_nif.c.erl_to_c.block.template")
+        {:ok, template_enums_c_c_to_erl_block} = File.read("./util/hapi_enums_nif.c.c_to_erl.block.template")
+
+        enum_code = String.replace(template_enums_c, "%{HAPI_ENUM_FUNCTIONS}%",
+          Enum.map_join(enums, "\n\n", fn {k, v} -> create_stub_c_entry(k, v, template_enums_c_block,
+            template_enums_c_erl_to_c_block, template_enums_c_c_to_erl_block) end))
+
+        File.write("./c_src/hapi_enums_nif.c", enum_code)
+        IO.puts("Generating c_src/hapi_enums_nif.c")
+      end
+    end
+
+    # Helper function to create enum conversion function pair.
+    def create_stub_c_entry(enum_name, enum_body, template_block, template_erl_to_c, template_c_to_erl) do
+      c_to_erl_blocks = Enum.map(enum_body, fn(f) -> create_stub_c_entry_c_to_erl(template_c_to_erl, f) end)
+      |> Enum.filter(fn(f) -> not is_nil(f) end) |> Enum.join("\n")
+
+      erl_to_c_blocks = Enum.map_join(enum_body, "\n", fn(f) -> create_stub_c_entry_erl_to_c(template_erl_to_c, elem(f, 0)) end)
+
+      String.replace(template_block, "%{HAPI_ENUM}%", enum_name)
+      |> String.replace("%{HAPI_ENUM_DOWNCASE}%", HAPI.Util.underscore(enum_name))
+      |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", c_to_erl_blocks)
+      |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", erl_to_c_blocks)
+    end
+
+    # Function to generate c_to_erl block for c <-> erl enum c stub.
+    defp create_stub_c_entry_c_to_erl(_template_c_to_erl, {_field_name, _field_value, _field_original}), do: :nil
+    defp create_stub_c_entry_c_to_erl(template_c_to_erl, {field_name, _field_value}) do
+      [String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", field_name)
+        |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", HAPI.Util.underscore(field_name))]
+    end
+
+    # Function to generate erl_to_c block for c <-> erl enum c stub.
+    defp create_stub_c_entry_erl_to_c(template_erl_to_c, field_name) do
+      field_name_underscore = HAPI.Util.underscore(field_name)
+      [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
+        |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_underscore)
+        |> String.replace("%{HAPI_ENUM_HASH}%", HAPI.Util.hash(field_name_underscore))]
     end
   end
 
-  # Create source stub for enums.
-  defp create_stub_c(env) do
-    enums = Dict.get(env, :enums, :nil)
-    if not is_nil(enums) do
-      {:ok, template_enums_c} = File.read("./util/hapi_enums_nif.c.template")
-      {:ok, template_enums_c_block} = File.read("./util/hapi_enums_nif.c.block.template")
-      {:ok, template_enums_c_erl_to_c_block} = File.read("./util/hapi_enums_nif.c.erl_to_c.block.template")
-      {:ok, template_enums_c_c_to_erl_block} = File.read("./util/hapi_enums_nif.c.c_to_erl.block.template")
-
-      enum_code = String.replace(template_enums_c, "%{HAPI_ENUM_FUNCTIONS}%",
-        Enum.map_join(enums, "\n\n", fn {k, v} -> create_stub_c_entry(k, v, template_enums_c_block,
-          template_enums_c_erl_to_c_block, template_enums_c_c_to_erl_block) end))
-
-      File.write("./c_src/hapi_enums_nif.c", enum_code)
-      IO.puts("Generating c_src/hapi_enums_nif.c")
-    end
-  end
-
-  # Helper function to create enum conversion function pair.
-  def create_stub_c_entry(enum_name, enum_body, template_block, template_erl_to_c, template_c_to_erl) do
-    c_to_erl_blocks = Enum.map(enum_body, fn(f) -> create_stub_c_entry_c_to_erl(template_c_to_erl, f) end)
-    |> Enum.filter(fn(f) -> not is_nil(f) end) |> Enum.join("\n")
-
-    erl_to_c_blocks = Enum.map_join(enum_body, "\n", fn(f) -> create_stub_c_entry_erl_to_c(template_erl_to_c, elem(f, 0)) end)
-
-    String.replace(template_block, "%{HAPI_ENUM}%", enum_name)
-    |> String.replace("%{HAPI_ENUM_DOWNCASE}%", HAPI.Util.underscore(enum_name))
-    |> String.replace("%{HAPI_ENUM_C_TO_ERL_BODY}%", c_to_erl_blocks)
-    |> String.replace("%{HAPI_ENUM_ERL_TO_C_BODY}%", erl_to_c_blocks)
-  end
-
-  # Function to generate c_to_erl block for c <-> erl enum c stub.
-  defp create_stub_c_entry_c_to_erl(_template_c_to_erl, {_field_name, _field_value, _field_original}), do: :nil
-  defp create_stub_c_entry_c_to_erl(template_c_to_erl, {field_name, _field_value}) do
-    [String.replace(template_c_to_erl, "%{HAPI_ENUM_VALUE}%", field_name)
-      |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", HAPI.Util.underscore(field_name))]
-  end
-
-  # Function to generate erl_to_c block for c <-> erl enum c stub.
-  defp create_stub_c_entry_erl_to_c(template_erl_to_c, field_name) do
-    field_name_underscore = HAPI.Util.underscore(field_name)
-    [String.replace(template_erl_to_c, "%{HAPI_ENUM_VALUE}%", field_name)
-      |> String.replace("%{HAPI_ENUM_VALUE_DOWNCASE}%", field_name_underscore)
-      |> String.replace("%{HAPI_ENUM_HASH}%", HAPI.Util.hash(field_name_underscore))]
-  end
-end
-
-# Module responsible for generating structure related stubs.
-defmodule Structures do
+  # Module responsible for generating structure related stubs.
+  defmodule Structures do
 
     # Create structure related stubs.
     def create(env) do
@@ -917,11 +917,11 @@ defmodule Structures do
       builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
       cond do
         not is_nil(builtin_type) ->
-          "hapi_make_#{HAPI.Util.underscore(builtin_type)}(env, hapi_struct->#{field_name})"
+          "hapi_priv_make_#{HAPI.Util.underscore(builtin_type)}(env, hapi_struct->#{field_name})"
         HAPI.Util.is_type_structure(env, field_type) ->
-          "hapi_make_#{HAPI.Util.underscore(field_type)}(env, &hapi_struct->#{field_name})"
+          "hapi_priv_make_#{HAPI.Util.underscore(field_type)}(env, &hapi_struct->#{field_name})"
         true ->
-          "hapi_make_#{HAPI.Util.underscore(field_type)}(env, hapi_struct->#{field_name})"
+          "hapi_priv_make_#{HAPI.Util.underscore(field_type)}(env, hapi_struct->#{field_name})"
       end
     end
     defp create_stub_c_entry_c_to_erl(env, {field_name, field_type, field_size}) do
@@ -929,11 +929,11 @@ defmodule Structures do
       field_target = "hapi_struct->#{field_name}[0]"
       cond do
         not is_nil(builtin_type) ->
-          "hapi_make_#{HAPI.Util.underscore(builtin_type)}_list(env, &#{field_target}, #{field_size})"
+          "hapi_priv_make_#{HAPI.Util.underscore(builtin_type)}_list(env, &#{field_target}, #{field_size})"
         HAPI.Util.is_type_structure(env, field_type) ->
-          "hapi_make_#{HAPI.Util.underscore(field_type)}_list(env, &#{field_target}, #{field_size})"
+          "hapi_priv_make_#{HAPI.Util.underscore(field_type)}_list(env, &#{field_target}, #{field_size})"
         true ->
-          "hapi_make_#{HAPI.Util.underscore(field_type)}_list(env, &#{field_target}, #{field_size})"
+          "hapi_priv_make_#{HAPI.Util.underscore(field_type)}_list(env, &#{field_target}, #{field_size})"
       end
     end
 
@@ -987,11 +987,11 @@ defmodule Structures do
       term = "tuple_record[#{idx + 1}]"
       cond do
         not is_nil(builtin_type) ->
-          "!hapi_get_#{HAPI.Util.underscore(builtin_type)}(env, #{term}, &#{field_name_underscore})"
+          "!hapi_priv_get_#{HAPI.Util.underscore(builtin_type)}(env, #{term}, &#{field_name_underscore})"
         HAPI.Util.is_type_structure(env, field_type) ->
-          "!hapi_get_#{HAPI.Util.underscore(field_type)}(env, #{term}, &#{field_name_underscore})"
+          "!hapi_priv_get_#{HAPI.Util.underscore(field_type)}(env, #{term}, &#{field_name_underscore})"
         true ->
-          "!hapi_get_#{HAPI.Util.underscore(field_type)}(env, #{term}, &#{field_name_underscore})"
+          "!hapi_priv_get_#{HAPI.Util.underscore(field_type)}(env, #{term}, &#{field_name_underscore})"
       end
     end
     defp create_stub_c_entry_erl_to_c_extract(env, {{field_name, field_type, field_size}, idx}) do
@@ -1000,11 +1000,11 @@ defmodule Structures do
       term = "tuple_record[#{idx + 1}]"
       cond do
         not is_nil(builtin_type) ->
-          "hapi_get_#{HAPI.Util.underscore(builtin_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
+          "!hapi_priv_get_#{HAPI.Util.underscore(builtin_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
         HAPI.Util.is_type_structure(env, field_type) ->
-          "hapi_get_#{HAPI.Util.underscore(field_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
+          "!hapi_priv_get_#{HAPI.Util.underscore(field_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
         true ->
-          "hapi_get_#{HAPI.Util.underscore(field_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
+          "!hapi_priv_get_#{HAPI.Util.underscore(field_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
       end
     end
   end
@@ -1354,14 +1354,14 @@ defmodule Structures do
           if not is_nil(decl_size) do
             "!(#{name} = malloc(sizeof(#{type_pure}) * #{decl_size})) ||"
             <> "\n        "
-            <> "!hapi_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
+            <> "!hapi_priv_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
           else
             #raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
             "// UNHANDLED #{type} #{name} INPUT: #{is_input} DECL_SIZE: #{decl_size} NEEDS_CLEANUP: #{needs_cleanup} IDX: #{idx}"
             <> "\n        true"
           end
         true ->
-          "!hapi_get_#{type_underscore}(env, argv[#{idx}], &#{name})"
+          "!hapi_priv_get_#{type_underscore}(env, argv[#{idx}], &#{name})"
       end
     end
   end

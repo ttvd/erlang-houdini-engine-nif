@@ -1,0 +1,4 @@
+    if(%{HAPI_DYNAMIC_VARIABLE}%)
+    {
+        free(%{HAPI_DYNAMIC_VARIABLE}%);
+    }

@@ -1,0 +1,4 @@
+    if(%{HAPI_FUNCTION_ASSIGN}%)
+    {
+        goto label_cleanup;
+    }

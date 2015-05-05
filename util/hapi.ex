@@ -1278,15 +1278,16 @@ defmodule Structures do
 
     # Helper function used to create assignments.
     defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_output, decl_size, needs_cleanup, idx}) do
+      type_underscore = HAPI.Util.underscore(type) |> String.rstrip(?*)
       cond do
         needs_cleanup ->
-          "//POINTER #{type} param_#{name} IDX #{idx}"
-        #HAPI.Util.is_type_enum(env, type) or HAPI.Util.is_type_structure(env, type) ->
-          #"hapi_get_#{HAPI.Util.underscore(type)}(env, &#{name});"
+          if not is_nil(decl_size) do
+            "hapi_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size});"
+          else
+            raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+          end
         true ->
-
-          #"OTHER #{type} param_#{name}"
-          "hapi_get_#{HAPI.Util.underscore(type)}(env, argv[#{idx}], &#{name});"
+          "hapi_get_#{type_underscore}(env, argv[#{idx}], &#{name});"
       end
     end
   end

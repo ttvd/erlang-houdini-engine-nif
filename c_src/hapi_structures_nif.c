@@ -13,22 +13,22 @@
 
 /* Converting HAPI_CookOptions from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_cook_options(ErlNifEnv* env, const HAPI_CookOptions* hapi_struct)
+hapi_priv_make_hapi_cook_options(ErlNifEnv* env, const HAPI_CookOptions* hapi_struct)
 {
     return enif_make_tuple(env, 7,
-        hapi_make_atom(env, "hapi_cook_options"),
-        hapi_make_hapi_bool(env, hapi_struct->splitGeosByGroup),
-        hapi_make_int(env, hapi_struct->maxVerticesPerPrimitive),
-        hapi_make_hapi_bool(env, hapi_struct->refineCurveToLinear),
-        hapi_make_float(env, hapi_struct->curveRefineLOD),
-        hapi_make_hapi_bool(env, hapi_struct->clearErrorsAndWarnings),
-        hapi_make_hapi_bool(env, hapi_struct->cookTemplatedGeos));
+        hapi_priv_make_atom(env, "hapi_cook_options"),
+        hapi_priv_make_hapi_bool(env, hapi_struct->splitGeosByGroup),
+        hapi_priv_make_int(env, hapi_struct->maxVerticesPerPrimitive),
+        hapi_priv_make_hapi_bool(env, hapi_struct->refineCurveToLinear),
+        hapi_priv_make_float(env, hapi_struct->curveRefineLOD),
+        hapi_priv_make_hapi_bool(env, hapi_struct->clearErrorsAndWarnings),
+        hapi_priv_make_hapi_bool(env, hapi_struct->cookTemplatedGeos));
 }
 
 
 /* Converting HAPI_CookOptions from erl to c. */
 bool
-hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_struct)
+hapi_priv_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -43,14 +43,14 @@ hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOpt
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 7) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_cook_options", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_cook_options", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_bool(env, tuple_record[1], &field_split_geos_by_group)||
-        !hapi_get_int(env, tuple_record[2], &field_max_vertices_per_primitive)||
-        !hapi_get_hapi_bool(env, tuple_record[3], &field_refine_curve_to_linear)||
-        !hapi_get_float(env, tuple_record[4], &field_curve_refine_lod)||
-        !hapi_get_hapi_bool(env, tuple_record[5], &field_clear_errors_and_warnings)||
-        !hapi_get_hapi_bool(env, tuple_record[6], &field_cook_templated_geos))
+        !hapi_priv_get_hapi_bool(env, tuple_record[1], &field_split_geos_by_group)||
+        !hapi_priv_get_int(env, tuple_record[2], &field_max_vertices_per_primitive)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[3], &field_refine_curve_to_linear)||
+        !hapi_priv_get_float(env, tuple_record[4], &field_curve_refine_lod)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[5], &field_clear_errors_and_warnings)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[6], &field_cook_templated_geos))
     {
         return false;
     }
@@ -68,14 +68,14 @@ hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOpt
 
 /* Converting array of HAPI_CookOptions objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_CookOptions* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_cook_options(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_cook_options(env, hapi_struct), list);
     }
 
     return list;
@@ -84,7 +84,7 @@ hapi_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_st
 
 /* Converting list of HAPI_CookOptions objects from erl to c. */
 bool
-hapi_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -98,7 +98,7 @@ hapi_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Co
         {
             HAPI_CookOptions* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_cook_options(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_cook_options(env, head, hapi_struct))
             {
                 return false;
             }
@@ -115,20 +115,20 @@ hapi_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Co
 
 /* Converting HAPI_Keyframe from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_keyframe(ErlNifEnv* env, const HAPI_Keyframe* hapi_struct)
+hapi_priv_make_hapi_keyframe(ErlNifEnv* env, const HAPI_Keyframe* hapi_struct)
 {
     return enif_make_tuple(env, 5,
-        hapi_make_atom(env, "hapi_keyframe"),
-        hapi_make_float(env, hapi_struct->time),
-        hapi_make_float(env, hapi_struct->value),
-        hapi_make_float(env, hapi_struct->inTangent),
-        hapi_make_float(env, hapi_struct->outTangent));
+        hapi_priv_make_atom(env, "hapi_keyframe"),
+        hapi_priv_make_float(env, hapi_struct->time),
+        hapi_priv_make_float(env, hapi_struct->value),
+        hapi_priv_make_float(env, hapi_struct->inTangent),
+        hapi_priv_make_float(env, hapi_struct->outTangent));
 }
 
 
 /* Converting HAPI_Keyframe from erl to c. */
 bool
-hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_struct)
+hapi_priv_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -141,12 +141,12 @@ hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* h
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_keyframe", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_keyframe", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_float(env, tuple_record[1], &field_time)||
-        !hapi_get_float(env, tuple_record[2], &field_value)||
-        !hapi_get_float(env, tuple_record[3], &field_in_tangent)||
-        !hapi_get_float(env, tuple_record[4], &field_out_tangent))
+        !hapi_priv_get_float(env, tuple_record[1], &field_time)||
+        !hapi_priv_get_float(env, tuple_record[2], &field_value)||
+        !hapi_priv_get_float(env, tuple_record[3], &field_in_tangent)||
+        !hapi_priv_get_float(env, tuple_record[4], &field_out_tangent))
     {
         return false;
     }
@@ -162,14 +162,14 @@ hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* h
 
 /* Converting array of HAPI_Keyframe objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_Keyframe* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_keyframe(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_keyframe(env, hapi_struct), list);
     }
 
     return list;
@@ -178,7 +178,7 @@ hapi_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, 
 
 /* Converting list of HAPI_Keyframe objects from erl to c. */
 bool
-hapi_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -192,7 +192,7 @@ hapi_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyfra
         {
             HAPI_Keyframe* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_keyframe(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_keyframe(env, head, hapi_struct))
             {
                 return false;
             }
@@ -209,27 +209,27 @@ hapi_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyfra
 
 /* Converting HAPI_PartInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_part_info(ErlNifEnv* env, const HAPI_PartInfo* hapi_struct)
+hapi_priv_make_hapi_part_info(ErlNifEnv* env, const HAPI_PartInfo* hapi_struct)
 {
     return enif_make_tuple(env, 12,
-        hapi_make_atom(env, "hapi_part_info"),
-        hapi_make_hapi_part_id(env, hapi_struct->id),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_int(env, hapi_struct->faceCount),
-        hapi_make_int(env, hapi_struct->vertexCount),
-        hapi_make_int(env, hapi_struct->pointCount),
-        hapi_make_int(env, hapi_struct->pointAttributeCount),
-        hapi_make_int(env, hapi_struct->faceAttributeCount),
-        hapi_make_int(env, hapi_struct->vertexAttributeCount),
-        hapi_make_int(env, hapi_struct->detailAttributeCount),
-        hapi_make_hapi_bool(env, hapi_struct->hasVolume),
-        hapi_make_hapi_bool(env, hapi_struct->isCurve));
+        hapi_priv_make_atom(env, "hapi_part_info"),
+        hapi_priv_make_hapi_part_id(env, hapi_struct->id),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_int(env, hapi_struct->faceCount),
+        hapi_priv_make_int(env, hapi_struct->vertexCount),
+        hapi_priv_make_int(env, hapi_struct->pointCount),
+        hapi_priv_make_int(env, hapi_struct->pointAttributeCount),
+        hapi_priv_make_int(env, hapi_struct->faceAttributeCount),
+        hapi_priv_make_int(env, hapi_struct->vertexAttributeCount),
+        hapi_priv_make_int(env, hapi_struct->detailAttributeCount),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasVolume),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isCurve));
 }
 
 
 /* Converting HAPI_PartInfo from erl to c. */
 bool
-hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_struct)
+hapi_priv_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -249,19 +249,19 @@ hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* 
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 12) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_part_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_part_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_part_id(env, tuple_record[1], &field_id)||
-        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_name_sh)||
-        !hapi_get_int(env, tuple_record[3], &field_face_count)||
-        !hapi_get_int(env, tuple_record[4], &field_vertex_count)||
-        !hapi_get_int(env, tuple_record[5], &field_point_count)||
-        !hapi_get_int(env, tuple_record[6], &field_point_attribute_count)||
-        !hapi_get_int(env, tuple_record[7], &field_face_attribute_count)||
-        !hapi_get_int(env, tuple_record[8], &field_vertex_attribute_count)||
-        !hapi_get_int(env, tuple_record[9], &field_detail_attribute_count)||
-        !hapi_get_hapi_bool(env, tuple_record[10], &field_has_volume)||
-        !hapi_get_hapi_bool(env, tuple_record[11], &field_is_curve))
+        !hapi_priv_get_hapi_part_id(env, tuple_record[1], &field_id)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[2], &field_name_sh)||
+        !hapi_priv_get_int(env, tuple_record[3], &field_face_count)||
+        !hapi_priv_get_int(env, tuple_record[4], &field_vertex_count)||
+        !hapi_priv_get_int(env, tuple_record[5], &field_point_count)||
+        !hapi_priv_get_int(env, tuple_record[6], &field_point_attribute_count)||
+        !hapi_priv_get_int(env, tuple_record[7], &field_face_attribute_count)||
+        !hapi_priv_get_int(env, tuple_record[8], &field_vertex_attribute_count)||
+        !hapi_priv_get_int(env, tuple_record[9], &field_detail_attribute_count)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[10], &field_has_volume)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[11], &field_is_curve))
     {
         return false;
     }
@@ -284,14 +284,14 @@ hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* 
 
 /* Converting array of HAPI_PartInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_PartInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_part_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_part_info(env, hapi_struct), list);
     }
 
     return list;
@@ -300,7 +300,7 @@ hapi_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs,
 
 /* Converting list of HAPI_PartInfo objects from erl to c. */
 bool
-hapi_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -314,7 +314,7 @@ hapi_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartI
         {
             HAPI_PartInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_part_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_part_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -331,21 +331,21 @@ hapi_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartI
 
 /* Converting HAPI_MaterialInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_material_info(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_struct)
+hapi_priv_make_hapi_material_info(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_struct)
 {
     return enif_make_tuple(env, 6,
-        hapi_make_atom(env, "hapi_material_info"),
-        hapi_make_hapi_material_id(env, hapi_struct->id),
-        hapi_make_hapi_asset_id(env, hapi_struct->assetId),
-        hapi_make_hapi_node_id(env, hapi_struct->nodeId),
-        hapi_make_hapi_bool(env, hapi_struct->exists),
-        hapi_make_hapi_bool(env, hapi_struct->hasChanged));
+        hapi_priv_make_atom(env, "hapi_material_info"),
+        hapi_priv_make_hapi_material_id(env, hapi_struct->id),
+        hapi_priv_make_hapi_asset_id(env, hapi_struct->assetId),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->nodeId),
+        hapi_priv_make_hapi_bool(env, hapi_struct->exists),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasChanged));
 }
 
 
 /* Converting HAPI_MaterialInfo from erl to c. */
 bool
-hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_struct)
+hapi_priv_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -359,13 +359,13 @@ hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Materi
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 6) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_material_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_material_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_material_id(env, tuple_record[1], &field_id)||
-        !hapi_get_hapi_asset_id(env, tuple_record[2], &field_asset_id)||
-        !hapi_get_hapi_node_id(env, tuple_record[3], &field_node_id)||
-        !hapi_get_hapi_bool(env, tuple_record[4], &field_exists)||
-        !hapi_get_hapi_bool(env, tuple_record[5], &field_has_changed))
+        !hapi_priv_get_hapi_material_id(env, tuple_record[1], &field_id)||
+        !hapi_priv_get_hapi_asset_id(env, tuple_record[2], &field_asset_id)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[3], &field_node_id)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[4], &field_exists)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[5], &field_has_changed))
     {
         return false;
     }
@@ -382,14 +382,14 @@ hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Materi
 
 /* Converting array of HAPI_MaterialInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_MaterialInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_material_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_material_info(env, hapi_struct), list);
     }
 
     return list;
@@ -398,7 +398,7 @@ hapi_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_
 
 /* Converting list of HAPI_MaterialInfo objects from erl to c. */
 bool
-hapi_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -412,7 +412,7 @@ hapi_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_M
         {
             HAPI_MaterialInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_material_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_material_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -429,19 +429,19 @@ hapi_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_M
 
 /* Converting HAPI_GlobalNodes from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_global_nodes(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_struct)
+hapi_priv_make_hapi_global_nodes(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_struct)
 {
     return enif_make_tuple(env, 4,
-        hapi_make_atom(env, "hapi_global_nodes"),
-        hapi_make_hapi_node_id(env, hapi_struct->defaultCamera),
-        hapi_make_hapi_node_id(env, hapi_struct->defaultLight),
-        hapi_make_hapi_node_id(env, hapi_struct->mantraRenderer));
+        hapi_priv_make_atom(env, "hapi_global_nodes"),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->defaultCamera),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->defaultLight),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->mantraRenderer));
 }
 
 
 /* Converting HAPI_GlobalNodes from erl to c. */
 bool
-hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_struct)
+hapi_priv_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -453,11 +453,11 @@ hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalN
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_global_nodes", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_global_nodes", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_node_id(env, tuple_record[1], &field_default_camera)||
-        !hapi_get_hapi_node_id(env, tuple_record[2], &field_default_light)||
-        !hapi_get_hapi_node_id(env, tuple_record[3], &field_mantra_renderer))
+        !hapi_priv_get_hapi_node_id(env, tuple_record[1], &field_default_camera)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[2], &field_default_light)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[3], &field_mantra_renderer))
     {
         return false;
     }
@@ -472,14 +472,14 @@ hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalN
 
 /* Converting array of HAPI_GlobalNodes objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_GlobalNodes* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_global_nodes(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_global_nodes(env, hapi_struct), list);
     }
 
     return list;
@@ -488,7 +488,7 @@ hapi_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_st
 
 /* Converting list of HAPI_GlobalNodes objects from erl to c. */
 bool
-hapi_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -502,7 +502,7 @@ hapi_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Gl
         {
             HAPI_GlobalNodes* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_global_nodes(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_global_nodes(env, head, hapi_struct))
             {
                 return false;
             }
@@ -519,19 +519,19 @@ hapi_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Gl
 
 /* Converting HAPI_HandleBindingInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_handle_binding_info(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_struct)
+hapi_priv_make_hapi_handle_binding_info(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_struct)
 {
     return enif_make_tuple(env, 4,
-        hapi_make_atom(env, "hapi_handle_binding_info"),
-        hapi_make_hapi_string_handle(env, hapi_struct->handleParmNameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->assetParmNameSH),
-        hapi_make_hapi_parm_id(env, hapi_struct->assetParmId));
+        hapi_priv_make_atom(env, "hapi_handle_binding_info"),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->handleParmNameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->assetParmNameSH),
+        hapi_priv_make_hapi_parm_id(env, hapi_struct->assetParmId));
 }
 
 
 /* Converting HAPI_HandleBindingInfo from erl to c. */
 bool
-hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_struct)
+hapi_priv_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -543,11 +543,11 @@ hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_handle_binding_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_handle_binding_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_handle_parm_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_asset_parm_name_sh)||
-        !hapi_get_hapi_parm_id(env, tuple_record[3], &field_asset_parm_id))
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[1], &field_handle_parm_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[2], &field_asset_parm_name_sh)||
+        !hapi_priv_get_hapi_parm_id(env, tuple_record[3], &field_asset_parm_id))
     {
         return false;
     }
@@ -562,14 +562,14 @@ hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 
 /* Converting array of HAPI_HandleBindingInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_HandleBindingInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_handle_binding_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_handle_binding_info(env, hapi_struct), list);
     }
 
     return list;
@@ -578,7 +578,7 @@ hapi_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBinding
 
 /* Converting list of HAPI_HandleBindingInfo objects from erl to c. */
 bool
-hapi_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -592,7 +592,7 @@ hapi_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, 
         {
             HAPI_HandleBindingInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_handle_binding_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_handle_binding_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -609,23 +609,23 @@ hapi_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, 
 
 /* Converting HAPI_ImageInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_info(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct)
+hapi_priv_make_hapi_image_info(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct)
 {
     return enif_make_tuple(env, 8,
-        hapi_make_atom(env, "hapi_image_info"),
-        hapi_make_hapi_string_handle(env, hapi_struct->imageFileFormatNameSH),
-        hapi_make_int(env, hapi_struct->xRes),
-        hapi_make_int(env, hapi_struct->yRes),
-        hapi_make_hapi_image_data_format(env, hapi_struct->dataFormat),
-        hapi_make_hapi_bool(env, hapi_struct->interleaved),
-        hapi_make_hapi_image_packing(env, hapi_struct->packing),
-        hapi_make_double(env, hapi_struct->gamma));
+        hapi_priv_make_atom(env, "hapi_image_info"),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->imageFileFormatNameSH),
+        hapi_priv_make_int(env, hapi_struct->xRes),
+        hapi_priv_make_int(env, hapi_struct->yRes),
+        hapi_priv_make_hapi_image_data_format(env, hapi_struct->dataFormat),
+        hapi_priv_make_hapi_bool(env, hapi_struct->interleaved),
+        hapi_priv_make_hapi_image_packing(env, hapi_struct->packing),
+        hapi_priv_make_double(env, hapi_struct->gamma));
 }
 
 
 /* Converting HAPI_ImageInfo from erl to c. */
 bool
-hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_struct)
+hapi_priv_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -641,15 +641,15 @@ hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 8) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_image_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_image_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_image_file_format_name_sh)||
-        !hapi_get_int(env, tuple_record[2], &field_x_res)||
-        !hapi_get_int(env, tuple_record[3], &field_y_res)||
-        !hapi_get_hapi_image_data_format(env, tuple_record[4], &field_data_format)||
-        !hapi_get_hapi_bool(env, tuple_record[5], &field_interleaved)||
-        !hapi_get_hapi_image_packing(env, tuple_record[6], &field_packing)||
-        !hapi_get_double(env, tuple_record[7], &field_gamma))
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[1], &field_image_file_format_name_sh)||
+        !hapi_priv_get_int(env, tuple_record[2], &field_x_res)||
+        !hapi_priv_get_int(env, tuple_record[3], &field_y_res)||
+        !hapi_priv_get_hapi_image_data_format(env, tuple_record[4], &field_data_format)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[5], &field_interleaved)||
+        !hapi_priv_get_hapi_image_packing(env, tuple_record[6], &field_packing)||
+        !hapi_priv_get_double(env, tuple_record[7], &field_gamma))
     {
         return false;
     }
@@ -668,14 +668,14 @@ hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo
 
 /* Converting array of HAPI_ImageInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_ImageInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_image_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_image_info(env, hapi_struct), list);
     }
 
     return list;
@@ -684,7 +684,7 @@ hapi_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct
 
 /* Converting list of HAPI_ImageInfo objects from erl to c. */
 bool
-hapi_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -698,7 +698,7 @@ hapi_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Imag
         {
             HAPI_ImageInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_image_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_image_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -715,30 +715,30 @@ hapi_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Imag
 
 /* Converting HAPI_VolumeInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_volume_info(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_struct)
+hapi_priv_make_hapi_volume_info(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_struct)
 {
     return enif_make_tuple(env, 15,
-        hapi_make_atom(env, "hapi_volume_info"),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_int(env, hapi_struct->xLength),
-        hapi_make_int(env, hapi_struct->yLength),
-        hapi_make_int(env, hapi_struct->zLength),
-        hapi_make_int(env, hapi_struct->minX),
-        hapi_make_int(env, hapi_struct->minY),
-        hapi_make_int(env, hapi_struct->minZ),
-        hapi_make_int(env, hapi_struct->tupleSize),
-        hapi_make_hapi_storage_type(env, hapi_struct->storage),
-        hapi_make_int(env, hapi_struct->tileSize),
-        hapi_make_hapi_transform(env, &hapi_struct->transform),
-        hapi_make_hapi_bool(env, hapi_struct->hasTaper),
-        hapi_make_float(env, hapi_struct->xTaper),
-        hapi_make_float(env, hapi_struct->yTaper));
+        hapi_priv_make_atom(env, "hapi_volume_info"),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_int(env, hapi_struct->xLength),
+        hapi_priv_make_int(env, hapi_struct->yLength),
+        hapi_priv_make_int(env, hapi_struct->zLength),
+        hapi_priv_make_int(env, hapi_struct->minX),
+        hapi_priv_make_int(env, hapi_struct->minY),
+        hapi_priv_make_int(env, hapi_struct->minZ),
+        hapi_priv_make_int(env, hapi_struct->tupleSize),
+        hapi_priv_make_hapi_storage_type(env, hapi_struct->storage),
+        hapi_priv_make_int(env, hapi_struct->tileSize),
+        hapi_priv_make_hapi_transform(env, &hapi_struct->transform),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasTaper),
+        hapi_priv_make_float(env, hapi_struct->xTaper),
+        hapi_priv_make_float(env, hapi_struct->yTaper));
 }
 
 
 /* Converting HAPI_VolumeInfo from erl to c. */
 bool
-hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_struct)
+hapi_priv_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -761,22 +761,22 @@ hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeIn
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 15) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_volume_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_volume_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
-        !hapi_get_int(env, tuple_record[2], &field_x_length)||
-        !hapi_get_int(env, tuple_record[3], &field_y_length)||
-        !hapi_get_int(env, tuple_record[4], &field_z_length)||
-        !hapi_get_int(env, tuple_record[5], &field_min_x)||
-        !hapi_get_int(env, tuple_record[6], &field_min_y)||
-        !hapi_get_int(env, tuple_record[7], &field_min_z)||
-        !hapi_get_int(env, tuple_record[8], &field_tuple_size)||
-        !hapi_get_hapi_storage_type(env, tuple_record[9], &field_storage)||
-        !hapi_get_int(env, tuple_record[10], &field_tile_size)||
-        !hapi_get_hapi_transform(env, tuple_record[11], &field_transform)||
-        !hapi_get_hapi_bool(env, tuple_record[12], &field_has_taper)||
-        !hapi_get_float(env, tuple_record[13], &field_x_taper)||
-        !hapi_get_float(env, tuple_record[14], &field_y_taper))
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
+        !hapi_priv_get_int(env, tuple_record[2], &field_x_length)||
+        !hapi_priv_get_int(env, tuple_record[3], &field_y_length)||
+        !hapi_priv_get_int(env, tuple_record[4], &field_z_length)||
+        !hapi_priv_get_int(env, tuple_record[5], &field_min_x)||
+        !hapi_priv_get_int(env, tuple_record[6], &field_min_y)||
+        !hapi_priv_get_int(env, tuple_record[7], &field_min_z)||
+        !hapi_priv_get_int(env, tuple_record[8], &field_tuple_size)||
+        !hapi_priv_get_hapi_storage_type(env, tuple_record[9], &field_storage)||
+        !hapi_priv_get_int(env, tuple_record[10], &field_tile_size)||
+        !hapi_priv_get_hapi_transform(env, tuple_record[11], &field_transform)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[12], &field_has_taper)||
+        !hapi_priv_get_float(env, tuple_record[13], &field_x_taper)||
+        !hapi_priv_get_float(env, tuple_record[14], &field_y_taper))
     {
         return false;
     }
@@ -802,14 +802,14 @@ hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeIn
 
 /* Converting array of HAPI_VolumeInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_VolumeInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_volume_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_volume_info(env, hapi_struct), list);
     }
 
     return list;
@@ -818,7 +818,7 @@ hapi_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_stru
 
 /* Converting list of HAPI_VolumeInfo objects from erl to c. */
 bool
-hapi_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -832,7 +832,7 @@ hapi_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
         {
             HAPI_VolumeInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_volume_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_volume_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -849,19 +849,19 @@ hapi_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
 
 /* Converting HAPI_GeoInputInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_geo_input_info(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_struct)
+hapi_priv_make_hapi_geo_input_info(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_struct)
 {
     return enif_make_tuple(env, 4,
-        hapi_make_atom(env, "hapi_geo_input_info"),
-        hapi_make_hapi_object_id(env, hapi_struct->objectId),
-        hapi_make_hapi_geo_id(env, hapi_struct->geoId),
-        hapi_make_hapi_node_id(env, hapi_struct->objectNodeId));
+        hapi_priv_make_atom(env, "hapi_geo_input_info"),
+        hapi_priv_make_hapi_object_id(env, hapi_struct->objectId),
+        hapi_priv_make_hapi_geo_id(env, hapi_struct->geoId),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->objectNodeId));
 }
 
 
 /* Converting HAPI_GeoInputInfo from erl to c. */
 bool
-hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_struct)
+hapi_priv_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -873,11 +873,11 @@ hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoIn
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_geo_input_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_geo_input_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_object_id(env, tuple_record[1], &field_object_id)||
-        !hapi_get_hapi_geo_id(env, tuple_record[2], &field_geo_id)||
-        !hapi_get_hapi_node_id(env, tuple_record[3], &field_object_node_id))
+        !hapi_priv_get_hapi_object_id(env, tuple_record[1], &field_object_id)||
+        !hapi_priv_get_hapi_geo_id(env, tuple_record[2], &field_geo_id)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[3], &field_object_node_id))
     {
         return false;
     }
@@ -892,14 +892,14 @@ hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoIn
 
 /* Converting array of HAPI_GeoInputInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_GeoInputInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_geo_input_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_geo_input_info(env, hapi_struct), list);
     }
 
     return list;
@@ -908,7 +908,7 @@ hapi_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi
 
 /* Converting list of HAPI_GeoInputInfo objects from erl to c. */
 bool
-hapi_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -922,7 +922,7 @@ hapi_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
         {
             HAPI_GeoInputInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_geo_input_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_geo_input_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -939,20 +939,20 @@ hapi_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 
 /* Converting HAPI_VolumeTileInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_volume_tile_info(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_struct)
+hapi_priv_make_hapi_volume_tile_info(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_struct)
 {
     return enif_make_tuple(env, 5,
-        hapi_make_atom(env, "hapi_volume_tile_info"),
-        hapi_make_int(env, hapi_struct->minX),
-        hapi_make_int(env, hapi_struct->minY),
-        hapi_make_int(env, hapi_struct->minZ),
-        hapi_make_hapi_bool(env, hapi_struct->isValid));
+        hapi_priv_make_atom(env, "hapi_volume_tile_info"),
+        hapi_priv_make_int(env, hapi_struct->minX),
+        hapi_priv_make_int(env, hapi_struct->minY),
+        hapi_priv_make_int(env, hapi_struct->minZ),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isValid));
 }
 
 
 /* Converting HAPI_VolumeTileInfo from erl to c. */
 bool
-hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_struct)
+hapi_priv_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -965,12 +965,12 @@ hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_volume_tile_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_volume_tile_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_int(env, tuple_record[1], &field_min_x)||
-        !hapi_get_int(env, tuple_record[2], &field_min_y)||
-        !hapi_get_int(env, tuple_record[3], &field_min_z)||
-        !hapi_get_hapi_bool(env, tuple_record[4], &field_is_valid))
+        !hapi_priv_get_int(env, tuple_record[1], &field_min_x)||
+        !hapi_priv_get_int(env, tuple_record[2], &field_min_y)||
+        !hapi_priv_get_int(env, tuple_record[3], &field_min_z)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[4], &field_is_valid))
     {
         return false;
     }
@@ -986,14 +986,14 @@ hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Vol
 
 /* Converting array of HAPI_VolumeTileInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_VolumeTileInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_volume_tile_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_volume_tile_info(env, hapi_struct), list);
     }
 
     return list;
@@ -1002,7 +1002,7 @@ hapi_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* 
 
 /* Converting list of HAPI_VolumeTileInfo objects from erl to c. */
 bool
-hapi_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1016,7 +1016,7 @@ hapi_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
         {
             HAPI_VolumeTileInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_volume_tile_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_volume_tile_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1033,24 +1033,24 @@ hapi_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
 
 /* Converting HAPI_CurveInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_curve_info(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct)
+hapi_priv_make_hapi_curve_info(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct)
 {
     return enif_make_tuple(env, 9,
-        hapi_make_atom(env, "hapi_curve_info"),
-        hapi_make_hapi_curve_type(env, hapi_struct->curveType),
-        hapi_make_int(env, hapi_struct->curveCount),
-        hapi_make_int(env, hapi_struct->vertexCount),
-        hapi_make_int(env, hapi_struct->knotCount),
-        hapi_make_hapi_bool(env, hapi_struct->isPeriodic),
-        hapi_make_hapi_bool(env, hapi_struct->isRational),
-        hapi_make_int(env, hapi_struct->order),
-        hapi_make_hapi_bool(env, hapi_struct->hasKnots));
+        hapi_priv_make_atom(env, "hapi_curve_info"),
+        hapi_priv_make_hapi_curve_type(env, hapi_struct->curveType),
+        hapi_priv_make_int(env, hapi_struct->curveCount),
+        hapi_priv_make_int(env, hapi_struct->vertexCount),
+        hapi_priv_make_int(env, hapi_struct->knotCount),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isPeriodic),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isRational),
+        hapi_priv_make_int(env, hapi_struct->order),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasKnots));
 }
 
 
 /* Converting HAPI_CurveInfo from erl to c. */
 bool
-hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_struct)
+hapi_priv_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1067,16 +1067,16 @@ hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 9) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_curve_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_curve_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_curve_type(env, tuple_record[1], &field_curve_type)||
-        !hapi_get_int(env, tuple_record[2], &field_curve_count)||
-        !hapi_get_int(env, tuple_record[3], &field_vertex_count)||
-        !hapi_get_int(env, tuple_record[4], &field_knot_count)||
-        !hapi_get_hapi_bool(env, tuple_record[5], &field_is_periodic)||
-        !hapi_get_hapi_bool(env, tuple_record[6], &field_is_rational)||
-        !hapi_get_int(env, tuple_record[7], &field_order)||
-        !hapi_get_hapi_bool(env, tuple_record[8], &field_has_knots))
+        !hapi_priv_get_hapi_curve_type(env, tuple_record[1], &field_curve_type)||
+        !hapi_priv_get_int(env, tuple_record[2], &field_curve_count)||
+        !hapi_priv_get_int(env, tuple_record[3], &field_vertex_count)||
+        !hapi_priv_get_int(env, tuple_record[4], &field_knot_count)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[5], &field_is_periodic)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[6], &field_is_rational)||
+        !hapi_priv_get_int(env, tuple_record[7], &field_order)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[8], &field_has_knots))
     {
         return false;
     }
@@ -1096,14 +1096,14 @@ hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo
 
 /* Converting array of HAPI_CurveInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_CurveInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_curve_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_curve_info(env, hapi_struct), list);
     }
 
     return list;
@@ -1112,7 +1112,7 @@ hapi_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct
 
 /* Converting list of HAPI_CurveInfo objects from erl to c. */
 bool
-hapi_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1126,7 +1126,7 @@ hapi_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Curv
         {
             HAPI_CurveInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_curve_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_curve_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1143,20 +1143,20 @@ hapi_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Curv
 
 /* Converting HAPI_Transform from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct)
+hapi_priv_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct)
 {
     return enif_make_tuple(env, 5,
-        hapi_make_atom(env, "hapi_transform"),
-        hapi_make_float_list(env, &hapi_struct->position[0], 3),
-        hapi_make_float_list(env, &hapi_struct->rotationQuaternion[0], 4),
-        hapi_make_float_list(env, &hapi_struct->scale[0], 3),
-        hapi_make_hapi_rstorder(env, hapi_struct->rstOrder));
+        hapi_priv_make_atom(env, "hapi_transform"),
+        hapi_priv_make_float_list(env, &hapi_struct->position[0], 3),
+        hapi_priv_make_float_list(env, &hapi_struct->rotationQuaternion[0], 4),
+        hapi_priv_make_float_list(env, &hapi_struct->scale[0], 3),
+        hapi_priv_make_hapi_rstorder(env, hapi_struct->rstOrder));
 }
 
 
 /* Converting HAPI_Transform from erl to c. */
 bool
-hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_struct)
+hapi_priv_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1169,12 +1169,12 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 5) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_transform", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_transform", &atom_name_match) ||
         !atom_name_match ||
-        hapi_get_float_list(env, tuple_record[1], &hapi_struct->position[0], 3)||
-        hapi_get_float_list(env, tuple_record[2], &hapi_struct->rotationQuaternion[0], 4)||
-        hapi_get_float_list(env, tuple_record[3], &hapi_struct->scale[0], 3)||
-        !hapi_get_hapi_rstorder(env, tuple_record[4], &field_rst_order))
+        !hapi_priv_get_float_list(env, tuple_record[1], &hapi_struct->position[0], 3)||
+        !hapi_priv_get_float_list(env, tuple_record[2], &hapi_struct->rotationQuaternion[0], 4)||
+        !hapi_priv_get_float_list(env, tuple_record[3], &hapi_struct->scale[0], 3)||
+        !hapi_priv_get_hapi_rstorder(env, tuple_record[4], &field_rst_order))
     {
         return false;
     }
@@ -1190,14 +1190,14 @@ hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform*
 
 /* Converting array of HAPI_Transform objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_Transform* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_transform(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_transform(env, hapi_struct), list);
     }
 
     return list;
@@ -1206,7 +1206,7 @@ hapi_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs
 
 /* Converting list of HAPI_Transform objects from erl to c. */
 bool
-hapi_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1220,7 +1220,7 @@ hapi_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Trans
         {
             HAPI_Transform* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_transform(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_transform(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1237,19 +1237,19 @@ hapi_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Trans
 
 /* Converting HAPI_ImageFileFormat from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_file_format(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_struct)
+hapi_priv_make_hapi_image_file_format(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_struct)
 {
     return enif_make_tuple(env, 4,
-        hapi_make_atom(env, "hapi_image_file_format"),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->descriptionSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->defaultExtensionSH));
+        hapi_priv_make_atom(env, "hapi_image_file_format"),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->descriptionSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->defaultExtensionSH));
 }
 
 
 /* Converting HAPI_ImageFileFormat from erl to c. */
 bool
-hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_struct)
+hapi_priv_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1261,11 +1261,11 @@ hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Im
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_image_file_format", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_image_file_format", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_description_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_default_extension_sh))
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[2], &field_description_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[3], &field_default_extension_sh))
     {
         return false;
     }
@@ -1280,14 +1280,14 @@ hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Im
 
 /* Converting array of HAPI_ImageFileFormat objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_ImageFileFormat* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_image_file_format(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_image_file_format(env, hapi_struct), list);
     }
 
     return list;
@@ -1296,7 +1296,7 @@ hapi_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat
 
 /* Converting list of HAPI_ImageFileFormat objects from erl to c. */
 bool
-hapi_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1310,7 +1310,7 @@ hapi_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HA
         {
             HAPI_ImageFileFormat* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_image_file_format(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_image_file_format(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1327,21 +1327,21 @@ hapi_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HA
 
 /* Converting HAPI_TransformEuler from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_transform_euler(ErlNifEnv* env, const HAPI_TransformEuler* hapi_struct)
+hapi_priv_make_hapi_transform_euler(ErlNifEnv* env, const HAPI_TransformEuler* hapi_struct)
 {
     return enif_make_tuple(env, 6,
-        hapi_make_atom(env, "hapi_transform_euler"),
-        hapi_make_float_list(env, &hapi_struct->position[0], 3),
-        hapi_make_float_list(env, &hapi_struct->rotationEuler[0], 3),
-        hapi_make_float_list(env, &hapi_struct->scale[0], 3),
-        hapi_make_hapi_xyzorder(env, hapi_struct->rotationOrder),
-        hapi_make_hapi_rstorder(env, hapi_struct->rstOrder));
+        hapi_priv_make_atom(env, "hapi_transform_euler"),
+        hapi_priv_make_float_list(env, &hapi_struct->position[0], 3),
+        hapi_priv_make_float_list(env, &hapi_struct->rotationEuler[0], 3),
+        hapi_priv_make_float_list(env, &hapi_struct->scale[0], 3),
+        hapi_priv_make_hapi_xyzorder(env, hapi_struct->rotationOrder),
+        hapi_priv_make_hapi_rstorder(env, hapi_struct->rstOrder));
 }
 
 
 /* Converting HAPI_TransformEuler from erl to c. */
 bool
-hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_struct)
+hapi_priv_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1355,13 +1355,13 @@ hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tran
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 6) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_transform_euler", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_transform_euler", &atom_name_match) ||
         !atom_name_match ||
-        hapi_get_float_list(env, tuple_record[1], &hapi_struct->position[0], 3)||
-        hapi_get_float_list(env, tuple_record[2], &hapi_struct->rotationEuler[0], 3)||
-        hapi_get_float_list(env, tuple_record[3], &hapi_struct->scale[0], 3)||
-        !hapi_get_hapi_xyzorder(env, tuple_record[4], &field_rotation_order)||
-        !hapi_get_hapi_rstorder(env, tuple_record[5], &field_rst_order))
+        !hapi_priv_get_float_list(env, tuple_record[1], &hapi_struct->position[0], 3)||
+        !hapi_priv_get_float_list(env, tuple_record[2], &hapi_struct->rotationEuler[0], 3)||
+        !hapi_priv_get_float_list(env, tuple_record[3], &hapi_struct->scale[0], 3)||
+        !hapi_priv_get_hapi_xyzorder(env, tuple_record[4], &field_rotation_order)||
+        !hapi_priv_get_hapi_rstorder(env, tuple_record[5], &field_rst_order))
     {
         return false;
     }
@@ -1378,14 +1378,14 @@ hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tran
 
 /* Converting array of HAPI_TransformEuler objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_TransformEuler* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_transform_euler(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_transform_euler(env, hapi_struct), list);
     }
 
     return list;
@@ -1394,7 +1394,7 @@ hapi_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* h
 
 /* Converting list of HAPI_TransformEuler objects from erl to c. */
 bool
-hapi_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1408,7 +1408,7 @@ hapi_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
         {
             HAPI_TransformEuler* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_transform_euler(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_transform_euler(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1425,22 +1425,22 @@ hapi_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI
 
 /* Converting HAPI_AttributeInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_attribute_info(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_struct)
+hapi_priv_make_hapi_attribute_info(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_struct)
 {
     return enif_make_tuple(env, 7,
-        hapi_make_atom(env, "hapi_attribute_info"),
-        hapi_make_hapi_bool(env, hapi_struct->exists),
-        hapi_make_hapi_attribute_owner(env, hapi_struct->owner),
-        hapi_make_hapi_storage_type(env, hapi_struct->storage),
-        hapi_make_hapi_attribute_owner(env, hapi_struct->originalOwner),
-        hapi_make_int(env, hapi_struct->count),
-        hapi_make_int(env, hapi_struct->tupleSize));
+        hapi_priv_make_atom(env, "hapi_attribute_info"),
+        hapi_priv_make_hapi_bool(env, hapi_struct->exists),
+        hapi_priv_make_hapi_attribute_owner(env, hapi_struct->owner),
+        hapi_priv_make_hapi_storage_type(env, hapi_struct->storage),
+        hapi_priv_make_hapi_attribute_owner(env, hapi_struct->originalOwner),
+        hapi_priv_make_int(env, hapi_struct->count),
+        hapi_priv_make_int(env, hapi_struct->tupleSize));
 }
 
 
 /* Converting HAPI_AttributeInfo from erl to c. */
 bool
-hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_struct)
+hapi_priv_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1455,14 +1455,14 @@ hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attri
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 7) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_attribute_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_attribute_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_bool(env, tuple_record[1], &field_exists)||
-        !hapi_get_hapi_attribute_owner(env, tuple_record[2], &field_owner)||
-        !hapi_get_hapi_storage_type(env, tuple_record[3], &field_storage)||
-        !hapi_get_hapi_attribute_owner(env, tuple_record[4], &field_original_owner)||
-        !hapi_get_int(env, tuple_record[5], &field_count)||
-        !hapi_get_int(env, tuple_record[6], &field_tuple_size))
+        !hapi_priv_get_hapi_bool(env, tuple_record[1], &field_exists)||
+        !hapi_priv_get_hapi_attribute_owner(env, tuple_record[2], &field_owner)||
+        !hapi_priv_get_hapi_storage_type(env, tuple_record[3], &field_storage)||
+        !hapi_priv_get_hapi_attribute_owner(env, tuple_record[4], &field_original_owner)||
+        !hapi_priv_get_int(env, tuple_record[5], &field_count)||
+        !hapi_priv_get_int(env, tuple_record[6], &field_tuple_size))
     {
         return false;
     }
@@ -1480,14 +1480,14 @@ hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Attri
 
 /* Converting array of HAPI_AttributeInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_AttributeInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_attribute_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_attribute_info(env, hapi_struct), list);
     }
 
     return list;
@@ -1496,7 +1496,7 @@ hapi_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hap
 
 /* Converting list of HAPI_AttributeInfo objects from erl to c. */
 bool
-hapi_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1510,7 +1510,7 @@ hapi_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
         {
             HAPI_AttributeInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_attribute_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_attribute_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1527,28 +1527,28 @@ hapi_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_
 
 /* Converting HAPI_GeoInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct)
+hapi_priv_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct)
 {
     return enif_make_tuple(env, 13,
-        hapi_make_atom(env, "hapi_geo_info"),
-        hapi_make_hapi_geo_id(env, hapi_struct->id),
-        hapi_make_hapi_geo_type(env, hapi_struct->type),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_hapi_node_id(env, hapi_struct->nodeId),
-        hapi_make_hapi_bool(env, hapi_struct->isEditable),
-        hapi_make_hapi_bool(env, hapi_struct->isTemplated),
-        hapi_make_hapi_bool(env, hapi_struct->isDisplayGeo),
-        hapi_make_hapi_bool(env, hapi_struct->hasGeoChanged),
-        hapi_make_hapi_bool(env, hapi_struct->hasMaterialChanged),
-        hapi_make_int(env, hapi_struct->pointGroupCount),
-        hapi_make_int(env, hapi_struct->primitiveGroupCount),
-        hapi_make_int(env, hapi_struct->partCount));
+        hapi_priv_make_atom(env, "hapi_geo_info"),
+        hapi_priv_make_hapi_geo_id(env, hapi_struct->id),
+        hapi_priv_make_hapi_geo_type(env, hapi_struct->type),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->nodeId),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isEditable),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isTemplated),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isDisplayGeo),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasGeoChanged),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasMaterialChanged),
+        hapi_priv_make_int(env, hapi_struct->pointGroupCount),
+        hapi_priv_make_int(env, hapi_struct->primitiveGroupCount),
+        hapi_priv_make_int(env, hapi_struct->partCount));
 }
 
 
 /* Converting HAPI_GeoInfo from erl to c. */
 bool
-hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_struct)
+hapi_priv_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1569,20 +1569,20 @@ hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* ha
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 13) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_geo_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_geo_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_geo_id(env, tuple_record[1], &field_id)||
-        !hapi_get_hapi_geo_type(env, tuple_record[2], &field_type)||
-        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_name_sh)||
-        !hapi_get_hapi_node_id(env, tuple_record[4], &field_node_id)||
-        !hapi_get_hapi_bool(env, tuple_record[5], &field_is_editable)||
-        !hapi_get_hapi_bool(env, tuple_record[6], &field_is_templated)||
-        !hapi_get_hapi_bool(env, tuple_record[7], &field_is_display_geo)||
-        !hapi_get_hapi_bool(env, tuple_record[8], &field_has_geo_changed)||
-        !hapi_get_hapi_bool(env, tuple_record[9], &field_has_material_changed)||
-        !hapi_get_int(env, tuple_record[10], &field_point_group_count)||
-        !hapi_get_int(env, tuple_record[11], &field_primitive_group_count)||
-        !hapi_get_int(env, tuple_record[12], &field_part_count))
+        !hapi_priv_get_hapi_geo_id(env, tuple_record[1], &field_id)||
+        !hapi_priv_get_hapi_geo_type(env, tuple_record[2], &field_type)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[3], &field_name_sh)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[4], &field_node_id)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[5], &field_is_editable)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[6], &field_is_templated)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[7], &field_is_display_geo)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[8], &field_has_geo_changed)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[9], &field_has_material_changed)||
+        !hapi_priv_get_int(env, tuple_record[10], &field_point_group_count)||
+        !hapi_priv_get_int(env, tuple_record[11], &field_primitive_group_count)||
+        !hapi_priv_get_int(env, tuple_record[12], &field_part_count))
     {
         return false;
     }
@@ -1606,14 +1606,14 @@ hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* ha
 
 /* Converting array of HAPI_GeoInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_GeoInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_geo_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_geo_info(env, hapi_struct), list);
     }
 
     return list;
@@ -1622,7 +1622,7 @@ hapi_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, u
 
 /* Converting list of HAPI_GeoInfo objects from erl to c. */
 bool
-hapi_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1636,7 +1636,7 @@ hapi_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInf
         {
             HAPI_GeoInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_geo_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_geo_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1653,35 +1653,35 @@ hapi_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInf
 
 /* Converting HAPI_AssetInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct)
+hapi_priv_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct)
 {
     return enif_make_tuple(env, 20,
-        hapi_make_atom(env, "hapi_asset_info"),
-        hapi_make_hapi_asset_id(env, hapi_struct->id),
-        hapi_make_hapi_asset_type(env, hapi_struct->type),
-        hapi_make_hapi_asset_sub_type(env, hapi_struct->subType),
-        hapi_make_int(env, hapi_struct->validationId),
-        hapi_make_hapi_node_id(env, hapi_struct->nodeId),
-        hapi_make_hapi_node_id(env, hapi_struct->objectNodeId),
-        hapi_make_hapi_bool(env, hapi_struct->hasEverCooked),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->labelSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->filePathSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->versionSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->fullOpNameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->helpTextSH),
-        hapi_make_int(env, hapi_struct->objectCount),
-        hapi_make_int(env, hapi_struct->handleCount),
-        hapi_make_int(env, hapi_struct->transformInputCount),
-        hapi_make_int(env, hapi_struct->geoInputCount),
-        hapi_make_hapi_bool(env, hapi_struct->haveObjectsChanged),
-        hapi_make_hapi_bool(env, hapi_struct->haveMaterialsChanged));
+        hapi_priv_make_atom(env, "hapi_asset_info"),
+        hapi_priv_make_hapi_asset_id(env, hapi_struct->id),
+        hapi_priv_make_hapi_asset_type(env, hapi_struct->type),
+        hapi_priv_make_hapi_asset_sub_type(env, hapi_struct->subType),
+        hapi_priv_make_int(env, hapi_struct->validationId),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->nodeId),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->objectNodeId),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasEverCooked),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->labelSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->filePathSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->versionSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->fullOpNameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->helpTextSH),
+        hapi_priv_make_int(env, hapi_struct->objectCount),
+        hapi_priv_make_int(env, hapi_struct->handleCount),
+        hapi_priv_make_int(env, hapi_struct->transformInputCount),
+        hapi_priv_make_int(env, hapi_struct->geoInputCount),
+        hapi_priv_make_hapi_bool(env, hapi_struct->haveObjectsChanged),
+        hapi_priv_make_hapi_bool(env, hapi_struct->haveMaterialsChanged));
 }
 
 
 /* Converting HAPI_AssetInfo from erl to c. */
 bool
-hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_struct)
+hapi_priv_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1709,27 +1709,27 @@ hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 20) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_asset_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_asset_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_asset_id(env, tuple_record[1], &field_id)||
-        !hapi_get_hapi_asset_type(env, tuple_record[2], &field_type)||
-        !hapi_get_hapi_asset_sub_type(env, tuple_record[3], &field_sub_type)||
-        !hapi_get_int(env, tuple_record[4], &field_validation_id)||
-        !hapi_get_hapi_node_id(env, tuple_record[5], &field_node_id)||
-        !hapi_get_hapi_node_id(env, tuple_record[6], &field_object_node_id)||
-        !hapi_get_hapi_bool(env, tuple_record[7], &field_has_ever_cooked)||
-        !hapi_get_hapi_string_handle(env, tuple_record[8], &field_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[9], &field_label_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[10], &field_file_path_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[11], &field_version_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[12], &field_full_op_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[13], &field_help_text_sh)||
-        !hapi_get_int(env, tuple_record[14], &field_object_count)||
-        !hapi_get_int(env, tuple_record[15], &field_handle_count)||
-        !hapi_get_int(env, tuple_record[16], &field_transform_input_count)||
-        !hapi_get_int(env, tuple_record[17], &field_geo_input_count)||
-        !hapi_get_hapi_bool(env, tuple_record[18], &field_have_objects_changed)||
-        !hapi_get_hapi_bool(env, tuple_record[19], &field_have_materials_changed))
+        !hapi_priv_get_hapi_asset_id(env, tuple_record[1], &field_id)||
+        !hapi_priv_get_hapi_asset_type(env, tuple_record[2], &field_type)||
+        !hapi_priv_get_hapi_asset_sub_type(env, tuple_record[3], &field_sub_type)||
+        !hapi_priv_get_int(env, tuple_record[4], &field_validation_id)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[5], &field_node_id)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[6], &field_object_node_id)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[7], &field_has_ever_cooked)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[8], &field_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[9], &field_label_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[10], &field_file_path_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[11], &field_version_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[12], &field_full_op_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[13], &field_help_text_sh)||
+        !hapi_priv_get_int(env, tuple_record[14], &field_object_count)||
+        !hapi_priv_get_int(env, tuple_record[15], &field_handle_count)||
+        !hapi_priv_get_int(env, tuple_record[16], &field_transform_input_count)||
+        !hapi_priv_get_int(env, tuple_record[17], &field_geo_input_count)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[18], &field_have_objects_changed)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[19], &field_have_materials_changed))
     {
         return false;
     }
@@ -1760,14 +1760,14 @@ hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo
 
 /* Converting array of HAPI_AssetInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_AssetInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_asset_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_asset_info(env, hapi_struct), list);
     }
 
     return list;
@@ -1776,7 +1776,7 @@ hapi_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct
 
 /* Converting list of HAPI_AssetInfo objects from erl to c. */
 bool
-hapi_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1790,7 +1790,7 @@ hapi_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Asse
         {
             HAPI_AssetInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_asset_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_asset_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1807,19 +1807,19 @@ hapi_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Asse
 
 /* Converting HAPI_ParmChoiceInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_parm_choice_info(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_struct)
+hapi_priv_make_hapi_parm_choice_info(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_struct)
 {
     return enif_make_tuple(env, 4,
-        hapi_make_atom(env, "hapi_parm_choice_info"),
-        hapi_make_hapi_parm_id(env, hapi_struct->parentParmId),
-        hapi_make_hapi_string_handle(env, hapi_struct->labelSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->valueSH));
+        hapi_priv_make_atom(env, "hapi_parm_choice_info"),
+        hapi_priv_make_hapi_parm_id(env, hapi_struct->parentParmId),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->labelSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->valueSH));
 }
 
 
 /* Converting HAPI_ParmChoiceInfo from erl to c. */
 bool
-hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_struct)
+hapi_priv_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1831,11 +1831,11 @@ hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Par
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_parm_choice_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_parm_choice_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_parm_id(env, tuple_record[1], &field_parent_parm_id)||
-        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_label_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_value_sh))
+        !hapi_priv_get_hapi_parm_id(env, tuple_record[1], &field_parent_parm_id)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[2], &field_label_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[3], &field_value_sh))
     {
         return false;
     }
@@ -1850,14 +1850,14 @@ hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Par
 
 /* Converting array of HAPI_ParmChoiceInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_ParmChoiceInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_parm_choice_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_parm_choice_info(env, hapi_struct), list);
     }
 
     return list;
@@ -1866,7 +1866,7 @@ hapi_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* 
 
 /* Converting list of HAPI_ParmChoiceInfo objects from erl to c. */
 bool
-hapi_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1880,7 +1880,7 @@ hapi_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
         {
             HAPI_ParmChoiceInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_parm_choice_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_parm_choice_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -1897,26 +1897,26 @@ hapi_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
 
 /* Converting HAPI_ObjectInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_object_info(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_struct)
+hapi_priv_make_hapi_object_info(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_struct)
 {
     return enif_make_tuple(env, 11,
-        hapi_make_atom(env, "hapi_object_info"),
-        hapi_make_hapi_object_id(env, hapi_struct->id),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->objectInstancePathSH),
-        hapi_make_hapi_bool(env, hapi_struct->hasTransformChanged),
-        hapi_make_hapi_bool(env, hapi_struct->haveGeosChanged),
-        hapi_make_hapi_bool(env, hapi_struct->isVisible),
-        hapi_make_hapi_bool(env, hapi_struct->isInstancer),
-        hapi_make_int(env, hapi_struct->geoCount),
-        hapi_make_hapi_node_id(env, hapi_struct->nodeId),
-        hapi_make_hapi_object_id(env, hapi_struct->objectToInstanceId));
+        hapi_priv_make_atom(env, "hapi_object_info"),
+        hapi_priv_make_hapi_object_id(env, hapi_struct->id),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->objectInstancePathSH),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasTransformChanged),
+        hapi_priv_make_hapi_bool(env, hapi_struct->haveGeosChanged),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isVisible),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isInstancer),
+        hapi_priv_make_int(env, hapi_struct->geoCount),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->nodeId),
+        hapi_priv_make_hapi_object_id(env, hapi_struct->objectToInstanceId));
 }
 
 
 /* Converting HAPI_ObjectInfo from erl to c. */
 bool
-hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_struct)
+hapi_priv_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -1935,18 +1935,18 @@ hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectIn
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 11) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_object_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_object_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_object_id(env, tuple_record[1], &field_id)||
-        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_object_instance_path_sh)||
-        !hapi_get_hapi_bool(env, tuple_record[4], &field_has_transform_changed)||
-        !hapi_get_hapi_bool(env, tuple_record[5], &field_have_geos_changed)||
-        !hapi_get_hapi_bool(env, tuple_record[6], &field_is_visible)||
-        !hapi_get_hapi_bool(env, tuple_record[7], &field_is_instancer)||
-        !hapi_get_int(env, tuple_record[8], &field_geo_count)||
-        !hapi_get_hapi_node_id(env, tuple_record[9], &field_node_id)||
-        !hapi_get_hapi_object_id(env, tuple_record[10], &field_object_to_instance_id))
+        !hapi_priv_get_hapi_object_id(env, tuple_record[1], &field_id)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[2], &field_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[3], &field_object_instance_path_sh)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[4], &field_has_transform_changed)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[5], &field_have_geos_changed)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[6], &field_is_visible)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[7], &field_is_instancer)||
+        !hapi_priv_get_int(env, tuple_record[8], &field_geo_count)||
+        !hapi_priv_get_hapi_node_id(env, tuple_record[9], &field_node_id)||
+        !hapi_priv_get_hapi_object_id(env, tuple_record[10], &field_object_to_instance_id))
     {
         return false;
     }
@@ -1968,14 +1968,14 @@ hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectIn
 
 /* Converting array of HAPI_ObjectInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_ObjectInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_object_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_object_info(env, hapi_struct), list);
     }
 
     return list;
@@ -1984,7 +1984,7 @@ hapi_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_stru
 
 /* Converting list of HAPI_ObjectInfo objects from erl to c. */
 bool
-hapi_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -1998,7 +1998,7 @@ hapi_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Obj
         {
             HAPI_ObjectInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_object_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_object_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -2015,19 +2015,19 @@ hapi_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Obj
 
 /* Converting HAPI_HandleInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_handle_info(ErlNifEnv* env, const HAPI_HandleInfo* hapi_struct)
+hapi_priv_make_hapi_handle_info(ErlNifEnv* env, const HAPI_HandleInfo* hapi_struct)
 {
     return enif_make_tuple(env, 4,
-        hapi_make_atom(env, "hapi_handle_info"),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->typeNameSH),
-        hapi_make_int(env, hapi_struct->bindingsCount));
+        hapi_priv_make_atom(env, "hapi_handle_info"),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->typeNameSH),
+        hapi_priv_make_int(env, hapi_struct->bindingsCount));
 }
 
 
 /* Converting HAPI_HandleInfo from erl to c. */
 bool
-hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_struct)
+hapi_priv_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -2039,11 +2039,11 @@ hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleIn
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_handle_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_handle_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[2], &field_type_name_sh)||
-        !hapi_get_int(env, tuple_record[3], &field_bindings_count))
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[1], &field_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[2], &field_type_name_sh)||
+        !hapi_priv_get_int(env, tuple_record[3], &field_bindings_count))
     {
         return false;
     }
@@ -2058,14 +2058,14 @@ hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleIn
 
 /* Converting array of HAPI_HandleInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_HandleInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_handle_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_handle_info(env, hapi_struct), list);
     }
 
     return list;
@@ -2074,7 +2074,7 @@ hapi_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_stru
 
 /* Converting list of HAPI_HandleInfo objects from erl to c. */
 bool
-hapi_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -2088,7 +2088,7 @@ hapi_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Han
         {
             HAPI_HandleInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_handle_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_handle_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -2105,19 +2105,19 @@ hapi_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Han
 
 /* Converting HAPI_TimelineOptions from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_struct)
+hapi_priv_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_struct)
 {
     return enif_make_tuple(env, 4,
-        hapi_make_atom(env, "hapi_timeline_options"),
-        hapi_make_float(env, hapi_struct->fps),
-        hapi_make_float(env, hapi_struct->startTime),
-        hapi_make_float(env, hapi_struct->endTime));
+        hapi_priv_make_atom(env, "hapi_timeline_options"),
+        hapi_priv_make_float(env, hapi_struct->fps),
+        hapi_priv_make_float(env, hapi_struct->startTime),
+        hapi_priv_make_float(env, hapi_struct->endTime));
 }
 
 
 /* Converting HAPI_TimelineOptions from erl to c. */
 bool
-hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_struct)
+hapi_priv_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -2129,11 +2129,11 @@ hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tim
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 4) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_timeline_options", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_timeline_options", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_float(env, tuple_record[1], &field_fps)||
-        !hapi_get_float(env, tuple_record[2], &field_start_time)||
-        !hapi_get_float(env, tuple_record[3], &field_end_time))
+        !hapi_priv_get_float(env, tuple_record[1], &field_fps)||
+        !hapi_priv_get_float(env, tuple_record[2], &field_start_time)||
+        !hapi_priv_get_float(env, tuple_record[3], &field_end_time))
     {
         return false;
     }
@@ -2148,14 +2148,14 @@ hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Tim
 
 /* Converting array of HAPI_TimelineOptions objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_TimelineOptions* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_timeline_options(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_timeline_options(env, hapi_struct), list);
     }
 
     return list;
@@ -2164,7 +2164,7 @@ hapi_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions*
 
 /* Converting list of HAPI_TimelineOptions objects from erl to c. */
 bool
-hapi_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -2178,7 +2178,7 @@ hapi_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
         {
             HAPI_TimelineOptions* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_timeline_options(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_timeline_options(env, head, hapi_struct))
             {
                 return false;
             }
@@ -2195,28 +2195,28 @@ hapi_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
 
 /* Converting HAPI_NodeInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* hapi_struct)
+hapi_priv_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* hapi_struct)
 {
     return enif_make_tuple(env, 13,
-        hapi_make_atom(env, "hapi_node_info"),
-        hapi_make_hapi_node_id(env, hapi_struct->id),
-        hapi_make_hapi_asset_id(env, hapi_struct->assetId),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_hapi_bool(env, hapi_struct->isValid),
-        hapi_make_int(env, hapi_struct->totalCookCount),
-        hapi_make_int(env, hapi_struct->uniqueHoudiniNodeId),
-        hapi_make_hapi_string_handle(env, hapi_struct->internalNodePathSH),
-        hapi_make_int(env, hapi_struct->parmCount),
-        hapi_make_int(env, hapi_struct->parmIntValueCount),
-        hapi_make_int(env, hapi_struct->parmFloatValueCount),
-        hapi_make_int(env, hapi_struct->parmStringValueCount),
-        hapi_make_int(env, hapi_struct->parmChoiceCount));
+        hapi_priv_make_atom(env, "hapi_node_info"),
+        hapi_priv_make_hapi_node_id(env, hapi_struct->id),
+        hapi_priv_make_hapi_asset_id(env, hapi_struct->assetId),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isValid),
+        hapi_priv_make_int(env, hapi_struct->totalCookCount),
+        hapi_priv_make_int(env, hapi_struct->uniqueHoudiniNodeId),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->internalNodePathSH),
+        hapi_priv_make_int(env, hapi_struct->parmCount),
+        hapi_priv_make_int(env, hapi_struct->parmIntValueCount),
+        hapi_priv_make_int(env, hapi_struct->parmFloatValueCount),
+        hapi_priv_make_int(env, hapi_struct->parmStringValueCount),
+        hapi_priv_make_int(env, hapi_struct->parmChoiceCount));
 }
 
 
 /* Converting HAPI_NodeInfo from erl to c. */
 bool
-hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_struct)
+hapi_priv_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -2237,20 +2237,20 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 13) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_node_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_node_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_node_id(env, tuple_record[1], &field_id)||
-        !hapi_get_hapi_asset_id(env, tuple_record[2], &field_asset_id)||
-        !hapi_get_hapi_string_handle(env, tuple_record[3], &field_name_sh)||
-        !hapi_get_hapi_bool(env, tuple_record[4], &field_is_valid)||
-        !hapi_get_int(env, tuple_record[5], &field_total_cook_count)||
-        !hapi_get_int(env, tuple_record[6], &field_unique_houdini_node_id)||
-        !hapi_get_hapi_string_handle(env, tuple_record[7], &field_internal_node_path_sh)||
-        !hapi_get_int(env, tuple_record[8], &field_parm_count)||
-        !hapi_get_int(env, tuple_record[9], &field_parm_int_value_count)||
-        !hapi_get_int(env, tuple_record[10], &field_parm_float_value_count)||
-        !hapi_get_int(env, tuple_record[11], &field_parm_string_value_count)||
-        !hapi_get_int(env, tuple_record[12], &field_parm_choice_count))
+        !hapi_priv_get_hapi_node_id(env, tuple_record[1], &field_id)||
+        !hapi_priv_get_hapi_asset_id(env, tuple_record[2], &field_asset_id)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[3], &field_name_sh)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[4], &field_is_valid)||
+        !hapi_priv_get_int(env, tuple_record[5], &field_total_cook_count)||
+        !hapi_priv_get_int(env, tuple_record[6], &field_unique_houdini_node_id)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[7], &field_internal_node_path_sh)||
+        !hapi_priv_get_int(env, tuple_record[8], &field_parm_count)||
+        !hapi_priv_get_int(env, tuple_record[9], &field_parm_int_value_count)||
+        !hapi_priv_get_int(env, tuple_record[10], &field_parm_float_value_count)||
+        !hapi_priv_get_int(env, tuple_record[11], &field_parm_string_value_count)||
+        !hapi_priv_get_int(env, tuple_record[12], &field_parm_choice_count))
     {
         return false;
     }
@@ -2274,14 +2274,14 @@ hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* 
 
 /* Converting array of HAPI_NodeInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_NodeInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_node_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_node_info(env, hapi_struct), list);
     }
 
     return list;
@@ -2290,7 +2290,7 @@ hapi_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs,
 
 /* Converting list of HAPI_NodeInfo objects from erl to c. */
 bool
-hapi_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -2304,7 +2304,7 @@ hapi_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeI
         {
             HAPI_NodeInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_node_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_node_info(env, head, hapi_struct))
             {
                 return false;
             }
@@ -2321,50 +2321,50 @@ hapi_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeI
 
 /* Converting HAPI_ParmInfo from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct)
+hapi_priv_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct)
 {
     return enif_make_tuple(env, 35,
-        hapi_make_atom(env, "hapi_parm_info"),
-        hapi_make_hapi_parm_id(env, hapi_struct->id),
-        hapi_make_hapi_parm_id(env, hapi_struct->parentId),
-        hapi_make_hapi_parm_type(env, hapi_struct->type),
-        hapi_make_hapi_string_handle(env, hapi_struct->typeInfoSH),
-        hapi_make_hapi_permissions(env, hapi_struct->permissions),
-        hapi_make_int(env, hapi_struct->size),
-        hapi_make_int(env, hapi_struct->choiceCount),
-        hapi_make_hapi_string_handle(env, hapi_struct->nameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->labelSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->templateNameSH),
-        hapi_make_hapi_string_handle(env, hapi_struct->helpSH),
-        hapi_make_hapi_bool(env, hapi_struct->hasMin),
-        hapi_make_hapi_bool(env, hapi_struct->hasMax),
-        hapi_make_hapi_bool(env, hapi_struct->hasUIMin),
-        hapi_make_hapi_bool(env, hapi_struct->hasUIMax),
-        hapi_make_float(env, hapi_struct->min),
-        hapi_make_float(env, hapi_struct->max),
-        hapi_make_float(env, hapi_struct->UIMin),
-        hapi_make_float(env, hapi_struct->UIMax),
-        hapi_make_hapi_bool(env, hapi_struct->invisible),
-        hapi_make_hapi_bool(env, hapi_struct->disabled),
-        hapi_make_hapi_bool(env, hapi_struct->spare),
-        hapi_make_hapi_bool(env, hapi_struct->joinNext),
-        hapi_make_hapi_bool(env, hapi_struct->labelNone),
-        hapi_make_int(env, hapi_struct->intValuesIndex),
-        hapi_make_int(env, hapi_struct->floatValuesIndex),
-        hapi_make_int(env, hapi_struct->stringValuesIndex),
-        hapi_make_int(env, hapi_struct->choiceIndex),
-        hapi_make_hapi_bool(env, hapi_struct->isChildOfMultiParm),
-        hapi_make_int(env, hapi_struct->instanceNum),
-        hapi_make_int(env, hapi_struct->instanceLength),
-        hapi_make_int(env, hapi_struct->instanceCount),
-        hapi_make_int(env, hapi_struct->instanceStartOffset),
-        hapi_make_hapi_ramp_type(env, hapi_struct->rampType));
+        hapi_priv_make_atom(env, "hapi_parm_info"),
+        hapi_priv_make_hapi_parm_id(env, hapi_struct->id),
+        hapi_priv_make_hapi_parm_id(env, hapi_struct->parentId),
+        hapi_priv_make_hapi_parm_type(env, hapi_struct->type),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->typeInfoSH),
+        hapi_priv_make_hapi_permissions(env, hapi_struct->permissions),
+        hapi_priv_make_int(env, hapi_struct->size),
+        hapi_priv_make_int(env, hapi_struct->choiceCount),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->nameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->labelSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->templateNameSH),
+        hapi_priv_make_hapi_string_handle(env, hapi_struct->helpSH),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasMin),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasMax),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasUIMin),
+        hapi_priv_make_hapi_bool(env, hapi_struct->hasUIMax),
+        hapi_priv_make_float(env, hapi_struct->min),
+        hapi_priv_make_float(env, hapi_struct->max),
+        hapi_priv_make_float(env, hapi_struct->UIMin),
+        hapi_priv_make_float(env, hapi_struct->UIMax),
+        hapi_priv_make_hapi_bool(env, hapi_struct->invisible),
+        hapi_priv_make_hapi_bool(env, hapi_struct->disabled),
+        hapi_priv_make_hapi_bool(env, hapi_struct->spare),
+        hapi_priv_make_hapi_bool(env, hapi_struct->joinNext),
+        hapi_priv_make_hapi_bool(env, hapi_struct->labelNone),
+        hapi_priv_make_int(env, hapi_struct->intValuesIndex),
+        hapi_priv_make_int(env, hapi_struct->floatValuesIndex),
+        hapi_priv_make_int(env, hapi_struct->stringValuesIndex),
+        hapi_priv_make_int(env, hapi_struct->choiceIndex),
+        hapi_priv_make_hapi_bool(env, hapi_struct->isChildOfMultiParm),
+        hapi_priv_make_int(env, hapi_struct->instanceNum),
+        hapi_priv_make_int(env, hapi_struct->instanceLength),
+        hapi_priv_make_int(env, hapi_struct->instanceCount),
+        hapi_priv_make_int(env, hapi_struct->instanceStartOffset),
+        hapi_priv_make_hapi_ramp_type(env, hapi_struct->rampType));
 }
 
 
 /* Converting HAPI_ParmInfo from erl to c. */
 bool
-hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_struct)
+hapi_priv_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -2407,42 +2407,42 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != 35) ||
-        !hapi_check_atom(env, tuple_record[0], "hapi_parm_info", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "hapi_parm_info", &atom_name_match) ||
         !atom_name_match ||
-        !hapi_get_hapi_parm_id(env, tuple_record[1], &field_id)||
-        !hapi_get_hapi_parm_id(env, tuple_record[2], &field_parent_id)||
-        !hapi_get_hapi_parm_type(env, tuple_record[3], &field_type)||
-        !hapi_get_hapi_string_handle(env, tuple_record[4], &field_type_info_sh)||
-        !hapi_get_hapi_permissions(env, tuple_record[5], &field_permissions)||
-        !hapi_get_int(env, tuple_record[6], &field_size)||
-        !hapi_get_int(env, tuple_record[7], &field_choice_count)||
-        !hapi_get_hapi_string_handle(env, tuple_record[8], &field_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[9], &field_label_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[10], &field_template_name_sh)||
-        !hapi_get_hapi_string_handle(env, tuple_record[11], &field_help_sh)||
-        !hapi_get_hapi_bool(env, tuple_record[12], &field_has_min)||
-        !hapi_get_hapi_bool(env, tuple_record[13], &field_has_max)||
-        !hapi_get_hapi_bool(env, tuple_record[14], &field_has_uimin)||
-        !hapi_get_hapi_bool(env, tuple_record[15], &field_has_uimax)||
-        !hapi_get_float(env, tuple_record[16], &field_min)||
-        !hapi_get_float(env, tuple_record[17], &field_max)||
-        !hapi_get_float(env, tuple_record[18], &field_uimin)||
-        !hapi_get_float(env, tuple_record[19], &field_uimax)||
-        !hapi_get_hapi_bool(env, tuple_record[20], &field_invisible)||
-        !hapi_get_hapi_bool(env, tuple_record[21], &field_disabled)||
-        !hapi_get_hapi_bool(env, tuple_record[22], &field_spare)||
-        !hapi_get_hapi_bool(env, tuple_record[23], &field_join_next)||
-        !hapi_get_hapi_bool(env, tuple_record[24], &field_label_none)||
-        !hapi_get_int(env, tuple_record[25], &field_int_values_index)||
-        !hapi_get_int(env, tuple_record[26], &field_float_values_index)||
-        !hapi_get_int(env, tuple_record[27], &field_string_values_index)||
-        !hapi_get_int(env, tuple_record[28], &field_choice_index)||
-        !hapi_get_hapi_bool(env, tuple_record[29], &field_is_child_of_multi_parm)||
-        !hapi_get_int(env, tuple_record[30], &field_instance_num)||
-        !hapi_get_int(env, tuple_record[31], &field_instance_length)||
-        !hapi_get_int(env, tuple_record[32], &field_instance_count)||
-        !hapi_get_int(env, tuple_record[33], &field_instance_start_offset)||
-        !hapi_get_hapi_ramp_type(env, tuple_record[34], &field_ramp_type))
+        !hapi_priv_get_hapi_parm_id(env, tuple_record[1], &field_id)||
+        !hapi_priv_get_hapi_parm_id(env, tuple_record[2], &field_parent_id)||
+        !hapi_priv_get_hapi_parm_type(env, tuple_record[3], &field_type)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[4], &field_type_info_sh)||
+        !hapi_priv_get_hapi_permissions(env, tuple_record[5], &field_permissions)||
+        !hapi_priv_get_int(env, tuple_record[6], &field_size)||
+        !hapi_priv_get_int(env, tuple_record[7], &field_choice_count)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[8], &field_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[9], &field_label_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[10], &field_template_name_sh)||
+        !hapi_priv_get_hapi_string_handle(env, tuple_record[11], &field_help_sh)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[12], &field_has_min)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[13], &field_has_max)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[14], &field_has_uimin)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[15], &field_has_uimax)||
+        !hapi_priv_get_float(env, tuple_record[16], &field_min)||
+        !hapi_priv_get_float(env, tuple_record[17], &field_max)||
+        !hapi_priv_get_float(env, tuple_record[18], &field_uimin)||
+        !hapi_priv_get_float(env, tuple_record[19], &field_uimax)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[20], &field_invisible)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[21], &field_disabled)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[22], &field_spare)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[23], &field_join_next)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[24], &field_label_none)||
+        !hapi_priv_get_int(env, tuple_record[25], &field_int_values_index)||
+        !hapi_priv_get_int(env, tuple_record[26], &field_float_values_index)||
+        !hapi_priv_get_int(env, tuple_record[27], &field_string_values_index)||
+        !hapi_priv_get_int(env, tuple_record[28], &field_choice_index)||
+        !hapi_priv_get_hapi_bool(env, tuple_record[29], &field_is_child_of_multi_parm)||
+        !hapi_priv_get_int(env, tuple_record[30], &field_instance_num)||
+        !hapi_priv_get_int(env, tuple_record[31], &field_instance_length)||
+        !hapi_priv_get_int(env, tuple_record[32], &field_instance_count)||
+        !hapi_priv_get_int(env, tuple_record[33], &field_instance_start_offset)||
+        !hapi_priv_get_hapi_ramp_type(env, tuple_record[34], &field_ramp_type))
     {
         return false;
     }
@@ -2488,14 +2488,14 @@ hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* 
 
 /* Converting array of HAPI_ParmInfo objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs, uint32_t list_size)
+hapi_priv_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const HAPI_ParmInfo* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_hapi_parm_info(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_parm_info(env, hapi_struct), list);
     }
 
     return list;
@@ -2504,7 +2504,7 @@ hapi_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs,
 
 /* Converting list of HAPI_ParmInfo objects from erl to c. */
 bool
-hapi_get_hapi_parm_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_structs, uint32_t list_size)
+hapi_priv_get_hapi_parm_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -2518,7 +2518,7 @@ hapi_get_hapi_parm_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmI
         {
             HAPI_ParmInfo* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_hapi_parm_info(env, head, hapi_struct))
+            if(!hapi_priv_get_hapi_parm_info(env, head, hapi_struct))
             {
                 return false;
             }

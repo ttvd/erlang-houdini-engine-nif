@@ -274,6 +274,13 @@ hapi_priv_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
 
 
 bool
+hapi_priv_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** data)
+{
+    
+}
+
+
+bool
 hapi_priv_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size)
 {
     uint32_t list_size = 0;

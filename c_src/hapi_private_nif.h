@@ -70,6 +70,9 @@ bool hapi_priv_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data);
 // Get value of char. Return true if succeeds. Returns char by pointer.
 bool hapi_priv_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data);
 
+// Get string value. Returns allocated string by pointer. Caller is responsible for clean up and deallocation.
+bool hapi_priv_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** data);
+
 // Retrieve elements of double list into float array (by pointer). Return status.
 bool hapi_priv_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size);
 

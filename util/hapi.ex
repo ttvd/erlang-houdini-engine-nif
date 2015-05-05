@@ -1058,6 +1058,36 @@ defmodule Structures do
       Dict.get(dict, :param_pointer_pointer, false)
     end
 
+    # Helper function to see if generated parameter is an input parameter.
+    defp is_parameter_input(param) do
+      elem(param, 4)
+    end
+
+    # Helper function to see if generated parameter is an output parameter.
+    defp is_parameter_output(param) do
+      not elem(param, 4)
+    end
+
+    # Helper function to see if generated parameter is an array and has size parameter attached.
+    defp is_parameter_array_with_size(param) do
+      not is_nil(elem(param, 5))
+    end
+
+    # Helper function to see if parameter requires clean up.
+    defp parameter_requires_cleanup(param) do
+      elem(param, 6)
+    end
+
+    # Helper function to get parameter index within the function call.
+    defp get_parameter_index(param) do
+      elem(param, 7)
+    end
+
+    # Helper function to get variable name for this parameter.
+    defp get_parameter_variable_name(param) do
+      elem(param, 2)
+    end
+
     # Function used to generate export table.
     defp create_stub_exports(env) do
       functions = Dict.get(env, :functions, :nil)
@@ -1191,8 +1221,9 @@ defmodule Structures do
         assign_code = ""
       else
         assign_code = "    " <> String.replace(assign_block, "%{HAPI_FUNCTION_ASSIGN}%",
-          Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
-          |> Enum.filter(&(elem(&1, 4)))
+          Enum.concat(Enum.filter(parameters, &(not parameter_requires_cleanup(&1))),
+            Enum.filter(parameters, &(parameter_requires_cleanup(&1))))
+          |> Enum.filter(&(is_parameter_input(&1)))
           |> Enum.map_join(" ||\n        ", &(create_stub_c_entry_assign(env, &1))))
           <> "\n"
       end
@@ -1217,7 +1248,7 @@ defmodule Structures do
 
     # DEBUG FUNCTION
     defp create_stub_c_entry_tokens_debug(function_name, function_type, function_params) do
-      dbg_opts = &(Enum.map_join(elem(&1, 2), " | ", fn{k,v} -> "OPT #{k}->#{v}" end))
+      dbg_opts = &(Enum.map_join(get_parameter_variable_name(&1), " | ", fn{k,v} -> "OPT #{k}->#{v}" end))
       ["function_name: #{function_name}", "function_type: #{function_type}"]
       ++ Enum.map(function_params, &(dbg_opts.(&1)))
     end
@@ -1242,18 +1273,20 @@ defmodule Structures do
         add_inout = "OUTPUT"
       end
 
-      "#{type} #{name}#{add_init}; // #{add_inout}#{add_size} IDX: #{idx}"
+      "#{type} #{name}#{add_init}; // #{add_inout}#{add_size} IDX: #{idx} EX: #{extract}"
     end
 
+
+    #    0           1          2           3             4                  5                          6              7
     # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, T-INPUT/F-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, F/T IF NEEDS CLEAN UP, IDX}
 
     #
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
-      {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", not is_const_parameter(param), :nil, true, idx}
+      {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", is_const_parameter(param), :nil, true, idx}
     end
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {param_type, param_name, _param_opts} = param) do
       resolved_type = HAPI.Util.type_resolve(env, param_type)
-      {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_const_parameter(param), :nil, false, idx}
+      {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, true, :nil, false, idx}
     end
     defp create_stub_c_entry_objects(collect, env, idx, function_name, function_type, []) do
       collect
@@ -1269,14 +1302,15 @@ defmodule Structures do
       if is_pointer_parameter(param_0) do
 
         resolved_type = HAPI.Util.type_resolve(env, param_0_type)
-        parm_const = not is_const_parameter(param_0)
+        parm_const = is_const_parameter(param_0)
 
         #if is_const_parameter(param_0) do
         #    resolved_type = "const #{resolved_type}"
         #end
 
         collect
-          ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}", "NULL", parm_const, "param_length", true, idx}]
+          ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}", "NULL", is_const_parameter(param_0),
+              "param_length", true, idx}]
           ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, true, :nil, false, idx + 1}]
           ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, true, :nil, false, idx + 2}]
         |> create_stub_c_entry_objects(env, idx + 3, function_name, function_type, rest)
@@ -1297,7 +1331,7 @@ defmodule Structures do
 
         collect
         ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
-          not is_const_parameter(param_0), "param_#{param_1_name}", true, idx}]
+            is_const_parameter(param_0), "param_#{param_1_name}", true, idx}]
         ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, true, :nil, false, idx + 1}]
         |> create_stub_c_entry_objects(env, idx + 2, function_name, function_type, rest)
       else
@@ -1322,7 +1356,9 @@ defmodule Structures do
             <> "\n        "
             <> "!hapi_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
           else
-            raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+            #raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+            "// UNHANDLED #{type} #{name} INPUT: #{is_input} DECL_SIZE: #{decl_size} NEEDS_CLEANUP: #{needs_cleanup} IDX: #{idx}"
+            <> "\n        true"
           end
         true ->
           "!hapi_get_#{type_underscore}(env, argv[#{idx}], &#{name})"

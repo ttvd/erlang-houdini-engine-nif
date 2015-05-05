@@ -8,11 +8,7 @@ ERL_NIF_TERM
     %{HAPI_DEBUG_TOKENS}%
     */
 
-    %{HAPI_FUNCTION_BODY}%
-
-    %{HAPI_FUNCTION_INPUT_ASSIGN}%
-
-    %{HAPI_FUNCTION_CLEANUP}%
+%{HAPI_FUNCTION_BODY}%
 
     //return hapi_make_atom_ok(env);
     return stub_result;

@@ -1,16 +1,16 @@
 /* Converting %{HAPI_STRUCT}% from c to erl. */
 ERL_NIF_TERM
-hapi_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct)
+hapi_priv_make_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_struct)
 {
     return enif_make_tuple(env, %{HAPI_STRUCT_SIZE}%,
-        hapi_make_atom(env, "%{HAPI_STRUCT_DOWNCASE}%"),
+        hapi_priv_make_atom(env, "%{HAPI_STRUCT_DOWNCASE}%"),
         %{HAPI_STRUCT_TO_ERL_MAP});
 }
 
 
 /* Converting %{HAPI_STRUCT}% from erl to c. */
 bool
-hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct)
+hapi_priv_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_struct)
 {
     int32_t tuple_size = 0;
     const ERL_NIF_TERM* tuple_record = NULL;
@@ -20,7 +20,7 @@ hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAP
 
     if(!enif_get_tuple(env, term, &tuple_size, &tuple_record) ||
         (tuple_size != %{HAPI_STRUCT_SIZE}%) ||
-        !hapi_check_atom(env, tuple_record[0], "%{HAPI_STRUCT_DOWNCASE}%", &atom_name_match) ||
+        !hapi_priv_check_atom(env, tuple_record[0], "%{HAPI_STRUCT_DOWNCASE}%", &atom_name_match) ||
         !atom_name_match ||
         %{HAPI_STRUCT_TO_C_MAP}%)
     {
@@ -35,14 +35,14 @@ hapi_get_%{HAPI_STRUCT_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAP
 
 /* Converting array of %{HAPI_STRUCT}% objects from c to erl. */
 ERL_NIF_TERM
-hapi_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size)
+hapi_priv_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
     for(int32_t idx = list_size - 1; idx >= 0; idx--)
     {
         const %{HAPI_STRUCT}%* hapi_struct = hapi_structs + idx;
-        list = enif_make_list_cell(env, hapi_make_%{HAPI_STRUCT_DOWNCASE}%(env, hapi_struct), list);
+        list = enif_make_list_cell(env, hapi_priv_make_%{HAPI_STRUCT_DOWNCASE}%(env, hapi_struct), list);
     }
 
     return list;
@@ -51,7 +51,7 @@ hapi_make_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_STRUCT}%* h
 
 /* Converting list of %{HAPI_STRUCT}% objects from erl to c. */
 bool
-hapi_get_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size)
+hapi_priv_get_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_STRUCT}%* hapi_structs, uint32_t list_size)
 {
     uint32_t read_list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -65,7 +65,7 @@ hapi_get_%{HAPI_STRUCT_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, 
         {
             %{HAPI_STRUCT}%* hapi_struct = hapi_structs + index;
 
-            if(!hapi_get_%{HAPI_STRUCT_DOWNCASE}%(env, head, hapi_struct))
+            if(!hapi_priv_get_%{HAPI_STRUCT_DOWNCASE}%(env, head, hapi_struct))
             {
                 return false;
             }

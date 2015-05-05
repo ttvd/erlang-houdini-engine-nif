@@ -1223,7 +1223,7 @@ defmodule Structures do
     end
 
     # Helper function to generate variable declaration for parameter.
-    defp create_stub_c_entry_var({type, extract, name, init_code, is_output, decl_size, needs_cleanup, idx}) do
+    defp create_stub_c_entry_var({type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
       if not is_nil(decl_size) do
         add_size = " | SIZE: #{decl_size}"
       else
@@ -1236,16 +1236,16 @@ defmodule Structures do
         add_init = ""
       end
 
-      if is_output do
-        add_inout = "OUTPUT"
-      else
+      if is_input do
         add_inout = "INPUT"
+      else
+        add_inout = "OUTPUT"
       end
 
       "#{type} #{name}#{add_init}; // #{add_inout}#{add_size} IDX: #{idx}"
     end
 
-    # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, F-INPUT/T-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, F/T IF NEEDS CLEAN UP, IDX}
+    # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, T-INPUT/F-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, F/T IF NEEDS CLEAN UP, IDX}
 
     #
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
@@ -1311,12 +1311,16 @@ defmodule Structures do
     end
 
     # Helper function used to create assignments.
-    defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_output, decl_size, needs_cleanup, idx}) do
-      type_underscore = HAPI.Util.underscore(type) |> String.rstrip(?*)
+    defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
+      type_underscore = HAPI.Util.underscore(type)
+      |> String.rstrip(?*)
+      type_pure = String.rstrip(type, ?*)
       cond do
         needs_cleanup ->
           if not is_nil(decl_size) do
-            "!hapi_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
+            "!(#{name} = malloc(sizeof(#{type_pure}) * #{decl_size})) ||"
+            <> "\n        "
+            <> "!hapi_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
           else
             raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
           end

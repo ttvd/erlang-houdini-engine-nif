@@ -1,7 +1,7 @@
 
 /* Converting %{HAPI_TYPE}% from c to erl. */
 ERL_NIF_TERM
-hapi_make_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, %{HAPI_TYPE}% hapi_type)
+hapi_priv_make_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, %{HAPI_TYPE}% hapi_type)
 {
     %{HAPI_TYPE_CONVERT_MAKE}%
 }
@@ -9,7 +9,7 @@ hapi_make_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, %{HAPI_TYPE}% hapi_type)
 
 /* Converting %{HAPI_TYPE}% from erl to c. */
 bool
-hapi_get_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_TYPE}%* hapi_type)
+hapi_priv_get_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_TYPE}%* hapi_type)
 {
     %{HAPI_TYPE_CONVERT_GET}%
 }

@@ -1176,7 +1176,7 @@ defmodule Structures do
         |> Enum.map_join("\n    ", &("if(#{elem(&1, 2)}) free(#{elem(&1, 2)});")))
       |> String.replace("%{HAPI_FUNCTION_INPUT_ASSIGN}%",
         Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
-        |> Enum.filter(&(not elem(&1, 4)))
+        |> Enum.filter(&(elem(&1, 4)))
         #|> Enum.map_join("\n    ", &("INPUT_VAR_NEEDS_INIT #{elem(&1, 0)} #{elem(&1, 2)} // #{elem(&1, 1)}")))
         |> Enum.map_join("\n    ", &(create_stub_c_entry_assign(env, &1))))
     end
@@ -1243,8 +1243,8 @@ defmodule Structures do
 
         collect
           ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}", "NULL", parm_const, "param_length", true, idx}]
-          ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, false, :nil, false, idx + 1}]
-          ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, false, :nil, false, idx + 2}]
+          ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, true, :nil, false, idx + 1}]
+          ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, true, :nil, false, idx + 2}]
         |> create_stub_c_entry_objects(env, idx + 3, function_name, function_type, rest)
       else
         raise(RuntimeError, description: "Illegal sequence of parameters, pointer, size, length.")
@@ -1264,7 +1264,7 @@ defmodule Structures do
         collect
         ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
           not is_const_parameter(param_0), "param_#{param_1_name}", true, idx}]
-        ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, false, :nil, false, idx + 1}]
+        ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, true, :nil, false, idx + 1}]
         |> create_stub_c_entry_objects(env, idx + 2, function_name, function_type, rest)
       else
         collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param_0)]
@@ -1280,7 +1280,7 @@ defmodule Structures do
     defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_output, decl_size, needs_cleanup, idx}) do
       cond do
         needs_cleanup ->
-          "POINTER #{type} param_#{name}"
+          "//POINTER #{type} param_#{name} IDX #{idx}"
         #HAPI.Util.is_type_enum(env, type) or HAPI.Util.is_type_structure(env, type) ->
           #"hapi_get_#{HAPI.Util.underscore(type)}(env, &#{name});"
         true ->

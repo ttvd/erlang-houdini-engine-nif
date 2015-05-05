@@ -14,280 +14,280 @@
 
 
 /* Conversion of HAPI_CookOptions structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_cook_options(ErlNifEnv* env, const HAPI_CookOptions* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_cook_options(ErlNifEnv* env, const HAPI_CookOptions* hapi_struct);
 
 /* Conversion of HAPI_CookOptions structure from erl to c. */
-bool hapi_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_struct);
+bool hapi_priv_get_hapi_cook_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_struct);
 
 /* Conversion of array of HAPI_CookOptions objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_cook_options_list(ErlNifEnv* env, const HAPI_CookOptions* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_CookOptions objects from erl to c. */
-bool hapi_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_cook_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CookOptions* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_Keyframe structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_keyframe(ErlNifEnv* env, const HAPI_Keyframe* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_keyframe(ErlNifEnv* env, const HAPI_Keyframe* hapi_struct);
 
 /* Conversion of HAPI_Keyframe structure from erl to c. */
-bool hapi_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_struct);
+bool hapi_priv_get_hapi_keyframe(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_struct);
 
 /* Conversion of array of HAPI_Keyframe objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_keyframe_list(ErlNifEnv* env, const HAPI_Keyframe* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_Keyframe objects from erl to c. */
-bool hapi_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_keyframe_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Keyframe* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_PartInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_part_info(ErlNifEnv* env, const HAPI_PartInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_part_info(ErlNifEnv* env, const HAPI_PartInfo* hapi_struct);
 
 /* Conversion of HAPI_PartInfo structure from erl to c. */
-bool hapi_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_struct);
+bool hapi_priv_get_hapi_part_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_struct);
 
 /* Conversion of array of HAPI_PartInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_part_info_list(ErlNifEnv* env, const HAPI_PartInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_PartInfo objects from erl to c. */
-bool hapi_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_part_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_MaterialInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_material_info(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_material_info(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_struct);
 
 /* Conversion of HAPI_MaterialInfo structure from erl to c. */
-bool hapi_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_struct);
+bool hapi_priv_get_hapi_material_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_struct);
 
 /* Conversion of array of HAPI_MaterialInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_material_info_list(ErlNifEnv* env, const HAPI_MaterialInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_MaterialInfo objects from erl to c. */
-bool hapi_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_material_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_GlobalNodes structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_global_nodes(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_global_nodes(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_struct);
 
 /* Conversion of HAPI_GlobalNodes structure from erl to c. */
-bool hapi_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_struct);
+bool hapi_priv_get_hapi_global_nodes(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_struct);
 
 /* Conversion of array of HAPI_GlobalNodes objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_global_nodes_list(ErlNifEnv* env, const HAPI_GlobalNodes* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_GlobalNodes objects from erl to c. */
-bool hapi_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_global_nodes_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GlobalNodes* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_HandleBindingInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_handle_binding_info(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_handle_binding_info(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_struct);
 
 /* Conversion of HAPI_HandleBindingInfo structure from erl to c. */
-bool hapi_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_struct);
+bool hapi_priv_get_hapi_handle_binding_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_struct);
 
 /* Conversion of array of HAPI_HandleBindingInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_handle_binding_info_list(ErlNifEnv* env, const HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_HandleBindingInfo objects from erl to c. */
-bool hapi_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_handle_binding_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleBindingInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_ImageInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_image_info(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_image_info(ErlNifEnv* env, const HAPI_ImageInfo* hapi_struct);
 
 /* Conversion of HAPI_ImageInfo structure from erl to c. */
-bool hapi_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_struct);
+bool hapi_priv_get_hapi_image_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_struct);
 
 /* Conversion of array of HAPI_ImageInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_image_info_list(ErlNifEnv* env, const HAPI_ImageInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_ImageInfo objects from erl to c. */
-bool hapi_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_image_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_VolumeInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_volume_info(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_volume_info(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_struct);
 
 /* Conversion of HAPI_VolumeInfo structure from erl to c. */
-bool hapi_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_struct);
+bool hapi_priv_get_hapi_volume_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_struct);
 
 /* Conversion of array of HAPI_VolumeInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_volume_info_list(ErlNifEnv* env, const HAPI_VolumeInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_VolumeInfo objects from erl to c. */
-bool hapi_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_volume_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_GeoInputInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_geo_input_info(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_geo_input_info(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_struct);
 
 /* Conversion of HAPI_GeoInputInfo structure from erl to c. */
-bool hapi_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_struct);
+bool hapi_priv_get_hapi_geo_input_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_struct);
 
 /* Conversion of array of HAPI_GeoInputInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_geo_input_info_list(ErlNifEnv* env, const HAPI_GeoInputInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_GeoInputInfo objects from erl to c. */
-bool hapi_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_geo_input_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInputInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_VolumeTileInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_volume_tile_info(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_volume_tile_info(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_struct);
 
 /* Conversion of HAPI_VolumeTileInfo structure from erl to c. */
-bool hapi_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_struct);
+bool hapi_priv_get_hapi_volume_tile_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_struct);
 
 /* Conversion of array of HAPI_VolumeTileInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_volume_tile_info_list(ErlNifEnv* env, const HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_VolumeTileInfo objects from erl to c. */
-bool hapi_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_volume_tile_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_VolumeTileInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_CurveInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_curve_info(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_curve_info(ErlNifEnv* env, const HAPI_CurveInfo* hapi_struct);
 
 /* Conversion of HAPI_CurveInfo structure from erl to c. */
-bool hapi_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_struct);
+bool hapi_priv_get_hapi_curve_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_struct);
 
 /* Conversion of array of HAPI_CurveInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_curve_info_list(ErlNifEnv* env, const HAPI_CurveInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_CurveInfo objects from erl to c. */
-bool hapi_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_curve_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_CurveInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_Transform structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_transform(ErlNifEnv* env, const HAPI_Transform* hapi_struct);
 
 /* Conversion of HAPI_Transform structure from erl to c. */
-bool hapi_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_struct);
+bool hapi_priv_get_hapi_transform(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_struct);
 
 /* Conversion of array of HAPI_Transform objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_transform_list(ErlNifEnv* env, const HAPI_Transform* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_Transform objects from erl to c. */
-bool hapi_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_transform_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Transform* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_ImageFileFormat structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_image_file_format(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_image_file_format(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_struct);
 
 /* Conversion of HAPI_ImageFileFormat structure from erl to c. */
-bool hapi_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_struct);
+bool hapi_priv_get_hapi_image_file_format(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_struct);
 
 /* Conversion of array of HAPI_ImageFileFormat objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_image_file_format_list(ErlNifEnv* env, const HAPI_ImageFileFormat* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_ImageFileFormat objects from erl to c. */
-bool hapi_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_image_file_format_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ImageFileFormat* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_TransformEuler structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_transform_euler(ErlNifEnv* env, const HAPI_TransformEuler* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_transform_euler(ErlNifEnv* env, const HAPI_TransformEuler* hapi_struct);
 
 /* Conversion of HAPI_TransformEuler structure from erl to c. */
-bool hapi_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_struct);
+bool hapi_priv_get_hapi_transform_euler(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_struct);
 
 /* Conversion of array of HAPI_TransformEuler objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_transform_euler_list(ErlNifEnv* env, const HAPI_TransformEuler* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_TransformEuler objects from erl to c. */
-bool hapi_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_transform_euler_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TransformEuler* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_AttributeInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_attribute_info(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_attribute_info(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_struct);
 
 /* Conversion of HAPI_AttributeInfo structure from erl to c. */
-bool hapi_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_struct);
+bool hapi_priv_get_hapi_attribute_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_struct);
 
 /* Conversion of array of HAPI_AttributeInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_attribute_info_list(ErlNifEnv* env, const HAPI_AttributeInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_AttributeInfo objects from erl to c. */
-bool hapi_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_attribute_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AttributeInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_GeoInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_geo_info(ErlNifEnv* env, const HAPI_GeoInfo* hapi_struct);
 
 /* Conversion of HAPI_GeoInfo structure from erl to c. */
-bool hapi_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_struct);
+bool hapi_priv_get_hapi_geo_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_struct);
 
 /* Conversion of array of HAPI_GeoInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_geo_info_list(ErlNifEnv* env, const HAPI_GeoInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_GeoInfo objects from erl to c. */
-bool hapi_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_geo_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_AssetInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_asset_info(ErlNifEnv* env, const HAPI_AssetInfo* hapi_struct);
 
 /* Conversion of HAPI_AssetInfo structure from erl to c. */
-bool hapi_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_struct);
+bool hapi_priv_get_hapi_asset_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_struct);
 
 /* Conversion of array of HAPI_AssetInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_asset_info_list(ErlNifEnv* env, const HAPI_AssetInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_AssetInfo objects from erl to c. */
-bool hapi_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_asset_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_ParmChoiceInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_parm_choice_info(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_parm_choice_info(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_struct);
 
 /* Conversion of HAPI_ParmChoiceInfo structure from erl to c. */
-bool hapi_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_struct);
+bool hapi_priv_get_hapi_parm_choice_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_struct);
 
 /* Conversion of array of HAPI_ParmChoiceInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_parm_choice_info_list(ErlNifEnv* env, const HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_ParmChoiceInfo objects from erl to c. */
-bool hapi_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_parm_choice_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmChoiceInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_ObjectInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_object_info(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_object_info(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_struct);
 
 /* Conversion of HAPI_ObjectInfo structure from erl to c. */
-bool hapi_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_struct);
+bool hapi_priv_get_hapi_object_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_struct);
 
 /* Conversion of array of HAPI_ObjectInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_object_info_list(ErlNifEnv* env, const HAPI_ObjectInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_ObjectInfo objects from erl to c. */
-bool hapi_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_object_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_HandleInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_handle_info(ErlNifEnv* env, const HAPI_HandleInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_handle_info(ErlNifEnv* env, const HAPI_HandleInfo* hapi_struct);
 
 /* Conversion of HAPI_HandleInfo structure from erl to c. */
-bool hapi_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_struct);
+bool hapi_priv_get_hapi_handle_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_struct);
 
 /* Conversion of array of HAPI_HandleInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_handle_info_list(ErlNifEnv* env, const HAPI_HandleInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_HandleInfo objects from erl to c. */
-bool hapi_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_handle_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_HandleInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_TimelineOptions structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_timeline_options(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_struct);
 
 /* Conversion of HAPI_TimelineOptions structure from erl to c. */
-bool hapi_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_struct);
+bool hapi_priv_get_hapi_timeline_options(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_struct);
 
 /* Conversion of array of HAPI_TimelineOptions objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_timeline_options_list(ErlNifEnv* env, const HAPI_TimelineOptions* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_TimelineOptions objects from erl to c. */
-bool hapi_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_timeline_options_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_TimelineOptions* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_NodeInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_node_info(ErlNifEnv* env, const HAPI_NodeInfo* hapi_struct);
 
 /* Conversion of HAPI_NodeInfo structure from erl to c. */
-bool hapi_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_struct);
+bool hapi_priv_get_hapi_node_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_struct);
 
 /* Conversion of array of HAPI_NodeInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_node_info_list(ErlNifEnv* env, const HAPI_NodeInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_NodeInfo objects from erl to c. */
-bool hapi_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_node_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of HAPI_ParmInfo structure from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct);
+ERL_NIF_TERM hapi_priv_make_hapi_parm_info(ErlNifEnv* env, const HAPI_ParmInfo* hapi_struct);
 
 /* Conversion of HAPI_ParmInfo structure from erl to c. */
-bool hapi_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_struct);
+bool hapi_priv_get_hapi_parm_info(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_struct);
 
 /* Conversion of array of HAPI_ParmInfo objects from c to erl. */
-ERL_NIF_TERM hapi_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs, uint32_t list_size);
+ERL_NIF_TERM hapi_priv_make_hapi_parm_info_list(ErlNifEnv* env, const HAPI_ParmInfo* hapi_structs, uint32_t list_size);
 
 /* Conversion of list of HAPI_ParmInfo objects from erl to c. */
-bool hapi_get_hapi_parm_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_structs, uint32_t list_size);
+bool hapi_priv_get_hapi_parm_info_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmInfo* hapi_structs, uint32_t list_size);
 
 
 #endif //!defined(HAPI_STRUCTURES_NIF_H)

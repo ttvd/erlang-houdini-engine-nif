@@ -1190,7 +1190,7 @@ defmodule Structures do
       if Enum.empty?(parameters_input) do
         assign_code = ""
       else
-        assign_code = String.replace(assign_block, "%{HAPI_FUNCTION_ASSIGN}%",
+        assign_code = "    " <> String.replace(assign_block, "%{HAPI_FUNCTION_ASSIGN}%",
           Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
           |> Enum.filter(&(elem(&1, 4)))
           |> Enum.map_join(" ||\n        ", &(create_stub_c_entry_assign(env, &1))))
@@ -1203,7 +1203,7 @@ defmodule Structures do
         cleanup_code = ""
       else
         cleanup_label = "label_cleanup:\n\n"
-        cleanup_code = Enum.map_join(parameters_cleanup, "\n    ",
+        cleanup_code = Enum.map_join(parameters_cleanup, "\n",
          &(String.replace(cleanup_block, "%{HAPI_DYNAMIC_VARIABLE}%", elem(&1, 2)))) <> "\n\n"
       end
 

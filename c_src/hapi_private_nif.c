@@ -8,7 +8,7 @@
 
 
 ERL_NIF_TERM
-hapi_make_atom(ErlNifEnv* env, const char* atom_name)
+hapi_priv_make_atom(ErlNifEnv* env, const char* atom_name)
 {
     ERL_NIF_TERM atom;
 
@@ -22,33 +22,33 @@ hapi_make_atom(ErlNifEnv* env, const char* atom_name)
 
 
 ERL_NIF_TERM
-hapi_make_atom_ok(ErlNifEnv* env)
+hapi_priv_make_atom_ok(ErlNifEnv* env)
 {
-    return hapi_make_atom(env, "ok");
+    return hapi_priv_make_atom(env, "ok");
 }
 
 
 ERL_NIF_TERM
-hapi_make_atom_nil(ErlNifEnv* env)
+hapi_priv_make_atom_nil(ErlNifEnv* env)
 {
-    return hapi_make_atom(env, "nil");
+    return hapi_priv_make_atom(env, "nil");
 }
 
 
 ERL_NIF_TERM
-hapi_make_bool(ErlNifEnv* env, bool value)
+hapi_priv_make_bool(ErlNifEnv* env, bool value)
 {
     if(value)
     {
-        return hapi_make_atom(env, "true");
+        return hapi_priv_make_atom(env, "true");
     }
 
-    return hapi_make_atom(env, "false");
+    return hapi_priv_make_atom(env, "false");
 }
 
 
 ERL_NIF_TERM
-hapi_make_float_list(ErlNifEnv* env, const float* data, uint32_t size)
+hapi_priv_make_float_list(ErlNifEnv* env, const float* data, uint32_t size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -62,7 +62,7 @@ hapi_make_float_list(ErlNifEnv* env, const float* data, uint32_t size)
 
 
 ERL_NIF_TERM
-hapi_make_double_list(ErlNifEnv* env, const double* data, uint32_t size)
+hapi_priv_make_double_list(ErlNifEnv* env, const double* data, uint32_t size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -76,7 +76,7 @@ hapi_make_double_list(ErlNifEnv* env, const double* data, uint32_t size)
 
 
 ERL_NIF_TERM
-hapi_make_int_list(ErlNifEnv* env, const int32_t* data, uint32_t size)
+hapi_priv_make_int_list(ErlNifEnv* env, const int32_t* data, uint32_t size)
 {
     ERL_NIF_TERM list = enif_make_list(env, 0);
 
@@ -90,35 +90,35 @@ hapi_make_int_list(ErlNifEnv* env, const int32_t* data, uint32_t size)
 
 
 ERL_NIF_TERM
-hapi_make_string(ErlNifEnv* env, const char* string)
+hapi_priv_make_string(ErlNifEnv* env, const char* string)
 {
     return enif_make_string(env, string, ERL_NIF_LATIN1);
 }
 
 
 ERL_NIF_TERM
-hapi_make_float(ErlNifEnv* env, float value)
+hapi_priv_make_float(ErlNifEnv* env, float value)
 {
     return enif_make_double(env, (double) value);
 }
 
 
 ERL_NIF_TERM
-hapi_make_double(ErlNifEnv* env, double value)
+hapi_priv_make_double(ErlNifEnv* env, double value)
 {
     return enif_make_double(env, value);
 }
 
 
 ERL_NIF_TERM
-hapi_make_int(ErlNifEnv* env, int32_t value)
+hapi_priv_make_int(ErlNifEnv* env, int32_t value)
 {
     return enif_make_int(env, value);
 }
 
 
 ERL_NIF_TERM
-hapi_make_char(ErlNifEnv* env, char value)
+hapi_priv_make_char(ErlNifEnv* env, char value)
 {
     return enif_make_int(env, (int) value);
 }
@@ -127,7 +127,7 @@ hapi_make_char(ErlNifEnv* env, char value)
 #define HAPI_STACK_STRING_SIZE_MAX 64
 
 bool
-hapi_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status)
+hapi_priv_check_atom(ErlNifEnv* env, const ERL_NIF_TERM term, const char* value, bool* status)
 {
     bool nif_success = true;
 
@@ -179,7 +179,7 @@ label_cleanup:
 
 
 bool
-hapi_get_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
+hapi_priv_get_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
 {
     bool nif_success = true;
     uint32_t atom_len = 0;
@@ -223,14 +223,14 @@ hapi_get_bool(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
 
 
 bool
-hapi_get_nil(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
+hapi_priv_get_nil(ErlNifEnv* env, const ERL_NIF_TERM term, bool* status)
 {
-    return hapi_check_atom(env, term, "nil", status);
+    return hapi_priv_check_atom(env, term, "nil", status);
 }
 
 
 bool
-hapi_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data)
+hapi_priv_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data)
 {
     double result = 0.0;
 
@@ -245,21 +245,21 @@ hapi_get_float(ErlNifEnv* env, const ERL_NIF_TERM term, float* data)
 
 
 bool
-hapi_get_double(ErlNifEnv* env, const ERL_NIF_TERM term, double* data)
+hapi_priv_get_double(ErlNifEnv* env, const ERL_NIF_TERM term, double* data)
 {
     return enif_get_double(env, term, data);
 }
 
 
 bool
-hapi_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int* data)
+hapi_priv_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int* data)
 {
     return enif_get_int(env, term, data);
 }
 
 
 bool
-hapi_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
+hapi_priv_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
 {
     int result = 0;
 
@@ -274,7 +274,7 @@ hapi_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
 
 
 bool
-hapi_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size)
+hapi_priv_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -314,7 +314,7 @@ hapi_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32
 
 
 bool
-hapi_get_double_list(ErlNifEnv* env, const ERL_NIF_TERM term, double* data, uint32_t size)
+hapi_priv_get_double_list(ErlNifEnv* env, const ERL_NIF_TERM term, double* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -354,7 +354,7 @@ hapi_get_double_list(ErlNifEnv* env, const ERL_NIF_TERM term, double* data, uint
 
 
 bool
-hapi_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32_t size)
+hapi_priv_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32_t size)
 {
     uint32_t list_size = 0;
     ERL_NIF_TERM head, tail;
@@ -389,7 +389,7 @@ hapi_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32
 
 /*
 bool
-hapi_get_string_list(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
+hapi_priv_get_string_list(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length)
 {
     uint32_t length = 0;
     char* buffer = NULL;

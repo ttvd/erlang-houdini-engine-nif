@@ -14,44 +14,44 @@
 
 
 /* Converting HAPI_ObjectId */
-ERL_NIF_TERM hapi_make_hapi_object_id(ErlNifEnv* env, HAPI_ObjectId hapi_type);
-bool hapi_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_object_id(ErlNifEnv* env, HAPI_ObjectId hapi_type);
+bool hapi_priv_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* hapi_type);
 
 /* Converting HAPI_ParmId */
-ERL_NIF_TERM hapi_make_hapi_parm_id(ErlNifEnv* env, HAPI_ParmId hapi_type);
-bool hapi_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_parm_id(ErlNifEnv* env, HAPI_ParmId hapi_type);
+bool hapi_priv_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi_type);
 
 /* Converting HAPI_AssetLibraryId */
-ERL_NIF_TERM hapi_make_hapi_asset_library_id(ErlNifEnv* env, HAPI_AssetLibraryId hapi_type);
-bool hapi_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_asset_library_id(ErlNifEnv* env, HAPI_AssetLibraryId hapi_type);
+bool hapi_priv_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* hapi_type);
 
 /* Converting HAPI_Bool */
-ERL_NIF_TERM hapi_make_hapi_bool(ErlNifEnv* env, HAPI_Bool hapi_type);
-bool hapi_get_hapi_bool(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_bool(ErlNifEnv* env, HAPI_Bool hapi_type);
+bool hapi_priv_get_hapi_bool(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_type);
 
 /* Converting HAPI_NodeId */
-ERL_NIF_TERM hapi_make_hapi_node_id(ErlNifEnv* env, HAPI_NodeId hapi_type);
-bool hapi_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_node_id(ErlNifEnv* env, HAPI_NodeId hapi_type);
+bool hapi_priv_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi_type);
 
 /* Converting HAPI_GeoId */
-ERL_NIF_TERM hapi_make_hapi_geo_id(ErlNifEnv* env, HAPI_GeoId hapi_type);
-bool hapi_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_geo_id(ErlNifEnv* env, HAPI_GeoId hapi_type);
+bool hapi_priv_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_type);
 
 /* Converting HAPI_StringHandle */
-ERL_NIF_TERM hapi_make_hapi_string_handle(ErlNifEnv* env, HAPI_StringHandle hapi_type);
-bool hapi_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StringHandle* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_string_handle(ErlNifEnv* env, HAPI_StringHandle hapi_type);
+bool hapi_priv_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StringHandle* hapi_type);
 
 /* Converting HAPI_AssetId */
-ERL_NIF_TERM hapi_make_hapi_asset_id(ErlNifEnv* env, HAPI_AssetId hapi_type);
-bool hapi_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_asset_id(ErlNifEnv* env, HAPI_AssetId hapi_type);
+bool hapi_priv_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* hapi_type);
 
 /* Converting HAPI_PartId */
-ERL_NIF_TERM hapi_make_hapi_part_id(ErlNifEnv* env, HAPI_PartId hapi_type);
-bool hapi_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_part_id(ErlNifEnv* env, HAPI_PartId hapi_type);
+bool hapi_priv_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi_type);
 
 /* Converting HAPI_MaterialId */
-ERL_NIF_TERM hapi_make_hapi_material_id(ErlNifEnv* env, HAPI_MaterialId hapi_type);
-bool hapi_get_hapi_material_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialId* hapi_type);
+ERL_NIF_TERM hapi_priv_make_hapi_material_id(ErlNifEnv* env, HAPI_MaterialId hapi_type);
+bool hapi_priv_get_hapi_material_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialId* hapi_type);
 
 
 #endif //!defined(HAPI_TYPES_NIF_H)

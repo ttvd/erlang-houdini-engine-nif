@@ -301,7 +301,7 @@ label_cleanup:
         free(param_name);
     }
 
-        if(param_data)
+    if(param_data)
     {
         free(param_data);
     }
@@ -1512,7 +1512,7 @@ label_cleanup:
         free(param_name);
     }
 
-        if(param_data)
+    if(param_data)
     {
         free(param_data);
     }
@@ -1739,7 +1739,7 @@ label_cleanup:
         free(param_image_file_format_name);
     }
 
-        if(param_image_planes)
+    if(param_image_planes)
     {
         free(param_image_planes);
     }
@@ -1965,7 +1965,7 @@ label_cleanup:
         free(param_name);
     }
 
-        if(param_data)
+    if(param_data)
     {
         free(param_data);
     }
@@ -2271,7 +2271,7 @@ label_cleanup:
         free(param_name);
     }
 
-        if(param_data)
+    if(param_data)
     {
         free(param_data);
     }
@@ -2341,7 +2341,7 @@ label_cleanup:
         free(param_group_name);
     }
 
-        if(param_membership)
+    if(param_membership)
     {
         free(param_membership);
     }
@@ -4537,7 +4537,7 @@ label_cleanup:
         free(param_preset_name);
     }
 
-        if(param_buffer)
+    if(param_buffer)
     {
         free(param_buffer);
     }
@@ -5463,12 +5463,12 @@ label_cleanup:
         free(param_otl_search_path);
     }
 
-        if(param_dso_search_path)
+    if(param_dso_search_path)
     {
         free(param_dso_search_path);
     }
 
-        if(param_use_cooking_thread)
+    if(param_use_cooking_thread)
     {
         free(param_use_cooking_thread);
     }
@@ -6208,7 +6208,7 @@ label_cleanup:
         free(param_name);
     }
 
-        if(param_data)
+    if(param_data)
     {
         free(param_data);
     }
@@ -6322,7 +6322,7 @@ label_cleanup:
         free(param_group_name);
     }
 
-        if(param_membership)
+    if(param_membership)
     {
         free(param_membership);
     }
@@ -7097,7 +7097,7 @@ label_cleanup:
         free(param_format);
     }
 
-        if(param_buffer)
+    if(param_buffer)
     {
         free(param_buffer);
     }
@@ -7533,17 +7533,17 @@ label_cleanup:
         free(param_image_file_format_name);
     }
 
-        if(param_image_planes)
+    if(param_image_planes)
     {
         free(param_image_planes);
     }
 
-        if(param_destination_folder_path)
+    if(param_destination_folder_path)
     {
         free(param_destination_folder_path);
     }
 
-        if(param_destination_file_name)
+    if(param_destination_file_name)
     {
         free(param_destination_file_name);
     }
@@ -7906,7 +7906,7 @@ label_cleanup:
         free(param_name);
     }
 
-        if(param_data)
+    if(param_data)
     {
         free(param_data);
     }

@@ -1,6 +1,6 @@
 /* Converting %{HAPI_ENUM}% from c to erl. */
 ERL_NIF_TERM
-hapi_make_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, %{HAPI_ENUM}% enum_value)
+hapi_priv_make_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, %{HAPI_ENUM}% enum_value)
 {
     switch(enum_value)
     {
@@ -17,7 +17,7 @@ hapi_make_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, %{HAPI_ENUM}% enum_value)
 
 /* Converting %{HAPI_ENUM}% from erl to c. */
 bool
-hapi_get_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_ENUM}%* enum_result)
+hapi_priv_get_%{HAPI_ENUM_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_ENUM}%* enum_result)
 {
     bool nif_success = true;
     uint32_t atom_len = 0u;

@@ -274,7 +274,7 @@ hapi_priv_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data)
 
 
 bool
-hapi_priv_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** data)
+hapi_priv_get_null_terminated_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** data)
 {
     uint32_t length = 0;
     char* buffer = NULL;
@@ -296,7 +296,7 @@ hapi_priv_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** data)
         }
     }
 
-    *string = buffer;
+    *data = buffer;
     return true;
 }
 
@@ -414,6 +414,26 @@ hapi_priv_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, u
 
     return false;
 }
+
+bool
+hapi_priv_get_char_list(ErlNifEnv* env, const ERL_NIF_TERM term, char* data, uint32_t size)
+{
+    ErlNifBinary input;
+
+    if(!enif_inspect_iolist_as_binary(env, term, &input))
+    {
+        return false;
+    }
+
+    if(input.size != size)
+    {
+        return false;
+    }
+
+    memcpy(data, input.data, size * sizeof(char));
+    return true;
+}
+
 
 /*
 bool

@@ -71,7 +71,7 @@ bool hapi_priv_get_int(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data);
 bool hapi_priv_get_char(ErlNifEnv* env, const ERL_NIF_TERM term, char* data);
 
 // Get string value. Returns allocated string by pointer. Caller is responsible for clean up and deallocation.
-bool hapi_priv_get_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** data);
+bool hapi_priv_get_null_terminated_string(ErlNifEnv* env, const ERL_NIF_TERM term, char** data);
 
 // Retrieve elements of double list into float array (by pointer). Return status.
 bool hapi_priv_get_float_list(ErlNifEnv* env, const ERL_NIF_TERM term, float* data, uint32_t size);
@@ -81,6 +81,9 @@ bool hapi_priv_get_double_list(ErlNifEnv* env, const ERL_NIF_TERM term, double* 
 
 // Retrieve elements of integer list into int array (by pointer). Return status.
 bool hapi_priv_get_int_list(ErlNifEnv* env, const ERL_NIF_TERM term, int32_t* data, uint32_t size);
+
+// Retrieve elements of character list into char array (by pointer). Return status.
+bool hapi_priv_get_char_list(ErlNifEnv* env, const ERL_NIF_TERM term, char* data, uint32_t size);
 
 // Return string and length by pointer, caller is responsible for clean up.
 //bool hapi_priv_get_string_list(ErlNifEnv* env, const ERL_NIF_TERM term, char** string, uint32_t* string_length);

@@ -1183,13 +1183,13 @@ defmodule Structures do
 
     # DEBUG FUNCTION
     defp create_stub_c_entry_tokens_debug(function_name, function_type, function_params) do
-      ["function_name: #{function_name}", "function_type: #{function_type}"] ++
-      Enum.map(function_params,
-        fn(x) -> "#{elem(x, 0)} #{elem(x, 1)} #{Enum.map_join(elem(x, 2), " | ", fn{k,v} -> "OPT #{k}->#{v}" end)}" end)
+      dbg_opts = &(Enum.map_join(elem(&1, 2), " | ", fn{k,v} -> "OPT #{k}->#{v}" end))
+      ["function_name: #{function_name}", "function_type: #{function_type}"]
+      ++ Enum.map(function_params, &(dbg_opts.(&1)))
     end
 
     # Helper function to generate variable declaration for parameter.
-    defp create_stub_c_entry_var({type, extract, name, init_code, is_output, decl_size, needs_cleanup}) do
+    defp create_stub_c_entry_var({type, extract, name, init_code, is_output, decl_size, needs_cleanup, idx}) do
 
       if not is_nil(decl_size) do
         add_size = " | SIZE: #{decl_size}"
@@ -1209,18 +1209,18 @@ defmodule Structures do
         add_inout = "INPUT"
       end
 
-      "#{type} #{name}#{add_init}; // #{add_inout}#{add_size}"
+      "#{type} #{name}#{add_init}; // #{add_inout}#{add_size} IDX:"
     end
 
-    # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, FALSE-INPUT/TRUE-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, FALSE/TRUE IF NEEDS CLEAN UP}
+    # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, F-INPUT/T-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, F/T IF NEEDS CLEAN UP, IDX}
 
     #
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
-      {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", not is_const_parameter(param), :nil, true}
+      {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", not is_const_parameter(param), :nil, true, idx}
     end
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {param_type, param_name, _param_opts} = param) do
       resolved_type = HAPI.Util.type_resolve(env, param_type)
-      {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_const_parameter(param), :nil, false}
+      {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_const_parameter(param), :nil, false, idx}
     end
     defp create_stub_c_entry_objects(collect, idx, env, function_name, function_type, []) do
       collect
@@ -1242,9 +1242,10 @@ defmodule Structures do
         #    resolved_type = "const #{resolved_type}"
         #end
 
-        collect ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}", "NULL", parm_const, "param_length", true}]
-          ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, false, :nil, false}]
-          ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, false, :nil, false}]
+        collect
+          ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}", "NULL", parm_const, "param_length", true, idx}]
+          ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, false, :nil, false, idx}]
+          ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, false, :nil, false, idx}]
         |> create_stub_c_entry_objects(env, idx, function_name, function_type, rest)
       else
         raise(RuntimeError, description: "Illegal sequence of parameters, pointer, size, length.")
@@ -1261,9 +1262,10 @@ defmodule Structures do
 
         resolved_type = HAPI.Util.type_resolve(env, param_0_type)
 
-        collect ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
-          not is_const_parameter(param_0), "param_#{param_1_name}", true}]
-          ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, false, :nil, false}]
+        collect
+          ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
+            not is_const_parameter(param_0), "param_#{param_1_name}", true, idx}]
+          ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, false, :nil, false, idx}]
         |> create_stub_c_entry_objects(env, idx, function_name, function_type, rest)
       else
         collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param_0)]
@@ -1276,7 +1278,7 @@ defmodule Structures do
     end
 
     # Helper function used to create assignments.
-    defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_output, decl_size, needs_cleanup}) do
+    defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_output, decl_size, needs_cleanup, idx}) do
       cond do
         needs_cleanup ->
           "POINTER #{type} param_#{name}"

@@ -1,2 +1,2 @@
     %{HAPI_CALL}%
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);

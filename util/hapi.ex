@@ -1217,14 +1217,11 @@ defmodule HAPI do
       parameters_vars = Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1)))
 
       # Process variable block.
-      if Enum.empty?(parameters) do
-        var_code = ""
-      else
-        var_code =
-          "    "
-          <> Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1)))
-          <> "\n\n"
-      end
+      var_code =
+        ["ERL_NIF_TERM stub_result = 0;"]
+        ++ Enum.map(parameters, &(create_stub_c_entry_var(&1)))
+        |> Enum.join("\n    ")
+        |> Kernel.<> "\n\n"
 
       # Process assignment block.
       if Enum.empty?(parameters_input) do

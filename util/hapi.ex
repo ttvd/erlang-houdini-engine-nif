@@ -549,12 +549,12 @@ defmodule HAPI do
 
       # Helper function to return original type.
       def get_original_type(env, type) do
-          types = Dict.get(env, :types, :nil)
-          if not is_nil(types) do
-              Dict.get(types, type, :nil)
-          else
-              :nil
-          end
+        types = Dict.get(env, :types, :nil)
+        if not is_nil(types) do
+          Dict.get(types, type, :nil)
+        else
+          :nil
+        end
       end
 
       # Helper function to check if type name is not typedef'ed.

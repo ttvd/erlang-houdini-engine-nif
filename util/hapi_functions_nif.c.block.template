@@ -4,10 +4,6 @@ ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    %{HAPI_DEBUG_TOKENS}%
-    */
-
 %{HAPI_FUNCTION_BODY}%
 
     //return hapi_make_atom_ok(env);

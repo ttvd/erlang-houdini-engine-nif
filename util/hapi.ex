@@ -1356,9 +1356,11 @@ defmodule HAPI do
             <> "\n        "
             <> "!hapi_priv_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
           else
-            #raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
-            "// UNHANDLED #{type} #{name} INPUT: #{is_input} DECL_SIZE: #{decl_size} NEEDS_CLEANUP: #{needs_cleanup} IDX: #{idx}"
-            <> "\n        true"
+            if "char" == type_pure do
+              "!hapi_priv_get_null_terminated_string(env, argv[#{idx}], &#{name})"
+            else
+              raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+            end
           end
         true ->
           "!hapi_priv_get_#{type_underscore}(env, argv[#{idx}], &#{name})"

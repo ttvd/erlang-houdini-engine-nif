@@ -1332,7 +1332,7 @@ defmodule HAPI do
       if String.match?(param_1_name, ~r/_length$/) or
         String.match?(param_1_name, ~r/_count$/) or
         String.match?(param_1_name, ~r/_size$/) or
-        param_1_name == "size" do
+        param_1_name == "size" or param_1_name == "count" do
 
         resolved_type = HAPI.Util.type_resolve(env, param_0_type)
 

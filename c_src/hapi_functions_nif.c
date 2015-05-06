@@ -16,11 +16,6 @@ hapi_timeline_options_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_TimelineOptions_Create
-    function_type: HAPI_TimelineOptions
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -42,15 +37,8 @@ hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetStringBufLength
-    function_type: HAPI_Result
-    HAPI_StringHandle string_handle     
-    token_int buffer_length     OPT param_pointer->true
-    */
-
-    int param_buffer_length; // INPUT IDX: 1 EX: EXTRACT_CODE6
-    HAPI_StringHandle* param_string_handle = NULL; // OUTPUT | SIZE: param_buffer_length IDX: 0 EX: EXTRACT_CODE5
+    int param_buffer_length;
+    HAPI_StringHandle* param_string_handle = NULL;
 
     if(!hapi_priv_get_int(env, argv[1], &param_buffer_length) ||
         !(param_string_handle = malloc(sizeof(HAPI_StringHandle) * param_buffer_length)))
@@ -64,8 +52,6 @@ label_cleanup:
     {
         free(param_string_handle);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -87,13 +73,7 @@ hapi_parm_info_is_float_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_IsFloat
-    function_type: HAPI_Bool
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -121,17 +101,9 @@ hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetPreset
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char buffer     OPT param_string->true | OPT param_pointer->true
-    token_int buffer_length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_buffer_length; // INPUT IDX: 2 EX: EXTRACT_CODE6
-    char* param_buffer = NULL; // OUTPUT | SIZE: param_buffer_length IDX: 1 EX: EXTRACT_CODE5
+    HAPI_NodeId param_node_id;
+    int param_buffer_length;
+    char* param_buffer = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_buffer_length) ||
@@ -146,8 +118,6 @@ label_cleanup:
     {
         free(param_buffer);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -169,13 +139,7 @@ hapi_attribute_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_AttributeInfo_Init
-    function_type: token_void
-    HAPI_AttributeInfo in     OPT param_pointer->true
-    */
-
-    HAPI_AttributeInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_AttributeInfo param_in;
 
     if(!hapi_priv_get_hapi_attribute_info(env, argv[0], &param_in))
     {
@@ -203,13 +167,7 @@ hapi_handle_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_HandleInfo_Init
-    function_type: token_void
-    HAPI_HandleInfo in     OPT param_pointer->true
-    */
-
-    HAPI_HandleInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_HandleInfo param_in;
 
     if(!hapi_priv_get_hapi_handle_info(env, argv[0], &param_in))
     {
@@ -237,11 +195,6 @@ hapi_part_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_PartInfo_Create
-    function_type: HAPI_PartInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -263,29 +216,15 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAttributeStringData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeInfo attr_info     OPT param_pointer->true
-    token_int data     OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 5 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 7 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 8 EX: EXTRACT_CODE4
-    char* param_name = NULL; // INPUT IDX: 4 EX: EXTRACT_CODE0
-    int* param_data = NULL; // OUTPUT | SIZE: param_length IDX: 6 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_AttributeInfo param_attr_info;
+    int param_start;
+    int param_length;
+    char* param_name = NULL;
+    int* param_data = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -313,8 +252,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -334,13 +271,7 @@ hapi_get_cooking_current_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetCookingCurrentCount
-    function_type: HAPI_Result
-    token_int count     OPT param_pointer->true
-    */
-
-    int param_count; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    int param_count;
 
     if(!hapi_priv_get_int(env, argv[0], &param_count))
     {
@@ -368,19 +299,10 @@ hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmFloatValue
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int index     
-    token_float value     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_index; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    float param_value; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    char* param_parm_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    int param_index;
+    float param_value;
+    char* param_parm_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
@@ -396,8 +318,6 @@ label_cleanup:
     {
         free(param_parm_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -419,15 +339,8 @@ hapi_geo_info_get_group_count_by_type_schedule(ErlNifEnv* env, int argc, const E
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GeoInfo_GetGroupCountByType
-    function_type: token_int
-    HAPI_GeoInfo in     OPT param_pointer->true
-    HAPI_GroupType type     
-    */
-
-    HAPI_GeoInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_GroupType param_type; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_GeoInfo param_in;
+    HAPI_GroupType param_type;
 
     if(!hapi_priv_get_hapi_geo_info(env, argv[0], &param_in) ||
         !hapi_priv_get_hapi_group_type(env, argv[1], &param_type))
@@ -456,11 +369,6 @@ hapi_curve_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CurveInfo_Create
-    function_type: HAPI_CurveInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -481,11 +389,6 @@ ERL_NIF_TERM
 hapi_cleanup_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
-
-    /*
-    function_name: HAPI_Cleanup
-    function_type: HAPI_Result
-    */
 
 label_cleanup:
 
@@ -508,15 +411,8 @@ hapi_get_env_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetEnvInt
-    function_type: HAPI_Result
-    HAPI_EnvIntType int_type     
-    token_int value     OPT param_pointer->true
-    */
-
-    HAPI_EnvIntType param_int_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_value; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_EnvIntType param_int_type;
+    int param_value;
 
     if(!hapi_priv_get_hapi_env_int_type(env, argv[0], &param_int_type) ||
         !hapi_priv_get_int(env, argv[1], &param_value))
@@ -545,17 +441,9 @@ hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetStatusString
-    function_type: HAPI_Result
-    HAPI_StatusType status_type     
-    token_char buffer     OPT param_string->true | OPT param_pointer->true
-    token_int buffer_length     
-    */
-
-    HAPI_StatusType param_status_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_buffer_length; // INPUT IDX: 2 EX: EXTRACT_CODE6
-    char* param_buffer = NULL; // OUTPUT | SIZE: param_buffer_length IDX: 1 EX: EXTRACT_CODE5
+    HAPI_StatusType param_status_type;
+    int param_buffer_length;
+    char* param_buffer = NULL;
 
     if(!hapi_priv_get_hapi_status_type(env, argv[0], &param_status_type) ||
         !hapi_priv_get_int(env, argv[2], &param_buffer_length) ||
@@ -570,8 +458,6 @@ label_cleanup:
     {
         free(param_buffer);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -593,13 +479,7 @@ hapi_parm_info_is_non_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_IsNonValue
-    function_type: HAPI_Bool
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -627,13 +507,7 @@ hapi_parm_info_get_float_value_count_schedule(ErlNifEnv* env, int argc, const ER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_GetFloatValueCount
-    function_type: token_int
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -661,23 +535,12 @@ hapi_set_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetFaceCounts
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_int face_counts     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 4 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 5 EX: EXTRACT_CODE4
-    int* param_face_counts = NULL; // INPUT | SIZE: param_length IDX: 3 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    int param_start;
+    int param_length;
+    int* param_face_counts = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -698,8 +561,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -718,11 +579,6 @@ ERL_NIF_TERM
 hapi_node_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
-
-    /*
-    function_name: HAPI_NodeInfo_Create
-    function_type: HAPI_NodeInfo
-    */
 
 label_cleanup:
 
@@ -745,19 +601,10 @@ hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetHandleInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_HandleInfo handle_infos     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    HAPI_HandleInfo* param_handle_infos = NULL; // OUTPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    int param_start;
+    int param_length;
+    HAPI_HandleInfo* param_handle_infos = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -773,8 +620,6 @@ label_cleanup:
     {
         free(param_handle_infos);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -796,15 +641,8 @@ hapi_get_node_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetNodeInfo
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_NodeInfo node_info     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_NodeInfo param_node_info; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_NodeId param_node_id;
+    HAPI_NodeInfo param_node_info;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_node_info(env, argv[1], &param_node_info))
@@ -833,17 +671,9 @@ hapi_is_asset_valid_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_IsAssetValid
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    token_int asset_validation_id     
-    token_int answer     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_asset_validation_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_answer; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    int param_asset_validation_id;
+    int param_answer;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[1], &param_asset_validation_id) ||
@@ -873,25 +703,13 @@ hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetInstanceTransforms
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_RSTOrder rst_order     
-    HAPI_Transform transforms     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_RSTOrder param_rst_order; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    HAPI_Transform* param_transforms = NULL; // OUTPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_RSTOrder param_rst_order;
+    int param_start;
+    int param_length;
+    HAPI_Transform* param_transforms = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -910,8 +728,6 @@ label_cleanup:
     {
         free(param_transforms);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -933,25 +749,13 @@ hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAttributeNames
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_AttributeOwner owner     
-    HAPI_StringHandle attribute_names     OPT param_pointer->true | OPT param_array->true
-    token_int count     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_AttributeOwner param_owner; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    HAPI_StringHandle param_attribute_names; // INPUT IDX: 5 EX: EXTRACT_CODE1
-    int param_count; // INPUT IDX: 6 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_AttributeOwner param_owner;
+    HAPI_StringHandle param_attribute_names;
+    int param_count;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -985,11 +789,6 @@ hapi_parm_choice_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmChoiceInfo_Create
-    function_type: HAPI_ParmChoiceInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -1011,13 +810,7 @@ hapi_global_nodes_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GlobalNodes_Init
-    function_type: token_void
-    HAPI_GlobalNodes in     OPT param_pointer->true
-    */
-
-    HAPI_GlobalNodes param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_GlobalNodes param_in;
 
     if(!hapi_priv_get_hapi_global_nodes(env, argv[0], &param_in))
     {
@@ -1045,11 +838,6 @@ hapi_volume_tile_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_VolumeTileInfo_Create
-    function_type: HAPI_VolumeTileInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -1071,25 +859,13 @@ hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAttributeInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeOwner owner     
-    HAPI_AttributeInfo attr_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_AttributeOwner param_owner; // INPUT IDX: 5 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 6 EX: EXTRACT_CODE1
-    char* param_name = NULL; // INPUT IDX: 4 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_AttributeOwner param_owner;
+    HAPI_AttributeInfo param_attr_info;
+    char* param_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -1108,8 +884,6 @@ label_cleanup:
     {
         free(param_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -1131,17 +905,9 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_LoadAssetLibraryFromFile
-    function_type: HAPI_Result
-    token_char file_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_Bool allow_overwrite     
-    HAPI_AssetLibraryId library_id     OPT param_pointer->true
-    */
-
-    HAPI_Bool param_allow_overwrite; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_AssetLibraryId param_library_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    char* param_file_path = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
+    HAPI_Bool param_allow_overwrite;
+    HAPI_AssetLibraryId param_library_id;
+    char* param_file_path = NULL;
 
     if(!hapi_priv_get_hapi_bool(env, argv[1], &param_allow_overwrite) ||
         !hapi_priv_get_hapi_asset_library_id(env, argv[2], &param_library_id) ||
@@ -1156,8 +922,6 @@ label_cleanup:
     {
         free(param_file_path);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -1179,13 +943,7 @@ hapi_geo_input_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GeoInputInfo_Init
-    function_type: token_void
-    HAPI_GeoInputInfo in     OPT param_pointer->true
-    */
-
-    HAPI_GeoInputInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_GeoInputInfo param_in;
 
     if(!hapi_priv_get_hapi_geo_input_info(env, argv[0], &param_in))
     {
@@ -1213,15 +971,8 @@ hapi_set_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetAssetTransform
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_TransformEuler transform     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_TransformEuler param_transform; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_TransformEuler param_transform;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_transform_euler(env, argv[1], &param_transform))
@@ -1250,25 +1001,13 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetCurveCounts
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_int counts     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    int* param_counts = NULL; // OUTPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    int* param_counts = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -1287,8 +1026,6 @@ label_cleanup:
     {
         free(param_counts);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -1310,19 +1047,10 @@ hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetParmFloatValues
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_float values     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    float* param_values = NULL; // INPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_NodeId param_node_id;
+    int param_start;
+    int param_length;
+    float* param_values = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -1339,8 +1067,6 @@ label_cleanup:
     {
         free(param_values);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -1362,21 +1088,11 @@ hapi_get_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetPartInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_PartInfo part_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_PartInfo param_part_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_PartInfo param_part_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -1408,11 +1124,6 @@ hapi_geo_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GeoInfo_Create
-    function_type: HAPI_GeoInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -1434,13 +1145,7 @@ hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SaveHIPFile
-    function_type: HAPI_Result
-    token_char file_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    */
-
-    char* param_file_path = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
+    char* param_file_path = NULL;
 
     if(!hapi_priv_get_null_terminated_string(env, argv[0], &param_file_path))
     {
@@ -1453,8 +1158,6 @@ label_cleanup:
     {
         free(param_file_path);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -1475,11 +1178,6 @@ ERL_NIF_TERM
 hapi_material_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
-
-    /*
-    function_name: HAPI_MaterialInfo_Create
-    function_type: HAPI_MaterialInfo
-    */
 
 label_cleanup:
 
@@ -1502,27 +1200,14 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetAttributeIntData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
-    token_int data     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 6 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 7 EX: EXTRACT_CODE4
-    char* param_name = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
-    int* param_data = NULL; // INPUT | SIZE: param_length IDX: 5 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_AttributeInfo param_attr_info;
+    int param_start;
+    int param_length;
+    char* param_name = NULL;
+    int* param_data = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -1550,8 +1235,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -1571,15 +1254,8 @@ hapi_part_info_get_element_count_by_attribute_owner_schedule(ErlNifEnv* env, int
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_PartInfo_GetElementCountByAttributeOwner
-    function_type: token_int
-    HAPI_PartInfo in     OPT param_pointer->true
-    HAPI_AttributeOwner owner     
-    */
-
-    HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_AttributeOwner param_owner; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_PartInfo param_in;
+    HAPI_AttributeOwner param_owner;
 
     if(!hapi_priv_get_hapi_part_info(env, argv[0], &param_in) ||
         !hapi_priv_get_hapi_attribute_owner(env, argv[1], &param_owner))
@@ -1608,19 +1284,10 @@ hapi_get_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAssetTransform
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_RSTOrder rst_order     
-    HAPI_XYZOrder rot_order     
-    HAPI_TransformEuler transform     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_RSTOrder param_rst_order; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_XYZOrder param_rot_order; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_TransformEuler param_transform; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_RSTOrder param_rst_order;
+    HAPI_XYZOrder param_rot_order;
+    HAPI_TransformEuler param_transform;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_rstorder(env, argv[1], &param_rst_order) ||
@@ -1651,17 +1318,9 @@ hapi_insert_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_InsertMultiparmInstance
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_ParmId parm_id     
-    token_int instance_position     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ParmId param_parm_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_instance_position; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_NodeId param_node_id;
+    HAPI_ParmId param_parm_id;
+    int param_instance_position;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[1], &param_parm_id) ||
@@ -1691,19 +1350,10 @@ hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetPresetBufLength
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_PresetType preset_type     
-    token_char preset_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int buffer_length     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_PresetType param_preset_type; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_buffer_length; // INPUT IDX: 3 EX: EXTRACT_CODE6
-    char* param_preset_name = NULL; // INPUT | SIZE: param_buffer_length IDX: 2 EX: EXTRACT_CODE5
+    HAPI_NodeId param_node_id;
+    HAPI_PresetType param_preset_type;
+    int param_buffer_length;
+    char* param_preset_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_preset_type(env, argv[1], &param_preset_type) ||
@@ -1720,8 +1370,6 @@ label_cleanup:
     {
         free(param_preset_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -1743,21 +1391,11 @@ hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ExtractImageToMemory
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    token_char image_file_format_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_char image_planes     OPT param_string->true | OPT param_const->true | OPT param_pointer->true | OPT param_array->true
-    token_int buffer_size     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_buffer_size; // INPUT IDX: 4 EX: EXTRACT_CODE6
-    char* param_image_file_format_name = NULL; // INPUT IDX: 2 EX: EXTRACT_CODE0
-    char* param_image_planes = NULL; // INPUT | SIZE: param_buffer_size IDX: 3 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    int param_buffer_size;
+    char* param_image_file_format_name = NULL;
+    char* param_image_planes = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -1782,8 +1420,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -1803,15 +1439,8 @@ hapi_disconnect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_DisconnectAssetGeometry
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    token_int input_idx     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_input_idx; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    int param_input_idx;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[1], &param_input_idx))
@@ -1840,11 +1469,6 @@ hapi_image_file_format_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ImageFileFormat_Create
-    function_type: HAPI_ImageFileFormat
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -1866,19 +1490,10 @@ hapi_set_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetPartInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartInfo part_info     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartInfo param_part_info; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartInfo param_part_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -1909,23 +1524,12 @@ hapi_set_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetVertexList
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_int vertex_list     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 4 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 5 EX: EXTRACT_CODE4
-    int* param_vertex_list = NULL; // INPUT | SIZE: param_length IDX: 3 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    int param_start;
+    int param_length;
+    int* param_vertex_list = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -1944,8 +1548,6 @@ label_cleanup:
     {
         free(param_vertex_list);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -1967,27 +1569,14 @@ hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetAttributeStringData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
-    token_char data     OPT param_const->true | OPT param_pointer->true | OPT param_pointer_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 6 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 7 EX: EXTRACT_CODE4
-    char* param_name = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
-    char* param_data = NULL; // INPUT | SIZE: param_length IDX: 5 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_AttributeInfo param_attr_info;
+    int param_start;
+    int param_length;
+    char* param_name = NULL;
+    char* param_data = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2015,8 +1604,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -2036,21 +1623,11 @@ hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetObjectTransforms
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_RSTOrder rst_order     
-    HAPI_Transform transforms     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_RSTOrder param_rst_order; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 3 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 4 EX: EXTRACT_CODE4
-    HAPI_Transform* param_transforms = NULL; // OUTPUT | SIZE: param_length IDX: 2 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_RSTOrder param_rst_order;
+    int param_start;
+    int param_length;
+    HAPI_Transform* param_transforms = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_rstorder(env, argv[1], &param_rst_order) ||
@@ -2067,8 +1644,6 @@ label_cleanup:
     {
         free(param_transforms);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -2090,19 +1665,10 @@ hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetTransformAnimCurve
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_TransformComponent trans_comp     
-    HAPI_Keyframe curve_keyframes     OPT param_const->true | OPT param_pointer->true
-    token_int keyframe_count     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_TransformComponent param_trans_comp; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_keyframe_count; // INPUT IDX: 3 EX: EXTRACT_CODE6
-    HAPI_Keyframe* param_curve_keyframes = NULL; // INPUT | SIZE: param_keyframe_count IDX: 2 EX: EXTRACT_CODE5
+    HAPI_NodeId param_node_id;
+    HAPI_TransformComponent param_trans_comp;
+    int param_keyframe_count;
+    HAPI_Keyframe* param_curve_keyframes = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_transform_component(env, argv[1], &param_trans_comp) ||
@@ -2119,8 +1685,6 @@ label_cleanup:
     {
         free(param_curve_keyframes);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -2142,19 +1706,10 @@ hapi_get_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetGeoInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_GeoInfo geo_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_GeoInfo param_geo_info; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_GeoInfo param_geo_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2185,11 +1740,6 @@ hapi_parm_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_Create
-    function_type: HAPI_ParmInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -2211,13 +1761,7 @@ hapi_image_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ImageInfo_Init
-    function_type: token_void
-    HAPI_ImageInfo in     OPT param_pointer->true
-    */
-
-    HAPI_ImageInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ImageInfo param_in;
 
     if(!hapi_priv_get_hapi_image_info(env, argv[0], &param_in))
     {
@@ -2245,13 +1789,7 @@ hapi_parm_info_is_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_IsString
-    function_type: HAPI_Bool
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -2279,29 +1817,15 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAttributeIntData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeInfo attr_info     OPT param_pointer->true
-    token_int data     OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 5 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 7 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 8 EX: EXTRACT_CODE4
-    char* param_name = NULL; // INPUT IDX: 4 EX: EXTRACT_CODE0
-    int* param_data = NULL; // OUTPUT | SIZE: param_length IDX: 6 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_AttributeInfo param_attr_info;
+    int param_start;
+    int param_length;
+    char* param_name = NULL;
+    int* param_data = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2329,8 +1853,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -2350,29 +1872,15 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetGroupMembership
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_GroupType group_type     
-    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int membership     OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_GroupType param_group_type; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 7 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 8 EX: EXTRACT_CODE4
-    char* param_group_name = NULL; // INPUT IDX: 5 EX: EXTRACT_CODE0
-    int* param_membership = NULL; // OUTPUT | SIZE: param_length IDX: 6 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_GroupType param_group_type;
+    int param_start;
+    int param_length;
+    char* param_group_name = NULL;
+    int* param_membership = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2400,8 +1908,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -2421,13 +1927,7 @@ hapi_get_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetTime
-    function_type: HAPI_Result
-    token_float time     OPT param_pointer->true
-    */
-
-    float param_time; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    float param_time;
 
     if(!hapi_priv_get_float(env, argv[0], &param_time))
     {
@@ -2455,17 +1955,9 @@ hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmInfoFromName
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_ParmInfo parm_info     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ParmInfo param_parm_info; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    char* param_parm_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    HAPI_ParmInfo param_parm_info;
+    char* param_parm_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_info(env, argv[2], &param_parm_info) ||
@@ -2480,8 +1972,6 @@ label_cleanup:
     {
         free(param_parm_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -2503,25 +1993,13 @@ hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetFaceCounts
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_int face_counts     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    int* param_face_counts = NULL; // OUTPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    int* param_face_counts = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2540,8 +2018,6 @@ label_cleanup:
     {
         free(param_face_counts);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -2563,25 +2039,13 @@ hapi_set_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetCurveCounts
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_int counts     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    int* param_counts = NULL; // INPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    int* param_counts = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2603,8 +2067,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -2623,11 +2085,6 @@ ERL_NIF_TERM
 hapi_attribute_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
-
-    /*
-    function_name: HAPI_AttributeInfo_Create
-    function_type: HAPI_AttributeInfo
-    */
 
 label_cleanup:
 
@@ -2650,19 +2107,10 @@ hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_LoadAssetLibraryFromMemory
-    function_type: HAPI_Result
-    token_char library_buffer     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int library_buffer_size     
-    HAPI_Bool allow_overwrite     
-    HAPI_AssetLibraryId library_id     OPT param_pointer->true
-    */
-
-    int param_library_buffer_size; // INPUT IDX: 1 EX: EXTRACT_CODE6
-    HAPI_Bool param_allow_overwrite; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_AssetLibraryId param_library_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    char* param_library_buffer = NULL; // INPUT | SIZE: param_library_buffer_size IDX: 0 EX: EXTRACT_CODE5
+    int param_library_buffer_size;
+    HAPI_Bool param_allow_overwrite;
+    HAPI_AssetLibraryId param_library_id;
+    char* param_library_buffer = NULL;
 
     if(!hapi_priv_get_int(env, argv[1], &param_library_buffer_size) ||
         !hapi_priv_get_hapi_bool(env, argv[2], &param_allow_overwrite) ||
@@ -2679,8 +2127,6 @@ label_cleanup:
     {
         free(param_library_buffer);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -2702,13 +2148,7 @@ hapi_get_new_asset_ids_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetNewAssetIds
-    function_type: HAPI_Result
-    HAPI_AssetId asset_ids     OPT param_pointer->true | OPT param_array->true
-    */
-
-    HAPI_AssetId param_asset_ids; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_ids;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_ids))
     {
@@ -2736,17 +2176,9 @@ hapi_set_object_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetObjectTransform
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_TransformEuler transform     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_TransformEuler param_transform; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_TransformEuler param_transform;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2776,11 +2208,6 @@ hapi_handle_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_HandleInfo_Create
-    function_type: HAPI_HandleInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -2802,19 +2229,10 @@ hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetObjects
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectInfo object_infos     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    HAPI_ObjectInfo* param_object_infos = NULL; // OUTPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    int param_start;
+    int param_length;
+    HAPI_ObjectInfo* param_object_infos = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -2830,8 +2248,6 @@ label_cleanup:
     {
         free(param_object_infos);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -2853,21 +2269,11 @@ hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetVolumeTileFloatData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_VolumeTileInfo tile     OPT param_const->true | OPT param_pointer->true
-    token_float values     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_VolumeTileInfo param_tile; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    float param_values; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_VolumeTileInfo param_tile;
+    float param_values;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -2899,13 +2305,7 @@ hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ImageFileFormat_Init
-    function_type: token_void
-    HAPI_ImageFileFormat in     OPT param_pointer->true
-    */
-
-    HAPI_ImageFileFormat param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ImageFileFormat param_in;
 
     if(!hapi_priv_get_hapi_image_file_format(env, argv[0], &param_in))
     {
@@ -2933,15 +2333,8 @@ hapi_get_asset_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAssetInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_AssetInfo asset_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_AssetInfo param_asset_info; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_AssetInfo param_asset_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_asset_info(env, argv[1], &param_asset_info))
@@ -2970,17 +2363,9 @@ hapi_render_material_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_RenderMaterialToImage
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    HAPI_ShaderType shader_type     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_ShaderType param_shader_type; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    HAPI_ShaderType param_shader_type;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -3010,15 +2395,8 @@ hapi_part_info_get_attribute_count_by_owner_schedule(ErlNifEnv* env, int argc, c
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_PartInfo_GetAttributeCountByOwner
-    function_type: token_int
-    HAPI_PartInfo in     OPT param_pointer->true
-    HAPI_AttributeOwner owner     
-    */
-
-    HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_AttributeOwner param_owner; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_PartInfo param_in;
+    HAPI_AttributeOwner param_owner;
 
     if(!hapi_priv_get_hapi_part_info(env, argv[0], &param_in) ||
         !hapi_priv_get_hapi_attribute_owner(env, argv[1], &param_owner))
@@ -3047,17 +2425,9 @@ hapi_connect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ConnectAssetTransform
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id_from     
-    HAPI_AssetId asset_id_to     
-    token_int input_idx     
-    */
-
-    HAPI_AssetId param_asset_id_from; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_AssetId param_asset_id_to; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_input_idx; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id_from;
+    HAPI_AssetId param_asset_id_to;
+    int param_input_idx;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id_from) ||
         !hapi_priv_get_hapi_asset_id(env, argv[1], &param_asset_id_to) ||
@@ -3087,11 +2457,6 @@ hapi_volume_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_VolumeInfo_Create
-    function_type: HAPI_VolumeInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -3113,13 +2478,7 @@ hapi_get_global_nodes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetGlobalNodes
-    function_type: HAPI_Result
-    HAPI_GlobalNodes global_nodes     OPT param_pointer->true | OPT param_array->true
-    */
-
-    HAPI_GlobalNodes param_global_nodes; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_GlobalNodes param_global_nodes;
 
     if(!hapi_priv_get_hapi_global_nodes(env, argv[0], &param_global_nodes))
     {
@@ -3147,21 +2506,11 @@ hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetHandleBindingInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    token_int handle_index     
-    HAPI_HandleBindingInfo handle_infos     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_handle_index; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 3 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 4 EX: EXTRACT_CODE4
-    HAPI_HandleBindingInfo* param_handle_infos = NULL; // OUTPUT | SIZE: param_length IDX: 2 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    int param_handle_index;
+    int param_start;
+    int param_length;
+    HAPI_HandleBindingInfo* param_handle_infos = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[1], &param_handle_index) ||
@@ -3178,8 +2527,6 @@ label_cleanup:
     {
         free(param_handle_infos);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3201,17 +2548,9 @@ hapi_get_material_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetMaterialInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    HAPI_MaterialInfo material_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_MaterialInfo param_material_info; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    HAPI_MaterialInfo param_material_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -3241,21 +2580,11 @@ hapi_get_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetVolumeInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_VolumeInfo volume_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_VolumeInfo param_volume_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_VolumeInfo param_volume_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -3287,13 +2616,7 @@ hapi_timeline_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_TimelineOptions_Init
-    function_type: token_void
-    HAPI_TimelineOptions in     OPT param_pointer->true
-    */
-
-    HAPI_TimelineOptions param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_TimelineOptions param_in;
 
     if(!hapi_priv_get_hapi_timeline_options(env, argv[0], &param_in))
     {
@@ -3321,11 +2644,6 @@ hapi_global_nodes_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GlobalNodes_Create
-    function_type: HAPI_GlobalNodes
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -3347,19 +2665,10 @@ hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetImagePlanes
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    HAPI_StringHandle image_planes     OPT param_pointer->true | OPT param_array->true
-    token_int image_plane_count     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_image_plane_count; // INPUT IDX: 3 EX: EXTRACT_CODE6
-    HAPI_StringHandle* param_image_planes = NULL; // OUTPUT | SIZE: param_image_plane_count IDX: 2 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    int param_image_plane_count;
+    HAPI_StringHandle* param_image_planes = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -3375,8 +2684,6 @@ label_cleanup:
     {
         free(param_image_planes);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3397,11 +2704,6 @@ ERL_NIF_TERM
 hapi_handle_binding_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
-
-    /*
-    function_name: HAPI_HandleBindingInfo_Create
-    function_type: HAPI_HandleBindingInfo
-    */
 
 label_cleanup:
 
@@ -3424,19 +2726,10 @@ hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetParmStringValue
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char value     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_ParmId parm_id     
-    token_int index     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ParmId param_parm_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_index; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    char* param_value = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    HAPI_ParmId param_parm_id;
+    int param_index;
+    char* param_value = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[2], &param_parm_id) ||
@@ -3452,8 +2745,6 @@ label_cleanup:
     {
         free(param_value);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3475,19 +2766,10 @@ hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetParmIntValue
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int index     
-    token_int value     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_index; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_value; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    char* param_parm_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    int param_index;
+    int param_value;
+    char* param_parm_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
@@ -3503,8 +2785,6 @@ label_cleanup:
     {
         free(param_parm_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3526,13 +2806,7 @@ hapi_get_cooking_total_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetCookingTotalCount
-    function_type: HAPI_Result
-    token_int count     OPT param_pointer->true
-    */
-
-    int param_count; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    int param_count;
 
     if(!hapi_priv_get_int(env, argv[0], &param_count))
     {
@@ -3560,17 +2834,9 @@ hapi_render_texture_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_RenderTextureToImage
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    HAPI_ParmId parm_id     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_ParmId param_parm_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    HAPI_ParmId param_parm_id;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -3600,17 +2866,9 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetString
-    function_type: HAPI_Result
-    HAPI_StringHandle string_handle     
-    token_char string_value     OPT param_string->true | OPT param_pointer->true
-    token_int buffer_length     
-    */
-
-    HAPI_StringHandle param_string_handle; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_buffer_length; // INPUT IDX: 2 EX: EXTRACT_CODE6
-    char* param_string_value = NULL; // OUTPUT | SIZE: param_buffer_length IDX: 1 EX: EXTRACT_CODE5
+    HAPI_StringHandle param_string_handle;
+    int param_buffer_length;
+    char* param_string_value = NULL;
 
     if(!hapi_priv_get_hapi_string_handle(env, argv[0], &param_string_handle) ||
         !hapi_priv_get_int(env, argv[2], &param_buffer_length) ||
@@ -3625,8 +2883,6 @@ label_cleanup:
     {
         free(param_string_value);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3648,17 +2904,9 @@ hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetImagePlaneCount
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    token_int image_plane_count     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_image_plane_count; // INPUT IDX: 2 EX: EXTRACT_CODE6
-    HAPI_MaterialId* param_material_id = NULL; // OUTPUT | SIZE: param_image_plane_count IDX: 1 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    int param_image_plane_count;
+    HAPI_MaterialId* param_material_id = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[2], &param_image_plane_count) ||
@@ -3673,8 +2921,6 @@ label_cleanup:
     {
         free(param_material_id);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3696,19 +2942,10 @@ hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ConvertMatrixToEuler
-    function_type: HAPI_Result
-    token_float mat     OPT param_const->true | OPT param_pointer->true
-    HAPI_RSTOrder rst_order     
-    HAPI_XYZOrder rot_order     
-    HAPI_TransformEuler transform_out     OPT param_pointer->true
-    */
-
-    float param_mat; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_RSTOrder param_rst_order; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_XYZOrder param_rot_order; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_TransformEuler param_transform_out; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    float param_mat;
+    HAPI_RSTOrder param_rst_order;
+    HAPI_XYZOrder param_rot_order;
+    HAPI_TransformEuler param_transform_out;
 
     if(!hapi_priv_get_float(env, argv[0], &param_mat) ||
         !hapi_priv_get_hapi_rstorder(env, argv[1], &param_rst_order) ||
@@ -3739,19 +2976,10 @@ hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmChoiceLists
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_ParmChoiceInfo parm_choices     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    HAPI_ParmChoiceInfo* param_parm_choices = NULL; // OUTPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_NodeId param_node_id;
+    int param_start;
+    int param_length;
+    HAPI_ParmChoiceInfo* param_parm_choices = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -3767,8 +2995,6 @@ label_cleanup:
     {
         free(param_parm_choices);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3790,15 +3016,8 @@ hapi_part_info_get_element_count_by_group_type_schedule(ErlNifEnv* env, int argc
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_PartInfo_GetElementCountByGroupType
-    function_type: token_int
-    HAPI_PartInfo in     OPT param_pointer->true
-    HAPI_GroupType type     
-    */
-
-    HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_GroupType param_type; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_PartInfo param_in;
+    HAPI_GroupType param_type;
 
     if(!hapi_priv_get_hapi_part_info(env, argv[0], &param_in) ||
         !hapi_priv_get_hapi_group_type(env, argv[1], &param_type))
@@ -3827,17 +3046,9 @@ hapi_remove_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_RemoveMultiparmInstance
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_ParmId parm_id     
-    token_int instance_position     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ParmId param_parm_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_instance_position; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_NodeId param_node_id;
+    HAPI_ParmId param_parm_id;
+    int param_instance_position;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[1], &param_parm_id) ||
@@ -3867,25 +3078,13 @@ hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetVertexList
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_int vertex_list     OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    int* param_vertex_list = NULL; // OUTPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    int* param_vertex_list = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -3904,8 +3103,6 @@ label_cleanup:
     {
         free(param_vertex_list);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3927,15 +3124,8 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAvailableAssetCount
-    function_type: HAPI_Result
-    HAPI_AssetLibraryId library_id     
-    token_int asset_count     OPT param_pointer->true
-    */
-
-    int param_asset_count; // INPUT IDX: 1 EX: EXTRACT_CODE6
-    HAPI_AssetLibraryId* param_library_id = NULL; // OUTPUT | SIZE: param_asset_count IDX: 0 EX: EXTRACT_CODE5
+    int param_asset_count;
+    HAPI_AssetLibraryId* param_library_id = NULL;
 
     if(!hapi_priv_get_int(env, argv[1], &param_asset_count) ||
         !(param_library_id = malloc(sizeof(HAPI_AssetLibraryId) * param_asset_count)))
@@ -3949,8 +3139,6 @@ label_cleanup:
     {
         free(param_library_id);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -3972,21 +3160,11 @@ hapi_get_next_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetNextVolumeTile
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_VolumeTileInfo tile     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_VolumeTileInfo param_tile; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_VolumeTileInfo param_tile;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -4018,17 +3196,9 @@ hapi_set_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetImageInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    HAPI_ImageInfo image_info     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_ImageInfo param_image_info; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    HAPI_ImageInfo param_image_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -4058,13 +3228,7 @@ hapi_node_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_NodeInfo_Init
-    function_type: token_void
-    HAPI_NodeInfo in     OPT param_pointer->true
-    */
-
-    HAPI_NodeInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_NodeInfo param_in;
 
     if(!hapi_priv_get_hapi_node_info(env, argv[0], &param_in))
     {
@@ -4092,13 +3256,7 @@ hapi_parm_info_get_string_value_count_schedule(ErlNifEnv* env, int argc, const E
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_GetStringValueCount
-    function_type: token_int
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -4126,13 +3284,7 @@ hapi_destroy_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_DestroyAsset
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id))
     {
@@ -4160,19 +3312,10 @@ hapi_get_input_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetInputName
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    token_int input_idx     
-    token_int input_type     
-    HAPI_StringHandle name     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_input_idx; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_input_type; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_StringHandle param_name; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    int param_input_idx;
+    int param_input_type;
+    HAPI_StringHandle param_name;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[1], &param_input_idx) ||
@@ -4203,19 +3346,10 @@ hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmIntValues
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_int values     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    int* param_values = NULL; // OUTPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_NodeId param_node_id;
+    int param_start;
+    int param_length;
+    int* param_values = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -4231,8 +3365,6 @@ label_cleanup:
     {
         free(param_values);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -4254,19 +3386,10 @@ hapi_set_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetParmIntValues
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_int values     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    int* param_values = NULL; // INPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_NodeId param_node_id;
+    int param_start;
+    int param_length;
+    int* param_values = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -4283,8 +3406,6 @@ label_cleanup:
     {
         free(param_values);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -4306,13 +3427,7 @@ hapi_cook_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CookOptions_Init
-    function_type: token_void
-    HAPI_CookOptions in     OPT param_pointer->true
-    */
-
-    HAPI_CookOptions param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_CookOptions param_in;
 
     if(!hapi_priv_get_hapi_cook_options(env, argv[0], &param_in))
     {
@@ -4340,21 +3455,11 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmStringValue
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int index     
-    HAPI_Bool evaluate     
-    HAPI_StringHandle value     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_index; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_Bool param_evaluate; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_StringHandle param_value; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    char* param_parm_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    int param_index;
+    HAPI_Bool param_evaluate;
+    HAPI_StringHandle param_value;
+    char* param_parm_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
@@ -4371,8 +3476,6 @@ label_cleanup:
     {
         free(param_parm_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -4394,21 +3497,11 @@ hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetAnimCurve
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_ParmId parm_id     
-    token_int parm_index     
-    HAPI_Keyframe curve_keyframes     OPT param_const->true | OPT param_pointer->true
-    token_int keyframe_count     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ParmId param_parm_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_parm_index; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_keyframe_count; // INPUT IDX: 4 EX: EXTRACT_CODE6
-    HAPI_Keyframe* param_curve_keyframes = NULL; // INPUT | SIZE: param_keyframe_count IDX: 3 EX: EXTRACT_CODE5
+    HAPI_NodeId param_node_id;
+    HAPI_ParmId param_parm_id;
+    int param_parm_index;
+    int param_keyframe_count;
+    HAPI_Keyframe* param_curve_keyframes = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[1], &param_parm_id) ||
@@ -4426,8 +3519,6 @@ label_cleanup:
     {
         free(param_curve_keyframes);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -4449,17 +3540,9 @@ hapi_get_parm_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmInfo
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_ParmId parm_id     
-    HAPI_ParmInfo parm_info     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ParmId param_parm_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_ParmInfo param_parm_info; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_NodeId param_node_id;
+    HAPI_ParmId param_parm_id;
+    HAPI_ParmInfo param_parm_info;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[1], &param_parm_id) ||
@@ -4489,25 +3572,13 @@ hapi_set_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetCurveKnots
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_float knots     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    float* param_knots = NULL; // INPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    float* param_knots = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -4529,8 +3600,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -4550,13 +3619,7 @@ hapi_reset_simulation_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ResetSimulation
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id))
     {
@@ -4584,21 +3647,11 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetPreset
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_PresetType preset_type     
-    token_char preset_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_char buffer     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int buffer_length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_PresetType param_preset_type; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_buffer_length; // INPUT IDX: 4 EX: EXTRACT_CODE6
-    char* param_preset_name = NULL; // INPUT IDX: 2 EX: EXTRACT_CODE0
-    char* param_buffer = NULL; // INPUT | SIZE: param_buffer_length IDX: 3 EX: EXTRACT_CODE5
+    HAPI_NodeId param_node_id;
+    HAPI_PresetType param_preset_type;
+    int param_buffer_length;
+    char* param_preset_name = NULL;
+    char* param_buffer = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_preset_type(env, argv[1], &param_preset_type) ||
@@ -4623,8 +3676,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -4644,13 +3695,7 @@ hapi_keyframe_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_Keyframe_Init
-    function_type: token_void
-    HAPI_Keyframe in     OPT param_pointer->true
-    */
-
-    HAPI_Keyframe param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_Keyframe param_in;
 
     if(!hapi_priv_get_hapi_keyframe(env, argv[0], &param_in))
     {
@@ -4678,11 +3723,6 @@ hapi_interrupt_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_Interrupt
-    function_type: HAPI_Result
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -4704,19 +3744,10 @@ hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetImageMemoryBuffer
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    token_char buffer     OPT param_string->true | OPT param_pointer->true
-    token_int buffer_size     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_buffer_size; // INPUT IDX: 3 EX: EXTRACT_CODE6
-    char* param_buffer = NULL; // OUTPUT | SIZE: param_buffer_size IDX: 2 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    int param_buffer_size;
+    char* param_buffer = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -4732,8 +3763,6 @@ label_cleanup:
     {
         free(param_buffer);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -4755,17 +3784,9 @@ hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ConvertMatrixToQuat
-    function_type: HAPI_Result
-    token_float mat     OPT param_const->true | OPT param_pointer->true
-    HAPI_RSTOrder rst_order     
-    HAPI_Transform transform_out     OPT param_pointer->true
-    */
-
-    float param_mat; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_RSTOrder param_rst_order; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_Transform param_transform_out; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    float param_mat;
+    HAPI_RSTOrder param_rst_order;
+    HAPI_Transform param_transform_out;
 
     if(!hapi_priv_get_float(env, argv[0], &param_mat) ||
         !hapi_priv_get_hapi_rstorder(env, argv[1], &param_rst_order) ||
@@ -4795,19 +3816,10 @@ hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParameters
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_ParmInfo parm_infos     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    HAPI_ParmInfo* param_parm_infos = NULL; // OUTPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_NodeId param_node_id;
+    int param_start;
+    int param_length;
+    HAPI_ParmInfo* param_parm_infos = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -4823,8 +3835,6 @@ label_cleanup:
     {
         free(param_parm_infos);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -4846,17 +3856,9 @@ hapi_convert_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ConvertTransform
-    function_type: HAPI_Result
-    HAPI_TransformEuler transform_in_out     OPT param_pointer->true
-    HAPI_RSTOrder rst_order     
-    HAPI_XYZOrder rot_order     
-    */
-
-    HAPI_TransformEuler param_transform_in_out; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_RSTOrder param_rst_order; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_XYZOrder param_rot_order; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_TransformEuler param_transform_in_out;
+    HAPI_RSTOrder param_rst_order;
+    HAPI_XYZOrder param_rot_order;
 
     if(!hapi_priv_get_hapi_transform_euler(env, argv[0], &param_transform_in_out) ||
         !hapi_priv_get_hapi_rstorder(env, argv[1], &param_rst_order) ||
@@ -4886,13 +3888,7 @@ hapi_create_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CreateCurve
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id))
     {
@@ -4920,13 +3916,7 @@ hapi_parm_info_is_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_IsInt
-    function_type: HAPI_Bool
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -4954,15 +3944,8 @@ hapi_convert_transform_quat_to_matrix_schedule(ErlNifEnv* env, int argc, const E
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ConvertTransformQuatToMatrix
-    function_type: HAPI_Result
-    HAPI_Transform transform     OPT param_const->true | OPT param_pointer->true
-    token_float matrix     OPT param_pointer->true
-    */
-
-    HAPI_Transform param_transform; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    float param_matrix; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_Transform param_transform;
+    float param_matrix;
 
     if(!hapi_priv_get_hapi_transform(env, argv[0], &param_transform) ||
         !hapi_priv_get_float(env, argv[1], &param_matrix))
@@ -4991,13 +3974,7 @@ hapi_parm_info_get_int_value_count_schedule(ErlNifEnv* env, int argc, const ERL_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_GetIntValueCount
-    function_type: token_int
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -5025,13 +4002,7 @@ hapi_volume_tile_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_VolumeTileInfo_Init
-    function_type: token_void
-    HAPI_VolumeTileInfo in     OPT param_pointer->true
-    */
-
-    HAPI_VolumeTileInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_VolumeTileInfo param_in;
 
     if(!hapi_priv_get_hapi_volume_tile_info(env, argv[0], &param_in))
     {
@@ -5059,21 +4030,11 @@ hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SaveGeoToMemory
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char buffer     OPT param_string->true | OPT param_pointer->true
-    token_int size     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_size; // INPUT IDX: 4 EX: EXTRACT_CODE6
-    char* param_buffer = NULL; // OUTPUT | SIZE: param_size IDX: 3 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    int param_size;
+    char* param_buffer = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5090,8 +4051,6 @@ label_cleanup:
     {
         free(param_buffer);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -5113,17 +4072,9 @@ hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_InstantiateAsset
-    function_type: HAPI_Result
-    token_char asset_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_Bool cook_on_load     
-    HAPI_AssetId asset_id     OPT param_pointer->true
-    */
-
-    HAPI_Bool param_cook_on_load; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_AssetId param_asset_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    char* param_asset_name = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
+    HAPI_Bool param_cook_on_load;
+    HAPI_AssetId param_asset_id;
+    char* param_asset_name = NULL;
 
     if(!hapi_priv_get_hapi_bool(env, argv[1], &param_cook_on_load) ||
         !hapi_priv_get_hapi_asset_id(env, argv[2], &param_asset_id) ||
@@ -5138,8 +4089,6 @@ label_cleanup:
     {
         free(param_asset_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -5161,13 +4110,7 @@ hapi_get_supported_image_file_format_count_schedule(ErlNifEnv* env, int argc, co
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetSupportedImageFileFormatCount
-    function_type: HAPI_Result
-    token_int file_format_count     OPT param_pointer->true
-    */
-
-    int param_file_format_count; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    int param_file_format_count;
 
     if(!hapi_priv_get_int(env, argv[0], &param_file_format_count))
     {
@@ -5195,19 +4138,10 @@ hapi_set_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetVolumeInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_VolumeInfo volume_info     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_VolumeInfo param_volume_info; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_VolumeInfo param_volume_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5238,19 +4172,10 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SaveGeoToFile
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    char* param_file_name = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    char* param_file_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5266,8 +4191,6 @@ label_cleanup:
     {
         free(param_file_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -5289,25 +4212,13 @@ hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetCurveOrders
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_int orders     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    int* param_orders = NULL; // OUTPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    int* param_orders = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5328,8 +4239,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -5348,11 +4257,6 @@ ERL_NIF_TERM
 hapi_asset_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
-
-    /*
-    function_name: HAPI_AssetInfo_Create
-    function_type: HAPI_AssetInfo
-    */
 
 label_cleanup:
 
@@ -5375,21 +4279,11 @@ hapi_get_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetCurveInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_CurveInfo info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_CurveInfo param_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_CurveInfo param_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5421,11 +4315,6 @@ hapi_is_initialized_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_IsInitialized
-    function_type: HAPI_Result
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -5447,15 +4336,8 @@ hapi_disconnect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_DisconnectAssetTransform
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    token_int input_idx     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_input_idx; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    int param_input_idx;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_int(env, argv[1], &param_input_idx))
@@ -5484,21 +4366,11 @@ hapi_set_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetCurveInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_CurveInfo info     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_CurveInfo param_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_CurveInfo param_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5530,21 +4402,11 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_Initialize
-    function_type: HAPI_Result
-    token_char otl_search_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_char dso_search_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_CookOptions cook_options     OPT param_const->true | OPT param_pointer->true
-    HAPI_Bool use_cooking_thread     
-    token_int cooking_thread_stack_size     
-    */
-
-    HAPI_CookOptions param_cook_options; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_cooking_thread_stack_size; // INPUT IDX: 4 EX: EXTRACT_CODE6
-    char* param_otl_search_path = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
-    char* param_dso_search_path = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
-    HAPI_Bool* param_use_cooking_thread = NULL; // OUTPUT | SIZE: param_cooking_thread_stack_size IDX: 3 EX: EXTRACT_CODE5
+    HAPI_CookOptions param_cook_options;
+    int param_cooking_thread_stack_size;
+    char* param_otl_search_path = NULL;
+    char* param_dso_search_path = NULL;
+    HAPI_Bool* param_use_cooking_thread = NULL;
 
     if(!hapi_priv_get_hapi_cook_options(env, argv[2], &param_cook_options) ||
         !hapi_priv_get_int(env, argv[4], &param_cooking_thread_stack_size) ||
@@ -5573,8 +4435,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -5594,13 +4454,7 @@ hapi_part_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_PartInfo_Init
-    function_type: token_void
-    HAPI_PartInfo in     OPT param_pointer->true
-    */
-
-    HAPI_PartInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_PartInfo param_in;
 
     if(!hapi_priv_get_hapi_part_info(env, argv[0], &param_in))
     {
@@ -5628,19 +4482,10 @@ hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmFloatValues
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_float values     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 2 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 3 EX: EXTRACT_CODE4
-    float* param_values = NULL; // OUTPUT | SIZE: param_length IDX: 1 EX: EXTRACT_CODE2
+    HAPI_NodeId param_node_id;
+    int param_start;
+    int param_length;
+    float* param_values = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_start) ||
@@ -5656,8 +4501,6 @@ label_cleanup:
     {
         free(param_values);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -5679,13 +4522,7 @@ hapi_handle_binding_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_HandleBindingInfo_Init
-    function_type: token_void
-    HAPI_HandleBindingInfo in     OPT param_pointer->true
-    */
-
-    HAPI_HandleBindingInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_HandleBindingInfo param_in;
 
     if(!hapi_priv_get_hapi_handle_binding_info(env, argv[0], &param_in))
     {
@@ -5713,23 +4550,12 @@ hapi_get_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetVolumeTileIntData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_VolumeTileInfo tile     OPT param_pointer->true
-    token_int values     OPT param_pointer->true | OPT param_array->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_VolumeTileInfo param_tile; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    int param_values; // INPUT IDX: 5 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_VolumeTileInfo param_tile;
+    int param_values;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5762,13 +4588,7 @@ hapi_object_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ObjectInfo_Init
-    function_type: token_void
-    HAPI_ObjectInfo in     OPT param_pointer->true
-    */
-
-    HAPI_ObjectInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ObjectInfo param_in;
 
     if(!hapi_priv_get_hapi_object_info(env, argv[0], &param_in))
     {
@@ -5796,13 +4616,7 @@ hapi_get_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetTimelineOptions
-    function_type: HAPI_Result
-    HAPI_TimelineOptions timeline_options     OPT param_pointer->true | OPT param_array->true
-    */
-
-    HAPI_TimelineOptions param_timeline_options; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_TimelineOptions param_timeline_options;
 
     if(!hapi_priv_get_hapi_timeline_options(env, argv[0], &param_timeline_options))
     {
@@ -5830,17 +4644,9 @@ hapi_commit_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CommitGeo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -5870,13 +4676,7 @@ hapi_parm_choice_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmChoiceInfo_Init
-    function_type: token_void
-    HAPI_ParmChoiceInfo in     OPT param_pointer->true
-    */
-
-    HAPI_ParmChoiceInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmChoiceInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_choice_info(env, argv[0], &param_in))
     {
@@ -5904,11 +4704,6 @@ hapi_image_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ImageInfo_Create
-    function_type: HAPI_ImageInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -5930,15 +4725,8 @@ hapi_cook_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CookAsset
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_CookOptions cook_options     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_CookOptions param_cook_options; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_CookOptions param_cook_options;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_cook_options(env, argv[1], &param_cook_options))
@@ -5967,15 +4755,8 @@ hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_LoadHIPFile
-    function_type: HAPI_Result
-    token_char file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_Bool cook_on_load     
-    */
-
-    HAPI_Bool param_cook_on_load; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    char* param_file_name = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
+    HAPI_Bool param_cook_on_load;
+    char* param_file_name = NULL;
 
     if(!hapi_priv_get_hapi_bool(env, argv[1], &param_cook_on_load) ||
         !hapi_priv_get_null_terminated_string(env, argv[0], &param_file_name))
@@ -5989,8 +4770,6 @@ label_cleanup:
     {
         free(param_file_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6012,13 +4791,7 @@ hapi_geo_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GeoInfo_Init
-    function_type: token_void
-    HAPI_GeoInfo in     OPT param_pointer->true
-    */
-
-    HAPI_GeoInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_GeoInfo param_in;
 
     if(!hapi_priv_get_hapi_geo_info(env, argv[0], &param_in))
     {
@@ -6046,13 +4819,7 @@ hapi_volume_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_VolumeInfo_Init
-    function_type: token_void
-    HAPI_VolumeInfo in     OPT param_pointer->true
-    */
-
-    HAPI_VolumeInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_VolumeInfo param_in;
 
     if(!hapi_priv_get_hapi_volume_info(env, argv[0], &param_in))
     {
@@ -6080,19 +4847,10 @@ hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmIntValue
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int index     
-    token_int value     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_index; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_value; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    char* param_parm_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    int param_index;
+    int param_value;
+    char* param_parm_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
@@ -6108,8 +4866,6 @@ label_cleanup:
     {
         free(param_parm_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6131,21 +4887,11 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_AddAttribute
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    char* param_name = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_AttributeInfo param_attr_info;
+    char* param_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6162,8 +4908,6 @@ label_cleanup:
     {
         free(param_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6185,21 +4929,11 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_AddGroup
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_GroupType group_type     
-    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_GroupType param_group_type; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    char* param_group_name = NULL; // INPUT IDX: 4 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_GroupType param_group_type;
+    char* param_group_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6216,8 +4950,6 @@ label_cleanup:
     {
         free(param_group_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6239,15 +4971,8 @@ hapi_convert_transform_euler_to_matrix_schedule(ErlNifEnv* env, int argc, const 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ConvertTransformEulerToMatrix
-    function_type: HAPI_Result
-    HAPI_TransformEuler transform     OPT param_const->true | OPT param_pointer->true
-    token_float matrix     OPT param_pointer->true
-    */
-
-    HAPI_TransformEuler param_transform; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    float param_matrix; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_TransformEuler param_transform;
+    float param_matrix;
 
     if(!hapi_priv_get_hapi_transform_euler(env, argv[0], &param_transform) ||
         !hapi_priv_get_float(env, argv[1], &param_matrix))
@@ -6276,27 +5001,14 @@ hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetAttributeFloatData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeInfo attr_info     OPT param_const->true | OPT param_pointer->true
-    token_float data     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 6 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 7 EX: EXTRACT_CODE4
-    char* param_name = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
-    float* param_data = NULL; // INPUT | SIZE: param_length IDX: 5 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_AttributeInfo param_attr_info;
+    int param_start;
+    int param_length;
+    char* param_name = NULL;
+    float* param_data = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6324,8 +5036,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -6345,17 +5055,9 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmIdFromName
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_ParmId parm_id     OPT param_pointer->true
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ParmId param_parm_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    char* param_parm_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    HAPI_ParmId param_parm_id;
+    char* param_parm_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[2], &param_parm_id) ||
@@ -6370,8 +5072,6 @@ label_cleanup:
     {
         free(param_parm_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6393,27 +5093,14 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetGroupMembership
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_GroupType group_type     
-    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int membership     OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_GroupType param_group_type; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 6 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 7 EX: EXTRACT_CODE4
-    char* param_group_name = NULL; // INPUT IDX: 4 EX: EXTRACT_CODE0
-    int* param_membership = NULL; // OUTPUT | SIZE: param_length IDX: 5 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_GroupType param_group_type;
+    int param_start;
+    int param_length;
+    char* param_group_name = NULL;
+    int* param_membership = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6440,8 +5127,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -6461,21 +5146,11 @@ hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetVolumeTileIntData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_VolumeTileInfo tile     OPT param_const->true | OPT param_pointer->true
-    token_int values     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_VolumeTileInfo param_tile; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_values; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_VolumeTileInfo param_tile;
+    int param_values;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6507,15 +5182,8 @@ hapi_get_status_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetStatus
-    function_type: HAPI_Result
-    HAPI_StatusType status_type     
-    token_int status     OPT param_pointer->true | OPT param_array->true
-    */
-
-    HAPI_StatusType param_status_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_status; // INPUT IDX: 1 EX: EXTRACT_CODE1
+    HAPI_StatusType param_status_type;
+    int param_status;
 
     if(!hapi_priv_get_hapi_status_type(env, argv[0], &param_status_type) ||
         !hapi_priv_get_int(env, argv[1], &param_status))
@@ -6544,27 +5212,14 @@ hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetMaterialIdsOnFaces
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_Bool are_all_the_same     OPT param_pointer->true
-    HAPI_MaterialId material_ids     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_Bool param_are_all_the_same; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 6 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 7 EX: EXTRACT_CODE4
-    HAPI_MaterialId* param_material_ids = NULL; // OUTPUT | SIZE: param_length IDX: 5 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_Bool param_are_all_the_same;
+    int param_start;
+    int param_length;
+    HAPI_MaterialId* param_material_ids = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6586,8 +5241,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -6607,21 +5260,11 @@ hapi_get_geo_size_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetGeoSize
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char format     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int size     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_size; // INPUT IDX: 4 EX: EXTRACT_CODE6
-    char* param_format = NULL; // INPUT | SIZE: param_size IDX: 3 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    int param_size;
+    char* param_format = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6639,8 +5282,6 @@ label_cleanup:
     {
         free(param_format);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6662,25 +5303,13 @@ hapi_set_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetCurveOrders
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_int orders     OPT param_const->true | OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    int* param_orders = NULL; // INPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    int* param_orders = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6702,8 +5331,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -6723,17 +5350,9 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetStatusStringBufLength
-    function_type: HAPI_Result
-    HAPI_StatusType status_type     
-    HAPI_StatusVerbosity verbosity     
-    token_int buffer_size     OPT param_pointer->true
-    */
-
-    HAPI_StatusType param_status_type; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_buffer_size; // INPUT IDX: 2 EX: EXTRACT_CODE6
-    HAPI_StatusVerbosity* param_verbosity = NULL; // OUTPUT | SIZE: param_buffer_size IDX: 1 EX: EXTRACT_CODE5
+    HAPI_StatusType param_status_type;
+    int param_buffer_size;
+    HAPI_StatusVerbosity* param_verbosity = NULL;
 
     if(!hapi_priv_get_hapi_status_type(env, argv[0], &param_status_type) ||
         !hapi_priv_get_int(env, argv[2], &param_buffer_size) ||
@@ -6748,8 +5367,6 @@ label_cleanup:
     {
         free(param_verbosity);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6771,25 +5388,13 @@ hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetCurveKnots
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_float knots     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 5 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 6 EX: EXTRACT_CODE4
-    float* param_knots = NULL; // OUTPUT | SIZE: param_length IDX: 4 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    int param_start;
+    int param_length;
+    float* param_knots = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6808,8 +5413,6 @@ label_cleanup:
     {
         free(param_knots);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6831,21 +5434,11 @@ hapi_get_first_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetFirstVolumeTile
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_VolumeTileInfo tile     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_VolumeTileInfo param_tile; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_VolumeTileInfo param_tile;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6877,23 +5470,12 @@ hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetGroupNames
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_GroupType group_type     
-    HAPI_StringHandle group_names     OPT param_pointer->true | OPT param_array->true
-    token_int group_count     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_GroupType param_group_type; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    int param_group_count; // INPUT IDX: 5 EX: EXTRACT_CODE6
-    HAPI_StringHandle* param_group_names = NULL; // OUTPUT | SIZE: param_group_count IDX: 4 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_GroupType param_group_type;
+    int param_group_count;
+    HAPI_StringHandle* param_group_names = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6911,8 +5493,6 @@ label_cleanup:
     {
         free(param_group_names);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6934,19 +5514,10 @@ hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_LoadGeoFromFile
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    char* param_file_name = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    char* param_file_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -6962,8 +5533,6 @@ label_cleanup:
     {
         free(param_file_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -6985,17 +5554,9 @@ hapi_revert_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_RevertGeo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -7025,13 +5586,7 @@ hapi_asset_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_AssetInfo_Init
-    function_type: token_void
-    HAPI_AssetInfo in     OPT param_pointer->true
-    */
-
-    HAPI_AssetInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_AssetInfo param_in;
 
     if(!hapi_priv_get_hapi_asset_info(env, argv[0], &param_in))
     {
@@ -7059,13 +5614,7 @@ hapi_parm_info_is_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_IsPath
-    function_type: HAPI_Bool
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -7093,15 +5642,8 @@ hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CreateInputAsset
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     OPT param_pointer->true
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    char* param_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    char* param_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_null_terminated_string(env, argv[1], &param_name))
@@ -7115,8 +5657,6 @@ label_cleanup:
     {
         free(param_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -7138,19 +5678,10 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetParmFloatValue
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    token_char parm_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int index     
-    token_float value     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_index; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    float param_value; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    char* param_parm_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
+    HAPI_NodeId param_node_id;
+    int param_index;
+    float param_value;
+    char* param_parm_name = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
@@ -7166,8 +5697,6 @@ label_cleanup:
     {
         free(param_parm_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -7189,23 +5718,12 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_LoadGeoFromMemory
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char format     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_char buffer     OPT param_string->true | OPT param_pointer->true
-    token_int size     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_size; // INPUT IDX: 5 EX: EXTRACT_CODE6
-    char* param_format = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
-    char* param_buffer = NULL; // OUTPUT | SIZE: param_size IDX: 4 EX: EXTRACT_CODE5
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    int param_size;
+    char* param_format = NULL;
+    char* param_buffer = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -7230,8 +5748,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -7251,13 +5767,7 @@ hapi_parm_info_is_file_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_IsFilePath
-    function_type: HAPI_Bool
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -7285,11 +5795,6 @@ hapi_keyframe_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_Keyframe_Create
-    function_type: HAPI_Keyframe
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -7311,19 +5816,10 @@ hapi_set_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetGeoInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_GeoInfo geo_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_GeoInfo param_geo_info; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_GeoInfo param_geo_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -7354,11 +5850,6 @@ hapi_geo_input_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GeoInputInfo_Create
-    function_type: HAPI_GeoInputInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -7380,13 +5871,7 @@ hapi_material_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_MaterialInfo_Init
-    function_type: token_void
-    HAPI_MaterialInfo in     OPT param_pointer->true
-    */
-
-    HAPI_MaterialInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_MaterialInfo param_in;
 
     if(!hapi_priv_get_hapi_material_info(env, argv[0], &param_in))
     {
@@ -7414,13 +5899,7 @@ hapi_parm_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_Init
-    function_type: token_void
-    HAPI_ParmInfo in     OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -7448,17 +5927,9 @@ hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAvailableAssets
-    function_type: HAPI_Result
-    HAPI_AssetLibraryId library_id     
-    HAPI_StringHandle asset_names     OPT param_pointer->true | OPT param_array->true
-    token_int asset_count     
-    */
-
-    HAPI_AssetLibraryId param_library_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    int param_asset_count; // INPUT IDX: 2 EX: EXTRACT_CODE6
-    HAPI_StringHandle* param_asset_names = NULL; // OUTPUT | SIZE: param_asset_count IDX: 1 EX: EXTRACT_CODE5
+    HAPI_AssetLibraryId param_library_id;
+    int param_asset_count;
+    HAPI_StringHandle* param_asset_names = NULL;
 
     if(!hapi_priv_get_hapi_asset_library_id(env, argv[0], &param_library_id) ||
         !hapi_priv_get_int(env, argv[2], &param_asset_count) ||
@@ -7473,8 +5944,6 @@ label_cleanup:
     {
         free(param_asset_names);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -7496,21 +5965,11 @@ hapi_get_material_on_part_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetMaterialOnPart
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_MaterialInfo material_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_MaterialInfo param_material_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_MaterialInfo param_material_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -7542,13 +6001,7 @@ hapi_curve_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CurveInfo_Init
-    function_type: token_void
-    HAPI_CurveInfo in     OPT param_pointer->true
-    */
-
-    HAPI_CurveInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_CurveInfo param_in;
 
     if(!hapi_priv_get_hapi_curve_info(env, argv[0], &param_in))
     {
@@ -7576,13 +6029,7 @@ hapi_parm_info_is_node_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ParmInfo_IsNodePath
-    function_type: HAPI_Bool
-    HAPI_ParmInfo in     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_ParmInfo param_in; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_ParmInfo param_in;
 
     if(!hapi_priv_get_hapi_parm_info(env, argv[0], &param_in))
     {
@@ -7610,11 +6057,6 @@ hapi_cook_options_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CookOptions_Create
-    function_type: HAPI_CookOptions
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -7636,25 +6078,13 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ExtractImageToFile
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    token_char image_file_format_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_char image_planes     OPT param_string->true | OPT param_const->true | OPT param_pointer->true | OPT param_array->true
-    token_char destination_folder_path     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_char destination_file_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    token_int destination_file_path     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_destination_file_path; // INPUT IDX: 6 EX: EXTRACT_CODE1
-    char* param_image_file_format_name = NULL; // INPUT IDX: 2 EX: EXTRACT_CODE0
-    char* param_image_planes = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
-    char* param_destination_folder_path = NULL; // INPUT IDX: 4 EX: EXTRACT_CODE0
-    char* param_destination_file_name = NULL; // INPUT IDX: 5 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    int param_destination_file_path;
+    char* param_image_file_format_name = NULL;
+    char* param_image_planes = NULL;
+    char* param_destination_folder_path = NULL;
+    char* param_destination_file_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -7690,8 +6120,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -7711,13 +6139,7 @@ hapi_set_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetTime
-    function_type: HAPI_Result
-    token_float time     
-    */
-
-    float param_time; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    float param_time;
 
     if(!hapi_priv_get_float(env, argv[0], &param_time))
     {
@@ -7745,17 +6167,9 @@ hapi_get_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetImageInfo
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_MaterialId material_id     
-    HAPI_ImageInfo image_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_MaterialId param_material_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_ImageInfo param_image_info; // INPUT IDX: 2 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_MaterialId param_material_id;
+    HAPI_ImageInfo param_image_info;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
@@ -7785,21 +6199,11 @@ hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetParmStringValues
-    function_type: HAPI_Result
-    HAPI_NodeId node_id     
-    HAPI_Bool evaluate     
-    HAPI_StringHandle values     OPT param_pointer->true | OPT param_array->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_NodeId param_node_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_Bool param_evaluate; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 3 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 4 EX: EXTRACT_CODE4
-    HAPI_StringHandle* param_values = NULL; // OUTPUT | SIZE: param_length IDX: 2 EX: EXTRACT_CODE2
+    HAPI_NodeId param_node_id;
+    HAPI_Bool param_evaluate;
+    int param_start;
+    int param_length;
+    HAPI_StringHandle* param_values = NULL;
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_bool(env, argv[1], &param_evaluate) ||
@@ -7816,8 +6220,6 @@ label_cleanup:
     {
         free(param_values);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -7839,21 +6241,11 @@ hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetMaterialOnGroup
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    token_char group_name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_MaterialInfo material_info     OPT param_pointer->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_MaterialInfo param_material_info; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    char* param_group_name = NULL; // INPUT IDX: 3 EX: EXTRACT_CODE0
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_MaterialInfo param_material_info;
+    char* param_group_name = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -7870,8 +6262,6 @@ label_cleanup:
     {
         free(param_group_name);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -7893,13 +6283,7 @@ hapi_python_thread_interpreter_lock_schedule(ErlNifEnv* env, int argc, const ERL
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_PythonThreadInterpreterLock
-    function_type: HAPI_Result
-    HAPI_Bool locked     
-    */
-
-    HAPI_Bool param_locked; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_Bool param_locked;
 
     if(!hapi_priv_get_hapi_bool(env, argv[0], &param_locked))
     {
@@ -7927,13 +6311,7 @@ hapi_set_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_SetTimelineOptions
-    function_type: HAPI_Result
-    HAPI_TimelineOptions timeline_options     OPT param_const->true | OPT param_pointer->true
-    */
-
-    HAPI_TimelineOptions param_timeline_options; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    HAPI_TimelineOptions param_timeline_options;
 
     if(!hapi_priv_get_hapi_timeline_options(env, argv[0], &param_timeline_options))
     {
@@ -7961,23 +6339,12 @@ hapi_get_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetVolumeTileFloatData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    HAPI_VolumeTileInfo tile     OPT param_pointer->true
-    token_float values     OPT param_pointer->true | OPT param_array->true
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_VolumeTileInfo param_tile; // INPUT IDX: 4 EX: EXTRACT_CODE1
-    float param_values; // INPUT IDX: 5 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_VolumeTileInfo param_tile;
+    float param_values;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -8010,29 +6377,15 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetAttributeFloatData
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id     
-    HAPI_ObjectId object_id     
-    HAPI_GeoId geo_id     
-    HAPI_PartId part_id     
-    token_char name     OPT param_string->true | OPT param_const->true | OPT param_pointer->true
-    HAPI_AttributeInfo attr_info     OPT param_pointer->true
-    token_float data     OPT param_pointer->true
-    token_int start     
-    token_int length     
-    */
-
-    HAPI_AssetId param_asset_id; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_GeoId param_geo_id; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    HAPI_PartId param_part_id; // INPUT IDX: 3 EX: EXTRACT_CODE1
-    HAPI_AttributeInfo param_attr_info; // INPUT IDX: 5 EX: EXTRACT_CODE1
-    int param_start; // INPUT IDX: 7 EX: EXTRACT_CODE3
-    int param_length; // INPUT IDX: 8 EX: EXTRACT_CODE4
-    char* param_name = NULL; // INPUT IDX: 4 EX: EXTRACT_CODE0
-    float* param_data = NULL; // OUTPUT | SIZE: param_length IDX: 6 EX: EXTRACT_CODE2
+    HAPI_AssetId param_asset_id;
+    HAPI_ObjectId param_object_id;
+    HAPI_GeoId param_geo_id;
+    HAPI_PartId param_part_id;
+    HAPI_AttributeInfo param_attr_info;
+    int param_start;
+    int param_length;
+    char* param_name = NULL;
+    float* param_data = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
@@ -8060,8 +6413,6 @@ label_cleanup:
     }
 
 
-
-
     //return hapi_make_atom_ok(env);
     return stub_result;
 }
@@ -8081,19 +6432,10 @@ hapi_connect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ConnectAssetGeometry
-    function_type: HAPI_Result
-    HAPI_AssetId asset_id_from     
-    HAPI_ObjectId object_id_from     
-    HAPI_AssetId asset_id_to     
-    token_int input_idx     
-    */
-
-    HAPI_AssetId param_asset_id_from; // INPUT IDX: 0 EX: EXTRACT_CODE1
-    HAPI_ObjectId param_object_id_from; // INPUT IDX: 1 EX: EXTRACT_CODE1
-    HAPI_AssetId param_asset_id_to; // INPUT IDX: 2 EX: EXTRACT_CODE1
-    int param_input_idx; // INPUT IDX: 3 EX: EXTRACT_CODE1
+    HAPI_AssetId param_asset_id_from;
+    HAPI_ObjectId param_object_id_from;
+    HAPI_AssetId param_asset_id_to;
+    int param_input_idx;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id_from) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id_from) ||
@@ -8124,11 +6466,6 @@ hapi_object_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_ObjectInfo_Create
-    function_type: HAPI_ObjectInfo
-    */
-
 label_cleanup:
 
     //return hapi_make_atom_ok(env);
@@ -8150,15 +6487,8 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_GetSupportedImageFileFormats
-    function_type: HAPI_Result
-    HAPI_ImageFileFormat formats     OPT param_pointer->true | OPT param_array->true
-    token_int file_format_count     
-    */
-
-    int param_file_format_count; // INPUT IDX: 1 EX: EXTRACT_CODE6
-    HAPI_ImageFileFormat* param_formats = NULL; // OUTPUT | SIZE: param_file_format_count IDX: 0 EX: EXTRACT_CODE5
+    int param_file_format_count;
+    HAPI_ImageFileFormat* param_formats = NULL;
 
     if(!hapi_priv_get_int(env, argv[1], &param_file_format_count) ||
         !(param_formats = malloc(sizeof(HAPI_ImageFileFormat) * param_file_format_count)))
@@ -8172,8 +6502,6 @@ label_cleanup:
     {
         free(param_formats);
     }
-
-
 
 
     //return hapi_make_atom_ok(env);
@@ -8195,13 +6523,7 @@ hapi_check_for_new_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
 {
     ERL_NIF_TERM stub_result = enif_make_badarg(env);
 
-    /*
-    function_name: HAPI_CheckForNewAssets
-    function_type: HAPI_Result
-    token_int new_asset_count     OPT param_pointer->true
-    */
-
-    int param_new_asset_count; // INPUT IDX: 0 EX: EXTRACT_CODE1
+    int param_new_asset_count;
 
     if(!hapi_priv_get_int(env, argv[0], &param_new_asset_count))
     {

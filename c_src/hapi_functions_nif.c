@@ -17,7 +17,7 @@ hapi_timeline_options_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -48,8 +48,8 @@ hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStringBufLength(&param_string_handle[0] /*0*/, param_buffer_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -85,7 +85,7 @@ hapi_parm_info_is_float_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -118,8 +118,8 @@ hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetPreset(param_node_id /*4*/, &param_buffer[0] /*0*/, param_buffer_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -154,8 +154,8 @@ hapi_attribute_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    HAPI_AttributeInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_AttributeInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -184,8 +184,8 @@ hapi_handle_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    HAPI_HandleInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_HandleInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -208,7 +208,7 @@ hapi_part_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -253,8 +253,8 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeStringData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_name[0] /*2*/, &param_attr_info /*3*/, &param_data[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -294,8 +294,8 @@ hapi_get_cooking_current_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCookingCurrentCount(param_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -330,8 +330,8 @@ hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmFloatValue(param_node_id /*4*/, &param_parm_name[0] /*2*/, param_index /*4*/, param_value /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -369,7 +369,7 @@ hapi_geo_info_get_group_count_by_type_schedule(ErlNifEnv* env, int argc, const E
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -392,7 +392,7 @@ hapi_curve_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -414,8 +414,8 @@ hapi_cleanup_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = 0;
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_Cleanup());
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -446,8 +446,8 @@ hapi_get_env_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetEnvInt(param_int_type /*4*/, param_value /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -480,8 +480,8 @@ hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStatusString(param_status_type /*4*/, &param_buffer[0] /*0*/, param_buffer_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -517,7 +517,7 @@ hapi_parm_info_is_non_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -547,7 +547,7 @@ hapi_parm_info_get_float_value_count_schedule(ErlNifEnv* env, int argc, const ER
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -587,8 +587,8 @@ hapi_set_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetFaceCounts(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_face_counts[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -617,7 +617,7 @@ hapi_node_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -652,8 +652,8 @@ hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetHandleInfo(param_asset_id /*4*/, &param_handle_infos[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -690,8 +690,8 @@ hapi_get_node_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetNodeInfo(param_node_id /*4*/, &param_node_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -724,8 +724,8 @@ hapi_is_asset_valid_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_IsAssetValid(param_asset_id /*4*/, param_asset_validation_id /*4*/, param_answer /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -766,8 +766,8 @@ hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetInstanceTransforms(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_rst_order /*4*/, &param_transforms[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -814,8 +814,8 @@ hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeNames(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, param_owner /*4*/, &param_attribute_names[0] /*0*/, param_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -844,7 +844,7 @@ hapi_parm_choice_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -873,8 +873,8 @@ hapi_global_nodes_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    HAPI_GlobalNodes_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_GlobalNodes_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -897,7 +897,7 @@ hapi_volume_tile_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -938,8 +938,8 @@ hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_name[0] /*2*/, param_owner /*4*/, &param_attr_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -978,8 +978,8 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadAssetLibraryFromFile(&param_file_path[0] /*2*/, param_allow_overwrite /*4*/, param_library_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1014,8 +1014,8 @@ hapi_geo_input_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    HAPI_GeoInputInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_GeoInputInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1046,8 +1046,8 @@ hapi_set_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAssetTransform(param_asset_id /*4*/, &param_transform /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1088,8 +1088,8 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveCounts(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_counts[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1131,8 +1131,8 @@ hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmFloatValues(param_node_id /*4*/, &param_values[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1175,8 +1175,8 @@ hapi_get_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetPartInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_part_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1199,7 +1199,7 @@ hapi_geo_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1228,8 +1228,8 @@ hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SaveHIPFile(&param_file_path[0] /*2*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1258,7 +1258,7 @@ hapi_material_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1302,8 +1302,8 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAttributeIntData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_name[0] /*2*/, &param_attr_info /*3*/, &param_data[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1346,7 +1346,7 @@ hapi_part_info_get_element_count_by_attribute_owner_schedule(ErlNifEnv* env, int
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1381,8 +1381,8 @@ hapi_get_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAssetTransform(param_asset_id /*4*/, param_rst_order /*4*/, param_rot_order /*4*/, &param_transform /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1415,8 +1415,8 @@ hapi_insert_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_InsertMultiparmInstance(param_node_id /*4*/, param_parm_id /*4*/, param_instance_position /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1452,8 +1452,8 @@ hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetPresetBufLength(param_node_id /*4*/, param_preset_type /*4*/, &param_preset_name[0] /*2*/, param_buffer_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1497,8 +1497,8 @@ hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ExtractImageToMemory(param_asset_id /*4*/, param_material_id /*4*/, &param_image_file_format_name[0] /*2*/, &param_image_planes[0] /*2*/, param_buffer_size /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1540,8 +1540,8 @@ hapi_disconnect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_DisconnectAssetGeometry(param_asset_id /*4*/, param_input_idx /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1564,7 +1564,7 @@ hapi_image_file_format_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1599,8 +1599,8 @@ hapi_set_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetPartInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_part_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1640,8 +1640,8 @@ hapi_set_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVertexList(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_vertex_list[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1691,8 +1691,8 @@ hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAttributeStringData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_name[0] /*2*/, &param_attr_info /*3*/, &param_data[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1740,8 +1740,8 @@ hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetObjectTransforms(param_asset_id /*4*/, param_rst_order /*4*/, &param_transforms[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1783,8 +1783,8 @@ hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetTransformAnimCurve(param_node_id /*4*/, param_trans_comp /*4*/, &param_curve_keyframes[0] /*2*/, param_keyframe_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1825,8 +1825,8 @@ hapi_get_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGeoInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_geo_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1849,7 +1849,7 @@ hapi_parm_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1878,8 +1878,8 @@ hapi_image_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    HAPI_ImageInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_ImageInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1909,7 +1909,7 @@ hapi_parm_info_is_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1954,8 +1954,8 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeIntData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_name[0] /*2*/, &param_attr_info /*3*/, &param_data[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2011,8 +2011,8 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGroupMembership(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, param_group_type /*4*/, &param_group_name[0] /*2*/, &param_membership[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2052,8 +2052,8 @@ hapi_get_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetTime(param_time /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2086,8 +2086,8 @@ hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmInfoFromName(param_node_id /*4*/, &param_parm_name[0] /*2*/, &param_parm_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2134,8 +2134,8 @@ hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetFaceCounts(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_face_counts[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2183,8 +2183,8 @@ hapi_set_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveCounts(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_counts[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2213,7 +2213,7 @@ hapi_attribute_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2249,8 +2249,8 @@ hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadAssetLibraryFromMemory(&param_library_buffer[0] /*2*/, param_library_buffer_size /*4*/, param_allow_overwrite /*4*/, param_library_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2285,8 +2285,8 @@ hapi_get_new_asset_ids_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetNewAssetIds(param_asset_ids /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2319,8 +2319,8 @@ hapi_set_object_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetObjectTransform(param_asset_id /*4*/, param_object_id /*4*/, &param_transform /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2343,7 +2343,7 @@ hapi_handle_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2378,8 +2378,8 @@ hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetObjects(param_asset_id /*4*/, &param_object_infos[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2422,8 +2422,8 @@ hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVolumeTileFloatData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_tile /*3*/, param_values /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2452,8 +2452,8 @@ hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    HAPI_ImageFileFormat_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_ImageFileFormat_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2484,8 +2484,8 @@ hapi_get_asset_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAssetInfo(param_asset_id /*4*/, &param_asset_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2518,8 +2518,8 @@ hapi_render_material_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_RenderMaterialToImage(param_asset_id /*4*/, param_material_id /*4*/, param_shader_type /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2551,7 +2551,7 @@ hapi_part_info_get_attribute_count_by_owner_schedule(ErlNifEnv* env, int argc, c
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2584,8 +2584,8 @@ hapi_connect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConnectAssetTransform(param_asset_id_from /*4*/, param_asset_id_to /*4*/, param_input_idx /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2608,7 +2608,7 @@ hapi_volume_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2637,8 +2637,8 @@ hapi_get_global_nodes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGlobalNodes(&param_global_nodes /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2675,8 +2675,8 @@ hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetHandleBindingInfo(param_asset_id /*4*/, param_handle_index /*4*/, &param_handle_infos[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2715,8 +2715,8 @@ hapi_get_material_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialInfo(param_asset_id /*4*/, param_material_id /*4*/, &param_material_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2753,8 +2753,8 @@ hapi_get_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVolumeInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_volume_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2783,8 +2783,8 @@ hapi_timeline_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    HAPI_TimelineOptions_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_TimelineOptions_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2807,7 +2807,7 @@ hapi_global_nodes_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2842,8 +2842,8 @@ hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImagePlanes(param_asset_id /*4*/, param_material_id /*4*/, &param_image_planes[0] /*0*/, param_image_plane_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2872,7 +2872,7 @@ hapi_handle_binding_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2907,8 +2907,8 @@ hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmStringValue(param_node_id /*4*/, &param_value[0] /*2*/, param_parm_id /*4*/, param_index /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2949,8 +2949,8 @@ hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmIntValue(param_node_id /*4*/, &param_parm_name[0] /*2*/, param_index /*4*/, param_value /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2985,8 +2985,8 @@ hapi_get_cooking_total_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCookingTotalCount(param_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3019,8 +3019,8 @@ hapi_render_texture_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_RenderTextureToImage(param_asset_id /*4*/, param_material_id /*4*/, param_parm_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3053,8 +3053,8 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetString(param_string_handle /*4*/, &param_string_value[0] /*0*/, param_buffer_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3093,8 +3093,8 @@ hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImagePlaneCount(param_asset_id /*4*/, &param_material_id[0] /*0*/, param_image_plane_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3135,8 +3135,8 @@ hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertMatrixToEuler(param_mat /*4*/, param_rst_order /*4*/, param_rot_order /*4*/, &param_transform_out /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3171,8 +3171,8 @@ hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmChoiceLists(param_node_id /*4*/, &param_parm_choices[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3210,7 +3210,7 @@ hapi_part_info_get_element_count_by_group_type_schedule(ErlNifEnv* env, int argc
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3243,8 +3243,8 @@ hapi_remove_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_RemoveMultiparmInstance(param_node_id /*4*/, param_parm_id /*4*/, param_instance_position /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3285,8 +3285,8 @@ hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVertexList(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_vertex_list[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3323,8 +3323,8 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAvailableAssetCount(&param_library_id[0] /*0*/, param_asset_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3367,8 +3367,8 @@ hapi_get_next_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetNextVolumeTile(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_tile /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3401,8 +3401,8 @@ hapi_set_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetImageInfo(param_asset_id /*4*/, param_material_id /*4*/, &param_image_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3431,8 +3431,8 @@ hapi_node_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    HAPI_NodeInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_NodeInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3462,7 +3462,7 @@ hapi_parm_info_get_string_value_count_schedule(ErlNifEnv* env, int argc, const E
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3491,8 +3491,8 @@ hapi_destroy_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_DestroyAsset(param_asset_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3527,8 +3527,8 @@ hapi_get_input_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetInputName(param_asset_id /*4*/, param_input_idx /*4*/, param_input_type /*4*/, param_name /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3563,8 +3563,8 @@ hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmIntValues(param_node_id /*4*/, &param_values[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3606,8 +3606,8 @@ hapi_set_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmIntValues(param_node_id /*4*/, &param_values[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3642,8 +3642,8 @@ hapi_cook_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    HAPI_CookOptions_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_CookOptions_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3680,8 +3680,8 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmStringValue(param_node_id /*4*/, &param_parm_name[0] /*2*/, param_index /*4*/, param_evaluate /*4*/, param_value /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3725,8 +3725,8 @@ hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAnimCurve(param_node_id /*4*/, param_parm_id /*4*/, param_parm_index /*4*/, &param_curve_keyframes[0] /*2*/, param_keyframe_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3765,8 +3765,8 @@ hapi_get_parm_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmInfo(param_node_id /*4*/, param_parm_id /*4*/, &param_parm_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3808,8 +3808,8 @@ hapi_set_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveKnots(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_knots[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3844,8 +3844,8 @@ hapi_reset_simulation_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ResetSimulation(param_asset_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3883,8 +3883,8 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetPreset(param_node_id /*4*/, param_preset_type /*4*/, &param_preset_name[0] /*2*/, &param_buffer[0] /*2*/, param_buffer_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3924,8 +3924,8 @@ hapi_keyframe_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    HAPI_Keyframe_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_Keyframe_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3947,8 +3947,8 @@ hapi_interrupt_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = 0;
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_Interrupt());
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3983,8 +3983,8 @@ hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImageMemoryBuffer(param_asset_id /*4*/, param_material_id /*4*/, &param_buffer[0] /*0*/, param_buffer_size /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4023,8 +4023,8 @@ hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertMatrixToQuat(param_mat /*4*/, param_rst_order /*4*/, &param_transform_out /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4059,8 +4059,8 @@ hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParameters(param_node_id /*4*/, &param_parm_infos[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4099,8 +4099,8 @@ hapi_convert_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertTransform(&param_transform_in_out /*3*/, param_rst_order /*4*/, param_rot_order /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4129,8 +4129,8 @@ hapi_create_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_CreateCurve(param_asset_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4160,7 +4160,7 @@ hapi_parm_info_is_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4191,8 +4191,8 @@ hapi_convert_transform_quat_to_matrix_schedule(ErlNifEnv* env, int argc, const E
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertTransformQuatToMatrix(&param_transform /*3*/, param_matrix /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4222,7 +4222,7 @@ hapi_parm_info_get_int_value_count_schedule(ErlNifEnv* env, int argc, const ERL_
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4251,8 +4251,8 @@ hapi_volume_tile_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    HAPI_VolumeTileInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_VolumeTileInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4289,8 +4289,8 @@ hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SaveGeoToMemory(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_buffer[0] /*0*/, param_size /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4329,8 +4329,8 @@ hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_InstantiateAsset(&param_asset_name[0] /*2*/, param_cook_on_load /*4*/, param_asset_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4365,8 +4365,8 @@ hapi_get_supported_image_file_format_count_schedule(ErlNifEnv* env, int argc, co
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetSupportedImageFileFormatCount(param_file_format_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4401,8 +4401,8 @@ hapi_set_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVolumeInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_volume_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4437,8 +4437,8 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SaveGeoToFile(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_file_name[0] /*2*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4485,8 +4485,8 @@ hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveOrders(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_orders[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4515,7 +4515,7 @@ hapi_asset_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4552,8 +4552,8 @@ hapi_get_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4575,8 +4575,8 @@ hapi_is_initialized_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = 0;
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_IsInitialized());
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4607,8 +4607,8 @@ hapi_disconnect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_DisconnectAssetTransform(param_asset_id /*4*/, param_input_idx /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4645,8 +4645,8 @@ hapi_set_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4683,8 +4683,8 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_Initialize(&param_otl_search_path[0] /*2*/, &param_dso_search_path[0] /*2*/, &param_cook_options /*3*/, &param_use_cooking_thread[0] /*0*/, param_cooking_thread_stack_size /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4729,8 +4729,8 @@ hapi_part_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    HAPI_PartInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_PartInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4765,8 +4765,8 @@ hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmFloatValues(param_node_id /*4*/, &param_values[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4801,8 +4801,8 @@ hapi_handle_binding_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    HAPI_HandleBindingInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_HandleBindingInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4841,8 +4841,8 @@ hapi_get_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVolumeTileIntData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_tile /*3*/, param_values /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4871,8 +4871,8 @@ hapi_object_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    HAPI_ObjectInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_ObjectInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4901,8 +4901,8 @@ hapi_get_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetTimelineOptions(&param_timeline_options /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4935,8 +4935,8 @@ hapi_commit_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_CommitGeo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4965,8 +4965,8 @@ hapi_parm_choice_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    HAPI_ParmChoiceInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_ParmChoiceInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4989,7 +4989,7 @@ hapi_image_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5020,8 +5020,8 @@ hapi_cook_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_CookAsset(param_asset_id /*4*/, &param_cook_options /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5052,8 +5052,8 @@ hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadHIPFile(&param_file_name[0] /*2*/, param_cook_on_load /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5088,8 +5088,8 @@ hapi_geo_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    HAPI_GeoInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_GeoInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5118,8 +5118,8 @@ hapi_volume_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    HAPI_VolumeInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_VolumeInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5154,8 +5154,8 @@ hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmIntValue(param_node_id /*4*/, &param_parm_name[0] /*2*/, param_index /*4*/, param_value /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5198,8 +5198,8 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_AddAttribute(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_name[0] /*2*/, &param_attr_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5242,8 +5242,8 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_AddGroup(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_group_type /*4*/, &param_group_name[0] /*2*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5280,8 +5280,8 @@ hapi_convert_transform_euler_to_matrix_schedule(ErlNifEnv* env, int argc, const 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertTransformEulerToMatrix(&param_transform /*3*/, param_matrix /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5325,8 +5325,8 @@ hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAttributeFloatData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_name[0] /*2*/, &param_attr_info /*3*/, &param_data[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5370,8 +5370,8 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmIdFromName(param_node_id /*4*/, &param_parm_name[0] /*2*/, param_parm_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5420,8 +5420,8 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetGroupMembership(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_group_type /*4*/, &param_group_name[0] /*2*/, &param_membership[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5469,8 +5469,8 @@ hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVolumeTileIntData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_tile /*3*/, param_values /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5501,8 +5501,8 @@ hapi_get_status_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStatus(param_status_type /*4*/, param_status /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5545,8 +5545,8 @@ hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialIdsOnFaces(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, param_are_all_the_same /*4*/, &param_material_ids[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5590,8 +5590,8 @@ hapi_get_geo_size_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGeoSize(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_format[0] /*2*/, param_size /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5639,8 +5639,8 @@ hapi_set_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveOrders(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_orders[0] /*2*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5679,8 +5679,8 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStatusStringBufLength(param_status_type /*4*/, &param_verbosity[0] /*0*/, param_buffer_size /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5727,8 +5727,8 @@ hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveKnots(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_knots[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5771,8 +5771,8 @@ hapi_get_first_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetFirstVolumeTile(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_tile /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5811,8 +5811,8 @@ hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGroupNames(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_group_type /*4*/, &param_group_names[0] /*0*/, param_group_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5853,8 +5853,8 @@ hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadGeoFromFile(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_file_name[0] /*2*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5893,8 +5893,8 @@ hapi_revert_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_RevertGeo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5923,8 +5923,8 @@ hapi_asset_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    HAPI_AssetInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_AssetInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5954,7 +5954,7 @@ hapi_parm_info_is_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5985,8 +5985,8 @@ hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_CreateInputAsset(param_asset_id /*4*/, &param_name[0] /*2*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6027,8 +6027,8 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmFloatValue(param_node_id /*4*/, &param_parm_name[0] /*2*/, param_index /*4*/, param_value /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6073,8 +6073,8 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadGeoFromMemory(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_format[0] /*2*/, &param_buffer[0] /*0*/, param_size /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6115,7 +6115,7 @@ hapi_parm_info_is_file_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6138,7 +6138,7 @@ hapi_keyframe_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6173,8 +6173,8 @@ hapi_set_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetGeoInfo(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_geo_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6197,7 +6197,7 @@ hapi_geo_input_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6226,8 +6226,8 @@ hapi_material_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    HAPI_MaterialInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_MaterialInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6256,8 +6256,8 @@ hapi_parm_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    HAPI_ParmInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_ParmInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6290,8 +6290,8 @@ hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAvailableAssets(param_library_id /*4*/, &param_asset_names[0] /*0*/, param_asset_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6334,8 +6334,8 @@ hapi_get_material_on_part_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialOnPart(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_material_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6364,8 +6364,8 @@ hapi_curve_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    HAPI_CurveInfo_Init(&param_in);
-    stub_result = hapi_make_atom_ok(env);
+    HAPI_CurveInfo_Init(&param_in /*3*/);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6395,7 +6395,7 @@ hapi_parm_info_is_node_path_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     }
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6418,7 +6418,7 @@ hapi_cook_options_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6459,8 +6459,8 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ExtractImageToFile(param_asset_id /*4*/, param_material_id /*4*/, &param_image_file_format_name[0] /*2*/, &param_image_planes[0] /*2*/, &param_destination_folder_path[0] /*2*/, &param_destination_file_name[0] /*2*/, param_destination_file_path /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6510,8 +6510,8 @@ hapi_set_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetTime(param_time /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6544,8 +6544,8 @@ hapi_get_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImageInfo(param_asset_id /*4*/, param_material_id /*4*/, &param_image_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6582,8 +6582,8 @@ hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmStringValues(param_node_id /*4*/, param_evaluate /*4*/, &param_values[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6626,8 +6626,8 @@ hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialOnGroup(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, &param_group_name[0] /*2*/, &param_material_info /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6662,8 +6662,8 @@ hapi_python_thread_interpreter_lock_schedule(ErlNifEnv* env, int argc, const ERL
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_PythonThreadInterpreterLock(param_locked /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6692,8 +6692,8 @@ hapi_set_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetTimelineOptions(&param_timeline_options /*3*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6732,8 +6732,8 @@ hapi_get_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVolumeTileFloatData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_tile /*3*/, param_values /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6778,8 +6778,8 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeFloatData(param_asset_id /*4*/, param_object_id /*4*/, param_geo_id /*4*/, param_part_id /*4*/, &param_name[0] /*2*/, &param_attr_info /*3*/, &param_data[0] /*0*/, param_start /*4*/, param_length /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6825,8 +6825,8 @@ hapi_connect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConnectAssetGeometry(param_asset_id_from /*4*/, param_object_id_from /*4*/, param_asset_id_to /*4*/, param_input_idx /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6849,7 +6849,7 @@ hapi_object_info_create_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     ERL_NIF_TERM stub_result = 0;
 
     
-    stub_result = hapi_make_atom_ok(env);
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6880,8 +6880,8 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetSupportedImageFileFormats(&param_formats[0] /*0*/, param_file_format_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6916,8 +6916,8 @@ hapi_check_for_new_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    
-    stub_result = hapi_make_atom_ok(env);
+    stub_result = hapi_priv_make_hapi_result(env, HAPI_CheckForNewAssets(param_new_asset_count /*4*/));
+    //stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
 

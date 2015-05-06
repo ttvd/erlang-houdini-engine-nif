@@ -1217,6 +1217,9 @@ defmodule HAPI do
       # Process variable declarations.
       parameters_vars = Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1)))
 
+      # Sort parameters by index.
+      parameters_sorted = Enum.sort(parameters, &(get_parameter_index(&1) < get_parameter_index(&2)))
+
       # Process variable block.
       var_code =
         ["ERL_NIF_TERM stub_result = 0;"]
@@ -1251,7 +1254,7 @@ defmodule HAPI do
 
       # Process call block.
       call_code =
-        String.replace(call_block, "%{HAPI_CALL}%", create_stub_c_call(env, function_type, function_name, parameters))
+        String.replace(call_block, "%{HAPI_CALL}%", create_stub_c_call(env, function_type, function_name, parameters_sorted))
         <> "\n"
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
@@ -1384,16 +1387,13 @@ defmodule HAPI do
 
     # Helper function to generate HAPI call.
     defp create_stub_c_call(env, :token_void, function_name, function_params) do
-      "#{function_name}("
-      <> Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1)))
-      <> ");"
+      "#{function_name}(%{HAPI_PARMS}%);"
+      |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
     end
-    #defp create_stub_c_call(env, :token_int, function_name, function_params) do
-    #  ""
-    #end
-    #defp create_stub_c_call(env, "HAPI_Result", function_name, function_params) do
-    #  ""
-    #end
+    defp create_stub_c_call(env, "HAPI_Result", function_name, function_params) do
+      "stub_result = hapi_priv_make_hapi_result(env, #{function_name}(%{HAPI_PARMS}%));"
+      |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
+    end
     defp create_stub_c_call(env, function_type, function_name, function_params) do
       ""
     end
@@ -1401,19 +1401,38 @@ defmodule HAPI do
     # Helper function to generate HAPI call parameters.
     defp create_stub_c_call_create_param(env, {type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
       type_processed = String.rstrip(type, ?*)
-      if type_processed == type do
-        if HAPI.Util.is_type_structure(env, type_processed) do
-          "&#{name}"
+      if not is_input do
+        if needs_cleanup do
+          "&#{name}[0] /*0*/"
         else
-          "#{name}"
+          "&#{name} /*1*/"
         end
       else
         if needs_cleanup do
-          "&#{name}[0]"
+          "&#{name}[0] /*2*/"
         else
-          "&#{name}"
+          if HAPI.Util.is_type_structure(env, type_processed) do
+            "&#{name} /*3*/"
+          else
+            "#{name} /*4*/"
+          end
         end
       end
+
+      #type_processed = String.rstrip(type, ?*)
+      #if type_processed == type do
+      #  if HAPI.Util.is_type_structure(env, type_processed) do
+      #    "&#{name}"
+      #  else
+      #    "#{name}"
+      #  end
+      #else
+      #  if needs_cleanup do
+      #    "&#{name}[0]"
+      #  else
+      #    "&#{name}"
+      #  end
+      #end
     end
 
   end

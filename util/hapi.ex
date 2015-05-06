@@ -1198,13 +1198,14 @@ defmodule HAPI do
 
       # Put parameters which require allocation at the end.
       parameters = create_stub_c_entry_objects([], env, 0, function_name, function_type, function_params)
-      parameters = Enum.concat(Enum.filter(parameters, &(not elem(&1, 6))), Enum.filter(parameters, &(elem(&1, 6))))
+      parameters = Enum.concat(Enum.filter(parameters, &(not parameter_requires_cleanup(&1))),
+        Enum.filter(parameters, &(parameter_requires_cleanup(&1))))
 
       # Filter out input parameters.
-      parameters_input = Enum.filter(parameters, &(elem(&1, 4)))
+      parameters_input = Enum.filter(parameters, &(is_parameter_input(&1)))
 
       # Filter out parameters which require clean up.
-      parameters_cleanup = Enum.filter(parameters, &(elem(&1, 6)))
+      parameters_cleanup = Enum.filter(parameters, &(parameter_requires_cleanup(&1)))
 
       # Process variable declarations.
       parameters_vars = Enum.map_join(parameters, "\n    ", &(create_stub_c_entry_var(&1)))
@@ -1225,6 +1226,7 @@ defmodule HAPI do
             Enum.filter(parameters, &(parameter_requires_cleanup(&1))))
           |> Enum.filter(&(is_parameter_input(&1)))
           |> Enum.map_join(" ||\n        ", &(create_stub_c_entry_assign(env, &1))))
+          #|> Enum.concat(Enum.filter()
           <> "\n"
       end
 
@@ -1345,25 +1347,32 @@ defmodule HAPI do
     end
 
     # Helper function used to create assignments.
-    defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
+    defp create_stub_c_entry_assign(env, {type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx} = param) do
       type_underscore = HAPI.Util.underscore(type)
       |> String.rstrip(?*)
       type_pure = String.rstrip(type, ?*)
-      cond do
-        needs_cleanup ->
-          if not is_nil(decl_size) do
-            "!(#{name} = malloc(sizeof(#{type_pure}) * #{decl_size})) ||"
-            <> "\n        "
-            <> "!hapi_priv_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
-          else
-            if "char" == type_pure do
-              "!hapi_priv_get_null_terminated_string(env, argv[#{idx}], &#{name})"
+      if is_parameter_input(param) do
+        cond do
+          needs_cleanup ->
+            if not is_nil(decl_size) do
+              "!(#{name} = malloc(sizeof(#{type_pure}) * #{decl_size})) ||"
+              <> "\n        "
+              <> "!hapi_priv_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
             else
-              raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+              if "char" == type_pure do
+                "!hapi_priv_get_null_terminated_string(env, argv[#{idx}], &#{name})"
+              else
+                raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+              end
             end
-          end
-        true ->
-          "!hapi_priv_get_#{type_underscore}(env, argv[#{idx}], &#{name})"
+          true ->
+            "!hapi_priv_get_#{type_underscore}(env, argv[#{idx}], &#{name})"
+        end
+      else
+        #if
+        #"// OUTPUT #{idx} parameter #{type} param_#{name}"
+        #<> "\n        true"
+        ""
       end
     end
   end

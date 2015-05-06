@@ -1230,12 +1230,13 @@ defmodule HAPI do
       if Enum.empty?(parameters_input) do
         assign_code = ""
       else
-        assign_code = "    " <> String.replace(assign_block, "%{HAPI_FUNCTION_ASSIGN}%",
-          Enum.concat(Enum.filter(parameters_input, &(not parameter_requires_cleanup(&1))),
-            Enum.filter(parameters_input, &(parameter_requires_cleanup(&1))))
-          #|> Enum.filter(&(is_parameter_input(&1)))
-          |> Enum.map_join(" ||\n        ", &(create_stub_c_entry_assign(env, &1))))
-          #|> Enum.concat(Enum.filter(&(is_parameter_)
+        assign_code =
+          "    "
+          <> String.replace(assign_block, "%{HAPI_FUNCTION_ASSIGN}%",
+              Enum.filter(parameters_input, &(not parameter_requires_cleanup(&1)))
+              ++ Enum.filter(parameters_input, &(parameter_requires_cleanup(&1)))
+              ++ Enum.filter(parameters_output, &(parameter_requires_cleanup(&1)))
+              |> Enum.map_join(" ||\n        ", &(create_stub_c_entry_assign(env, &1))))
           <> "\n"
       end
 
@@ -1257,9 +1258,9 @@ defmodule HAPI do
         Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
       |> String.replace("%{HAPI_FUNCTION_BODY}%",
           var_code
-         <> assign_code
-         <> cleanup_label
-         <> cleanup_code)
+          <> assign_code
+          <> cleanup_label
+          <> cleanup_code)
     end
 
     # DEBUG FUNCTION
@@ -1383,10 +1384,11 @@ defmodule HAPI do
             "!hapi_priv_get_#{type_underscore}(env, argv[#{idx}], &#{name})"
         end
       else
-        #if
-        #"// OUTPUT #{idx} parameter #{type} param_#{name}"
-        #<> "\n        true"
-        ""
+        if parameter_requires_cleanup(param) do
+          "!(#{name} = malloc(sizeof(#{type_pure}) * #{decl_size}))"
+        else
+          raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+        end
       end
     end
   end

@@ -154,7 +154,7 @@ hapi_attribute_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    
+    HAPI_AttributeInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -184,7 +184,7 @@ hapi_handle_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
+    HAPI_HandleInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -873,7 +873,7 @@ hapi_global_nodes_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    
+    HAPI_GlobalNodes_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -1014,7 +1014,7 @@ hapi_geo_input_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    
+    HAPI_GeoInputInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -1878,7 +1878,7 @@ hapi_image_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
+    HAPI_ImageInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -2452,7 +2452,7 @@ hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    
+    HAPI_ImageFileFormat_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -2783,7 +2783,7 @@ hapi_timeline_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
+    HAPI_TimelineOptions_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -3431,7 +3431,7 @@ hapi_node_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
+    HAPI_NodeInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -3642,7 +3642,7 @@ hapi_cook_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    
+    HAPI_CookOptions_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -3924,7 +3924,7 @@ hapi_keyframe_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
+    HAPI_Keyframe_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -4251,7 +4251,7 @@ hapi_volume_tile_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
+    HAPI_VolumeTileInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -4729,7 +4729,7 @@ hapi_part_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
+    HAPI_PartInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -4801,7 +4801,7 @@ hapi_handle_binding_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    
+    HAPI_HandleBindingInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -4871,7 +4871,7 @@ hapi_object_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
+    HAPI_ObjectInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -4965,7 +4965,7 @@ hapi_parm_choice_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    
+    HAPI_ParmChoiceInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -5088,7 +5088,7 @@ hapi_geo_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    
+    HAPI_GeoInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -5118,7 +5118,7 @@ hapi_volume_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    
+    HAPI_VolumeInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -5923,7 +5923,7 @@ hapi_asset_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
+    HAPI_AssetInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -6226,7 +6226,7 @@ hapi_material_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    
+    HAPI_MaterialInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -6256,7 +6256,7 @@ hapi_parm_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    
+    HAPI_ParmInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
@@ -6364,7 +6364,7 @@ hapi_curve_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    
+    HAPI_CurveInfo_Init(&param_in);
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:

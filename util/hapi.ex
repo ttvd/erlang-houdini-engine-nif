@@ -1249,13 +1249,12 @@ defmodule HAPI do
         cleanup_code =
           Enum.map_join(parameters_cleanup, "\n",
             &(String.replace(cleanup_block, "%{HAPI_DYNAMIC_VARIABLE}%", get_parameter_variable_name(&1))))
-          <> "\n\n"
       end
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
       |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
-      |> String.replace("%{HAPI_DEBUG_TOKENS}%",
-        Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
+      #|> String.replace("%{HAPI_DEBUG_TOKENS}%",
+      #  Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
       |> String.replace("%{HAPI_FUNCTION_BODY}%",
           var_code
           <> assign_code
@@ -1272,27 +1271,27 @@ defmodule HAPI do
 
     # Helper function to generate variable declaration for parameter.
     defp create_stub_c_entry_var({type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
-      if not is_nil(decl_size) do
-        add_size = " | SIZE: #{decl_size}"
-      else
-        add_size = ""
-      end
-
+      #if not is_nil(decl_size) do
+      #  add_size = " | SIZE: #{decl_size}"
+      #else
+      #  add_size = ""
+      #end
+      #
       if not is_nil(init_code) do
         add_init = " = #{init_code}"
       else
         add_init = ""
       end
+      #
+      #if is_input do
+      #  add_inout = "INPUT"
+      #else
+      #  add_inout = "OUTPUT"
+      #end
 
-      if is_input do
-        add_inout = "INPUT"
-      else
-        add_inout = "OUTPUT"
-      end
-
-      "#{type} #{name}#{add_init}; // #{add_inout}#{add_size} IDX: #{idx} EX: #{extract}"
+      #"#{type} #{name}#{add_init}; // #{add_inout}#{add_size} IDX: #{idx} EX: #{extract}"
+      "#{type} #{name}#{add_init};"
     end
-
 
     #    0           1          2           3             4                  5                          6              7
     # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, T-INPUT/F-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, F/T IF NEEDS CLEAN UP, IDX}

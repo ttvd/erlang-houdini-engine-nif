@@ -1186,10 +1186,11 @@ defmodule HAPI do
         {:ok, template_block} = File.read("./util/hapi_functions_nif.c.block.template")
         {:ok, assign_block} = File.read("./util/hapi_functions_nif.c.assign.block.template")
         {:ok, clean_block} = File.read("./util/hapi_functions_nif.c.cleanup.block.template")
+        {:ok, call_block} = File.read("./util/hapi_functions_nif.c.call.block.template")
 
         entries = String.replace(template, "%{HAPI_FUNCTIONS}%",
           Enum.map_join(functions, "\n\n",
-            fn{k, v} -> create_stub_c_entry(env, k, v, template_block, assign_block, clean_block) end))
+            fn{k, v} -> create_stub_c_entry(env, k, v, template_block, assign_block, clean_block, call_block) end))
 
         File.write("./c_src/hapi_functions_nif.c", entries)
         IO.puts("Generating c_src/hapi_functions_nif.c")
@@ -1197,7 +1198,7 @@ defmodule HAPI do
     end
 
     # Helper function used to generate c stub entries.
-    defp create_stub_c_entry(env, function_name, function_body, template_block, assign_block, cleanup_block) do
+    defp create_stub_c_entry(env, function_name, function_body, template_block, assign_block, cleanup_block, call_block) do
 
       {function_type, function_params} = function_body
 
@@ -1248,6 +1249,11 @@ defmodule HAPI do
             &(String.replace(cleanup_block, "%{HAPI_DYNAMIC_VARIABLE}%", get_parameter_variable_name(&1))))
       end
 
+      # Process call block.
+      call_code =
+        String.replace(call_block, "%{HAPI_CALL}%", "")
+        <> "\n"
+
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
       |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
       #|> String.replace("%{HAPI_DEBUG_TOKENS}%",
@@ -1255,6 +1261,7 @@ defmodule HAPI do
       |> String.replace("%{HAPI_FUNCTION_BODY}%",
           var_code
           <> assign_code
+          <> call_code
           <> cleanup_label
           <> cleanup_code)
     end
@@ -1273,7 +1280,7 @@ defmodule HAPI do
       else
         add_init = ""
       end
-      
+
       "#{type} #{name}#{add_init};"
     end
 

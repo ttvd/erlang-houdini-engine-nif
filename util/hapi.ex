@@ -1268,25 +1268,12 @@ defmodule HAPI do
 
     # Helper function to generate variable declaration for parameter.
     defp create_stub_c_entry_var({type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
-      #if not is_nil(decl_size) do
-      #  add_size = " | SIZE: #{decl_size}"
-      #else
-      #  add_size = ""
-      #end
-      #
       if not is_nil(init_code) do
         add_init = " = #{init_code}"
       else
         add_init = ""
       end
-      #
-      #if is_input do
-      #  add_inout = "INPUT"
-      #else
-      #  add_inout = "OUTPUT"
-      #end
-
-      #"#{type} #{name}#{add_init}; // #{add_inout}#{add_size} IDX: #{idx} EX: #{extract}"
+      
       "#{type} #{name}#{add_init};"
     end
 

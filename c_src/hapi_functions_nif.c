@@ -799,16 +799,16 @@ hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     HAPI_GeoId param_geo_id;
     HAPI_PartId param_part_id;
     HAPI_AttributeOwner param_owner;
-    HAPI_StringHandle param_attribute_names;
     int param_count;
+    HAPI_StringHandle* param_attribute_names = NULL;
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
         !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
         !hapi_priv_get_hapi_part_id(env, argv[3], &param_part_id) ||
         !hapi_priv_get_hapi_attribute_owner(env, argv[4], &param_owner) ||
-        !hapi_priv_get_hapi_string_handle(env, argv[5], &param_attribute_names) ||
-        !hapi_priv_get_int(env, argv[6], &param_count))
+        !hapi_priv_get_int(env, argv[6], &param_count) ||
+        !(param_attribute_names = malloc(sizeof(HAPI_StringHandle) * param_count)))
     {
         stub_result = enif_make_badarg(env);
         goto label_cleanup;
@@ -818,6 +818,12 @@ hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     stub_result = hapi_make_atom_ok(env);
 
 label_cleanup:
+
+    if(param_attribute_names)
+    {
+        free(param_attribute_names);
+    }
+
 
     return stub_result;
 }

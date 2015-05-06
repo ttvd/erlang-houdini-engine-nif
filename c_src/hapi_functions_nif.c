@@ -292,8 +292,7 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         !hapi_priv_get_hapi_attribute_info(env, argv[5], &param_attr_info) ||
         !hapi_priv_get_int(env, argv[7], &param_start) ||
         !hapi_priv_get_int(env, argv[8], &param_length) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 4
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[4], &param_name))
     {
         goto label_cleanup;
     }
@@ -383,8 +382,7 @@ hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
         !hapi_priv_get_float(env, argv[3], &param_value) ||
-        // UNHANDLED char* param_parm_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_parm_name))
     {
         goto label_cleanup;
     }
@@ -1093,8 +1091,7 @@ hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         !hapi_priv_get_hapi_part_id(env, argv[3], &param_part_id) ||
         !hapi_priv_get_hapi_attribute_owner(env, argv[5], &param_owner) ||
         !hapi_priv_get_hapi_attribute_info(env, argv[6], &param_attr_info) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 4
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[4], &param_name))
     {
         goto label_cleanup;
     }
@@ -1142,8 +1139,7 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
 
     if(!hapi_priv_get_hapi_bool(env, argv[1], &param_allow_overwrite) ||
         !hapi_priv_get_hapi_asset_library_id(env, argv[2], &param_library_id) ||
-        // UNHANDLED char* param_file_path INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 0
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[0], &param_file_path))
     {
         goto label_cleanup;
     }
@@ -1439,8 +1435,7 @@ hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     char* param_file_path = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
 
-    if(// UNHANDLED char* param_file_path INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 0
-        true)
+    if(!hapi_priv_get_null_terminated_string(env, argv[0], &param_file_path))
     {
         goto label_cleanup;
     }
@@ -1528,8 +1523,7 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         !hapi_priv_get_hapi_attribute_info(env, argv[4], &param_attr_info) ||
         !hapi_priv_get_int(env, argv[6], &param_start) ||
         !hapi_priv_get_int(env, argv[7], &param_length) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true ||
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_name) ||
         !(param_data = malloc(sizeof(int) * param_length)) ||
         !hapi_priv_get_int_list(env, argv[5], &param_data[0], param_length))
     {
@@ -1761,8 +1755,7 @@ hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
         !hapi_priv_get_int(env, argv[4], &param_buffer_size) ||
-        // UNHANDLED char* param_image_file_format_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 2
-        true ||
+        !hapi_priv_get_null_terminated_string(env, argv[2], &param_image_file_format_name) ||
         !(param_image_planes = malloc(sizeof(char) * param_buffer_size)) ||
         !hapi_priv_get_char_list(env, argv[3], &param_image_planes[0], param_buffer_size))
     {
@@ -1995,8 +1988,7 @@ hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         !hapi_priv_get_hapi_attribute_info(env, argv[4], &param_attr_info) ||
         !hapi_priv_get_int(env, argv[6], &param_start) ||
         !hapi_priv_get_int(env, argv[7], &param_length) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true ||
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_name) ||
         !(param_data = malloc(sizeof(char) * param_length)) ||
         !hapi_priv_get_char_list(env, argv[5], &param_data[0], param_length))
     {
@@ -2310,8 +2302,7 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         !hapi_priv_get_hapi_attribute_info(env, argv[5], &param_attr_info) ||
         !hapi_priv_get_int(env, argv[7], &param_start) ||
         !hapi_priv_get_int(env, argv[8], &param_length) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 4
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[4], &param_name))
     {
         goto label_cleanup;
     }
@@ -2381,8 +2372,7 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         !hapi_priv_get_hapi_group_type(env, argv[4], &param_group_type) ||
         !hapi_priv_get_int(env, argv[7], &param_start) ||
         !hapi_priv_get_int(env, argv[8], &param_length) ||
-        // UNHANDLED char* param_group_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 5
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[5], &param_group_name))
     {
         goto label_cleanup;
     }
@@ -2469,8 +2459,7 @@ hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_info(env, argv[2], &param_parm_info) ||
-        // UNHANDLED char* param_parm_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_parm_name))
     {
         goto label_cleanup;
     }
@@ -3438,8 +3427,7 @@ hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[2], &param_parm_id) ||
         !hapi_priv_get_int(env, argv[3], &param_index) ||
-        // UNHANDLED char* param_value INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_value))
     {
         goto label_cleanup;
     }
@@ -3490,8 +3478,7 @@ hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
         !hapi_priv_get_int(env, argv[3], &param_value) ||
-        // UNHANDLED char* param_parm_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_parm_name))
     {
         goto label_cleanup;
     }
@@ -4353,8 +4340,7 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         !hapi_priv_get_int(env, argv[2], &param_index) ||
         !hapi_priv_get_hapi_bool(env, argv[3], &param_evaluate) ||
         !hapi_priv_get_hapi_string_handle(env, argv[4], &param_value) ||
-        // UNHANDLED char* param_parm_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_parm_name))
     {
         goto label_cleanup;
     }
@@ -4597,8 +4583,7 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_preset_type(env, argv[1], &param_preset_type) ||
         !hapi_priv_get_int(env, argv[4], &param_buffer_length) ||
-        // UNHANDLED char* param_preset_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 2
-        true ||
+        !hapi_priv_get_null_terminated_string(env, argv[2], &param_preset_name) ||
         !(param_buffer = malloc(sizeof(char) * param_buffer_length)) ||
         !hapi_priv_get_char_list(env, argv[3], &param_buffer[0], param_buffer_length))
     {
@@ -5119,8 +5104,7 @@ hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
 
     if(!hapi_priv_get_hapi_bool(env, argv[1], &param_cook_on_load) ||
         !hapi_priv_get_hapi_asset_id(env, argv[2], &param_asset_id) ||
-        // UNHANDLED char* param_asset_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 0
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[0], &param_asset_name))
     {
         goto label_cleanup;
     }
@@ -5248,8 +5232,7 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
         !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
-        // UNHANDLED char* param_file_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_file_name))
     {
         goto label_cleanup;
     }
@@ -5541,10 +5524,8 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     if(!hapi_priv_get_hapi_cook_options(env, argv[2], &param_cook_options) ||
         !hapi_priv_get_int(env, argv[4], &param_cooking_thread_stack_size) ||
-        // UNHANDLED char* param_otl_search_path INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 0
-        true ||
-        // UNHANDLED char* param_dso_search_path INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[0], &param_otl_search_path) ||
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_dso_search_path))
     {
         goto label_cleanup;
     }
@@ -5971,8 +5952,7 @@ hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     char* param_file_name = NULL; // INPUT IDX: 0 EX: EXTRACT_CODE0
 
     if(!hapi_priv_get_hapi_bool(env, argv[1], &param_cook_on_load) ||
-        // UNHANDLED char* param_file_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 0
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[0], &param_file_name))
     {
         goto label_cleanup;
     }
@@ -6091,8 +6071,7 @@ hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
         !hapi_priv_get_int(env, argv[3], &param_value) ||
-        // UNHANDLED char* param_parm_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_parm_name))
     {
         goto label_cleanup;
     }
@@ -6146,8 +6125,7 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
         !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
         !hapi_priv_get_hapi_attribute_info(env, argv[4], &param_attr_info) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_name))
     {
         goto label_cleanup;
     }
@@ -6201,8 +6179,7 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
         !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
         !hapi_priv_get_hapi_group_type(env, argv[3], &param_group_type) ||
-        // UNHANDLED char* param_group_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 4
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[4], &param_group_name))
     {
         goto label_cleanup;
     }
@@ -6301,8 +6278,7 @@ hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         !hapi_priv_get_hapi_attribute_info(env, argv[4], &param_attr_info) ||
         !hapi_priv_get_int(env, argv[6], &param_start) ||
         !hapi_priv_get_int(env, argv[7], &param_length) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true ||
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_name) ||
         !(param_data = malloc(sizeof(float) * param_length)) ||
         !hapi_priv_get_float_list(env, argv[5], &param_data[0], param_length))
     {
@@ -6357,8 +6333,7 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_hapi_parm_id(env, argv[2], &param_parm_id) ||
-        // UNHANDLED char* param_parm_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_parm_name))
     {
         goto label_cleanup;
     }
@@ -6420,8 +6395,7 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         !hapi_priv_get_hapi_group_type(env, argv[3], &param_group_type) ||
         !hapi_priv_get_int(env, argv[6], &param_start) ||
         !hapi_priv_get_int(env, argv[7], &param_length) ||
-        // UNHANDLED char* param_group_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 4
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[4], &param_group_name))
     {
         goto label_cleanup;
     }
@@ -6946,8 +6920,7 @@ hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
         !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
-        // UNHANDLED char* param_file_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_file_name))
     {
         goto label_cleanup;
     }
@@ -7100,8 +7073,7 @@ hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     char* param_name = NULL; // INPUT IDX: 1 EX: EXTRACT_CODE0
 
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_name))
     {
         goto label_cleanup;
     }
@@ -7152,8 +7124,7 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     if(!hapi_priv_get_hapi_node_id(env, argv[0], &param_node_id) ||
         !hapi_priv_get_int(env, argv[2], &param_index) ||
         !hapi_priv_get_float(env, argv[3], &param_value) ||
-        // UNHANDLED char* param_parm_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 1
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[1], &param_parm_name))
     {
         goto label_cleanup;
     }
@@ -7209,8 +7180,7 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
         !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
         !hapi_priv_get_int(env, argv[5], &param_size) ||
-        // UNHANDLED char* param_format INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_format))
     {
         goto label_cleanup;
     }
@@ -7656,14 +7626,10 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
         !hapi_priv_get_hapi_material_id(env, argv[1], &param_material_id) ||
         !hapi_priv_get_int(env, argv[6], &param_destination_file_path) ||
-        // UNHANDLED char* param_image_file_format_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 2
-        true ||
-        // UNHANDLED char* param_image_planes INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true ||
-        // UNHANDLED char* param_destination_folder_path INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 4
-        true ||
-        // UNHANDLED char* param_destination_file_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 5
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[2], &param_image_file_format_name) ||
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_image_planes) ||
+        !hapi_priv_get_null_terminated_string(env, argv[4], &param_destination_folder_path) ||
+        !hapi_priv_get_null_terminated_string(env, argv[5], &param_destination_file_name))
     {
         goto label_cleanup;
     }
@@ -7859,8 +7825,7 @@ hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
         !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
         !hapi_priv_get_hapi_material_info(env, argv[4], &param_material_info) ||
-        // UNHANDLED char* param_group_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 3
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[3], &param_group_name))
     {
         goto label_cleanup;
     }
@@ -8042,8 +8007,7 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         !hapi_priv_get_hapi_attribute_info(env, argv[5], &param_attr_info) ||
         !hapi_priv_get_int(env, argv[7], &param_start) ||
         !hapi_priv_get_int(env, argv[8], &param_length) ||
-        // UNHANDLED char* param_name INPUT: true DECL_SIZE:  NEEDS_CLEANUP: true IDX: 4
-        true)
+        !hapi_priv_get_null_terminated_string(env, argv[4], &param_name))
     {
         goto label_cleanup;
     }

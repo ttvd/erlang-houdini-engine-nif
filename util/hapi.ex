@@ -1088,6 +1088,11 @@ defmodule HAPI do
       elem(param, 2)
     end
 
+    # Helper function to get type name for this parameter.
+    defp get_parameter_type_name(param) do
+      elem(param, 0)
+    end
+
     # Function used to generate export table.
     defp create_stub_exports(env) do
       functions = Dict.get(env, :functions, :nil)
@@ -1237,7 +1242,7 @@ defmodule HAPI do
       else
         cleanup_label = "label_cleanup:\n\n"
         cleanup_code = Enum.map_join(parameters_cleanup, "\n",
-         &(String.replace(cleanup_block, "%{HAPI_DYNAMIC_VARIABLE}%", elem(&1, 2)))) <> "\n\n"
+         &(String.replace(cleanup_block, "%{HAPI_DYNAMIC_VARIABLE}%", get_parameter_variable_name(&1)))) <> "\n\n"
       end
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
@@ -1252,7 +1257,7 @@ defmodule HAPI do
     defp create_stub_c_entry_tokens_debug(function_name, function_type, function_params) do
       dbg_opts = &(Enum.map_join(get_parameter_variable_name(&1), " | ", fn{k,v} -> "OPT #{k}->#{v}" end))
       ["function_name: #{function_name}", "function_type: #{function_type}"]
-      ++ Enum.map(function_params, &("#{elem(&1, 0)} #{elem(&1, 1)}     " <> dbg_opts.(&1)))
+      ++ Enum.map(function_params, &("#{get_parameter_type_name(&1)} #{elem(&1, 1)}     " <> dbg_opts.(&1)))
     end
 
     # Helper function to generate variable declaration for parameter.

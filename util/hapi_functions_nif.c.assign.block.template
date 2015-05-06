@@ -3,7 +3,3 @@ if(%{HAPI_FUNCTION_ASSIGN}%)
         stub_result = enif_make_badarg(env);
         goto label_cleanup;
     }
-    else
-    {
-        stub_result = hapi_make_atom_ok(env);
-    }

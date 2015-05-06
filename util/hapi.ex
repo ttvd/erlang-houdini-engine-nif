@@ -1251,7 +1251,7 @@ defmodule HAPI do
 
       # Process call block.
       call_code =
-        String.replace(call_block, "%{HAPI_CALL}%", "")
+        String.replace(call_block, "%{HAPI_CALL}%", create_stub_c_call(env, function_type, function_name, parameters))
         <> "\n"
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
@@ -1381,7 +1381,43 @@ defmodule HAPI do
         end
       end
     end
+
+    # Helper function to generate HAPI call.
+    defp create_stub_c_call(env, :token_void, function_name, function_params) do
+      "#{function_name}("
+      <> Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1)))
+      <> ");"
+    end
+    #defp create_stub_c_call(env, :token_int, function_name, function_params) do
+    #  ""
+    #end
+    #defp create_stub_c_call(env, "HAPI_Result", function_name, function_params) do
+    #  ""
+    #end
+    defp create_stub_c_call(env, function_type, function_name, function_params) do
+      ""
+    end
+
+    # Helper function to generate HAPI call parameters.
+    defp create_stub_c_call_create_param(env, {type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
+      type_processed = String.rstrip(type, ?*)
+      if type_processed == type do
+        if HAPI.Util.is_type_structure(env, type_processed) do
+          "&#{name}"
+        else
+          "#{name}"
+        end
+      else
+        if needs_cleanup do
+          "&#{name}[0]"
+        else
+          "&#{name}"
+        end
+      end
+    end
+
   end
+
 end
 
 [compiler, hapi_include_path] = System.argv()

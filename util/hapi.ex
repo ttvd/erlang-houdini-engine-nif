@@ -1332,18 +1332,23 @@ defmodule HAPI do
       [{param_0_type, param_0_name, _param_0_opts} = param_0,
       {:token_int, param_1_name, _param_1_opts} = param_1 | rest]) do
 
-      if String.match?(param_1_name, ~r/_length$/) or
-        String.match?(param_1_name, ~r/_count$/) or
-        String.match?(param_1_name, ~r/_size$/) or
-        param_1_name == "size" or param_1_name == "count" do
+      if is_pointer_parameter(param_0) and not is_pointer_parameter(param_1) do
+        if String.match?(param_1_name, ~r/_length$/) or
+          String.match?(param_1_name, ~r/_count$/) or
+          String.match?(param_1_name, ~r/_size$/) or
+          param_1_name == "size" or param_1_name == "count" do
 
-        resolved_type = HAPI.Util.type_resolve(env, param_0_type)
+          resolved_type = HAPI.Util.type_resolve(env, param_0_type)
 
-        collect
-        ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
-            is_const_parameter(param_0), "param_#{param_1_name}", true, idx}]
-        ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, true, :nil, false, idx + 1}]
-        |> create_stub_c_entry_objects(env, idx + 2, function_name, function_type, rest)
+          collect
+          ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
+              is_const_parameter(param_0), "param_#{param_1_name}", true, idx}]
+          ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, true, :nil, false, idx + 1}]
+          |> create_stub_c_entry_objects(env, idx + 2, function_name, function_type, rest)
+        else
+          collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param_0)]
+          |> create_stub_c_entry_objects(env, idx + 1, function_name, function_type, [param_1 | rest])
+        end
       else
         collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param_0)]
         |> create_stub_c_entry_objects(env, idx + 1, function_name, function_type, [param_1 | rest])

@@ -1243,10 +1243,10 @@ defmodule HAPI do
 
       # Process clean up block.
       if Enum.empty?(parameters_cleanup) do
-        cleanup_label = "label_cleanup:"
+        cleanup_label = "goto label_cleanup;\nlabel_cleanup:"
         cleanup_code = ""
       else
-        cleanup_label = "label_cleanup:\n\n"
+        cleanup_label = "goto label_cleanup;\nlabel_cleanup:\n\n"
         cleanup_code =
           Enum.map_join(parameters_cleanup, "\n",
             &(String.replace(cleanup_block, "%{HAPI_DYNAMIC_VARIABLE}%", get_parameter_variable_name(&1))))

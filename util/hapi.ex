@@ -1259,8 +1259,8 @@ defmodule HAPI do
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
       |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
-      |> String.replace("%{HAPI_DEBUG_TOKENS}%",
-        Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
+      #|> String.replace("%{HAPI_DEBUG_TOKENS}%",
+      #  Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
       |> String.replace("%{HAPI_FUNCTION_BODY}%",
           var_code
           <> assign_code
@@ -1284,7 +1284,7 @@ defmodule HAPI do
         add_init = ""
       end
 
-      "#{type} #{name}#{add_init}; // #{extract}"
+      "#{type} #{name}#{add_init};"
     end
 
     #    0           1          2           3             4                  5                          6              7
@@ -1293,6 +1293,58 @@ defmodule HAPI do
     #
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {:token_char, param_name, _param_opts} = param) do
       {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", is_const_parameter(param), :nil, true, idx}
+    end
+    defp create_stub_c_entry_object(env, idx, "HAPI_ConvertMatrixToEuler", function_type,
+      {param_type, param_name, _param_opts} = param) do
+
+        # This is a special case for HAPI_ConvertMatrixToEuler.
+
+        resolved_type = HAPI.Util.type_resolve(env, param_type)
+
+        if is_pointer_parameter(param) and param_name == "mat" do
+          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 16, true, idx}
+        else
+          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
+        end
+    end
+    defp create_stub_c_entry_object(env, idx, "HAPI_ConvertMatrixToQuat", function_type,
+      {param_type, param_name, _param_opts} = param) do
+
+        # This is a special case for HAPI_ConvertMatrixToQuat.
+
+        resolved_type = HAPI.Util.type_resolve(env, param_type)
+
+        if is_pointer_parameter(param) and param_name == "mat" do
+          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 16, true, idx}
+        else
+          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
+        end
+    end
+    defp create_stub_c_entry_object(env, idx, "HAPI_SetVolumeTileFloatData", function_type,
+      {param_type, param_name, _param_opts} = param) do
+
+        # This is a special case for HAPI_SetVolumeTileFloatData.
+
+        resolved_type = HAPI.Util.type_resolve(env, param_type)
+
+        if is_pointer_parameter(param) and param_name == "values" do
+          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 8*8*3, true, idx}
+        else
+          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
+        end
+    end
+    defp create_stub_c_entry_object(env, idx, "HAPI_SetVolumeTileIntData", function_type,
+      {param_type, param_name, _param_opts} = param) do
+
+        # This is a special case for HAPI_SetVolumeTileIntData.
+
+        resolved_type = HAPI.Util.type_resolve(env, param_type)
+
+        if is_pointer_parameter(param) and param_name == "values" do
+          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 8*8*3, true, idx}
+        else
+          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
+        end
     end
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {param_type, param_name, _param_opts} = param) do
       resolved_type = HAPI.Util.type_resolve(env, param_type)
@@ -1408,18 +1460,18 @@ defmodule HAPI do
       type_processed = String.rstrip(type, ?*)
       if not is_input do
         if needs_cleanup do
-          "&#{name}[0] /*0*/"
+          "&#{name}[0]"
         else
-          "&#{name} /*1*/"
+          "&#{name}"
         end
       else
         if needs_cleanup do
-          "&#{name}[0] /*2*/"
+          "&#{name}[0]"
         else
           if HAPI.Util.is_type_structure(env, type_processed) do
-            "&#{name} /*3*/"
+            "&#{name}"
           else
-            "#{name} /*4*/"
+            "#{name}"
           end
         end
       end

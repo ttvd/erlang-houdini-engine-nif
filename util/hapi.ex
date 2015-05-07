@@ -1189,12 +1189,24 @@ defmodule HAPI do
         {:ok, call_block} = File.read("./util/hapi_functions_nif.c.call.block.template")
 
         entries = String.replace(template, "%{HAPI_FUNCTIONS}%",
-          Enum.map_join(functions, "\n\n",
+          Enum.filter(functions, fn{k, _v} -> create_stub_c_is_supported(k) end)
+          |> Enum.map_join("\n\n",
             fn{k, v} -> create_stub_c_entry(env, k, v, template_block, assign_block, clean_block, call_block) end))
 
         File.write("./c_src/hapi_functions_nif.c", entries)
         IO.puts("Generating c_src/hapi_functions_nif.c")
       end
+    end
+
+    # Helper function used to filter out unsupported functions.
+    defp create_stub_c_is_supported("HAPI_SetVolumeTileFloatData") do
+      false
+    end
+    defp create_stub_c_is_supported("HAPI_SetVolumeTileIntData") do
+      false
+    end
+    defp create_stub_c_is_supported(function_name) do
+      true
     end
 
     # Helper function used to generate c stub entries.
@@ -1255,7 +1267,7 @@ defmodule HAPI do
       # Process call block.
       call_code =
         String.replace(call_block, "%{HAPI_CALL}%", create_stub_c_call(env, function_type, function_name,
-          parameters_sorted))
+          parameters_sorted, parameters_output))
         <> "\n"
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
@@ -1317,32 +1329,6 @@ defmodule HAPI do
 
         if is_pointer_parameter(param) and param_name == "mat" do
           {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 16, true, idx}
-        else
-          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
-        end
-    end
-    defp create_stub_c_entry_object(env, idx, "HAPI_SetVolumeTileFloatData", function_type,
-      {param_type, param_name, _param_opts} = param) do
-
-        # This is a special case for HAPI_SetVolumeTileFloatData.
-
-        resolved_type = HAPI.Util.type_resolve(env, param_type)
-
-        if is_pointer_parameter(param) and param_name == "values" do
-          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 8*8*3, true, idx}
-        else
-          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
-        end
-    end
-    defp create_stub_c_entry_object(env, idx, "HAPI_SetVolumeTileIntData", function_type,
-      {param_type, param_name, _param_opts} = param) do
-
-        # This is a special case for HAPI_SetVolumeTileIntData.
-
-        resolved_type = HAPI.Util.type_resolve(env, param_type)
-
-        if is_pointer_parameter(param) and param_name == "values" do
-          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 8*8*3, true, idx}
         else
           {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
         end
@@ -1444,13 +1430,13 @@ defmodule HAPI do
     end
 
     # Helper function to generate HAPI call.
-    defp create_stub_c_call(env, :token_void, function_name, function_params) do
+    defp create_stub_c_call(env, :token_void, function_name, function_params, parameters_output) do
       "#{function_name}(%{HAPI_PARMS}%);"
       <> "\n    "
       <> "stub_result = hapi_priv_make_atom_ok(env);"
       |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
     end
-    defp create_stub_c_call(env, "HAPI_Result", function_name, function_params) do
+    defp create_stub_c_call(env, "HAPI_Result", function_name, function_params, parameters_output) do
 
       {:ok, result_block} = File.read("./util/hapi_functions_nif.c.result.block.template")
 
@@ -1459,7 +1445,7 @@ defmodule HAPI do
       |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ",
         &(create_stub_c_call_create_param(env, &1))))
     end
-    defp create_stub_c_call(env, function_type, function_name, function_params) do
+    defp create_stub_c_call(env, function_type, function_name, function_params, parameters_output) do
 
       type_resolve = HAPI.Util.type_resolve(env, function_type)
       type_underscore = HAPI.Util.underscore(type_resolve)

@@ -2779,61 +2779,6 @@ hapi_get_objects(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 }
 
 
-/* Delegate for HAPI_SetVolumeTileFloatData scheduler function. */
-ERL_NIF_TERM
-hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
-    ERL_NIF_TERM stub_result = 0;
-    HAPI_AssetId param_asset_id;
-    HAPI_ObjectId param_object_id;
-    HAPI_GeoId param_geo_id;
-    HAPI_VolumeTileInfo param_tile;
-    float* param_values = NULL;
-
-    if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
-        !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
-        !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
-        !hapi_priv_get_hapi_volume_tile_info(env, argv[3], &param_tile) ||
-        !(param_values = malloc(sizeof(float) * 192)) ||
-        !hapi_priv_get_float_list(env, argv[4], &param_values[0], 192))
-    {
-        stub_result = enif_make_badarg(env);
-        goto label_cleanup;
-    }
-
-    HAPI_Result stub_hapi_result = HAPI_SetVolumeTileFloatData(param_asset_id, param_object_id, param_geo_id, &param_tile, &param_values[0]);
-    if(stub_hapi_result)
-    {
-        /* Do tuple construction here. */
-        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
-    }
-    else
-    {
-        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
-    }
-
-
-goto label_cleanup;
-label_cleanup:
-
-    if(param_values)
-    {
-        free(param_values);
-    }
-
-
-    return stub_result;
-}
-
-
-/* Handler for HAPI_SetVolumeTileFloatData function. */
-ERL_NIF_TERM
-hapi_set_volume_tile_float_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
-    return enif_schedule_nif(env, "hapi_set_volume_tile_float_data_schedule", 0, hapi_set_volume_tile_float_data_schedule, argc, argv);
-}
-
-
 /* Delegate for HAPI_ImageFileFormat_Init scheduler function. */
 ERL_NIF_TERM
 hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
@@ -6355,61 +6300,6 @@ ERL_NIF_TERM
 hapi_set_group_membership(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return enif_schedule_nif(env, "hapi_set_group_membership_schedule", 0, hapi_set_group_membership_schedule, argc, argv);
-}
-
-
-/* Delegate for HAPI_SetVolumeTileIntData scheduler function. */
-ERL_NIF_TERM
-hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
-    ERL_NIF_TERM stub_result = 0;
-    HAPI_AssetId param_asset_id;
-    HAPI_ObjectId param_object_id;
-    HAPI_GeoId param_geo_id;
-    HAPI_VolumeTileInfo param_tile;
-    int* param_values = NULL;
-
-    if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
-        !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
-        !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
-        !hapi_priv_get_hapi_volume_tile_info(env, argv[3], &param_tile) ||
-        !(param_values = malloc(sizeof(int) * 192)) ||
-        !hapi_priv_get_int_list(env, argv[4], &param_values[0], 192))
-    {
-        stub_result = enif_make_badarg(env);
-        goto label_cleanup;
-    }
-
-    HAPI_Result stub_hapi_result = HAPI_SetVolumeTileIntData(param_asset_id, param_object_id, param_geo_id, &param_tile, &param_values[0]);
-    if(stub_hapi_result)
-    {
-        /* Do tuple construction here. */
-        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
-    }
-    else
-    {
-        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
-    }
-
-
-goto label_cleanup;
-label_cleanup:
-
-    if(param_values)
-    {
-        free(param_values);
-    }
-
-
-    return stub_result;
-}
-
-
-/* Handler for HAPI_SetVolumeTileIntData function. */
-ERL_NIF_TERM
-hapi_set_volume_tile_int_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
-    return enif_schedule_nif(env, "hapi_set_volume_tile_int_data_schedule", 0, hapi_set_volume_tile_int_data_schedule, argc, argv);
 }
 
 

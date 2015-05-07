@@ -1259,8 +1259,8 @@ defmodule HAPI do
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
       |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
-      #|> String.replace("%{HAPI_DEBUG_TOKENS}%",
-      #  Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
+      |> String.replace("%{HAPI_DEBUG_TOKENS}%",
+        Enum.join(create_stub_c_entry_tokens_debug(function_name, function_type, function_params), "\n    "))
       |> String.replace("%{HAPI_FUNCTION_BODY}%",
           var_code
           <> assign_code
@@ -1284,7 +1284,7 @@ defmodule HAPI do
         add_init = ""
       end
 
-      "#{type} #{name}#{add_init};"
+      "#{type} #{name}#{add_init}; // #{extract}"
     end
 
     #    0           1          2           3             4                  5                          6              7
@@ -1296,7 +1296,7 @@ defmodule HAPI do
     end
     defp create_stub_c_entry_object(env, idx, function_name, function_type, {param_type, param_name, _param_opts} = param) do
       resolved_type = HAPI.Util.type_resolve(env, param_type)
-      {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, true, :nil, false, idx}
+      {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
     end
     defp create_stub_c_entry_objects(collect, env, idx, function_name, function_type, []) do
       collect
@@ -1419,20 +1419,6 @@ defmodule HAPI do
         end
       end
 
-      #type_processed = String.rstrip(type, ?*)
-      #if type_processed == type do
-      #  if HAPI.Util.is_type_structure(env, type_processed) do
-      #    "&#{name}"
-      #  else
-      #    "#{name}"
-      #  end
-      #else
-      #  if needs_cleanup do
-      #    "&#{name}[0]"
-      #  else
-      #    "&#{name}"
-      #  end
-      #end
     end
 
   end

@@ -1452,7 +1452,20 @@ defmodule HAPI do
       |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
     end
     defp create_stub_c_call(env, function_type, function_name, function_params) do
-      ""
+
+      type_resolve = HAPI.Util.type_resolve(env, function_type)
+      type_underscore = HAPI.Util.underscore(type_resolve)
+
+      if HAPI.Util.is_type_structure(env, type_resolve) do
+        access_token = "&"
+      else
+        access_token = ""
+      end
+
+      "#{type_resolve} stub_value = #{function_name}(%{HAPI_PARMS}%);"
+      <> "\n    "
+      <> "stub_result = hapi_priv_make_#{type_underscore}(env, #{access_token}stub_value);"
+      |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
     end
 
     # Helper function to generate HAPI call parameters.

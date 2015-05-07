@@ -47,7 +47,17 @@ hapi_get_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStringBufLength(param_string_handle, &param_buffer_length));
+    HAPI_Result stub_hapi_result = HAPI_GetStringBufLength(param_string_handle, &param_buffer_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -110,7 +120,17 @@ hapi_get_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetPreset(param_node_id, &param_buffer[0], param_buffer_length));
+    HAPI_Result stub_hapi_result = HAPI_GetPreset(param_node_id, &param_buffer[0], param_buffer_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -140,6 +160,7 @@ hapi_attribute_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     HAPI_AttributeInfo param_in;
 
     HAPI_AttributeInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -163,6 +184,7 @@ hapi_handle_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_HandleInfo param_in;
 
     HAPI_HandleInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -229,7 +251,17 @@ hapi_get_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeStringData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetAttributeStringData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -263,7 +295,17 @@ hapi_get_cooking_current_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
     ERL_NIF_TERM stub_result = 0;
     int param_count;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCookingCurrentCount(&param_count));
+    HAPI_Result stub_hapi_result = HAPI_GetCookingCurrentCount(&param_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -297,7 +339,17 @@ hapi_get_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmFloatValue(param_node_id, &param_parm_name[0], param_index, &param_value));
+    HAPI_Result stub_hapi_result = HAPI_GetParmFloatValue(param_node_id, &param_parm_name[0], param_index, &param_value);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -379,7 +431,17 @@ hapi_cleanup_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = 0;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_Cleanup());
+    HAPI_Result stub_hapi_result = HAPI_Cleanup();
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -409,7 +471,17 @@ hapi_get_env_int_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetEnvInt(param_int_type, &param_value));
+    HAPI_Result stub_hapi_result = HAPI_GetEnvInt(param_int_type, &param_value);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -442,7 +514,17 @@ hapi_get_status_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStatusString(param_status_type, &param_buffer[0], param_buffer_length));
+    HAPI_Result stub_hapi_result = HAPI_GetStatusString(param_status_type, &param_buffer[0], param_buffer_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -548,7 +630,17 @@ hapi_set_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetFaceCounts(param_asset_id, param_object_id, param_geo_id, &param_face_counts[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetFaceCounts(param_asset_id, param_object_id, param_geo_id, &param_face_counts[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -612,7 +704,17 @@ hapi_get_handle_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetHandleInfo(param_asset_id, &param_handle_infos[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetHandleInfo(param_asset_id, &param_handle_infos[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -648,7 +750,17 @@ hapi_get_node_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetNodeInfo(param_node_id, &param_node_info));
+    HAPI_Result stub_hapi_result = HAPI_GetNodeInfo(param_node_id, &param_node_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -680,7 +792,17 @@ hapi_is_asset_valid_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_IsAssetValid(param_asset_id, param_asset_validation_id, &param_answer));
+    HAPI_Result stub_hapi_result = HAPI_IsAssetValid(param_asset_id, param_asset_validation_id, &param_answer);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -721,7 +843,17 @@ hapi_get_instance_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetInstanceTransforms(param_asset_id, param_object_id, param_geo_id, param_rst_order, &param_transforms[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetInstanceTransforms(param_asset_id, param_object_id, param_geo_id, param_rst_order, &param_transforms[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -768,7 +900,17 @@ hapi_get_attribute_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeNames(param_asset_id, param_object_id, param_geo_id, param_part_id, param_owner, &param_attribute_names[0], param_count));
+    HAPI_Result stub_hapi_result = HAPI_GetAttributeNames(param_asset_id, param_object_id, param_geo_id, param_part_id, param_owner, &param_attribute_names[0], param_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -821,6 +963,7 @@ hapi_global_nodes_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     HAPI_GlobalNodes param_in;
 
     HAPI_GlobalNodes_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -883,7 +1026,17 @@ hapi_get_attribute_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], param_owner, &param_attr_info));
+    HAPI_Result stub_hapi_result = HAPI_GetAttributeInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], param_owner, &param_attr_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -921,7 +1074,17 @@ hapi_load_asset_library_from_file_schedule(ErlNifEnv* env, int argc, const ERL_N
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadAssetLibraryFromFile(&param_file_path[0], param_allow_overwrite, &param_library_id));
+    HAPI_Result stub_hapi_result = HAPI_LoadAssetLibraryFromFile(&param_file_path[0], param_allow_overwrite, &param_library_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -951,6 +1114,7 @@ hapi_geo_input_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     HAPI_GeoInputInfo param_in;
 
     HAPI_GeoInputInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -980,7 +1144,17 @@ hapi_set_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAssetTransform(param_asset_id, &param_transform));
+    HAPI_Result stub_hapi_result = HAPI_SetAssetTransform(param_asset_id, &param_transform);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1021,7 +1195,17 @@ hapi_get_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveCounts(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_counts[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetCurveCounts(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_counts[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1063,7 +1247,17 @@ hapi_set_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmFloatValues(param_node_id, &param_values[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetParmFloatValues(param_node_id, &param_values[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1105,7 +1299,17 @@ hapi_get_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetPartInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_part_info));
+    HAPI_Result stub_hapi_result = HAPI_GetPartInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_part_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1157,7 +1361,17 @@ hapi_save_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SaveHIPFile(&param_file_path[0]));
+    HAPI_Result stub_hapi_result = HAPI_SaveHIPFile(&param_file_path[0]);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1230,7 +1444,17 @@ hapi_set_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAttributeIntData(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetAttributeIntData(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1306,7 +1530,17 @@ hapi_get_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAssetTransform(param_asset_id, param_rst_order, param_rot_order, &param_transform));
+    HAPI_Result stub_hapi_result = HAPI_GetAssetTransform(param_asset_id, param_rst_order, param_rot_order, &param_transform);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1339,7 +1573,17 @@ hapi_insert_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_InsertMultiparmInstance(param_node_id, param_parm_id, param_instance_position));
+    HAPI_Result stub_hapi_result = HAPI_InsertMultiparmInstance(param_node_id, param_parm_id, param_instance_position);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1373,7 +1617,17 @@ hapi_get_preset_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetPresetBufLength(param_node_id, param_preset_type, &param_preset_name[0], &param_buffer_length));
+    HAPI_Result stub_hapi_result = HAPI_GetPresetBufLength(param_node_id, param_preset_type, &param_preset_name[0], &param_buffer_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1415,7 +1669,17 @@ hapi_extract_image_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ExtractImageToMemory(param_asset_id, param_material_id, &param_image_file_format_name[0], &param_image_planes[0], &param_buffer_size));
+    HAPI_Result stub_hapi_result = HAPI_ExtractImageToMemory(param_asset_id, param_material_id, &param_image_file_format_name[0], &param_image_planes[0], &param_buffer_size);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1457,7 +1721,17 @@ hapi_disconnect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_DisconnectAssetGeometry(param_asset_id, param_input_idx));
+    HAPI_Result stub_hapi_result = HAPI_DisconnectAssetGeometry(param_asset_id, param_input_idx);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1515,7 +1789,17 @@ hapi_set_part_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetPartInfo(param_asset_id, param_object_id, param_geo_id, &param_part_info));
+    HAPI_Result stub_hapi_result = HAPI_SetPartInfo(param_asset_id, param_object_id, param_geo_id, &param_part_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1555,7 +1839,17 @@ hapi_set_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVertexList(param_asset_id, param_object_id, param_geo_id, &param_vertex_list[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetVertexList(param_asset_id, param_object_id, param_geo_id, &param_vertex_list[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1605,7 +1899,17 @@ hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAttributeStringData(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetAttributeStringData(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1653,7 +1957,17 @@ hapi_get_object_transforms_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetObjectTransforms(param_asset_id, param_rst_order, &param_transforms[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetObjectTransforms(param_asset_id, param_rst_order, &param_transforms[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1695,7 +2009,17 @@ hapi_set_transform_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetTransformAnimCurve(param_node_id, param_trans_comp, &param_curve_keyframes[0], param_keyframe_count));
+    HAPI_Result stub_hapi_result = HAPI_SetTransformAnimCurve(param_node_id, param_trans_comp, &param_curve_keyframes[0], param_keyframe_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1735,7 +2059,17 @@ hapi_get_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGeoInfo(param_asset_id, param_object_id, param_geo_id, &param_geo_info));
+    HAPI_Result stub_hapi_result = HAPI_GetGeoInfo(param_asset_id, param_object_id, param_geo_id, &param_geo_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1782,6 +2116,7 @@ hapi_image_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_ImageInfo param_in;
 
     HAPI_ImageInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -1855,7 +2190,17 @@ hapi_get_attribute_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeIntData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetAttributeIntData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1911,7 +2256,17 @@ hapi_get_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGroupMembership(param_asset_id, param_object_id, param_geo_id, param_part_id, param_group_type, &param_group_name[0], &param_membership[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetGroupMembership(param_asset_id, param_object_id, param_geo_id, param_part_id, param_group_type, &param_group_name[0], &param_membership[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1945,7 +2300,17 @@ hapi_get_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     ERL_NIF_TERM stub_result = 0;
     float param_time;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetTime(&param_time));
+    HAPI_Result stub_hapi_result = HAPI_GetTime(&param_time);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -1977,7 +2342,17 @@ hapi_get_parm_info_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmInfoFromName(param_node_id, &param_parm_name[0], &param_parm_info));
+    HAPI_Result stub_hapi_result = HAPI_GetParmInfoFromName(param_node_id, &param_parm_name[0], &param_parm_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2024,7 +2399,17 @@ hapi_get_face_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetFaceCounts(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_face_counts[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetFaceCounts(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_face_counts[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2072,7 +2457,17 @@ hapi_set_curve_counts_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveCounts(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_counts[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetCurveCounts(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_counts[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2136,7 +2531,17 @@ hapi_load_asset_library_from_memory_schedule(ErlNifEnv* env, int argc, const ERL
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadAssetLibraryFromMemory(&param_library_buffer[0], param_library_buffer_size, param_allow_overwrite, &param_library_id));
+    HAPI_Result stub_hapi_result = HAPI_LoadAssetLibraryFromMemory(&param_library_buffer[0], param_library_buffer_size, param_allow_overwrite, &param_library_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2165,7 +2570,17 @@ hapi_get_new_asset_ids_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     ERL_NIF_TERM stub_result = 0;
     HAPI_AssetId param_asset_ids;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetNewAssetIds(&param_asset_ids));
+    HAPI_Result stub_hapi_result = HAPI_GetNewAssetIds(&param_asset_ids);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2198,7 +2613,17 @@ hapi_set_object_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetObjectTransform(param_asset_id, param_object_id, &param_transform));
+    HAPI_Result stub_hapi_result = HAPI_SetObjectTransform(param_asset_id, param_object_id, &param_transform);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2256,7 +2681,17 @@ hapi_get_objects_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetObjects(param_asset_id, &param_object_infos[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetObjects(param_asset_id, &param_object_infos[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2300,7 +2735,17 @@ hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVolumeTileFloatData(param_asset_id, param_object_id, param_geo_id, &param_tile, &param_values[0]));
+    HAPI_Result stub_hapi_result = HAPI_SetVolumeTileFloatData(param_asset_id, param_object_id, param_geo_id, &param_tile, &param_values[0]);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2330,6 +2775,7 @@ hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
     HAPI_ImageFileFormat param_in;
 
     HAPI_ImageFileFormat_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2359,7 +2805,17 @@ hapi_get_asset_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAssetInfo(param_asset_id, &param_asset_info));
+    HAPI_Result stub_hapi_result = HAPI_GetAssetInfo(param_asset_id, &param_asset_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2392,7 +2848,17 @@ hapi_render_material_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_RenderMaterialToImage(param_asset_id, param_material_id, param_shader_type));
+    HAPI_Result stub_hapi_result = HAPI_RenderMaterialToImage(param_asset_id, param_material_id, param_shader_type);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2456,7 +2922,17 @@ hapi_connect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConnectAssetTransform(param_asset_id_from, param_asset_id_to, param_input_idx));
+    HAPI_Result stub_hapi_result = HAPI_ConnectAssetTransform(param_asset_id_from, param_asset_id_to, param_input_idx);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2502,7 +2978,17 @@ hapi_get_global_nodes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     ERL_NIF_TERM stub_result = 0;
     HAPI_GlobalNodes param_global_nodes;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGlobalNodes(&param_global_nodes));
+    HAPI_Result stub_hapi_result = HAPI_GetGlobalNodes(&param_global_nodes);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2539,7 +3025,17 @@ hapi_get_handle_binding_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetHandleBindingInfo(param_asset_id, param_handle_index, &param_handle_infos[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetHandleBindingInfo(param_asset_id, param_handle_index, &param_handle_infos[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2577,7 +3073,17 @@ hapi_get_material_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialInfo(param_asset_id, param_material_id, &param_material_info));
+    HAPI_Result stub_hapi_result = HAPI_GetMaterialInfo(param_asset_id, param_material_id, &param_material_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2613,7 +3119,17 @@ hapi_get_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVolumeInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_volume_info));
+    HAPI_Result stub_hapi_result = HAPI_GetVolumeInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_volume_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2637,6 +3153,7 @@ hapi_timeline_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     HAPI_TimelineOptions param_in;
 
     HAPI_TimelineOptions_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -2694,7 +3211,17 @@ hapi_get_image_planes_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImagePlanes(param_asset_id, param_material_id, &param_image_planes[0], param_image_plane_count));
+    HAPI_Result stub_hapi_result = HAPI_GetImagePlanes(param_asset_id, param_material_id, &param_image_planes[0], param_image_plane_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2758,7 +3285,17 @@ hapi_set_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmStringValue(param_node_id, &param_value[0], param_parm_id, param_index));
+    HAPI_Result stub_hapi_result = HAPI_SetParmStringValue(param_node_id, &param_value[0], param_parm_id, param_index);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2799,7 +3336,17 @@ hapi_set_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmIntValue(param_node_id, &param_parm_name[0], param_index, param_value));
+    HAPI_Result stub_hapi_result = HAPI_SetParmIntValue(param_node_id, &param_parm_name[0], param_index, param_value);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2828,7 +3375,17 @@ hapi_get_cooking_total_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
     ERL_NIF_TERM stub_result = 0;
     int param_count;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCookingTotalCount(&param_count));
+    HAPI_Result stub_hapi_result = HAPI_GetCookingTotalCount(&param_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2861,7 +3418,17 @@ hapi_render_texture_to_image_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_RenderTextureToImage(param_asset_id, param_material_id, param_parm_id));
+    HAPI_Result stub_hapi_result = HAPI_RenderTextureToImage(param_asset_id, param_material_id, param_parm_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2894,7 +3461,17 @@ hapi_get_string_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetString(param_string_handle, &param_string_value[0], param_buffer_length));
+    HAPI_Result stub_hapi_result = HAPI_GetString(param_string_handle, &param_string_value[0], param_buffer_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2932,7 +3509,17 @@ hapi_get_image_plane_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImagePlaneCount(param_asset_id, param_material_id, &param_image_plane_count));
+    HAPI_Result stub_hapi_result = HAPI_GetImagePlaneCount(param_asset_id, param_material_id, &param_image_plane_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -2967,7 +3554,17 @@ hapi_convert_matrix_to_euler_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertMatrixToEuler(&param_mat[0], param_rst_order, param_rot_order, &param_transform_out));
+    HAPI_Result stub_hapi_result = HAPI_ConvertMatrixToEuler(&param_mat[0], param_rst_order, param_rot_order, &param_transform_out);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3008,7 +3605,17 @@ hapi_get_parm_choice_lists_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmChoiceLists(param_node_id, &param_parm_choices[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetParmChoiceLists(param_node_id, &param_parm_choices[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3078,7 +3685,17 @@ hapi_remove_multiparm_instance_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_RemoveMultiparmInstance(param_node_id, param_parm_id, param_instance_position));
+    HAPI_Result stub_hapi_result = HAPI_RemoveMultiparmInstance(param_node_id, param_parm_id, param_instance_position);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3119,7 +3736,17 @@ hapi_get_vertex_list_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVertexList(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_vertex_list[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetVertexList(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_vertex_list[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3155,7 +3782,17 @@ hapi_get_available_asset_count_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAvailableAssetCount(param_library_id, &param_asset_count));
+    HAPI_Result stub_hapi_result = HAPI_GetAvailableAssetCount(param_library_id, &param_asset_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3191,7 +3828,17 @@ hapi_get_next_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetNextVolumeTile(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile));
+    HAPI_Result stub_hapi_result = HAPI_GetNextVolumeTile(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3224,7 +3871,17 @@ hapi_set_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetImageInfo(param_asset_id, param_material_id, &param_image_info));
+    HAPI_Result stub_hapi_result = HAPI_SetImageInfo(param_asset_id, param_material_id, &param_image_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3248,6 +3905,7 @@ hapi_node_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     HAPI_NodeInfo param_in;
 
     HAPI_NodeInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3306,7 +3964,17 @@ hapi_destroy_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_DestroyAsset(param_asset_id));
+    HAPI_Result stub_hapi_result = HAPI_DestroyAsset(param_asset_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3340,7 +4008,17 @@ hapi_get_input_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetInputName(param_asset_id, param_input_idx, param_input_type, &param_name));
+    HAPI_Result stub_hapi_result = HAPI_GetInputName(param_asset_id, param_input_idx, param_input_type, &param_name);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3375,7 +4053,17 @@ hapi_get_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmIntValues(param_node_id, &param_values[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetParmIntValues(param_node_id, &param_values[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3417,7 +4105,17 @@ hapi_set_parm_int_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmIntValues(param_node_id, &param_values[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetParmIntValues(param_node_id, &param_values[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3447,6 +4145,7 @@ hapi_cook_options_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
     HAPI_CookOptions param_in;
 
     HAPI_CookOptions_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3482,7 +4181,17 @@ hapi_get_parm_string_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmStringValue(param_node_id, &param_parm_name[0], param_index, param_evaluate, &param_value));
+    HAPI_Result stub_hapi_result = HAPI_GetParmStringValue(param_node_id, &param_parm_name[0], param_index, param_evaluate, &param_value);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3526,7 +4235,17 @@ hapi_set_anim_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAnimCurve(param_node_id, param_parm_id, param_parm_index, &param_curve_keyframes[0], param_keyframe_count));
+    HAPI_Result stub_hapi_result = HAPI_SetAnimCurve(param_node_id, param_parm_id, param_parm_index, &param_curve_keyframes[0], param_keyframe_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3564,7 +4283,17 @@ hapi_get_parm_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmInfo(param_node_id, param_parm_id, &param_parm_info));
+    HAPI_Result stub_hapi_result = HAPI_GetParmInfo(param_node_id, param_parm_id, &param_parm_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3606,7 +4335,17 @@ hapi_set_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveKnots(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_knots[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetCurveKnots(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_knots[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3641,7 +4380,17 @@ hapi_reset_simulation_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ResetSimulation(param_asset_id));
+    HAPI_Result stub_hapi_result = HAPI_ResetSimulation(param_asset_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3679,7 +4428,17 @@ hapi_set_preset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetPreset(param_node_id, param_preset_type, &param_preset_name[0], &param_buffer[0], param_buffer_length));
+    HAPI_Result stub_hapi_result = HAPI_SetPreset(param_node_id, param_preset_type, &param_preset_name[0], &param_buffer[0], param_buffer_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3714,6 +4473,7 @@ hapi_keyframe_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_Keyframe param_in;
 
     HAPI_Keyframe_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -3735,7 +4495,17 @@ hapi_interrupt_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     ERL_NIF_TERM stub_result = 0;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_Interrupt());
+    HAPI_Result stub_hapi_result = HAPI_Interrupt();
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3770,7 +4540,17 @@ hapi_get_image_memory_buffer_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TE
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImageMemoryBuffer(param_asset_id, param_material_id, &param_buffer[0], param_buffer_size));
+    HAPI_Result stub_hapi_result = HAPI_GetImageMemoryBuffer(param_asset_id, param_material_id, &param_buffer[0], param_buffer_size);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3809,7 +4589,17 @@ hapi_convert_matrix_to_quat_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertMatrixToQuat(&param_mat[0], param_rst_order, &param_transform_out));
+    HAPI_Result stub_hapi_result = HAPI_ConvertMatrixToQuat(&param_mat[0], param_rst_order, &param_transform_out);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3850,7 +4640,17 @@ hapi_get_parameters_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParameters(param_node_id, &param_parm_infos[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetParameters(param_node_id, &param_parm_infos[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3888,7 +4688,17 @@ hapi_convert_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertTransform(&param_transform_in_out, param_rst_order, param_rot_order));
+    HAPI_Result stub_hapi_result = HAPI_ConvertTransform(&param_transform_in_out, param_rst_order, param_rot_order);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3911,7 +4721,17 @@ hapi_create_curve_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     ERL_NIF_TERM stub_result = 0;
     HAPI_AssetId param_asset_id;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_CreateCurve(&param_asset_id));
+    HAPI_Result stub_hapi_result = HAPI_CreateCurve(&param_asset_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -3971,7 +4791,17 @@ hapi_convert_transform_quat_to_matrix_schedule(ErlNifEnv* env, int argc, const E
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertTransformQuatToMatrix(&param_transform, &param_matrix));
+    HAPI_Result stub_hapi_result = HAPI_ConvertTransformQuatToMatrix(&param_transform, &param_matrix);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4025,6 +4855,7 @@ hapi_volume_tile_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     HAPI_VolumeTileInfo param_in;
 
     HAPI_VolumeTileInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4061,7 +4892,17 @@ hapi_save_geo_to_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SaveGeoToMemory(param_asset_id, param_object_id, param_geo_id, &param_buffer[0], param_size));
+    HAPI_Result stub_hapi_result = HAPI_SaveGeoToMemory(param_asset_id, param_object_id, param_geo_id, &param_buffer[0], param_size);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4099,7 +4940,17 @@ hapi_instantiate_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM arg
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_InstantiateAsset(&param_asset_name[0], param_cook_on_load, &param_asset_id));
+    HAPI_Result stub_hapi_result = HAPI_InstantiateAsset(&param_asset_name[0], param_cook_on_load, &param_asset_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4128,7 +4979,17 @@ hapi_get_supported_image_file_format_count_schedule(ErlNifEnv* env, int argc, co
     ERL_NIF_TERM stub_result = 0;
     int param_file_format_count;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetSupportedImageFileFormatCount(&param_file_format_count));
+    HAPI_Result stub_hapi_result = HAPI_GetSupportedImageFileFormatCount(&param_file_format_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4163,7 +5024,17 @@ hapi_set_volume_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVolumeInfo(param_asset_id, param_object_id, param_geo_id, &param_volume_info));
+    HAPI_Result stub_hapi_result = HAPI_SetVolumeInfo(param_asset_id, param_object_id, param_geo_id, &param_volume_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4198,7 +5069,17 @@ hapi_save_geo_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SaveGeoToFile(param_asset_id, param_object_id, param_geo_id, &param_file_name[0]));
+    HAPI_Result stub_hapi_result = HAPI_SaveGeoToFile(param_asset_id, param_object_id, param_geo_id, &param_file_name[0]);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4245,7 +5126,17 @@ hapi_get_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveOrders(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_orders[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetCurveOrders(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_orders[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4310,7 +5201,17 @@ hapi_get_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_info));
+    HAPI_Result stub_hapi_result = HAPI_GetCurveInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4332,7 +5233,17 @@ hapi_is_initialized_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
 {
     ERL_NIF_TERM stub_result = 0;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_IsInitialized());
+    HAPI_Result stub_hapi_result = HAPI_IsInitialized();
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4363,7 +5274,17 @@ hapi_disconnect_asset_transform_schedule(ErlNifEnv* env, int argc, const ERL_NIF
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_DisconnectAssetTransform(param_asset_id, param_input_idx));
+    HAPI_Result stub_hapi_result = HAPI_DisconnectAssetTransform(param_asset_id, param_input_idx);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4400,7 +5321,17 @@ hapi_set_curve_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_info));
+    HAPI_Result stub_hapi_result = HAPI_SetCurveInfo(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4437,7 +5368,17 @@ hapi_initialize_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_Initialize(&param_otl_search_path[0], &param_dso_search_path[0], &param_cook_options, param_use_cooking_thread, param_cooking_thread_stack_size));
+    HAPI_Result stub_hapi_result = HAPI_Initialize(&param_otl_search_path[0], &param_dso_search_path[0], &param_cook_options, param_use_cooking_thread, param_cooking_thread_stack_size);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4472,6 +5413,7 @@ hapi_part_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     HAPI_PartInfo param_in;
 
     HAPI_PartInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4506,7 +5448,17 @@ hapi_get_parm_float_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmFloatValues(param_node_id, &param_values[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetParmFloatValues(param_node_id, &param_values[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4536,6 +5488,7 @@ hapi_handle_binding_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
     HAPI_HandleBindingInfo param_in;
 
     HAPI_HandleBindingInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4572,7 +5525,17 @@ hapi_get_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVolumeTileIntData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile, &param_values));
+    HAPI_Result stub_hapi_result = HAPI_GetVolumeTileIntData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile, &param_values);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4596,6 +5559,7 @@ hapi_object_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_ObjectInfo param_in;
 
     HAPI_ObjectInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4618,7 +5582,17 @@ hapi_get_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     ERL_NIF_TERM stub_result = 0;
     HAPI_TimelineOptions param_timeline_options;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetTimelineOptions(&param_timeline_options));
+    HAPI_Result stub_hapi_result = HAPI_GetTimelineOptions(&param_timeline_options);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4651,7 +5625,17 @@ hapi_commit_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_CommitGeo(param_asset_id, param_object_id, param_geo_id));
+    HAPI_Result stub_hapi_result = HAPI_CommitGeo(param_asset_id, param_object_id, param_geo_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4675,6 +5659,7 @@ hapi_parm_choice_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     HAPI_ParmChoiceInfo param_in;
 
     HAPI_ParmChoiceInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4728,7 +5713,17 @@ hapi_cook_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_CookAsset(param_asset_id, &param_cook_options));
+    HAPI_Result stub_hapi_result = HAPI_CookAsset(param_asset_id, &param_cook_options);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4759,7 +5754,17 @@ hapi_load_hipfile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadHIPFile(&param_file_name[0], param_cook_on_load));
+    HAPI_Result stub_hapi_result = HAPI_LoadHIPFile(&param_file_name[0], param_cook_on_load);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4789,6 +5794,7 @@ hapi_geo_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     HAPI_GeoInfo param_in;
 
     HAPI_GeoInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4812,6 +5818,7 @@ hapi_volume_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     HAPI_VolumeInfo param_in;
 
     HAPI_VolumeInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -4845,7 +5852,17 @@ hapi_get_parm_int_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmIntValue(param_node_id, &param_parm_name[0], param_index, &param_value));
+    HAPI_Result stub_hapi_result = HAPI_GetParmIntValue(param_node_id, &param_parm_name[0], param_index, &param_value);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4888,7 +5905,17 @@ hapi_add_attribute_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_AddAttribute(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info));
+    HAPI_Result stub_hapi_result = HAPI_AddAttribute(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4931,7 +5958,17 @@ hapi_add_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_AddGroup(param_asset_id, param_object_id, param_geo_id, param_group_type, &param_group_name[0]));
+    HAPI_Result stub_hapi_result = HAPI_AddGroup(param_asset_id, param_object_id, param_geo_id, param_group_type, &param_group_name[0]);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -4967,7 +6004,17 @@ hapi_convert_transform_euler_to_matrix_schedule(ErlNifEnv* env, int argc, const 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConvertTransformEulerToMatrix(&param_transform, &param_matrix));
+    HAPI_Result stub_hapi_result = HAPI_ConvertTransformEulerToMatrix(&param_transform, &param_matrix);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5011,7 +6058,17 @@ hapi_set_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetAttributeFloatData(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetAttributeFloatData(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5054,7 +6111,17 @@ hapi_get_parm_id_from_name_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmIdFromName(param_node_id, &param_parm_name[0], &param_parm_id));
+    HAPI_Result stub_hapi_result = HAPI_GetParmIdFromName(param_node_id, &param_parm_name[0], &param_parm_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5103,7 +6170,17 @@ hapi_set_group_membership_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetGroupMembership(param_asset_id, param_object_id, param_geo_id, param_group_type, &param_group_name[0], &param_membership[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetGroupMembership(param_asset_id, param_object_id, param_geo_id, param_group_type, &param_group_name[0], &param_membership[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5152,7 +6229,17 @@ hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetVolumeTileIntData(param_asset_id, param_object_id, param_geo_id, &param_tile, &param_values[0]));
+    HAPI_Result stub_hapi_result = HAPI_SetVolumeTileIntData(param_asset_id, param_object_id, param_geo_id, &param_tile, &param_values[0]);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5188,7 +6275,17 @@ hapi_get_status_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStatus(param_status_type, &param_status));
+    HAPI_Result stub_hapi_result = HAPI_GetStatus(param_status_type, &param_status);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5230,7 +6327,17 @@ hapi_get_material_ids_on_faces_schedule(ErlNifEnv* env, int argc, const ERL_NIF_
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialIdsOnFaces(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_are_all_the_same, &param_material_ids[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetMaterialIdsOnFaces(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_are_all_the_same, &param_material_ids[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5272,7 +6379,17 @@ hapi_get_geo_size_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGeoSize(param_asset_id, param_object_id, param_geo_id, &param_format[0], &param_size));
+    HAPI_Result stub_hapi_result = HAPI_GetGeoSize(param_asset_id, param_object_id, param_geo_id, &param_format[0], &param_size);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5320,7 +6437,17 @@ hapi_set_curve_orders_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetCurveOrders(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_orders[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_SetCurveOrders(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_orders[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5358,7 +6485,17 @@ hapi_get_status_string_buf_length_schedule(ErlNifEnv* env, int argc, const ERL_N
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetStatusStringBufLength(param_status_type, param_verbosity, &param_buffer_size));
+    HAPI_Result stub_hapi_result = HAPI_GetStatusStringBufLength(param_status_type, param_verbosity, &param_buffer_size);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5399,7 +6536,17 @@ hapi_get_curve_knots_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetCurveKnots(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_knots[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetCurveKnots(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_knots[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5441,7 +6588,17 @@ hapi_get_first_volume_tile_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetFirstVolumeTile(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile));
+    HAPI_Result stub_hapi_result = HAPI_GetFirstVolumeTile(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5480,7 +6637,17 @@ hapi_get_group_names_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetGroupNames(param_asset_id, param_object_id, param_geo_id, param_group_type, &param_group_names[0], param_group_count));
+    HAPI_Result stub_hapi_result = HAPI_GetGroupNames(param_asset_id, param_object_id, param_geo_id, param_group_type, &param_group_names[0], param_group_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5521,7 +6688,17 @@ hapi_load_geo_from_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadGeoFromFile(param_asset_id, param_object_id, param_geo_id, &param_file_name[0]));
+    HAPI_Result stub_hapi_result = HAPI_LoadGeoFromFile(param_asset_id, param_object_id, param_geo_id, &param_file_name[0]);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5560,7 +6737,17 @@ hapi_revert_geo_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_RevertGeo(param_asset_id, param_object_id, param_geo_id));
+    HAPI_Result stub_hapi_result = HAPI_RevertGeo(param_asset_id, param_object_id, param_geo_id);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5584,6 +6771,7 @@ hapi_asset_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_AssetInfo param_in;
 
     HAPI_AssetInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5643,7 +6831,17 @@ hapi_create_input_asset_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_CreateInputAsset(&param_asset_id, &param_name[0]));
+    HAPI_Result stub_hapi_result = HAPI_CreateInputAsset(&param_asset_id, &param_name[0]);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5684,7 +6882,17 @@ hapi_set_parm_float_value_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetParmFloatValue(param_node_id, &param_parm_name[0], param_index, param_value));
+    HAPI_Result stub_hapi_result = HAPI_SetParmFloatValue(param_node_id, &param_parm_name[0], param_index, param_value);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5729,7 +6937,17 @@ hapi_load_geo_from_memory_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_LoadGeoFromMemory(param_asset_id, param_object_id, param_geo_id, &param_format[0], &param_buffer[0], param_size));
+    HAPI_Result stub_hapi_result = HAPI_LoadGeoFromMemory(param_asset_id, param_object_id, param_geo_id, &param_format[0], &param_buffer[0], param_size);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5827,7 +7045,17 @@ hapi_set_geo_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetGeoInfo(param_asset_id, param_object_id, param_geo_id, &param_geo_info));
+    HAPI_Result stub_hapi_result = HAPI_SetGeoInfo(param_asset_id, param_object_id, param_geo_id, &param_geo_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5874,6 +7102,7 @@ hapi_material_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM ar
     HAPI_MaterialInfo param_in;
 
     HAPI_MaterialInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5897,6 +7126,7 @@ hapi_parm_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
     HAPI_ParmInfo param_in;
 
     HAPI_ParmInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -5929,7 +7159,17 @@ hapi_get_available_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAvailableAssets(param_library_id, &param_asset_names[0], param_asset_count));
+    HAPI_Result stub_hapi_result = HAPI_GetAvailableAssets(param_library_id, &param_asset_names[0], param_asset_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5971,7 +7211,17 @@ hapi_get_material_on_part_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialOnPart(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_material_info));
+    HAPI_Result stub_hapi_result = HAPI_GetMaterialOnPart(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_material_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -5995,6 +7245,7 @@ hapi_curve_info_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
     HAPI_CurveInfo param_in;
 
     HAPI_CurveInfo_Init(&param_in);
+    stub_result = hapi_priv_make_atom_ok(env);
 
 label_cleanup:
 
@@ -6087,7 +7338,17 @@ hapi_extract_image_to_file_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ExtractImageToFile(param_asset_id, param_material_id, &param_image_file_format_name[0], &param_image_planes[0], &param_destination_folder_path[0], &param_destination_file_name[0], &param_destination_file_path));
+    HAPI_Result stub_hapi_result = HAPI_ExtractImageToFile(param_asset_id, param_material_id, &param_image_file_format_name[0], &param_image_planes[0], &param_destination_folder_path[0], &param_destination_file_name[0], &param_destination_file_path);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6137,7 +7398,17 @@ hapi_set_time_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetTime(param_time));
+    HAPI_Result stub_hapi_result = HAPI_SetTime(param_time);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6169,7 +7440,17 @@ hapi_get_image_info_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetImageInfo(param_asset_id, param_material_id, &param_image_info));
+    HAPI_Result stub_hapi_result = HAPI_GetImageInfo(param_asset_id, param_material_id, &param_image_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6206,7 +7487,17 @@ hapi_get_parm_string_values_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetParmStringValues(param_node_id, param_evaluate, &param_values[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetParmStringValues(param_node_id, param_evaluate, &param_values[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6248,7 +7539,17 @@ hapi_get_material_on_group_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetMaterialOnGroup(param_asset_id, param_object_id, param_geo_id, &param_group_name[0], &param_material_info));
+    HAPI_Result stub_hapi_result = HAPI_GetMaterialOnGroup(param_asset_id, param_object_id, param_geo_id, &param_group_name[0], &param_material_info);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6283,7 +7584,17 @@ hapi_python_thread_interpreter_lock_schedule(ErlNifEnv* env, int argc, const ERL
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_PythonThreadInterpreterLock(param_locked));
+    HAPI_Result stub_hapi_result = HAPI_PythonThreadInterpreterLock(param_locked);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6312,7 +7623,17 @@ hapi_set_timeline_options_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_SetTimelineOptions(&param_timeline_options));
+    HAPI_Result stub_hapi_result = HAPI_SetTimelineOptions(&param_timeline_options);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6349,7 +7670,17 @@ hapi_get_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetVolumeTileFloatData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile, &param_values));
+    HAPI_Result stub_hapi_result = HAPI_GetVolumeTileFloatData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_tile, &param_values);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6393,7 +7724,17 @@ hapi_get_attribute_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_T
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetAttributeFloatData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length));
+    HAPI_Result stub_hapi_result = HAPI_GetAttributeFloatData(param_asset_id, param_object_id, param_geo_id, param_part_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6439,7 +7780,17 @@ hapi_connect_asset_geometry_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TER
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_ConnectAssetGeometry(param_asset_id_from, param_object_id_from, param_asset_id_to, param_input_idx));
+    HAPI_Result stub_hapi_result = HAPI_ConnectAssetGeometry(param_asset_id_from, param_object_id_from, param_asset_id_to, param_input_idx);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6493,7 +7844,17 @@ hapi_get_supported_image_file_formats_schedule(ErlNifEnv* env, int argc, const E
         goto label_cleanup;
     }
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_GetSupportedImageFileFormats(&param_formats[0], param_file_format_count));
+    HAPI_Result stub_hapi_result = HAPI_GetSupportedImageFileFormats(&param_formats[0], param_file_format_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 
@@ -6522,7 +7883,17 @@ hapi_check_for_new_assets_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM 
     ERL_NIF_TERM stub_result = 0;
     int param_new_asset_count;
 
-    stub_result = hapi_priv_make_hapi_result(env, HAPI_CheckForNewAssets(&param_new_asset_count));
+    HAPI_Result stub_hapi_result = HAPI_CheckForNewAssets(&param_new_asset_count);
+    if(stub_hapi_result)
+    {
+        /* Do tuple construction here. */
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+    else
+    {
+        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+    }
+
 
 label_cleanup:
 

@@ -1430,11 +1430,18 @@ defmodule HAPI do
     end
 
     # Helper function to generate HAPI call.
-    defp create_stub_c_call(env, :token_void, function_name, function_params, parameters_output) do
+    defp create_stub_c_call(env, :token_void, function_name, [{type, extract, name, init_code, is_input, decl_size,
+      needs_cleanup, idx} = function_param], _parameters_output) do
+
+      type_resolve = HAPI.Util.type_resolve(env, type)
+      type_underscore = HAPI.Util.underscore(type_resolve)
+
+      # All HAPI_*_Init functions only take one parameter.
+
       "#{function_name}(%{HAPI_PARMS}%);"
       <> "\n    "
-      <> "stub_result = hapi_priv_make_atom_ok(env);"
-      |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
+      <> "stub_result = hapi_priv_make_#{type_underscore}(env, &#{name});"
+      |> String.replace("%{HAPI_PARMS}%", create_stub_c_call_create_param(env, function_param))
     end
     defp create_stub_c_call(env, "HAPI_Result", function_name, function_params, parameters_output) do
 

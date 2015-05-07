@@ -1254,7 +1254,8 @@ defmodule HAPI do
 
       # Process call block.
       call_code =
-        String.replace(call_block, "%{HAPI_CALL}%", create_stub_c_call(env, function_type, function_name, parameters_sorted))
+        String.replace(call_block, "%{HAPI_CALL}%", create_stub_c_call(env, function_type, function_name,
+          parameters_sorted))
         <> "\n"
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
@@ -1445,11 +1446,18 @@ defmodule HAPI do
     # Helper function to generate HAPI call.
     defp create_stub_c_call(env, :token_void, function_name, function_params) do
       "#{function_name}(%{HAPI_PARMS}%);"
+      <> "\n    "
+      <> "stub_result = hapi_priv_make_atom_ok(env);"
       |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
     end
     defp create_stub_c_call(env, "HAPI_Result", function_name, function_params) do
-      "stub_result = hapi_priv_make_hapi_result(env, #{function_name}(%{HAPI_PARMS}%));"
-      |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
+
+      {:ok, result_block} = File.read("./util/hapi_functions_nif.c.result.block.template")
+
+      result_block
+      |> String.replace("%{HAPI_FUNC}%", function_name)
+      |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ",
+        &(create_stub_c_call_create_param(env, &1))))
     end
     defp create_stub_c_call(env, function_type, function_name, function_params) do
 

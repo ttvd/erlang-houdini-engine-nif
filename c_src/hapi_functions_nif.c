@@ -2736,6 +2736,24 @@ hapi_get_objects(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 }
 
 
+/* Delegate for HAPI_SetVolumeTileFloatData scheduler function. */
+ERL_NIF_TERM
+hapi_set_volume_tile_float_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    ERL_NIF_TERM stub_result = hapi_priv_make_atom(env, "hapi_result_not_implemented");
+
+    return stub_result;
+}
+
+
+/* Handler for HAPI_SetVolumeTileFloatData function. */
+ERL_NIF_TERM
+hapi_set_volume_tile_float_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_set_volume_tile_float_data_schedule", 0, hapi_set_volume_tile_float_data_schedule, argc, argv);
+}
+
+
 /* Delegate for HAPI_ImageFileFormat_Init scheduler function. */
 ERL_NIF_TERM
 hapi_image_file_format_init_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
@@ -6195,6 +6213,24 @@ ERL_NIF_TERM
 hapi_set_group_membership(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     return enif_schedule_nif(env, "hapi_set_group_membership_schedule", 0, hapi_set_group_membership_schedule, argc, argv);
+}
+
+
+/* Delegate for HAPI_SetVolumeTileIntData scheduler function. */
+ERL_NIF_TERM
+hapi_set_volume_tile_int_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    ERL_NIF_TERM stub_result = hapi_priv_make_atom(env, "hapi_result_not_implemented");
+
+    return stub_result;
+}
+
+
+/* Handler for HAPI_SetVolumeTileIntData function. */
+ERL_NIF_TERM
+hapi_set_volume_tile_int_data(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    return enif_schedule_nif(env, "hapi_set_volume_tile_int_data_schedule", 0, hapi_set_volume_tile_int_data_schedule, argc, argv);
 }
 
 

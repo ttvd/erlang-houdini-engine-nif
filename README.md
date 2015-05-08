@@ -60,7 +60,7 @@ true
 ```
 
 ## Known bugs.
-* Function output parameters are not shifted correctly.
+
 
 ## License.
 

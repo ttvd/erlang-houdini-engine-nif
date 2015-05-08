@@ -13,3 +13,51 @@ hapi_priv_get_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{
 {
     %{HAPI_TYPE_CONVERT_GET}%
 }
+
+
+/* Converting array of %{HAPI_TYPE}% objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_%{HAPI_TYPE_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_TYPE}%* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const %{HAPI_TYPE}%* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_%{HAPI_TYPE_DOWNCASE}%(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of %{HAPI_TYPE}% objects from erl to c. */
+bool
+hapi_priv_get_%{HAPI_TYPE_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_TYPE}%* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            %{HAPI_TYPE}%* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_%{HAPI_TYPE_DOWNCASE}%(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}

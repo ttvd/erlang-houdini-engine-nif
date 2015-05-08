@@ -1447,10 +1447,19 @@ defmodule HAPI do
 
       {:ok, result_block} = File.read("./util/hapi_functions_nif.c.result.block.template")
 
-      result_block
-      |> String.replace("%{HAPI_FUNC}%", function_name)
-      |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ",
-        &(create_stub_c_call_create_param(env, &1))))
+      result_interim =
+        result_block
+        |> String.replace("%{HAPI_FUNC}%", function_name)
+        |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ",
+          &(create_stub_c_call_create_param(env, &1))))
+
+      if 0 == length(parameters_output) do
+        result_interim
+        |> String.replace("%{HAPI_RESULT}%", "hapi_priv_make_hapi_result(env, stub_hapi_result)")
+      else
+        result_interim
+        |> String.replace("%{HAPI_RESULT}%", create_stub_c_call_create_result(env, parameters_output))
+      end
     end
     defp create_stub_c_call(env, function_type, function_name, function_params, parameters_output) do
 
@@ -1467,6 +1476,33 @@ defmodule HAPI do
       <> "\n    "
       <> "stub_result = hapi_priv_make_#{type_underscore}(env, #{access_token}stub_value);"
       |> String.replace("%{HAPI_PARMS}%", Enum.map_join(function_params, ", ", &(create_stub_c_call_create_param(env, &1))))
+    end
+
+    # Helper function to generate tuple consisting of return parameters.
+    defp create_stub_c_call_create_result(env, parameters_output) do
+
+      param_count = length(parameters_output) + 1
+
+      if param_count > 9 do
+          raise(RuntimeError, description: "Trying to construct return tuple with more than 9 return parameters.")
+      else
+        "enif_make_tuple#{param_count}(env, hapi_priv_make_hapi_result(env, stub_hapi_result), %{HAPI_RESULT_PARAMS}%)"
+        |> String.replace("%{HAPI_RESULT_PARAMS}%",
+          Enum.map_join(parameters_output, ", ", &(create_stub_c_call_create_result_param(env, &1))))
+      end
+    end
+
+    # Helper function to create tuple parameter.
+    defp create_stub_c_call_create_result_param(env, {type, extract, name, init_code, is_input, :nil, needs_cleanup, idx}) do
+      "0 /* NEEDS TO BE FIXED */"
+    end
+    defp create_stub_c_call_create_result_param(env, {type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
+
+      type_fixed = String.rstrip(type, ?*)
+      type_resolve = HAPI.Util.type_resolve(env, type_fixed)
+      type_underscore = HAPI.Util.underscore(type_resolve)
+
+      "hapi_priv_make_#{type_underscore}_list(env, &#{name}[0], #{decl_size})"
     end
 
     # Helper function to generate HAPI call parameters.

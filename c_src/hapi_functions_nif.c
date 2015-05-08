@@ -1893,54 +1893,7 @@ hapi_set_vertex_list(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 ERL_NIF_TERM
 hapi_set_attribute_string_data_schedule(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
-    ERL_NIF_TERM stub_result = 0;
-    HAPI_AssetId param_asset_id;
-    HAPI_ObjectId param_object_id;
-    HAPI_GeoId param_geo_id;
-    HAPI_AttributeInfo param_attr_info;
-    int param_start;
-    int param_length;
-    char* param_name = NULL;
-    char* param_data = NULL;
-
-    if(!hapi_priv_get_hapi_asset_id(env, argv[0], &param_asset_id) ||
-        !hapi_priv_get_hapi_object_id(env, argv[1], &param_object_id) ||
-        !hapi_priv_get_hapi_geo_id(env, argv[2], &param_geo_id) ||
-        !hapi_priv_get_hapi_attribute_info(env, argv[4], &param_attr_info) ||
-        !hapi_priv_get_int(env, argv[6], &param_start) ||
-        !hapi_priv_get_int(env, argv[7], &param_length) ||
-        !hapi_priv_get_null_terminated_string(env, argv[3], &param_name) ||
-        !(param_data = malloc(sizeof(char) * param_length)) ||
-        !hapi_priv_get_char_list(env, argv[5], &param_data[0], param_length))
-    {
-        stub_result = enif_make_badarg(env);
-        goto label_cleanup;
-    }
-
-    HAPI_Result stub_hapi_result = HAPI_SetAttributeStringData(param_asset_id, param_object_id, param_geo_id, &param_name[0], &param_attr_info, &param_data[0], param_start, param_length);
-    if(HAPI_RESULT_SUCCESS == stub_hapi_result)
-    {
-        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
-    }
-    else
-    {
-        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
-    }
-
-
-goto label_cleanup;
-label_cleanup:
-
-    if(param_name)
-    {
-        free(param_name);
-    }
-
-    if(param_data)
-    {
-        free(param_data);
-    }
-
+    ERL_NIF_TERM stub_result = hapi_priv_make_atom(env, "hapi_result_not_implemented");
 
     return stub_result;
 }

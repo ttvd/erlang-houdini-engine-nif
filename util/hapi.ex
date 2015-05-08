@@ -1487,9 +1487,15 @@ defmodule HAPI do
       end
     end
 
-    # Helper function to create tuple parameter.
     defp create_stub_c_call_create_result_param(env, {type, extract, name, init_code, is_input, :nil, needs_cleanup, idx}) do
-      "0 /* NEEDS TO BE FIXED */"
+
+      type_underscore = HAPI.Util.underscore(type)
+
+      if HAPI.Util.is_type_structure(env, type) do
+        "hapi_priv_make_#{type_underscore}(env, &#{name})"
+      else
+        "hapi_priv_make_#{type_underscore}(env, #{name})"
+      end
     end
     defp create_stub_c_call_create_result_param(env, {type, extract, name, init_code, is_input, decl_size, needs_cleanup, idx}) do
 

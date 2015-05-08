@@ -1,3 +1,11 @@
-/* Converting %{HAPI_TYPE}% */
+/* Converting %{HAPI_TYPE}% from c to erl. */
 ERL_NIF_TERM hapi_priv_make_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, %{HAPI_TYPE}% hapi_type);
+
+/* Converting %{HAPI_TYPE}% from erl to c. */
 bool hapi_priv_get_%{HAPI_TYPE_DOWNCASE}%(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_TYPE}%* hapi_type);
+
+/* Conversion of array of %{HAPI_TYPE}% objects from c to erl. */
+ERL_NIF_TERM hapi_priv_make_%{HAPI_TYPE_DOWNCASE}%_list(ErlNifEnv* env, const %{HAPI_TYPE}%* hapi_types, uint32_t list_size);
+
+/* Conversion of list of %{HAPI_TYPE}% objects from erl to c. */
+bool hapi_priv_get_%{HAPI_TYPE_DOWNCASE}%_list(ErlNifEnv* env, const ERL_NIF_TERM term, %{HAPI_TYPE}%* hapi_types, uint32_t list_size);

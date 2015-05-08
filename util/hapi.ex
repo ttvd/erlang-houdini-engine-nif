@@ -1188,8 +1188,7 @@ defmodule HAPI do
         {:ok, call_block} = File.read("./util/hapi_functions_nif.c.call.block.template")
 
         entries = String.replace(template, "%{HAPI_FUNCTIONS}%",
-          Enum.filter(functions, fn{k, _v} -> create_stub_c_is_supported(k) end)
-          |> Enum.map_join("\n\n",
+          Enum.map_join(functions, "\n\n",
             fn{k, v} -> create_stub_c_entry(env, k, v, template_block, assign_block, clean_block, call_block) end))
 
         File.write("./c_src/hapi_functions_nif.c", entries)
@@ -1197,18 +1196,15 @@ defmodule HAPI do
       end
     end
 
-    # Helper function used to filter out unsupported functions.
-    defp create_stub_c_is_supported("HAPI_SetVolumeTileFloatData") do
-      false
-    end
-    defp create_stub_c_is_supported("HAPI_SetVolumeTileIntData") do
-      false
-    end
-    defp create_stub_c_is_supported(function_name) do
-      true
-    end
-
     # Helper function used to generate c stub entries.
+    defp create_stub_c_entry(env, function_name, function_body, template_block, assign_block, cleanup_block,
+      call_block) when function_name == "HAPI_SetVolumeTileFloatData" or function_name == "HAPI_SetVolumeTileIntData" do
+
+      String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
+      |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))
+      |> String.replace("%{HAPI_FUNCTION_BODY}%",
+        "ERL_NIF_TERM stub_result = hapi_priv_make_atom(env, \"hapi_result_not_implemented\");")
+    end
     defp create_stub_c_entry(env, function_name, function_body, template_block, assign_block, cleanup_block, call_block) do
 
       {function_type, function_params} = function_body

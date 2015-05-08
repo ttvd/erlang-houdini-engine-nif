@@ -1,8 +1,7 @@
 HAPI_Result stub_hapi_result = %{HAPI_FUNC}%(%{HAPI_PARMS}%);
-    if(stub_hapi_result)
+    if(HAPI_RESULT_SUCCESS == stub_hapi_result)
     {
-        /* Do tuple construction here. */
-        stub_result = hapi_priv_make_hapi_result(env, stub_hapi_result);
+        stub_result = %{HAPI_RESULT}%;
     }
     else
     {

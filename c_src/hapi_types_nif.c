@@ -24,6 +24,54 @@ hapi_priv_get_hapi_object_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Objec
 }
 
 
+/* Converting array of HAPI_ObjectId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_object_id_list(ErlNifEnv* env, const HAPI_ObjectId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_ObjectId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_object_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_ObjectId objects from erl to c. */
+bool
+hapi_priv_get_hapi_object_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ObjectId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_ObjectId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_object_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
 /* Converting HAPI_ParmId from c to erl. */
 ERL_NIF_TERM
 hapi_priv_make_hapi_parm_id(ErlNifEnv* env, HAPI_ParmId hapi_type)
@@ -37,6 +85,54 @@ bool
 hapi_priv_get_hapi_parm_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi_type)
 {
     return hapi_priv_get_int(env, term, (int*) hapi_type);
+}
+
+
+/* Converting array of HAPI_ParmId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_parm_id_list(ErlNifEnv* env, const HAPI_ParmId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_ParmId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_parm_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_ParmId objects from erl to c. */
+bool
+hapi_priv_get_hapi_parm_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_ParmId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_ParmId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_parm_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -56,6 +152,54 @@ hapi_priv_get_hapi_asset_library_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAP
 }
 
 
+/* Converting array of HAPI_AssetLibraryId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_asset_library_id_list(ErlNifEnv* env, const HAPI_AssetLibraryId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_AssetLibraryId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_asset_library_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_AssetLibraryId objects from erl to c. */
+bool
+hapi_priv_get_hapi_asset_library_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetLibraryId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_AssetLibraryId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_asset_library_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
 /* Converting HAPI_Bool from c to erl. */
 ERL_NIF_TERM
 hapi_priv_make_hapi_bool(ErlNifEnv* env, HAPI_Bool hapi_type)
@@ -69,6 +213,54 @@ bool
 hapi_priv_get_hapi_bool(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_type)
 {
     return hapi_priv_get_bool(env, term, (bool*) hapi_type);
+}
+
+
+/* Converting array of HAPI_Bool objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_bool_list(ErlNifEnv* env, const HAPI_Bool* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_Bool* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_bool(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_Bool objects from erl to c. */
+bool
+hapi_priv_get_hapi_bool_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_Bool* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_Bool* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_bool(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -88,6 +280,54 @@ hapi_priv_get_hapi_node_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId*
 }
 
 
+/* Converting array of HAPI_NodeId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_node_id_list(ErlNifEnv* env, const HAPI_NodeId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_NodeId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_node_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_NodeId objects from erl to c. */
+bool
+hapi_priv_get_hapi_node_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_NodeId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_NodeId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_node_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
 /* Converting HAPI_GeoId from c to erl. */
 ERL_NIF_TERM
 hapi_priv_make_hapi_geo_id(ErlNifEnv* env, HAPI_GeoId hapi_type)
@@ -101,6 +341,54 @@ bool
 hapi_priv_get_hapi_geo_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_type)
 {
     return hapi_priv_get_int(env, term, (int*) hapi_type);
+}
+
+
+/* Converting array of HAPI_GeoId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_geo_id_list(ErlNifEnv* env, const HAPI_GeoId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_GeoId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_geo_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_GeoId objects from erl to c. */
+bool
+hapi_priv_get_hapi_geo_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_GeoId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_GeoId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_geo_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -120,6 +408,54 @@ hapi_priv_get_hapi_string_handle(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_S
 }
 
 
+/* Converting array of HAPI_StringHandle objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_string_handle_list(ErlNifEnv* env, const HAPI_StringHandle* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_StringHandle* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_string_handle(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_StringHandle objects from erl to c. */
+bool
+hapi_priv_get_hapi_string_handle_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_StringHandle* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_StringHandle* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_string_handle(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
 /* Converting HAPI_AssetId from c to erl. */
 ERL_NIF_TERM
 hapi_priv_make_hapi_asset_id(ErlNifEnv* env, HAPI_AssetId hapi_type)
@@ -133,6 +469,54 @@ bool
 hapi_priv_get_hapi_asset_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* hapi_type)
 {
     return hapi_priv_get_int(env, term, (int*) hapi_type);
+}
+
+
+/* Converting array of HAPI_AssetId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_asset_id_list(ErlNifEnv* env, const HAPI_AssetId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_AssetId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_asset_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_AssetId objects from erl to c. */
+bool
+hapi_priv_get_hapi_asset_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_AssetId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_AssetId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_asset_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -152,6 +536,54 @@ hapi_priv_get_hapi_part_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId*
 }
 
 
+/* Converting array of HAPI_PartId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_part_id_list(ErlNifEnv* env, const HAPI_PartId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_PartId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_part_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_PartId objects from erl to c. */
+bool
+hapi_priv_get_hapi_part_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_PartId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_PartId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_part_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
 /* Converting HAPI_MaterialId from c to erl. */
 ERL_NIF_TERM
 hapi_priv_make_hapi_material_id(ErlNifEnv* env, HAPI_MaterialId hapi_type)
@@ -165,5 +597,53 @@ bool
 hapi_priv_get_hapi_material_id(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialId* hapi_type)
 {
     return hapi_priv_get_int(env, term, (int*) hapi_type);
+}
+
+
+/* Converting array of HAPI_MaterialId objects from c to erl. */
+ERL_NIF_TERM
+hapi_priv_make_hapi_material_id_list(ErlNifEnv* env, const HAPI_MaterialId* hapi_types, uint32_t list_size)
+{
+    ERL_NIF_TERM list = enif_make_list(env, 0);
+
+    for(int32_t idx = list_size - 1; idx >= 0; idx--)
+    {
+        const HAPI_MaterialId* hapi_type = hapi_types + idx;
+        list = enif_make_list_cell(env, hapi_priv_make_hapi_material_id(env, *hapi_type), list);
+    }
+
+    return list;
+}
+
+
+/* Converting list of HAPI_MaterialId objects from erl to c. */
+bool
+hapi_priv_get_hapi_material_id_list(ErlNifEnv* env, const ERL_NIF_TERM term, HAPI_MaterialId* hapi_types, uint32_t list_size)
+{
+    uint32_t read_list_size = 0;
+    ERL_NIF_TERM head, tail;
+
+    if(enif_get_list_length(env, term, &read_list_size) && (list_size == read_list_size))
+    {
+        ERL_NIF_TERM list = term;
+        int32_t index = 0;
+
+        while(enif_get_list_cell(env, list, &head, &tail))
+        {
+            HAPI_MaterialId* hapi_type = hapi_types + index;
+
+            if(!hapi_priv_get_hapi_material_id(env, head, hapi_type))
+            {
+                return false;
+            }
+
+            index++;
+            list = tail;
+        }
+
+        return true;
+    }
+
+    return false;
 }
 

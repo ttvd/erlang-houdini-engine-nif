@@ -1198,7 +1198,8 @@ defmodule HAPI do
 
     # Helper function used to generate c stub entries.
     defp create_stub_c_entry(env, function_name, function_body, template_block, assign_block, cleanup_block,
-      call_block) when function_name == "HAPI_SetVolumeTileFloatData" or function_name == "HAPI_SetVolumeTileIntData" do
+      call_block) when function_name == "HAPI_SetVolumeTileFloatData" or function_name == "HAPI_SetVolumeTileIntData"
+      or function_name == "HAPI_SetAttributeStringData" do
 
       String.replace(template_block, "%{HAPI_FUNCTION}%", function_name)
       |> String.replace("%{HAPI_FUNCTION_DOWNCASE}%", HAPI.Util.underscore(function_name))

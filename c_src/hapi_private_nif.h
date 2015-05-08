@@ -34,8 +34,11 @@ ERL_NIF_TERM hapi_priv_make_double_list(ErlNifEnv* env, const double* data, uint
 // Create a list from int array.
 ERL_NIF_TERM hapi_priv_make_int_list(ErlNifEnv* env, const int32_t* data, uint32_t size);
 
+// Create a list from character array.
+ERL_NIF_TERM hapi_priv_make_char_list(ErlNifEnv* env, const char* data, uint32_t size);
+
 // Create a string.
-ERL_NIF_TERM hapi_priv_make_string(ErlNifEnv* env, const char* string);
+ERL_NIF_TERM hapi_priv_make_null_terminated_string(ErlNifEnv* env, const char* string);
 
 // Create a float.
 ERL_NIF_TERM hapi_priv_make_float(ErlNifEnv* env, float value);

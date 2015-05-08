@@ -90,7 +90,23 @@ hapi_priv_make_int_list(ErlNifEnv* env, const int32_t* data, uint32_t size)
 
 
 ERL_NIF_TERM
-hapi_priv_make_string(ErlNifEnv* env, const char* string)
+hapi_priv_make_char_list(ErlNifEnv* env, const char* data, uint32_t size)
+{
+    ErlNifBinary bin;
+
+    if(!enif_alloc_binary(size, &bin))
+    {
+        return hapi_priv_make_atom(env, "not_enough_memory");
+    }
+
+    memcpy(bin.data, data, size * sizeof(char));
+
+    return(enif_make_binary(env, &bin));
+}
+
+
+ERL_NIF_TERM
+hapi_priv_make_null_terminated_string(ErlNifEnv* env, const char* string)
 {
     return enif_make_string(env, string, ERL_NIF_LATIN1);
 }

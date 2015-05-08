@@ -15,7 +15,7 @@
 - [x] Generation of HAPI function c stubs.
 - [x] Generation of Erlang function stubs.
 - [x] Generation of NIF Export c table.
-- [ ] Adding tests.
+- [ ] Adding tests - Work in progress.
 - [x] Working Mac OS X port.
 - [ ] Working Linux port.
 - [ ] Working Windows port.
@@ -45,6 +45,10 @@ To clean:
 ```
 rebar clean
 ```
+To run tests:
+```
+rebar eunit
+```
 
 ## Running.  
 
@@ -54,6 +58,10 @@ Run erl:
 > code:add_path("ebin").
 true
 ```
+
+## Known bugs.
+* Function output parameters are not shifted correctly.
+
 ## License.
 
 * Distributed under the [MS-RL License.](http://opensource.org/licenses/MS-RL)

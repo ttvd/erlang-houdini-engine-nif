@@ -995,16 +995,15 @@ defmodule HAPI do
       end
     end
     defp create_stub_c_entry_erl_to_c_extract(env, {{field_name, field_type, field_size}, idx}) do
+
       builtin_type = HAPI.Util.get_reverse_builtin_type(env, field_type)
       field_target = "hapi_struct->#{field_name}[0]"
       term = "tuple_record[#{idx + 1}]"
-      cond do
-        not is_nil(builtin_type) ->
-          "!hapi_priv_get_#{HAPI.Util.underscore(builtin_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
-        HAPI.Util.is_type_structure(env, field_type) ->
-          "!hapi_priv_get_#{HAPI.Util.underscore(field_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
-        true ->
-          "!hapi_priv_get_#{HAPI.Util.underscore(field_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
+
+      if not is_nil(builtin_type) do
+        "!hapi_priv_get_#{HAPI.Util.underscore(builtin_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
+      else
+        "!hapi_priv_get_#{HAPI.Util.underscore(field_type)}_list(env, #{term}, &#{field_target}, #{field_size})"
       end
     end
   end

@@ -12,7 +12,7 @@
 - [ ] Generation of Erlang enum mappings. Not required?
 - [x] Generation of HAPI struct c translation stubs.
 - [x] Generation of Erlang records corresponding to HAPI structs.
-- [ ] Generation of HAPI function c stubs - Work in progress.
+- [x] Generation of HAPI function c stubs.
 - [x] Generation of Erlang function stubs.
 - [x] Generation of NIF Export c table.
 - [ ] Adding tests.

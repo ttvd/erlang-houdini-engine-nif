@@ -60,7 +60,7 @@ true
 ```
 
 ## Known bugs.
-
+* Binary / String incompatibilities. Need to figure out which parameters are strings and which are byte arrays.
 
 ## License.
 

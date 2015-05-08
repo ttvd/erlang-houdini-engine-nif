@@ -1087,11 +1087,6 @@ defmodule HAPI do
       elem(param, 2)
     end
 
-    # Helper function to get type name for this parameter.
-    #defp get_parameter_type_name(param) do
-    #  elem(param, 0)
-    #end
-
     # Function used to generate export table.
     defp create_stub_exports(env) do
       functions = Dict.get(env, :functions, :nil)
@@ -1211,7 +1206,11 @@ defmodule HAPI do
       {function_type, function_params} = function_body
 
       # Put parameters which require allocation at the end.
-      parameters = create_stub_c_entry_objects([], env, 0, function_name, function_type, function_params)
+      parameters =
+        create_stub_c_entry_objects([], env, 0, function_name, function_type, function_params)
+        |> Enum.map_reduce(0, &(create_stub_c_entry_reindex(&1, &2)))
+        |> elem(0)
+
       parameters = Enum.concat(Enum.filter(parameters, &(not parameter_requires_cleanup(&1))),
         Enum.filter(parameters, &(parameter_requires_cleanup(&1))))
 
@@ -1278,15 +1277,17 @@ defmodule HAPI do
           <> cleanup_code)
     end
 
-    # Debugging information generation for functions.
-    #defp create_stub_c_entry_tokens_debug(function_name, function_type, function_params) do
-    #  dbg_opts = &(Enum.map_join(get_parameter_variable_name(&1), " | ", fn{k, v} -> "OPT #{k}->#{v}" end))
-    #  ["function_name: #{function_name}", "function_type: #{function_type}"]
-    #  ++ Enum.map(function_params, &("#{get_parameter_type_name(&1)} #{elem(&1, 1)}     " <> dbg_opts.(&1)))
-    #end
+    # Helper function to reindex parameters, this is necessary because we skip input parameters when calling them erl.
+    defp create_stub_c_entry_reindex({type, _reidx, name, init_code, is_input, decl_size, needs_cleanup, idx}, acc) do
+      if is_input do
+        {{type, acc, name, init_code, is_input, decl_size, needs_cleanup, idx}, acc + 1}
+      else
+        {{type, -1, name, init_code, is_input, decl_size, needs_cleanup, idx}, acc}
+      end
+    end
 
     # Helper function to generate variable declaration for parameter.
-    defp create_stub_c_entry_var({type, _extract, name, init_code, _is_input, _decl_size, _needs_cleanup, _idx}) do
+    defp create_stub_c_entry_var({type, _reidx, name, init_code, _is_input, _decl_size, _needs_cleanup, _idx}) do
       if not is_nil(init_code) do
         add_init = " = #{init_code}"
       else
@@ -1297,11 +1298,11 @@ defmodule HAPI do
     end
 
     #    0           1          2           3             4                  5                          6              7
-    # {VAR_DECL, VAR_EXTRACT, VAR_NAME, INIT_CODE, T-INPUT/F-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, F/T IF NEEDS CLEAN UP, IDX}
+    # {VAR_DECL, INPUT IDX, VAR_NAME, INIT_CODE, T-INPUT/F-OUTPUT, VAR_DECL_SIZE IF ARRAY/0, F/T IF NEEDS CLEAN UP, IDX}
 
     #
     defp create_stub_c_entry_object(_env, idx, _function_name, _function_type, {:token_char, param_name, _param_opts} = param) do
-      {"char*", "EXTRACT_CODE0", "param_#{param_name}", "NULL", is_const_parameter(param), :nil, true, idx}
+      {"char*", :nil, "param_#{param_name}", "NULL", is_const_parameter(param), :nil, true, idx}
     end
     defp create_stub_c_entry_object(env, idx, "HAPI_ConvertMatrixToEuler", _function_type,
       {param_type, param_name, _param_opts} = param) do
@@ -1311,9 +1312,9 @@ defmodule HAPI do
         resolved_type = HAPI.Util.type_resolve(env, param_type)
 
         if is_pointer_parameter(param) and param_name == "mat" do
-          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 16, true, idx}
+          {"#{resolved_type}*", :nil, "param_#{param_name}", "NULL", not is_return_parameter(param), 16, true, idx}
         else
-          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
+          {"#{resolved_type}", :nil, "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
         end
     end
     defp create_stub_c_entry_object(env, idx, "HAPI_ConvertMatrixToQuat", _function_type,
@@ -1324,14 +1325,14 @@ defmodule HAPI do
         resolved_type = HAPI.Util.type_resolve(env, param_type)
 
         if is_pointer_parameter(param) and param_name == "mat" do
-          {"#{resolved_type}*", "EXTRACT_CODE1", "param_#{param_name}", "NULL", not is_return_parameter(param), 16, true, idx}
+          {"#{resolved_type}*", :nil, "param_#{param_name}", "NULL", not is_return_parameter(param), 16, true, idx}
         else
-          {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
+          {"#{resolved_type}", :nil, "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
         end
     end
     defp create_stub_c_entry_object(env, idx, _function_name, _function_type, {param_type, param_name, _param_opts} = param) do
       resolved_type = HAPI.Util.type_resolve(env, param_type)
-      {"#{resolved_type}", "EXTRACT_CODE1", "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
+      {"#{resolved_type}", :nil, "param_#{param_name}", :nil, not is_return_parameter(param), :nil, false, idx}
     end
     defp create_stub_c_entry_objects(collect, _env, _idx, _function_name, _function_type, []) do
       collect
@@ -1354,10 +1355,10 @@ defmodule HAPI do
         #end
 
         collect
-          ++ [{"#{resolved_type}*", "EXTRACT_CODE2", "param_#{param_0_name}", "NULL", is_const_parameter(param_0),
+          ++ [{"#{resolved_type}*", :nil, "param_#{param_0_name}", "NULL", is_const_parameter(param_0),
               "param_length", true, idx}]
-          ++ [{"int", "EXTRACT_CODE3", "param_start", :nil, true, :nil, false, idx + 1}]
-          ++ [{"int", "EXTRACT_CODE4", "param_length", :nil, true, :nil, false, idx + 2}]
+          ++ [{"int", :nil, "param_start", :nil, true, :nil, false, idx + 1}]
+          ++ [{"int", :nil, "param_length", :nil, true, :nil, false, idx + 2}]
         |> create_stub_c_entry_objects(env, idx + 3, function_name, function_type, rest)
       else
         raise(RuntimeError, description: "Illegal sequence of parameters, pointer, size, length.")
@@ -1376,9 +1377,9 @@ defmodule HAPI do
           resolved_type = HAPI.Util.type_resolve(env, param_0_type)
 
           collect
-          ++ [{"#{resolved_type}*", "EXTRACT_CODE5", "param_#{param_0_name}", "NULL",
+          ++ [{"#{resolved_type}*", :nil, "param_#{param_0_name}", "NULL",
               is_const_parameter(param_0), "param_#{param_1_name}", true, idx}]
-          ++ [{"int", "EXTRACT_CODE6", "param_#{param_1_name}", :nil, true, :nil, false, idx + 1}]
+          ++ [{"int", :nil, "param_#{param_1_name}", :nil, true, :nil, false, idx + 1}]
           |> create_stub_c_entry_objects(env, idx + 2, function_name, function_type, rest)
         else
           collect ++ [create_stub_c_entry_object(env, idx, function_name, function_type, param_0)]
@@ -1395,7 +1396,7 @@ defmodule HAPI do
     end
 
     # Helper function used to create assignments.
-    defp create_stub_c_entry_assign(_env, {type, _extract, name, _init_code, _is_input, decl_size, needs_cleanup, idx} = param) do
+    defp create_stub_c_entry_assign(_env, {type, reidx, name, _init_code, _is_input, decl_size, needs_cleanup, _idx} = param) do
       type_underscore = HAPI.Util.underscore(type)
       |> String.rstrip(?*)
       type_pure = String.rstrip(type, ?*)
@@ -1405,28 +1406,28 @@ defmodule HAPI do
             if not is_nil(decl_size) do
               "!(#{name} = malloc(sizeof(#{type_pure}) * #{decl_size})) ||"
               <> "\n        "
-              <> "!hapi_priv_get_#{type_underscore}_list(env, argv[#{idx}], &#{name}[0], #{decl_size})"
+              <> "!hapi_priv_get_#{type_underscore}_list(env, argv[#{reidx}], &#{name}[0], #{decl_size})"
             else
               if "char" == type_pure do
-                "!hapi_priv_get_null_terminated_string(env, argv[#{idx}], &#{name})"
+                "!hapi_priv_get_null_terminated_string(env, argv[#{reidx}], &#{name})"
               else
-                raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+                raise(RuntimeError, description: "Invalid input argument #{reidx} parameter #{type} param_#{name}")
               end
             end
           true ->
-            "!hapi_priv_get_#{type_underscore}(env, argv[#{idx}], &#{name})"
+            "!hapi_priv_get_#{type_underscore}(env, argv[#{reidx}], &#{name})"
         end
       else
         if parameter_requires_cleanup(param) do
           "!(#{name} = malloc(sizeof(#{type_pure}) * #{decl_size}))"
         else
-          raise(RuntimeError, description: "Invalid input argument #{idx} parameter #{type} param_#{name}")
+          raise(RuntimeError, description: "Invalid input argument #{reidx} parameter #{type} param_#{name}")
         end
       end
     end
 
     # Helper function to generate HAPI call.
-    defp create_stub_c_call(env, :token_void, function_name, [{type, _extract, name, _init_code, _is_input, _decl_size,
+    defp create_stub_c_call(env, :token_void, function_name, [{type, _reidx, name, _init_code, _is_input, _decl_size,
       _needs_cleanup, _idx} = function_param], _parameters_output) do
 
       type_resolve = HAPI.Util.type_resolve(env, type)
@@ -1488,7 +1489,7 @@ defmodule HAPI do
       end
     end
 
-    defp create_stub_c_call_create_result_param(env, {type, _extract, name, _init_code, _is_input, :nil, _needs_cleanup, _idx}) do
+    defp create_stub_c_call_create_result_param(env, {type, _reidx, name, _init_code, _is_input, :nil, _needs_cleanup, _idx}) do
 
       type_underscore = HAPI.Util.underscore(type)
 
@@ -1498,7 +1499,7 @@ defmodule HAPI do
         "hapi_priv_make_#{type_underscore}(env, #{name})"
       end
     end
-    defp create_stub_c_call_create_result_param(env, {type, _extract, name, _init_code, _is_input, decl_size, _needs_cleanup,
+    defp create_stub_c_call_create_result_param(env, {type, _reidx, name, _init_code, _is_input, decl_size, _needs_cleanup,
       _idx}) do
 
       type_fixed = String.rstrip(type, ?*)
@@ -1509,7 +1510,7 @@ defmodule HAPI do
     end
 
     # Helper function to generate HAPI call parameters.
-    defp create_stub_c_call_create_param(env, {type, _extract, name, _init_code, is_input, _decl_size, needs_cleanup, _idx}) do
+    defp create_stub_c_call_create_param(env, {type, _reidx, name, _init_code, is_input, _decl_size, needs_cleanup, _idx}) do
       type_processed = String.rstrip(type, ?*)
       if not is_input do
         if needs_cleanup do

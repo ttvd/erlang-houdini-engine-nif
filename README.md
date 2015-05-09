@@ -4,8 +4,6 @@
 ## Goals of this project.
 
 * To be able to run [Houdini Engine](http://www.sidefx.com/index.php?option=com_content&task=blogcategory&id=227&Itemid=381) instance (and be able to perform asset instantiation, cooking, etc.) on an [Erlang](http://www.erlang.org/) (as well as [Elixir](http://elixir-lang.org)) node.
-* Create an HTTP RESTful service based on this NIF.
-* Create a WebGL client to interact with the RESTful service.
 
 ## Status.
 - [x] Generation of HAPI enum c translation stubs.

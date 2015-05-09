@@ -1,5 +1,4 @@
 # Erlang NIF bindings for Houdini Engine.
-# WORK IN PROGRESS
 
 ## Goals of this project.
 
